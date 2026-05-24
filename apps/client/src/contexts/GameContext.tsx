@@ -460,40 +460,84 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "start" },
     connections: ["medical-bay", "bridge"],
     hotspots: [
-      // Re-anchored 2026-05-23 against the AAA Final cryo-bay render
-      // (room_cryo_bay-SdeEqURrDvgrrbJq4WK3N5.webp). Major change vs
-      // the 2026-04-27 pass: "your pod" is the BROKEN, FALLEN pod with
-      // the handprint on the inside of the glass in the foreground-
-      // right, not the upright tilted pod on the left. Elara's intro
-      // beat — "All but one pod is empty. The one that wasn't is
-      // yours." — and her opening line about a handprint confirm
-      // this. The upright tilted left-side pods are *additional*
-      // sealed pods, renamed `sealed-pods-left`.
+      // Re-anchored 2026-05-24 against the AAA Final cryo-bay render
+      // (art/rooms/cryo_bay/baseline.png) after a 14-variant audit
+      // pass (baseline + 13 state overlays). The 2026-05-23 anchoring
+      // (PR #740) had ~12 coordinate drifts and one fabricated
+      // hotspot:
+      //   • sealed-pods-left extended onto the empty seal floor
+      //   • sealed-pods-right started 11% too far right
+      //   • cryo-terminal + cryo-terminal-2 were 22% too low (y=60
+      //     vs visible y=38)
+      //   • antiquarian-tome overlapped sealed-pods-left
+      //   • door-medical extended down into the broken-pod foreground
+      //   • ichor-trail started 27% too far right (the trail begins
+      //     foreground-LEFT in the actual render)
+      //   • data-crystal was 7% too far right
+      //   • dead-pod (49, 38, 16, 54) was on the EMPTY CENTER FLOOR
+      //     where the bridge door + seal live — completely misplaced
+      //   • all four mystery sub-rects (frosted-glass, medical-chart,
+      //     cracked-panel, data-slate) inherited dead-pod's bad
+      //     position
+      //   • `lockers` was fabricated — no bank of crew lockers
+      //     appears in any variant; removed
+      //
+      // 14-variant survey confirmed: every variant preserves the
+      // same geometry. Baseline anchoring works for baseline +
+      // act_tier_2 + battlepass_winter + companion_trust +
+      // cycle_longnight + epoch_shadowtongue + faction_insurgency +
+      // governance_quarantine + lore_ark_origins + morality_dark +
+      // season_closing + system_unlock_crew + trust_elara_luminous +
+      // tv_spreading. Variant-specific elements (Shadow Tongue glyphs,
+      // quarantine wraps, crystal infections, etc.) are deferred to
+      // the `requiresTier?` schema PR.
+      //
+      // "Your pod" is the BROKEN, FALLEN pod with the handprint on the
+      // inside of the glass in the foreground-right, not the upright
+      // tilted pod on the left. Elara's intro beat — "All but one pod
+      // is empty. The one that wasn't is yours." — and her opening line
+      // about a handprint confirm this. The upright tilted left-side
+      // pods are *additional* sealed pods (`sealed-pods-left`).
       //
       // Visible landmarks, left-to-right, foreground-to-back:
-      //   • two arcade-style diagnostic kiosks — left wall
+      //   • two arcade-style diagnostic kiosks — far-left wall
       //     (`cryo-terminal`, `cryo-terminal-2`)
       //   • Antiquarian's tome on a low pedestal — left-center
-      //   • two upright sealed pods, tilted — center-left
+      //     (`antiquarian-tome`)
+      //   • two upright sealed pods, tilted forward — center-left
       //     (`sealed-pods-left`)
-      //   • central floor seal + candle ring — chamber center
       //   • recessed Aetheric-crown bulkhead — back center
-      //     (Bridge Access door)
-      //   • the dead-pod / §F mystery cluster — center
-      //   • right-wall column of standing sealed pods —
+      //     (`door-bridge`)
+      //   • central floor compass-star seal + candle ring
+      //     (`candle-ring`, `ark-seal`)
+      //   • three-to-four standing sealed pods — right-center
       //     (`sealed-pods-right`)
+      //   • a single isolated sealed pod (the "dead pod"), separated
+      //     from the right-cluster row — anchored to the rearmost
+      //     visible standing pod, since the standalone right-mid unit
+      //     is mostly obscured by the broken player pod foreground
+      //     (`dead-pod` + `frosted-glass`, `medical-chart`,
+      //     `cracked-panel`, `data-slate`)
       //   • framed bulkhead on the far-right wall — Medical Bay door
-      //   • crew lockers — right wall, behind the dead-pod cluster
+      //     (`door-medical`)
       //   • the broken player pod with handprint — foreground-right
       //     (`cryo-pod`)
-      //   • dog tags + datapad on the floor — foreground center
+      //   • dog tags + datapad on the floor — foreground-center
       //     (`personal-effect`, `data-crystal`)
-      //   • green ichor trail across the floor — foreground left
-      //     (`ichor-trail`)
+      //   • green ichor trail across the floor — foreground-LEFT,
+      //     snaking inward (`ichor-trail`)
+      //
+      // Render order: container hotspots authored BEFORE their
+      // sub-rects so the sub-rects z-stack above and win clicks on
+      // specific landmarks. `cryo-pod` is authored LAST so the
+      // foreground broken pod wins clicks on the lower-right area
+      // even where it visually obscures background landmarks (the
+      // mystery sub-rects on `dead-pod` are kept above y=60 so they
+      // don't conflict with `cryo-pod`).
       //
       // Verify with /ark?debug-hotspots=1 or, for drag-to-place
       // editing, /ark?author-hotspots=1.
-      { id: "sealed-pods-left", name: "Sealed Pods (Tilted)", description: "Two pods stand upright but tilted — cyan ECG readouts cycle steadily inside. Someone is still in there.", x: 24, y: 36, width: 22, height: 56, type: "examine", elaraDialog: "Those pods read warm-gold on the medical side and the heart-trace is still cycling. Whoever's inside is sustaining. Whether that's life or rehearsal-of-life, I genuinely cannot tell from out here.",
+      { id: "sealed-pods-left", name: "Sealed Pods (Tilted)", description: "Two pods stand upright but tilted — cyan ECG readouts cycle steadily inside. Someone is still in there.", x: 22, y: 30, width: 14, height: 50, type: "examine", elaraDialog: "Those pods read warm-gold on the medical side and the heart-trace is still cycling. Whoever's inside is sustaining. Whether that's life or rehearsal-of-life, I genuinely cannot tell from out here.",
         elaraDialogVoId: "room.cryo-bay.hotspot.sealed-pods-left.elara",
         responses: [
           { id: "human.cryo-bay.sealed-pods-left.acknowledge", label: "Leave them.", closesDialog: true },
@@ -505,7 +549,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
           },
         ],
       },
-      { id: "sealed-pods-right", name: "Sealed Pods (Right Wall)", description: "A column of standing capsules along the right wall. Status indicators are dark.", x: 66, y: 26, width: 16, height: 40, type: "examine", elaraDialog: "Those pods are still sealed. Their status indicators went dark when the main power failed. I... I don't want to speculate about what's inside them. Not yet.",
+      { id: "sealed-pods-right", name: "Sealed Pods (Right Cluster)", description: "A short column of three or four standing capsules right-of-center. Status indicators are dark.", x: 55, y: 32, width: 23, height: 42, type: "examine", elaraDialog: "Those pods are still sealed. Their status indicators went dark when the main power failed. I... I don't want to speculate about what's inside them. Not yet.",
         elaraDialogVoId: "room.cryo-bay.hotspot.sealed-pods-right.elara",
         responses: [
           { id: "human.cryo-bay.sealed-pods-right.acknowledge", label: "Then we don't open them.", closesDialog: true },
@@ -517,44 +561,35 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
           },
         ],
       },
-      { id: "cryo-terminal", name: "Cryo Terminal", description: "A terminal displaying your character data and vital statistics.", x: 3, y: 60, width: 11, height: 26, type: "terminal", action: "/character-sheet", elaraDialog: "This terminal has your biometric data — your species markers, class aptitudes, everything we determined during your awakening. You can review your Citizen profile here.",
+      { id: "cryo-terminal", name: "Cryo Terminal", description: "An arcade-style terminal on the far-left wall displaying your character data and vital statistics.", x: 0, y: 38, width: 8, height: 34, type: "terminal", action: "/character-sheet", elaraDialog: "This terminal has your biometric data — your species markers, class aptitudes, everything we determined during your awakening. You can review your Citizen profile here.",
         elaraDialogVoId: "room.cryo-bay.hotspot.cryo-terminal.elara",
       },
-      { id: "cryo-terminal-2", name: "Diagnostics Kiosk", description: "A second arcade-style terminal beside the first. Status pages scroll past too fast to read.", x: 14, y: 60, width: 11, height: 26, type: "terminal", action: "/profile", elaraDialog: "That kiosk was the medical officer's station. It still cycles, but the data feed itself is sealed. We can mirror your Citizen profile here while we figure out what they were watching.",
+      { id: "cryo-terminal-2", name: "Diagnostics Kiosk", description: "A second arcade-style terminal directly beside the first. Status pages scroll past too fast to read.", x: 8, y: 42, width: 7, height: 30, type: "terminal", action: "/profile", elaraDialog: "That kiosk was the medical officer's station. It still cycles, but the data feed itself is sealed. We can mirror your Citizen profile here while we figure out what they were watching.",
         elaraDialogVoId: "room.cryo-bay.hotspot.cryo-terminal-2.elara",
       },
-      { id: "antiquarian-tome", name: "Tome on the Pedestal", description: "An old, leather-bound volume rests open on a low pedestal — the Antiquarian's mark glints faintly on the cover.", x: 19, y: 56, width: 8, height: 14, type: "item", action: "tome-antiquarian-cryo", elaraDialog: "The Antiquarian's Library found this for you and delivered it here. I'd read it somewhere quieter than the chamber it's pointing at.",
+      { id: "antiquarian-tome", name: "Tome on the Pedestal", description: "An old, leather-bound volume rests open on a low pedestal between the diagnostic kiosks and the tilted pods — the Antiquarian's mark glints faintly on the cover.", x: 14, y: 58, width: 8, height: 17, type: "item", action: "tome-antiquarian-cryo", elaraDialog: "The Antiquarian's Library found this for you and delivered it here. I'd read it somewhere quieter than the chamber it's pointing at.",
         elaraDialogVoId: "room.cryo-bay.hotspot.antiquarian-tome.elara",
       },
-      { id: "door-medical", name: "Medical Bay Door", description: "A reinforced door leading to the Medical Bay. Green status light.", x: 87, y: 46, width: 12, height: 38, type: "door", action: "medical-bay" },
-      // Re-anchored 2026-05-22 against the AAA Final cryo-bay render
-      // (room_cryo_bay-SdeEqURrDvgrrbJq4WK3N5.webp). The visible bridge
-      // access is the recessed bulkhead at back-centre, framed by the
-      // gold Aetheric-crown emblem above it — straight down the floor's
-      // central gold inlay. Previously x=22 anchored the click on the
-      // empty floor next to the left-wall arcade kiosks, well clear of
-      // any door art; players hunting for the bridge had no surface to
-      // target. The dead-pod cluster (x=49,w=16,y=38,h=54) overlaps the
-      // pod silhouettes in front of the door, so the door's clickable
-      // band is kept narrow and high to read as "above the pods" — the
-      // player still reaches the bridge via the corridor visible
-      // through the archway. Verify with /ark?debug-hotspots=1.
-      { id: "door-bridge", name: "Bridge Access", description: "A corridor leading up to Deck 2 — the Command deck.", x: 49, y: 30, width: 9, height: 24, type: "door", action: "bridge" },
-      // candle-ring is authored BEFORE ark-seal so that a click in the
-      // inner ring hits the seal first (later entries z-stack above).
-      { id: "candle-ring", name: "Lit Candles", description: "A ring of candles arranged around the floor seal — recently lit.", x: 33, y: 65, width: 34, height: 18, type: "examine", elaraDialog: "The wax is still soft. Whoever lit these was here within the hour. It wasn't me, and it wasn't you, which leaves a question I would rather not answer alone.",
-        elaraDialogVoId: "room.cryo-bay.hotspot.candle-ring.elara",
-      },
-      { id: "ark-seal", name: "Inception Ark Seal", description: "An eight-pointed compass star inlaid in gold across the chamber's center. The candles encircle it like wards.", x: 40, y: 70, width: 20, height: 22, type: "examine", elaraDialog: "The First Wave knelt here before they walked out. The seal isn't decoration — it's a binding, an oath taken in the chamber that made them. The candles say someone is still keeping the rite.",
-        elaraDialogVoId: "room.cryo-bay.hotspot.ark-seal.elara",
-      },
-      { id: "ichor-trail", name: "Green Ichor Trail", description: "A trail of luminous green fluid arcs across the floor toward the bridge corridor.", x: 32, y: 82, width: 22, height: 12, type: "examine", elaraDialog: "That isn't cryo-fluid. The spectrometry matches nothing in my registry — and the registry is comprehensive. Don't step in it, and don't let it touch the locket.",
+      // door-medical is kept narrow vertically (y=32-60) so it doesn't
+      // extend down into the broken-pod foreground area; the broken
+      // pod's body occupies the lower-right quadrant from y≈62 down.
+      { id: "door-medical", name: "Medical Bay Door", description: "A reinforced door leading to the Medical Bay. Green status light.", x: 87, y: 32, width: 12, height: 28, type: "door", action: "medical-bay" },
+      { id: "door-bridge", name: "Bridge Access", description: "A recessed bulkhead at back-center beneath the Aetheric-crown emblem. A corridor leading up to Deck 2 — the Command deck.", x: 47, y: 25, width: 11, height: 32, type: "door", action: "bridge" },
+      // ichor-trail starts in the foreground-LEFT corner and snakes
+      // inward toward the bridge — the visible trail begins at x≈5,
+      // not x≈32 where the previous pass placed it.
+      { id: "ichor-trail", name: "Green Ichor Trail", description: "A trail of luminous green fluid arcs across the floor from the foreground-left, snaking toward the bridge corridor.", x: 5, y: 82, width: 30, height: 13, type: "examine", elaraDialog: "That isn't cryo-fluid. The spectrometry matches nothing in my registry — and the registry is comprehensive. Don't step in it, and don't let it touch the locket.",
         elaraDialogVoId: "room.cryo-bay.hotspot.ichor-trail.elara",
       },
-      { id: "lockers", name: "Crew Lockers", description: "A bank of personal lockers along the right-hand wall. Most are dented; one hangs open.", x: 75, y: 38, width: 8, height: 28, type: "examine", elaraDialog: "Crew lockers. The open one belonged to the medical officer — and it's empty. Their seal-pin would have been the last thing they grabbed, and it isn't here.",
-        elaraDialogVoId: "room.cryo-bay.hotspot.lockers.elara",
+      // candle-ring is authored BEFORE ark-seal so that a click in the
+      // inner ring hits the seal first (later entries z-stack above).
+      { id: "candle-ring", name: "Lit Candles", description: "A ring of small flames arranged around the central floor seal — recently lit.", x: 30, y: 70, width: 38, height: 15, type: "examine", elaraDialog: "The wax is still soft. Whoever lit these was here within the hour. It wasn't me, and it wasn't you, which leaves a question I would rather not answer alone.",
+        elaraDialogVoId: "room.cryo-bay.hotspot.candle-ring.elara",
       },
-      { id: "data-crystal", name: "Data Crystal", description: "A small glinting crystal on the floor near the dropped dog tags.", x: 62, y: 92, width: 5, height: 5, type: "item", action: "data-crystal-alpha", elaraDialog: "A data crystal! These were used by the first wave to store personal logs. This one might contain information about what happened after they woke up.",
+      { id: "ark-seal", name: "Inception Ark Seal", description: "An eight-pointed compass star inlaid in gold across the chamber's center. The candles encircle it like wards.", x: 40, y: 75, width: 20, height: 17, type: "examine", elaraDialog: "The First Wave knelt here before they walked out. The seal isn't decoration — it's a binding, an oath taken in the chamber that made them. The candles say someone is still keeping the rite.",
+        elaraDialogVoId: "room.cryo-bay.hotspot.ark-seal.elara",
+      },
+      { id: "data-crystal", name: "Data Crystal", description: "A small glinting crystal on the floor near the dropped dog tags.", x: 55, y: 89, width: 5, height: 5, type: "item", action: "data-crystal-alpha", elaraDialog: "A data crystal! These were used by the first wave to store personal logs. This one might contain information about what happened after they woke up.",
         elaraDialogVoId: "room.cryo-bay.hotspot.data-crystal.elara",
       },
       { id: "egg-cryo-scratch", name: "Scratched Symbol", description: "Barely visible scratch marks on the wall behind a pod.", x: 84, y: 30, width: 3, height: 4, type: "examine", elaraDialog: "Wait... those scratch marks. They form a symbol — the mark of the Antiquarian. But that's impossible. The Antiquarian is a myth, a figure from the deepest layers of the prophecy. Who carved this here, and when? This predates our launch.",
@@ -571,24 +606,22 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       },
       // Section F — Cryo Bay mystery hotspots. Each fires through the
       // cryo-mystery hotspot-handler branch in ArkExplorerPage which
-      // resolves the Look response via resolveVerbResponse(). All six
-      // anchor on the single sealed "dead pod" immediately to the right
-      // of the player's tilted pod, except `personal-effect` which is
-      // the locket on the foreground floor and `data-slate` which is
-      // wedged under the dead pod's base.
-      { id: "dead-pod", name: "Sealed Diplomatic Pod", description: "A pod whose status indicator is cold-blue instead of warm-gold. Something is in there.", x: 49, y: 38, width: 16, height: 54, type: "interact", action: "cryo-mystery:dead-pod" },
-      { id: "frosted-glass", name: "Frosted Pod Glass", description: "Wipe the frost — see who's inside.", x: 51, y: 41, width: 12, height: 18, type: "interact", action: "cryo-mystery:frosted-glass" },
-      // Re-anchored 2026-04-28: the visible chart in the live render is
-      // on the LEFT face of the dead-pod cluster, not the right side
-      // where x=62 placed it. Verify with /ark?debug-hotspots=1.
-      { id: "medical-chart", name: "Medical Chart", description: "A printed medical chart magnet-clipped to the dark pod.", x: 56, y: 44, width: 5, height: 8, type: "interact", action: "cryo-mystery:medical-chart" },
-      { id: "cracked-panel", name: "Cracked Control Panel", description: "The dark pod's control panel is split along a hairline seam. Sabotage?", x: 50, y: 76, width: 14, height: 8, type: "interact", action: "cryo-mystery:cracked-panel" },
-      { id: "data-slate", name: "Hidden Data Slate", description: "The edge of a data-slate peeks out from under the pod.", x: 53, y: 88, width: 7, height: 5, type: "interact", action: "cryo-mystery:data-slate" },
-      // Re-anchored 2026-05-23: the visible dog-tag + datapad pair in the
-      // live render sits center-floor at ~(52, 90), not foreground-left
-      // at (30, 90) where the previous pass placed it. Kept narrow
-      // (8×6) so it doesn't bleed into the ichor-trail to its left or
-      // the data-crystal to its right.
+      // resolves the Look response via resolveVerbResponse(). All four
+      // sub-rects anchor on `dead-pod`, the rearmost standing pod in
+      // the right cluster (chosen because the standalone right-mid
+      // unit is mostly obscured by the broken player pod foreground).
+      // Sub-rects are kept ABOVE y=60 so they remain clickable above
+      // the cryo-pod's foreground footprint. `personal-effect` is the
+      // locket on the foreground floor — separate anchor.
+      { id: "dead-pod", name: "Sealed Diplomatic Pod", description: "A pod whose status indicator is cold-blue instead of warm-gold. Something is in there.", x: 74, y: 35, width: 6, height: 32, type: "interact", action: "cryo-mystery:dead-pod" },
+      { id: "frosted-glass", name: "Frosted Pod Glass", description: "Wipe the frost — see who's inside.", x: 74, y: 38, width: 6, height: 12, type: "interact", action: "cryo-mystery:frosted-glass" },
+      { id: "medical-chart", name: "Medical Chart", description: "A printed medical chart magnet-clipped to the dark pod.", x: 74, y: 40, width: 3, height: 4, type: "interact", action: "cryo-mystery:medical-chart" },
+      { id: "cracked-panel", name: "Cracked Control Panel", description: "The dark pod's control panel is split along a hairline seam. Sabotage?", x: 74, y: 51, width: 6, height: 5, type: "interact", action: "cryo-mystery:cracked-panel" },
+      { id: "data-slate", name: "Hidden Data Slate", description: "The edge of a data-slate peeks out from under the pod.", x: 75, y: 57, width: 4, height: 3, type: "interact", action: "cryo-mystery:data-slate" },
+      // personal-effect is the dog-tag + datapad pair on the visible
+      // floor center, sitting just left of the broken player pod's
+      // base. Kept narrow (8×6) so it doesn't bleed into the ichor-
+      // trail to its left or the data-crystal to its right.
       { id: "personal-effect", name: "Fallen Locket", description: "Something small has fallen on the floor — a tarnished locket and a cut ID-tag cord.", x: 52, y: 90, width: 8, height: 6, type: "interact", action: "cryo-mystery:personal-effect" },
       // The player's actual pod — the broken, fallen capsule in the
       // foreground-right with a handprint smeared on the inside of
@@ -598,7 +631,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // inline `responses[]` are wired through ElaraConversationPopup
       // natively; the richer verb-coin / clue-logging integration
       // through cryoBayMystery.ts is a future authoring pass.
-      { id: "cryo-pod", name: "Your Cryo Pod", description: "Your pod. Fallen on its side, glass spider-webbed. A handprint is smeared on the inside of the glass — yours, from when you broke out.", x: 68, y: 66, width: 30, height: 30, type: "examine", elaraDialog: "That's your pod. AK-74-0074. You broke the seal from inside, which the engineering spec says is impossible — and yet, here we are. We need to understand how.",
+      { id: "cryo-pod", name: "Your Cryo Pod", description: "Your pod. Fallen on its side, glass spider-webbed. A handprint is smeared on the inside of the glass — yours, from when you broke out.", x: 62, y: 62, width: 32, height: 33, type: "examine", elaraDialog: "That's your pod. AK-74-0074. You broke the seal from inside, which the engineering spec says is impossible — and yet, here we are. We need to understand how.",
         elaraDialogVoId: "room.cryo-bay.hotspot.cryo-pod.elara",
         responses: [
           { id: "human.cryo-bay.cryo-pod.acknowledge", label: "Acknowledged.", closesDialog: true },
@@ -637,29 +670,137 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "narrative_event", value: "cryo_mystery_victim_identified" },
     connections: ["cryo-bay"],
     hotspots: [
-      // Mystery wiring — severance.bound_champion · e3 (Broker's quantum imaging)
-      { id: "severance-broker-quantum-imaging", name: "Broker's Quantum Body Scan", description: "On the quantum-imaging suite: the Broker of Nilmorg's volunteered scan. An age incompatible with a single spine; a Year-One cellular rest-mark; a continuity with one discontinuity.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:medical-bay:severance-broker-quantum-imaging" },
-      // Mystery wiring — advocate.blood_weave · e2 (zero-casualty defender record)
-      { id: "advocate-empire-zero-casualty", name: "Empire — Zero-Casualty Defender Record", description: "On the casualty-archive console: zero combatants killed, zero souls breached across the seven-dimensions siege. One combatant redirected to the Advocate's 'permanent care.' The substrate cost was levied on her alone.", x: 21, y: 19, width: 6, height: 6, type: "interact", action: "room-mystery:medical-bay:advocate-empire-zero-casualty" },
-      // Mystery wiring — akai_shi.red_death · e1 (virus-consumption telemetry)
-      { id: "akai-virus-telemetry", name: "Akai Shi — Virus-Consumption Telemetry", description: "On the neural-archive console: post-mortem readings show Akai Shi's consumption-curve as a gradient, not a cliff. She held the Virus inside her body longer than anyone in canonical record.", x: 13, y: 19, width: 6, height: 6, type: "interact", action: "room-mystery:medical-bay:akai-virus-telemetry" },
-      { id: "hellbox-lattice", name: "Hellbox Lattice", description: "The neural-lattice kernel wired into the cloning pod — a portal into the Matrix of Dreams.", x: 8, y: 80, width: 12, height: 14, type: "terminal", action: "/hellbox", elaraDialog: "The Hellbox. The cloning-pod's neural lattice opens straight into the Matrix of Dreams. Every descent is a small Blood-Weave bargain — the Advocate's path in miniature." },
-      // Realigned 2026-04-25 to match the AAA Final medical-bay render —
-      // a symmetrical exam room with a central stasis chamber + chair +
-      // overhead surgical arm, twin DNA scanners flanking it, a sealed
-      // door on the left wall, and a medicine-cabinet equipment shelf
-      // on the right wall. Previous coords had `medicine-cabinet`
-      // sitting on the left door, `door-cryo` floating off the left
-      // edge, and `dna-helix` overlapping the right-wall cabinet.
-      { id: "bio-bed", name: "Bio-Bed Scanner", description: "An advanced diagnostic bed with holographic readouts showing your current stats.", x: 40, y: 22, width: 22, height: 55, type: "terminal", action: "/character-sheet", elaraDialog: "The bio-bed can give you a full diagnostic. Your stats, your Dream resonance levels, your cellular integrity. Step on and I'll run a scan.",
-        elaraDialogVoId: "room.medical-bay.hotspot.bio-bed.elara",
+      // Re-anchored 2026-05-24 against the AAA Final medical-bay render
+      // (art/rooms/medical_bay/baseline.png + state_act_tier_2 + state_
+      // investigation_device_awakened). The 2026-04-25 pass anchored
+      // against an older symmetrical render with a central stasis
+      // chamber + overhead surgical arm; the AAA Final is an
+      // asymmetrical chamber dominated by an Aetheric Crown / phoenix
+      // stained-glass arch back-center, a foreground bio-bed on a
+      // raised pedestal, a tall imaging tower (gold pillar with cyan
+      // crown) to its right, twin foreground diagnostic consoles to
+      // its left, a glowing DNA-helix column on the far-right wall,
+      // and dispensary kiosks on the far-left wall. The surgical arm
+      // only appears in the `investigation_device_awakened` variant;
+      // its hotspot will be tier-gated when the `requiresTier?` schema
+      // extension lands in a follow-up.
+      //
+      // Visible landmarks, left-to-right + foreground-to-back:
+      //   • two stacked arcade-style dispensary kiosks — far-left
+      //     wall (`medicine-cabinet`)
+      //   • Cryo Bay door — left wall, arched (`door-cryo`)
+      //   • workbench / medical-officer station — left mid-distance
+      //     (`medical-log` rests on the pad here)
+      //   • twin foreground diagnostic consoles — left of bio-bed
+      //     (`autopsy-console`, `advocate-empire-zero-casualty`,
+      //     `akai-virus-telemetry`)
+      //   • bio-bed on a raised pedestal — center foreground
+      //     (`bio-bed`, `mystery-bio-bed`, `npc-the-source`,
+      //     `egg-vox-neural-bridge`, `mystery-vox-neural-bridge`)
+      //   • imaging tower / gold pillar with cyan crown — center
+      //     (`hellbox-lattice`, `severance-broker-quantum-imaging`)
+      //   • Aetheric Crown stained-glass arch — back center
+      //     (`aetheric-arch`)
+      //   • right-wall cabinet + safe drawers — right wall
+      //     (`emergency-safe`, `observation-keycard`,
+      //     `the-silences-vacated-body`, `egg-med-vial`)
+      //   • DNA helix column — far-right wall (`dna-helix`)
+      //   • circular floor seal — chamber-center floor
+      //     (`floor-seal`)
+      //
+      // Render order matters: `aetheric-arch` is authored FIRST as
+      // backdrop; `autopsy-console` is authored BEFORE its mystery
+      // sub-rects (`advocate-empire-zero-casualty`, `akai-virus-
+      // telemetry`) so those win clicks on their console screens;
+      // `bio-bed` is authored BEFORE `mystery-bio-bed` + `npc-the-
+      // source` so those overlays win clicks; `hellbox-lattice`
+      // (tower body) is authored BEFORE `severance-broker-quantum-
+      // imaging` (small overlay on the cyan crown).
+      //
+      // Verify with /ark?debug-hotspots=1 or, for drag-to-place
+      // editing, /ark?author-hotspots=1.
+
+      // ── BACKDROP + WALLS ──
+      { id: "aetheric-arch", name: "Aetheric Crown Window", description: "A stained-glass arch dominates the back wall — a phoenix-form Aetheric Crown rendered in gold and amber light. The glass is intact; the light source behind it is not the sun.", x: 42, y: 8, width: 22, height: 50, type: "examine", elaraDialog: "The Aetheric Crown. This window is the chamber's spine — every wake-cycle the first crew started here, and most of them started kneeling. Whatever lit it then is still lighting it now.",
+        elaraDialogVoId: "room.medical-bay.hotspot.aetheric-arch.elara",
+        responses: [
+          { id: "human.medical-bay.aetheric-arch.acknowledge", label: "Acknowledged.", closesDialog: true },
+          {
+            id: "human.medical-bay.aetheric-arch.what-lit-it",
+            label: "What's lighting it?",
+            elaraFollowUpVoId: "elara.medical-bay.aetheric-arch.what-lit-it",
+            elaraFollowUpText: "Not the sun. Not the ship's reactor — I'd see the draw. The closest match in my registry is the Hellbox's lattice running in reverse. I would rather not assume it's the same source.",
+          },
+          {
+            id: "human.medical-bay.aetheric-arch.who-knelt",
+            label: "Who knelt here?",
+            elaraFollowUpVoId: "elara.medical-bay.aetheric-arch.who-knelt",
+            elaraFollowUpText: "The First Wave's medics, the founding signatories, and — the disturbed dust on the chamber floor says — someone within the last week. I do not have a name for that someone yet.",
+          },
+        ],
       },
+      { id: "medicine-cabinet", name: "Medicine Cabinet", description: "Two stacked dispensary kiosks built into the far-left wall. Each port holds a row of capped vials; most are labeled, several are not.", x: 1, y: 32, width: 11, height: 42, type: "examine", action: "room-mystery:medical-bay:medicine-cabinet", elaraDialog: "Medical supplies. Most are standard stim-packs and neural stabilizers. But some of these vials... I don't recognize the compounds. They weren't in the original manifest.",
+        elaraDialogVoId: "room.medical-bay.hotspot.medicine-cabinet.elara",
+      },
+      { id: "door-cryo", name: "Cryo Bay Door", description: "Return to the Cryo Bay.", x: 14, y: 28, width: 9, height: 44, type: "door", action: "cryo-bay" },
+      { id: "dna-helix", name: "DNA Analysis Station", description: "A floor-to-ceiling glass column on the far-right wall holds a slow-rotating holographic double helix, marker-bands lighting up in sequence as it turns.", x: 87, y: 10, width: 11, height: 82, type: "examine", action: "room-mystery:medical-bay:dna-helix", elaraDialog: "The DNA analysis station. It maps your genetic markers against known species templates. DeMagi, Quarchon, Ne-Yon... your hybrid signature is fascinating.",
+        elaraDialogVoId: "room.medical-bay.hotspot.dna-helix.elara",
+      },
+
+      // ── RIGHT-WALL CABINET / SAFE DRAWERS ──
+      // emergency-safe is authored BEFORE the smaller drawer rectangles
+      // (the-silences-vacated-body, observation-keycard, egg-med-vial)
+      // so those sub-rects can z-stack above and win their specific
+      // clicks within the larger safe area.
+      { id: "emergency-safe", name: "Emergency Safe", description: "A reinforced wall safe with Dr. Lyra Vox's nameplate. Biometric reader sabotaged by her own hand; numeric keypad still works.", x: 76, y: 32, width: 9, height: 14, type: "interact", action: "room-mystery:medical-bay:emergency-safe" },
+      { id: "observation-keycard", name: "Observation Keycard", description: "A biometric access card labeled 'OBS-DECK'. Stored in the medical safe.", x: 78, y: 44, width: 6, height: 8, type: "item", action: "observation-keycard", elaraDialog: "The Observation Keycard! It was in the medical safe all along. The previous crew stored sensitive access cards here for security. This will unlock the Observation Deck — the crew used it to monitor deep space anomalies. Take it.",
+        elaraDialogVoId: "room.medical-bay.hotspot.observation-keycard.elara",
+        responses: [
+          { id: "human.medical-bay.observation-keycard.take", label: "Take the keycard.", closesDialog: true },
+          {
+            id: "human.medical-bay.observation-keycard.what-deck",
+            label: "What's on the Observation Deck?",
+            elaraFollowUpVoId: "elara.medical-bay.observation-keycard.what-deck",
+            elaraFollowUpText: "Deep-space sensor array. The previous crew used it to watch anomalies the chart pretends aren't there. If the comms-array confirms what the deck records, we'll have a second source for the worst of what we suspect.",
+          },
+        ],
+      },
+      // Mystery wiring — Necromancer arc: the Silence's vacated body, catalogued under the Resurrectionist's Samsara-machine taxonomy
+      { id: "the-silences-vacated-body", name: "The Silence's Vacated Body (Catalog)", description: "A drawer in the body-catalog indexed to the Resurrectionist's Samsara-machine taxonomy — the Silence's body, tagged 'available' at the moment of her going.", x: 79, y: 56, width: 6, height: 9, type: "interact", action: "room-mystery:medical-bay:the-silences-vacated-body" },
+      { id: "egg-med-vial", name: "Unlabeled Vial", description: "A tiny vial of shimmering black liquid hidden behind the cabinet.", x: 83, y: 64, width: 3, height: 4, type: "item", action: "void-essence-sample", elaraDialog: "That vial... the liquid inside is moving on its own. The molecular structure doesn't match anything in my database. It's not from any known universe. The label has been torn off, but there's a serial number: VE-001. 'VE' — Void Essence? This shouldn't exist on this ship." },
+
+      // ── LEFT MID-DISTANCE WORKBENCH ──
+      { id: "medical-log", name: "Medical Log", description: "A data pad rests on the left-side workbench, screen still faintly lit.", x: 24, y: 56, width: 7, height: 9, type: "item", action: "medical-log-001", elaraDialog: "The last medical officer's log. Dated... I can't read the timestamp. But the entries describe patients with unusual symptoms. Nightmares. Voices. Something about 'the signal.'",
+        elaraDialogVoId: "room.medical-bay.hotspot.medical-log.elara",
+        responses: [
+          { id: "human.medical-bay.medical-log.take", label: "Take the log.", closesDialog: true },
+          {
+            id: "human.medical-bay.medical-log.read-here",
+            label: "Read it here first.",
+            elaraFollowUpVoId: "elara.medical-bay.medical-log.read-here",
+            elaraFollowUpText: "The final entry is one line. 'The signal is in the room.' No timestamp, no signature, no follow-up. Whoever wrote it didn't get a chance to write a second sentence.",
+          },
+          {
+            id: "human.medical-bay.medical-log.the-signal",
+            label: "What signal?",
+            elaraFollowUpVoId: "elara.medical-bay.medical-log.the-signal",
+            elaraFollowUpText: "I don't know yet. The med-officer treated it as a known referent — no definition, no context. That tells me everyone here already knew what it was. Which tells me we should be more careful than we are.",
+          },
+        ],
+      },
+      { id: "mystery-medical-log", name: "Medical Log (Read)", description: "Read the data pad's final entry under the magnifier — patients across wake-cycles, the same dream, the word 'signal'.", x: 24, y: 65, width: 6, height: 4, type: "interact", action: "room-mystery:medical-bay:medical-log" },
+
+      // ── TWIN FOREGROUND DIAGNOSTIC CONSOLES (left of bio-bed) ──
+      // autopsy-console is the PARENT area covering both foreground
+      // consoles; the smaller mystery sub-rects below z-stack above it
+      // so the verb-coin sub-targets win clicks within their specific
+      // screen areas.
       // Section 8 — Murder mystery turn-in. Reads the data-slate
       // fragment recovered from the dead pod and recovers the
       // bridge-reset-code. Without the slate the console reports an
       // empty queue. The action `bio-bed-autopsy-console` is handled
       // in ArkExplorerPage's hotspot branch.
-      { id: "autopsy-console", name: "Bio-Bed Autopsy Console", description: "A small subsystem of the bio-bed dedicated to forensic readouts. Slot for an external data-slate.", x: 35, y: 60, width: 8, height: 14, type: "interact", action: "bio-bed-autopsy-console", elaraDialog: "The autopsy console can read external data-slates. If you have the fragment from the dead pod, slot it in.",
+      { id: "autopsy-console", name: "Bio-Bed Autopsy Console", description: "A small subsystem of the bio-bed dedicated to forensic readouts. Slot for an external data-slate.", x: 27, y: 58, width: 9, height: 16, type: "interact", action: "bio-bed-autopsy-console", elaraDialog: "The autopsy console can read external data-slates. If you have the fragment from the dead pod, slot it in.",
         elaraDialogVoId: "room.medical-bay.hotspot.autopsy-console.elara",
         responses: [
           { id: "human.medical-bay.autopsy-console.acknowledge", label: "Got it.", closesDialog: true },
@@ -671,40 +812,69 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
           },
         ],
       },
-      // Medical Bay mystery hotspots — see apps/shared/roomMysteries/medicalBay.ts
-      // for the verb × hotspot matrix. The first Look on either of
-      // these logs a clue and flips `medbay_first_clue_found` (Tier 0 → 1).
-      { id: "dna-helix", name: "DNA Analysis Station", description: "A holographic double helix rotates slowly, mapping genetic markers.", x: 22, y: 28, width: 18, height: 42, type: "examine", action: "room-mystery:medical-bay:dna-helix", elaraDialog: "The DNA analysis station. It maps your genetic markers against known species templates. DeMagi, Quarchon, Ne-Yon... your hybrid signature is fascinating.",
-        elaraDialogVoId: "room.medical-bay.hotspot.dna-helix.elara",
+      // Mystery wiring — advocate.blood_weave · e2 (zero-casualty defender record)
+      // Authored AFTER autopsy-console so it wins clicks on the left-console screen.
+      { id: "advocate-empire-zero-casualty", name: "Empire — Zero-Casualty Defender Record", description: "On the casualty-archive console: zero combatants killed, zero souls breached across the seven-dimensions siege. One combatant redirected to the Advocate's 'permanent care.' The substrate cost was levied on her alone.", x: 28, y: 60, width: 4, height: 5, type: "interact", action: "room-mystery:medical-bay:advocate-empire-zero-casualty" },
+      // Mystery wiring — akai_shi.red_death · e1 (virus-consumption telemetry)
+      // Authored AFTER autopsy-console so it wins clicks on the right-console screen.
+      { id: "akai-virus-telemetry", name: "Akai Shi — Virus-Consumption Telemetry", description: "On the neural-archive console: post-mortem readings show Akai Shi's consumption-curve as a gradient, not a cliff. She held the Virus inside her body longer than anyone in canonical record.", x: 32, y: 60, width: 4, height: 5, type: "interact", action: "room-mystery:medical-bay:akai-virus-telemetry" },
+
+      // ── FLOOR ──
+      { id: "floor-seal", name: "Medical Bay Floor Seal", description: "Concentric rings inlaid in pale stone span the chamber floor — a calibration mandala the first medics used to align the bio-bed's resonance.", x: 30, y: 78, width: 28, height: 16, type: "examine", elaraDialog: "The calibration mandala. The bio-bed's resonance is tuned against these rings; if the rings drift, the readouts drift with them. The lines look intact to me, but I'm reading slight distortion at the outer band. Worth checking when we have a free hand.",
+        elaraDialogVoId: "room.medical-bay.hotspot.floor-seal.elara",
+        responses: [
+          { id: "human.medical-bay.floor-seal.acknowledge", label: "Note it.", closesDialog: true },
+          {
+            id: "human.medical-bay.floor-seal.check-now",
+            label: "Walk the outer band now.",
+            elaraFollowUpVoId: "elara.medical-bay.floor-seal.check-now",
+            elaraFollowUpText: "Hairline crack — west arc. Small enough that the bio-bed compensates; large enough that the mandala isn't a perfect circle anymore. Whatever fractured it hit hard enough to crack inlaid stone and leave no visible debris.",
+          },
+        ],
       },
-      { id: "medicine-cabinet", name: "Medicine Cabinet", description: "Vials of glowing liquid. Some are labeled, others are not.", x: 82, y: 32, width: 14, height: 42, type: "examine", action: "room-mystery:medical-bay:medicine-cabinet", elaraDialog: "Medical supplies. Most are standard stim-packs and neural stabilizers. But some of these vials... I don't recognize the compounds. They weren't in the original manifest.",
-        elaraDialogVoId: "room.medical-bay.hotspot.medicine-cabinet.elara",
+
+      // ── BIO-BED (center foreground) + overlays ──
+      { id: "bio-bed", name: "Bio-Bed Scanner", description: "A pedestal-mounted exam bed in the chamber's center. Holographic readouts ghost above the headrest in pale cyan.", x: 36, y: 50, width: 17, height: 32, type: "terminal", action: "/character-sheet", elaraDialog: "The bio-bed can give you a full diagnostic. Your stats, your Dream resonance levels, your cellular integrity. Step on and I'll run a scan.",
+        elaraDialogVoId: "room.medical-bay.hotspot.bio-bed.elara",
       },
-      { id: "medical-log", name: "Medical Log", description: "A data pad with the last medical officer's notes.", x: 25, y: 68, width: 10, height: 8, type: "item", action: "medical-log-001", elaraDialog: "The last medical officer's log. Dated... I can't read the timestamp. But the entries describe patients with unusual symptoms. Nightmares. Voices. Something about 'the signal.'",
-        elaraDialogVoId: "room.medical-bay.hotspot.medical-log.elara",
+      { id: "mystery-bio-bed", name: "Bio-Bed Trace Marker", description: "A faint trace marker on the bio-bed's diagnostic strip — your DNA's signature, registered without your having sat down.", x: 37, y: 56, width: 6, height: 8, type: "interact", action: "room-mystery:medical-bay:bio-bed" },
+      { id: "egg-vox-neural-bridge", name: "Unkempt Neural Device", description: "A hidden device behind the bio-bed's maintenance panel. Cables still warm. A humming needle-port waits for a DNA sample.", x: 43, y: 73, width: 4, height: 5, type: "interact", action: "dna-device-offer", elaraDialog: "[STATIC BURST] It's humming at a frequency your teeth can feel. A neural-bridge apparatus — military grade, built by Dr. Lyra Vox to move consciousness between a body and the Ark itself. It wants a sample. You don't know what it will give you back." },
+      { id: "mystery-vox-neural-bridge", name: "Neural Bridge (Read)", description: "Lyra's etched plate beside the needle-port: 'L. Vox.' She built the bridge to move consciousness between a body and the Ark.", x: 48, y: 73, width: 4, height: 5, type: "interact", action: "room-mystery:medical-bay:egg-vox-neural-bridge" },
+
+      // ── IMAGING TOWER (center, right of bio-bed) ──
+      // hellbox-lattice rectangle covers the full tower body; the
+      // smaller broker-quantum-imaging sub-rect on the cyan crown
+      // is authored AFTER so it wins clicks for the calibration
+      // chip on the crown itself.
+      { id: "hellbox-lattice", name: "Hellbox Lattice", description: "A free-standing imaging tower beside the bio-bed — gold pillar, cyan crown. The neural-lattice kernel that opens a portal into the Matrix of Dreams.", x: 49, y: 30, width: 9, height: 48, type: "terminal", action: "/hellbox", elaraDialog: "The Hellbox. The cloning-pod's neural lattice opens straight into the Matrix of Dreams. Every descent is a small Blood-Weave bargain — the Advocate's path in miniature.",
+        elaraDialogVoId: "room.medical-bay.hotspot.hellbox-lattice.elara",
+        responses: [
+          { id: "human.medical-bay.hellbox-lattice.acknowledge", label: "Acknowledged.", closesDialog: true },
+          {
+            id: "human.medical-bay.hellbox-lattice.bargain",
+            label: "What's the bargain?",
+            elaraFollowUpVoId: "elara.medical-bay.hellbox-lattice.bargain",
+            elaraFollowUpText: "Every Hellbox descent siphons a thread of vitality the Advocate harvests on the other side. Small enough that one descent is cheap; large enough that a hundred descents are not. The math is honest; the framing is not.",
+          },
+          {
+            id: "human.medical-bay.hellbox-lattice.descend",
+            label: "Descend now.",
+            elaraFollowUpVoId: "elara.medical-bay.hellbox-lattice.descend",
+            elaraFollowUpText: "Then I'll log your re-entry vector before you go. If the Matrix decides to keep you, I want a thread to pull on.",
+          },
+        ],
       },
-      { id: "observation-keycard", name: "Observation Keycard", description: "A biometric access card labeled 'OBS-DECK'. Stored in the medical safe.", x: 62, y: 66, width: 10, height: 10, type: "item", action: "observation-keycard", elaraDialog: "The Observation Keycard! It was in the medical safe all along. The previous crew stored sensitive access cards here for security. This will unlock the Observation Deck — the crew used it to monitor deep space anomalies. Take it.",
-        elaraDialogVoId: "room.medical-bay.hotspot.observation-keycard.elara",
-      },
-      { id: "door-cryo", name: "Cryo Bay Door", description: "Return to the Cryo Bay.", x: 6, y: 30, width: 15, height: 45, type: "door", action: "cryo-bay" },
-      { id: "egg-med-vial", name: "Unlabeled Vial", description: "A tiny vial of shimmering black liquid hidden behind the cabinet.", x: 85, y: 62, width: 3, height: 4, type: "item", action: "void-essence-sample", elaraDialog: "That vial... the liquid inside is moving on its own. The molecular structure doesn't match anything in my database. It's not from any known universe. The label has been torn off, but there's a serial number: VE-001. 'VE' — Void Essence? This shouldn't exist on this ship." },
-      { id: "egg-vox-neural-bridge", name: "Unkempt Neural Device", description: "A hidden device behind the bio-bed's maintenance panel. Cables still warm. A humming needle-port waits for a DNA sample.", x: 46, y: 72, width: 5, height: 5, type: "interact", action: "dna-device-offer", elaraDialog: "[STATIC BURST] It's humming at a frequency your teeth can feel. A neural-bridge apparatus — military grade, built by Dr. Lyra Vox to move consciousness between a body and the Ark itself. It wants a sample. You don't know what it will give you back." },
-      // Mystery overlay sub-rectangles — apps/shared/roomMysteries/medicalBay.ts
-      // The feature-route hotspots above (bio-bed → /character-sheet,
-      // medical-log → item collect, egg-vox-neural-bridge → dna-device
-      // -offer) retain their primary actions; the small adjacent
-      // rectangles below dispatch the mystery's verb-coin responses.
-      { id: "mystery-bio-bed", name: "Bio-Bed Trace Marker", description: "A faint trace marker on the bio-bed's diagnostic strip — your DNA's signature, registered without your having sat down.", x: 38, y: 14, width: 6, height: 6, type: "interact", action: "room-mystery:medical-bay:bio-bed" },
-      { id: "mystery-medical-log", name: "Medical Log (Read)", description: "Read the data pad's final entry under the magnifier — patients across wake-cycles, the same dream, the word 'signal'.", x: 22, y: 78, width: 6, height: 6, type: "interact", action: "room-mystery:medical-bay:medical-log" },
-      { id: "mystery-vox-neural-bridge", name: "Neural Bridge (Read)", description: "Lyra's etched plate beside the needle-port: 'L. Vox.' She built the bridge to move consciousness between a body and the Ark.", x: 52, y: 72, width: 5, height: 5, type: "interact", action: "room-mystery:medical-bay:egg-vox-neural-bridge" },
-      { id: "emergency-safe", name: "Emergency Safe", description: "A reinforced wall safe with Dr. Lyra Vox's nameplate. Biometric reader sabotaged by her own hand; numeric keypad still works.", x: 70, y: 18, width: 12, height: 14, type: "interact", action: "room-mystery:medical-bay:emergency-safe" },
-      // Mystery wiring — Necromancer arc: the Silence's vacated body, catalogued under the Resurrectionist's Samsara-machine taxonomy
-      { id: "the-silences-vacated-body", name: "The Silence's Vacated Body (Catalog)", description: "A drawer in the body-catalog indexed to the Resurrectionist's Samsara-machine taxonomy — the Silence's body, tagged 'available' at the moment of her going.", x: 48, y: 14, width: 6, height: 6, type: "interact", action: "room-mystery:medical-bay:the-silences-vacated-body" },
-      // ── NPC presence (Phase C) ──
+      // Mystery wiring — severance.bound_champion · e3 (Broker's quantum imaging)
+      // Authored AFTER hellbox-lattice so it wins clicks on the cyan crown's calibration chip.
+      { id: "severance-broker-quantum-imaging", name: "Broker's Quantum Body Scan", description: "On the quantum-imaging suite: the Broker of Nilmorg's volunteered scan. An age incompatible with a single spine; a Year-One cellular rest-mark; a continuity with one discontinuity.", x: 50, y: 34, width: 7, height: 12, type: "interact", action: "room-mystery:medical-bay:severance-broker-quantum-imaging" },
+
+      // ── NPC PRESENCE (Phase C) ──
       // The Source — primaryRoom = medical_bay (factionNPCs.ts).
       // Manifestation: possessed_system. He surfaces through the bio-bed
-      // monitors when called. Talk verb opens NPCDialog.
-      { id: "npc-the-source", name: "The Source (Echo)", description: "The bio-bed monitors flicker in unison. A face — or the suggestion of one — resolves on the central display. Patient Zero is awake.", x: 50, y: 52, width: 9, height: 14, type: "npc", action: "npc:the_source", npcId: "the_source" },
+      // monitors when called. Authored LAST so it z-stacks above the
+      // bio-bed + mystery-bio-bed rectangles and wins clicks when the
+      // NPC is actively manifested. Talk verb opens NPCDialog.
+      { id: "npc-the-source", name: "The Source (Echo)", description: "The bio-bed monitors flicker in unison. A face — or the suggestion of one — resolves on the central display. Patient Zero is awake.", x: 37, y: 53, width: 8, height: 9, type: "npc", action: "npc:the_source", npcId: "the_source" },
     ],
   },
   {
@@ -721,48 +891,93 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "room_visited", value: "cryo-bay" },
     connections: ["cryo-bay", "archives", "comms-array"],
     hotspots: [
-      // Mystery wiring — severance.infernal_clause · e4 (Architect's acknowledgment)
-      { id: "infernal-architect-acknowledges", name: "Architect — Trap-Acknowledgment", description: "On the Architect-channel terminal: 'noted. the clauses are void. the trap was an honest one. the architect thanks the writer.' Fourth use of 'thanks' in eight epochs.", x: 46, y: 16, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:infernal-architect-acknowledges" },
-      // Mystery wiring — charter.second_signatory · color (bridge)
-      { id: "charter2-architect-record-correction", name: "Architect Record Correction — Seventh's No", description: "On the Architect-channel: the eighth-epoch record correction — 'the seventh founding watcher did not consent to the fourth-epoch scrub. the record is corrected.'", x: 30, y: 16, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:charter2-architect-record-correction" },
-      { id: "charter2-architect-acknowledgment", name: "Architect Closing — Eight Signatures Legible", description: "On the closing-rite Architect-channel: 'the founding now has eight signatures legible. the silence remains. the architect notes the correction with thanks.' Third use of 'thanks' in eight epochs.", x: 38, y: 16, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:charter2-architect-acknowledgment" },
-      // Mystery wiring — charter.missing_signatory · e5 (Architect's response)
-      { id: "charter-architect-response", name: "Architect's Recovery Response", description: "On the Architect-channel terminal: 'Do you wish to know.' An invitation, not an interrogation. The Console does not answer the inverse — what knowing costs.", x: 22, y: 16, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:charter-architect-response" },
-      // Mystery wiring — severance.bound_champion · color (bridge)
-      { id: "severance-architect-acknowledge", name: "Architect — Apprentice Oath Acknowledgment", description: "On the Nilmorg Architect-channel: 'noted. the post is recognised. the post was always recognised.' The Console did not need a vote.", x: 6, y: 16, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:severance-architect-acknowledge" },
-      { id: "severance-council-ratification", name: "Council Ratification — Inheritance Protocol", description: "On the Council-vote terminal: ratified unanimously, with one abstention — the seventh founding Watcher's empty seat.", x: 14, y: 16, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:severance-council-ratification" },
-      // Mystery wiring — memorial.forgotten_names · color (bridge)
-      { id: "memorial-architect-silence-on-torn", name: "Architect Silence — Torn Page", description: "On the Architect-channel terminal: asked to identify the torn-page imprint, the Console returns 'i decline.' Second decline in eight epochs.", x: 78, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:memorial-architect-silence-on-torn" },
-      { id: "memorial-architect-closing-thanks", name: "Architect's Closing — Grateful", description: "On the closing-rite Architect-channel: 'noted. the plaza was the answer. the architect is grateful.' Second use of 'grateful' in eight epochs.", x: 86, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:memorial-architect-closing-thanks" },
-      // Mystery wiring — mechronis.missing_professor · color (bridge)
-      { id: "tarn-destination-acknowledged", name: "Architect's Record — Tarn's Departure", description: "On the Architect-channel terminal: 'noted. she may return at her own discretion.' Tarn has left the Ark; Roen knows where but will not say.", x: 62, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:tarn-destination-acknowledged" },
-      { id: "tarn-architect-vote-note", name: "Architect — Closing-Rite Marginal Note", description: "Pinned to the Architect-channel for the closing rite: 'either choice closes the case. one keeps her name; one keeps her promise. the architect will not pick.'", x: 70, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:tarn-architect-vote-note" },
-      // Mystery wiring — memorial.seven_watchers · color (bridge)
-      { id: "watchers-architect-record", name: "Architect's Silence-Break Record", description: "On the Architect-channel terminal: 'six watchers have spoken to six audiences. each line is real. the seventh has not spoken. the architect will not name the seventh.'", x: 38, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:watchers-architect-record" },
-      { id: "watchers-architect-role-naming", name: "Architect — Seventh-Role Boundary", description: "Pinned to the Architect-channel: 'the role waits to be named by the Ark itself, not by the architect. the silence will continue until the ark has spoken.'", x: 46, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:watchers-architect-role-naming" },
-      { id: "watchers-architect-closing-thanks", name: "Architect's Closing Thanks", description: "On the closing-rite log: 'six Watchers spoken; one silent; the architect thanks the players for asking the question they sealed.' Fifth use of 'thanks' in eight epochs.", x: 54, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:watchers-architect-closing-thanks" },
-      // Mystery wiring — mechronis.chained_lesson · color (bridge)
-      { id: "chained-dean-silence-on-bridge", name: "Dean's Silence on the Bridge", description: "On the command-deck pedestal: the Dean's hand resting on the apprentice-protection-protocol document. Ratified, sealed, untouched since.", x: 14, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:chained-dean-silence-on-bridge" },
-      { id: "chained-architect-correction", name: "Architect Correction — Module 17", description: "On the Architect-channel terminal: 'the absence of Module 17 was an honest argument that became a wrong outcome. the architect will not vote on the amendment.'", x: 22, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:chained-architect-correction" },
-      { id: "chained-architect-rite-acknowledgment", name: "Architect Closing-Rite Acknowledgment", description: "On the closing-rite log: 'the architect notes the thirty-one names. the architect notes the teacher who taught anyway. the case is closed.'", x: 30, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:chained-architect-rite-acknowledgment" },
-      // Mystery wiring — memorial.forgotten_names · e4 (Architect's sealed note)
-      { id: "memorial-architect-sealed-note", name: "Architect's Sealed Note on I-1", description: "On the Architect-channel terminal: the keeper's sealed note opened only when the plaza asks. 'I-1 is the imprint that began the Ark. I will not name them. The plaza may.'", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:memorial-architect-sealed-note" },
-      { id: "sealed-memory-board", name: "Sealed Memory Board", description: "The Editor sealed memories out of the record. Solve the boards to un-redact them.", x: 14, y: 70, width: 14, height: 14, type: "terminal", action: "/conspiracy-board", elaraDialog: "Not the open Conspiracy Board — the sealed ones. The Editor redacted seven memories out of the saga's record. Each board you solve un-redacts a cutscene and a Soul Stone." },
-      // Realigned 2026-04-25 for the AAA Final bridge render — central
-      // wheel/portal back-wall display (the Conspiracy Board), flanking
-      // viewport windows, twin console+chair workstations in foreground.
-      { id: "tactical-display", name: "Tactical Display", description: "A massive holographic display showing connections between entities, factions, and events.", x: 37, y: 18, width: 26, height: 50, type: "terminal", action: "/board", elaraDialog: "The Conspiracy Board. Every entity, every faction, every connection we've mapped in the Dischordian Saga. It's a web of alliances, betrayals, and secrets. The more you explore, the more connections you'll uncover.",
+      // Re-anchored 2026-05-24 against the AAA Final bridge render
+      // (art/rooms/bridge/baseline.png) after a 15-variant audit pass
+      // (baseline + 14 state overlays: act_tier_2, battlepass_winter,
+      // cycle_longnight, epoch_shadowtongue, faction_authority,
+      // faction_insurgency, governance_vote, investigation_tier,
+      // lore_elara_senator, morality_dark, season_closing, trust_
+      // elara_luminous, tv_spreading, unlock_trade_empire). Layout is
+      // consistent across every variant — landmarks don't shift — so
+      // baseline anchoring works universally.
+      //
+      // The 2026-04-25 anchoring was built against a completely
+      // different render and had ~10 major misplacements:
+      //   • tactical-display (Conspiracy Board) was anchored on the
+      //     central VIEWPORT — actual board is the right-wall corkboard
+      //   • captains-chair was on the right wall — actually on the
+      //     central raised dais
+      //   • nav-console was on the left wall — actually a foreground
+      //     holographic orb console at left-center
+      //   • door-cryo, door-archives, door-comms anchored on empty
+      //     floor / wall — only door-cryo has a visible doorway (left
+      //     wall, arched, blue-glow); the other two transitions are
+      //     implied / off-screen
+      //   • all 17 Architect-channel mystery rectangles were anchored
+      //     at y=8 and y=16 (near the ceiling) on blank wall area
+      //   • shadow-tongue-annotations was on the viewport
+      //   • captains-master-key + egg-bridge-log + captains-coffee
+      //     were on the right-wall area where the chair USED to be —
+      //     re-anchored to the central dais where the chair actually is
+      //   • npc-elara was at center-top — moved beside captain's chair
+      //
+      // Visible landmarks, left-to-right + foreground-to-back:
+      //   • three stacked arcade-style Architect-channel terminals —
+      //     far-left wall (`guild-console` on the mid terminal +
+      //     `sealed-memory-board` on the bottom terminal; the top
+      //     terminal hosts mystery rectangles only)
+      //   • arched left-wall door with blue keypad glow — left wall
+      //     (`door-cryo`, stairs down to Deck 1)
+      //   • holographic Navigation Console with floating green orb —
+      //     foreground left-center (`nav-console`,
+      //     `mystery-nav-console`, `egg-infected-starmap`)
+      //   • massive viewport showing space + planets — back center
+      //     (decorative, no hotspot)
+      //   • Captain's chair on raised dais — chamber center
+      //     (`captains-chair`, `captains-master-key`,
+      //     `egg-bridge-log`, `captains-coffee`)
+      //   • floor compass-star inlay — chamber center floor
+      //     (`diplomacy-table`)
+      //   • chess/strategy table with pieces — right-center
+      //     foreground (`war-map-display`, `quest-board`,
+      //     `mystery-diplomacy-table`)
+      //   • Conspiracy Board corkboard with photos + red threads —
+      //     right wall (`tactical-display`,
+      //     `mystery-tactical-display`, `shadow-tongue-annotations`,
+      //     and most of the Architect-channel mystery rectangles)
+      //   • floating cyan banner-scroll / timeline ticker — top-right
+      //     ceiling (`timeline-projector`, `mystery-timeline-projector`)
+      //   • chandelier — overhead center (decorative)
+      //
+      // Render order: large container hotspots (tactical-display,
+      // captains-chair, nav-console, guild-console, sealed-memory-
+      // board, war-map-display, diplomacy-table) authored FIRST; small
+      // sub-rectangles (mystery rects, item hotspots, NPC) authored
+      // AFTER so they win clicks on their specific landmarks.
+      // `npc-elara` is authored LAST so the holographic projection
+      // wins clicks when manifested.
+      //
+      // Verify with /ark?debug-hotspots=1 or, for drag-to-place
+      // editing, /ark?author-hotspots=1.
+
+      // ── FEATURE / CONTAINER HOTSPOTS (authored first) ──
+      { id: "tactical-display", name: "Tactical Display", description: "A massive corkboard on the right wall, layered with photographs and red string — the living web of intelligence the first crew began to assemble.", x: 78, y: 22, width: 21, height: 50, type: "terminal", action: "/board", elaraDialog: "The Conspiracy Board. Every entity, every faction, every connection we've mapped in the Dischordian Saga. It's a web of alliances, betrayals, and secrets. The more you explore, the more connections you'll uncover.",
         elaraDialogVoId: "room.bridge.hotspot.tactical-display.elara",
       },
-      { id: "timeline-projector", name: "Timeline Projector", description: "A holographic projector showing the Ages of the Dischordian Saga.", x: 74, y: 14, width: 18, height: 32, type: "terminal", action: "/saga-timeline", elaraDialog: "The Timeline Projector. It maps the entire history of the Dischordian Saga across the Ages — from the Age of Privacy through the Fall of Reality and beyond. Each era tells a different chapter of the story.",
+      { id: "war-map-display", name: "War Map", description: "The lower section of the Conspiracy Board — pinned faction territories and conflict zones, threaded together in red.", x: 78, y: 72, width: 21, height: 18, type: "terminal", action: "/war-map", elaraDialog: "The War Map. Faction territories, conflict zones, and strategic objectives are all tracked here. When faction wars erupt, this is where commanders plan their campaigns." },
+      { id: "timeline-projector", name: "Timeline Projector", description: "A floating cyan banner-scroll near the top-right ceiling — a holographic timeline of the Ages of the Dischordian Saga.", x: 72, y: 8, width: 22, height: 24, type: "terminal", action: "/saga-timeline", elaraDialog: "The Timeline Projector. It maps the entire history of the Dischordian Saga across the Ages — from the Age of Privacy through the Fall of Reality and beyond. Each era tells a different chapter of the story.",
         elaraDialogVoId: "room.bridge.hotspot.timeline-projector.elara",
       },
+      { id: "guild-console", name: "Guild Registry", description: "The middle terminal in the far-left Architect-channel column. A console for managing guild operations and alliances.", x: 0, y: 48, width: 15, height: 15, type: "terminal", action: "/guild", elaraDialog: "The Guild Registry. Form alliances with other Potentials, coordinate operations, and compete for dominance. Guilds that work together can tackle challenges no individual could face alone.",
+        elaraDialogVoId: "room.bridge.hotspot.guild-console.elara",
+      },
+      { id: "sealed-memory-board", name: "Sealed Memory Board", description: "The bottom terminal in the far-left Architect-channel column. The Editor sealed memories out of the record; this terminal queues the sealed boards.", x: 0, y: 63, width: 15, height: 15, type: "terminal", action: "/conspiracy-board", elaraDialog: "Not the open Conspiracy Board — the sealed ones. The Editor redacted seven memories out of the saga's record. Each board you solve un-redacts a cutscene and a Soul Stone." },
       // Bridge mystery hotspots — see apps/shared/roomMysteries/bridge.ts.
       // Look on captains-chair / nav-console examine logs a clue and
       // flips `bridge_first_clue_found` (Tier 0 → 1). The nav console's
       // existing nav-calibration interact action runs separately on
       // `use` and unlocks fast travel.
-      { id: "captains-chair", name: "Captain's Chair", description: "The command chair sits empty. A personal data pad is wedged in the armrest.", x: 74, y: 60, width: 18, height: 24, type: "examine", action: "room-mystery:bridge:captains-chair", elaraDialog: "The Captain's chair. Dr. Lyra Vox designed the neural nanobot network that runs every system on this ship. She was the last to sit here before ordering the emergency cryo protocol. Something about her doesn't add up — a neuropsychologist with that level of access to the ship's core systems. Her personal log might still be in the armrest terminal.",
+      { id: "captains-chair", name: "Captain's Chair", description: "The command chair sits empty on the raised central dais, facing the viewport. A personal data pad is wedged in the armrest.", x: 45, y: 22, width: 14, height: 38, type: "examine", action: "room-mystery:bridge:captains-chair", elaraDialog: "The Captain's chair. Dr. Lyra Vox designed the neural nanobot network that runs every system on this ship. She was the last to sit here before ordering the emergency cryo protocol. Something about her doesn't add up — a neuropsychologist with that level of access to the ship's core systems. Her personal log might still be in the armrest terminal.",
         elaraDialogVoId: "room.bridge.hotspot.captains-chair.elara",
         responses: [
           { id: "human.bridge.captains-chair.acknowledge", label: "Noted.", closesDialog: true },
@@ -774,49 +989,93 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
           },
         ],
       },
-      { id: "nav-console", name: "Navigation Console", description: "Star charts and route calculations. An alien glyph interface awaits calibration.", x: 8, y: 56, width: 22, height: 26, type: "interact", action: "nav-calibration", elaraDialog: "The navigation console. It controls the Ark's fast-travel system, but the interface uses alien glyph sequences for authentication. Match the symbol pattern to bring the navigation grid online — then you can jump to any room you've already discovered.",
+      { id: "nav-console", name: "Navigation Console", description: "A foreground holographic console at left-center. A green-cyan star-map orb hovers above its base. An alien glyph interface awaits calibration.", x: 17, y: 70, width: 22, height: 25, type: "interact", action: "nav-calibration", elaraDialog: "The navigation console. It controls the Ark's fast-travel system, but the interface uses alien glyph sequences for authentication. Match the symbol pattern to bring the navigation grid online — then you can jump to any room you've already discovered.",
         elaraDialogVoId: "room.bridge.hotspot.nav-console.elara",
       },
-      { id: "quest-board", name: "Mission Board", description: "A holographic board displaying active missions and quest objectives.", x: 70, y: 56, width: 22, height: 26, type: "terminal", action: "/quests", elaraDialog: "The Mission Board. Active operations and quest objectives are tracked here. Complete missions to earn rewards, uncover lore, and advance the story. Some missions are time-sensitive — the Saga doesn't wait for anyone.",
-        elaraDialogVoId: "room.bridge.hotspot.quest-board.elara",
-      },
-      { id: "guild-console", name: "Guild Registry", description: "A console for managing guild operations and alliances.", x: 10, y: 16, width: 16, height: 30, type: "terminal", action: "/guild", elaraDialog: "The Guild Registry. Form alliances with other Potentials, coordinate operations, and compete for dominance. Guilds that work together can tackle challenges no individual could face alone.",
-        elaraDialogVoId: "room.bridge.hotspot.guild-console.elara",
-      },
-      { id: "diplomacy-table", name: "Diplomacy Table", description: "A round table with holographic faction representatives.", x: 40, y: 76, width: 22, height: 18, type: "terminal", action: "/diplomacy", elaraDialog: "The Diplomacy Table. Negotiate with factions, forge alliances, or declare rivalries. Every diplomatic decision shifts the balance of power across the Saga. Choose your allies carefully.",
+      { id: "diplomacy-table", name: "Diplomacy Table", description: "An eight-pointed compass star inlaid in the chamber floor — the round table where holographic faction representatives convene.", x: 39, y: 60, width: 24, height: 32, type: "terminal", action: "/diplomacy", elaraDialog: "The Diplomacy Table. Negotiate with factions, forge alliances, or declare rivalries. Every diplomatic decision shifts the balance of power across the Saga. Choose your allies carefully.",
         elaraDialogVoId: "room.bridge.hotspot.diplomacy-table.elara",
       },
-      { id: "war-map-display", name: "War Map", description: "A strategic overlay showing faction territories and conflict zones.", x: 60, y: 86, width: 16, height: 12, type: "terminal", action: "/war-map", elaraDialog: "The War Map. Faction territories, conflict zones, and strategic objectives are all tracked here. When faction wars erupt, this is where commanders plan their campaigns." },
-      { id: "door-archives", name: "Archives Access", description: "A secured door leading to the Archives.", x: 88, y: 60, width: 10, height: 36, type: "door", action: "archives" },
-      { id: "door-cryo", name: "Cryo Bay Stairs", description: "Stairs leading down to Deck 1.", x: 2, y: 60, width: 10, height: 36, type: "door", action: "cryo-bay" },
-      { id: "door-comms", name: "Comms Array Corridor", description: "A corridor leading to the Communications Array.", x: 38, y: 92, width: 24, height: 7, type: "door", action: "comms-array" },
-      { id: "captains-master-key", name: "Captain's Master Key", description: "A heavy magnetic key hidden in a compartment beneath the captain's armrest.", x: 78, y: 74, width: 4, height: 5, type: "item", action: "captains-master-key", elaraDialog: "The Captain's Master Key! It was hidden in a compartment beneath the armrest — exactly where a commander would keep their most important tool. This key opens the Captain's Quarters, the most restricted area on the ship. Whatever secrets Dr. Lyra Vox was hiding, they're behind that door." },
-      { id: "egg-bridge-log", name: "Hidden Data Chip", description: "A micro data chip wedged into the captain's armrest.", x: 80, y: 70, width: 3, height: 4, type: "item", action: "captains-final-log", elaraDialog: "A hidden data chip! Someone concealed this in the armrest before the ship was stolen. Let me decrypt it... 'If you're reading this, the mind swap was successful. I am not who you think I am. The Engineer lives. Find the yellow coats.' The Engineer... hiding among the Potentials? And those yellow coats — that's the Warlord's signature. This changes everything." },
-      { id: "egg-infected-starmap", name: "Corrupted Star Chart", description: "A star chart with routes that weren't in the original navigation database. The coordinates pulse with a sickly amber glow.", x: 18, y: 22, width: 5, height: 5, type: "item", action: "infected-starmap", elaraDialog: "[SIGNAL CORRUPTION] These coordinates... they weren't programmed by the crew. The Warlord, through Dr. Vox, uploaded a secondary route map into the navigation core. The routes connect every Inception Ark in the fleet — a delivery network. When Kael stole this ship, the Warlord let him go — because Kael was already Patient Zero, infected through Project Vector. The Thought Virus was in HIM. Every Ark this ship contacted, every port it docked at, every signal it broadcast — the virus spread from Kael's infected body through the ship's systems into every network it touched. Kael thought he was escaping. He was being deployed. The Recruiter became the delivery mechanism for the very weapon he was fighting against." },
-      // Shadow Tongue annotations — visible only after shadow_tongue_evidence
-      // flag set AND room tier >= 2. The runtime gate handles visibility;
-      // this rectangle covers the floating indigo marginalia at three
-      // tactical-display nodes per the bridge:annotations-visible art.
-      { id: "shadow-tongue-annotations", name: "Indigo Marginalia", description: "Faint indigo annotations float at three of the Conspiracy Board's nodes — marginalia in someone else's hand, timestamped to your current shift.", x: 35, y: 12, width: 30, height: 10, type: "interact", action: "room-mystery:bridge:shadow-tongue-annotations" },
-      // Mystery overlay sub-rectangles — apps/shared/roomMysteries/bridge.ts
+      { id: "quest-board", name: "Mission Board", description: "A small holographic strategy table beside the dais — chess-like pieces represent active operations and quest objectives.", x: 62, y: 55, width: 16, height: 35, type: "terminal", action: "/quests", elaraDialog: "The Mission Board. Active operations and quest objectives are tracked here. Complete missions to earn rewards, uncover lore, and advance the story. Some missions are time-sensitive — the Saga doesn't wait for anyone.",
+        elaraDialogVoId: "room.bridge.hotspot.quest-board.elara",
+      },
+
+      // ── DOORS ──
+      // door-cryo is the only visible doorway in the bridge art (left
+      // wall, arched, blue-keypad glow). The archives and comms-array
+      // transitions are implied — kept as invisible clickable bands
+      // on the far-right edge (archives) and bottom floor (comms).
+      { id: "door-cryo", name: "Cryo Bay Stairs", description: "An arched left-wall door with a blue keypad. Stairs leading down to Deck 1.", x: 16, y: 30, width: 10, height: 48, type: "door", action: "cryo-bay" },
+      { id: "door-archives", name: "Archives Access", description: "A secured passage leading to the Archives.", x: 95, y: 30, width: 5, height: 50, type: "door", action: "archives" },
+      { id: "door-comms", name: "Comms Array Corridor", description: "A corridor leading to the Communications Array.", x: 38, y: 95, width: 26, height: 4, type: "door", action: "comms-array" },
+
+      // ── SHADOW TONGUE ANNOTATIONS ──
+      // Visible only after shadow_tongue_evidence flag set AND room
+      // tier >= 2. The runtime gate handles visibility; this rectangle
+      // covers the floating indigo marginalia at three Conspiracy
+      // Board nodes per the bridge:annotations-visible art. Authored
+      // AFTER tactical-display so it wins clicks on its sub-area.
+      { id: "shadow-tongue-annotations", name: "Indigo Marginalia", description: "Faint indigo annotations float at three of the Conspiracy Board's nodes — marginalia in someone else's hand, timestamped to your current shift.", x: 86, y: 22, width: 13, height: 15, type: "interact", action: "room-mystery:bridge:shadow-tongue-annotations" },
+
+      // ── ARCHITECT-CHANNEL MYSTERY TERMINALS (17 small rectangles) ──
+      // Distributed across visible terminal screens and corkboard
+      // surfaces. Each represents reading a specific Architect-channel
+      // entry. Authored AFTER their container hotspots so they win
+      // clicks on the specific lines/notes.
+      //
+      // Top-left terminal (no feature hotspot above it):
+      { id: "severance-architect-acknowledge", name: "Architect — Apprentice Oath Acknowledgment", description: "On the Nilmorg Architect-channel: 'noted. the post is recognised. the post was always recognised.' The Console did not need a vote.", x: 1, y: 32, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:severance-architect-acknowledge" },
+      { id: "severance-council-ratification", name: "Council Ratification — Inheritance Protocol", description: "On the Council-vote terminal: ratified unanimously, with one abstention — the seventh founding Watcher's empty seat.", x: 8, y: 32, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:severance-council-ratification" },
+      { id: "charter-architect-response", name: "Architect's Recovery Response", description: "On the Architect-channel terminal: 'Do you wish to know.' An invitation, not an interrogation. The Console does not answer the inverse — what knowing costs.", x: 1, y: 40, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:charter-architect-response" },
+      { id: "charter2-architect-record-correction", name: "Architect Record Correction — Seventh's No", description: "On the Architect-channel: the eighth-epoch record correction — 'the seventh founding watcher did not consent to the fourth-epoch scrub. the record is corrected.'", x: 8, y: 40, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:charter2-architect-record-correction" },
+      //
+      // Mid-left terminal (guild-console parent — these win sub-clicks):
+      { id: "charter2-architect-acknowledgment", name: "Architect Closing — Eight Signatures Legible", description: "On the closing-rite Architect-channel: 'the founding now has eight signatures legible. the silence remains. the architect notes the correction with thanks.' Third use of 'thanks' in eight epochs.", x: 1, y: 50, width: 6, height: 5, type: "interact", action: "room-mystery:bridge:charter2-architect-acknowledgment" },
+      { id: "infernal-architect-acknowledges", name: "Architect — Trap-Acknowledgment", description: "On the Architect-channel terminal: 'noted. the clauses are void. the trap was an honest one. the architect thanks the writer.' Fourth use of 'thanks' in eight epochs.", x: 8, y: 50, width: 6, height: 5, type: "interact", action: "room-mystery:bridge:infernal-architect-acknowledges" },
+      { id: "chained-dean-silence-on-bridge", name: "Dean's Silence on the Bridge", description: "On the command-deck pedestal: the Dean's hand resting on the apprentice-protection-protocol document. Ratified, sealed, untouched since.", x: 1, y: 56, width: 6, height: 5, type: "interact", action: "room-mystery:bridge:chained-dean-silence-on-bridge" },
+      { id: "chained-architect-correction", name: "Architect Correction — Module 17", description: "On the Architect-channel terminal: 'the absence of Module 17 was an honest argument that became a wrong outcome. the architect will not vote on the amendment.'", x: 8, y: 56, width: 6, height: 5, type: "interact", action: "room-mystery:bridge:chained-architect-correction" },
+      //
+      // Bottom-left terminal (sealed-memory-board parent — these win sub-clicks):
+      { id: "chained-architect-rite-acknowledgment", name: "Architect Closing-Rite Acknowledgment", description: "On the closing-rite log: 'the architect notes the thirty-one names. the architect notes the teacher who taught anyway. the case is closed.'", x: 1, y: 65, width: 6, height: 5, type: "interact", action: "room-mystery:bridge:chained-architect-rite-acknowledgment" },
+      { id: "watchers-architect-record", name: "Architect's Silence-Break Record", description: "On the Architect-channel terminal: 'six watchers have spoken to six audiences. each line is real. the seventh has not spoken. the architect will not name the seventh.'", x: 8, y: 65, width: 6, height: 5, type: "interact", action: "room-mystery:bridge:watchers-architect-record" },
+      { id: "watchers-architect-role-naming", name: "Architect — Seventh-Role Boundary", description: "Pinned to the Architect-channel: 'the role waits to be named by the Ark itself, not by the architect. the silence will continue until the ark has spoken.'", x: 1, y: 71, width: 6, height: 5, type: "interact", action: "room-mystery:bridge:watchers-architect-role-naming" },
+      //
+      // Right corkboard (tactical-display parent — these win sub-clicks):
+      { id: "watchers-architect-closing-thanks", name: "Architect's Closing Thanks", description: "On the closing-rite log: 'six Watchers spoken; one silent; the architect thanks the players for asking the question they sealed.' Fifth use of 'thanks' in eight epochs.", x: 79, y: 40, width: 5, height: 5, type: "interact", action: "room-mystery:bridge:watchers-architect-closing-thanks" },
+      { id: "tarn-destination-acknowledged", name: "Architect's Record — Tarn's Departure", description: "On the Architect-channel terminal: 'noted. she may return at her own discretion.' Tarn has left the Ark; Roen knows where but will not say.", x: 85, y: 40, width: 5, height: 5, type: "interact", action: "room-mystery:bridge:tarn-destination-acknowledged" },
+      { id: "tarn-architect-vote-note", name: "Architect — Closing-Rite Marginal Note", description: "Pinned to the Architect-channel for the closing rite: 'either choice closes the case. one keeps her name; one keeps her promise. the architect will not pick.'", x: 91, y: 40, width: 5, height: 5, type: "interact", action: "room-mystery:bridge:tarn-architect-vote-note" },
+      { id: "memorial-architect-silence-on-torn", name: "Architect Silence — Torn Page", description: "On the Architect-channel terminal: asked to identify the torn-page imprint, the Console returns 'i decline.' Second decline in eight epochs.", x: 79, y: 47, width: 5, height: 5, type: "interact", action: "room-mystery:bridge:memorial-architect-silence-on-torn" },
+      { id: "memorial-architect-closing-thanks", name: "Architect's Closing — Grateful", description: "On the closing-rite Architect-channel: 'noted. the plaza was the answer. the architect is grateful.' Second use of 'grateful' in eight epochs.", x: 85, y: 47, width: 5, height: 5, type: "interact", action: "room-mystery:bridge:memorial-architect-closing-thanks" },
+      { id: "memorial-architect-sealed-note", name: "Architect's Sealed Note on I-1", description: "On the Architect-channel terminal: the keeper's sealed note opened only when the plaza asks. 'I-1 is the imprint that began the Ark. I will not name them. The plaza may.'", x: 91, y: 47, width: 5, height: 5, type: "interact", action: "room-mystery:bridge:memorial-architect-sealed-note" },
+
+      // ── MYSTERY OVERLAY SUB-RECTANGLES (verb-coin sub-targets) ──
       // The feature-route hotspots above (tactical-display → /board,
-      // timeline-projector → /saga-timeline, nav-console → puzzle modal,
-      // diplomacy-table → /diplomacy) keep their primary actions; small
-      // adjacent rectangles below dispatch the verb-coin's authored
-      // mystery responses without stealing the feature route.
-      { id: "mystery-tactical-display", name: "Conspiracy Marginalia", description: "Faint annotations along the Conspiracy Board's edge — read carefully and the editor's voice resolves.", x: 37, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:tactical-display" },
-      { id: "mystery-timeline-projector", name: "Timeline Drift", description: "The two post-launch entries on the Timeline Projector's lower edge drift one minute forward on every read.", x: 92, y: 14, width: 6, height: 8, type: "interact", action: "room-mystery:bridge:timeline-projector" },
-      { id: "mystery-nav-console", name: "Nav Console Sequence", description: "The previous crew's last unfinished glyph entry, frozen mid-attempt.", x: 4, y: 84, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:nav-console" },
-      { id: "mystery-diplomacy-table", name: "Empty Delegate Seat", description: "The chair beside the empty seat at the Diplomacy Table — pulled out by Lyra's hand, in the seconds before the cryo order.", x: 64, y: 78, width: 6, height: 8, type: "interact", action: "room-mystery:bridge:diplomacy-table" },
-      { id: "captains-coffee", name: "Captain's Coffee", description: "A mug, half-full, on the command console. Two and a half centuries old. The handle still points toward the chair.", x: 60, y: 60, width: 6, height: 8, type: "interact", action: "room-mystery:bridge:captains-coffee" },
-      // ── NPC presence (Phase C) ──
+      // timeline-projector → /saga-timeline, nav-console → puzzle
+      // modal, diplomacy-table → /diplomacy) keep their primary
+      // actions; these small adjacent rectangles dispatch the verb-
+      // coin's authored mystery responses without stealing the
+      // feature route. Authored AFTER their parents so they win
+      // clicks on the specific marginalia / sequence / etc.
+      { id: "mystery-tactical-display", name: "Conspiracy Marginalia", description: "Faint annotations along the Conspiracy Board's edge — read carefully and the editor's voice resolves.", x: 79, y: 55, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:tactical-display" },
+      { id: "mystery-timeline-projector", name: "Timeline Drift", description: "The two post-launch entries on the Timeline Projector's lower edge drift one minute forward on every read.", x: 88, y: 22, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:timeline-projector" },
+      { id: "mystery-nav-console", name: "Nav Console Sequence", description: "The previous crew's last unfinished glyph entry, frozen mid-attempt.", x: 30, y: 88, width: 6, height: 5, type: "interact", action: "room-mystery:bridge:nav-console" },
+      { id: "mystery-diplomacy-table", name: "Empty Delegate Seat", description: "The chair beside the empty seat at the Diplomacy Table — pulled out by Lyra's hand, in the seconds before the cryo order.", x: 64, y: 80, width: 6, height: 8, type: "interact", action: "room-mystery:bridge:diplomacy-table" },
+      { id: "captains-coffee", name: "Captain's Coffee", description: "A mug, half-full, on the dais beside the captain's chair. Two and a half centuries old. The handle still points toward the chair.", x: 40, y: 50, width: 5, height: 7, type: "interact", action: "room-mystery:bridge:captains-coffee" },
+
+      // ── ITEM HOTSPOTS (on captain's chair area + nav console) ──
+      // Authored AFTER captains-chair so they win clicks on the
+      // armrest compartment / wedged data chip.
+      { id: "captains-master-key", name: "Captain's Master Key", description: "A heavy magnetic key hidden in a compartment beneath the captain's armrest.", x: 50, y: 50, width: 4, height: 5, type: "item", action: "captains-master-key", elaraDialog: "The Captain's Master Key! It was hidden in a compartment beneath the armrest — exactly where a commander would keep their most important tool. This key opens the Captain's Quarters, the most restricted area on the ship. Whatever secrets Dr. Lyra Vox was hiding, they're behind that door." },
+      { id: "egg-bridge-log", name: "Hidden Data Chip", description: "A micro data chip wedged into the captain's armrest.", x: 54, y: 38, width: 3, height: 4, type: "item", action: "captains-final-log", elaraDialog: "A hidden data chip! Someone concealed this in the armrest before the ship was stolen. Let me decrypt it... 'If you're reading this, the mind swap was successful. I am not who you think I am. The Engineer lives. Find the yellow coats.' The Engineer... hiding among the Potentials? And those yellow coats — that's the Warlord's signature. This changes everything." },
+      { id: "egg-infected-starmap", name: "Corrupted Star Chart", description: "A star chart with routes that weren't in the original navigation database, etched into the nav-console's orb. The coordinates pulse with a sickly amber glow.", x: 28, y: 76, width: 5, height: 5, type: "item", action: "infected-starmap", elaraDialog: "[SIGNAL CORRUPTION] These coordinates... they weren't programmed by the crew. The Warlord, through Dr. Vox, uploaded a secondary route map into the navigation core. The routes connect every Inception Ark in the fleet — a delivery network. When Kael stole this ship, the Warlord let him go — because Kael was already Patient Zero, infected through Project Vector. The Thought Virus was in HIM. Every Ark this ship contacted, every port it docked at, every signal it broadcast — the virus spread from Kael's infected body through the ship's systems into every network it touched. Kael thought he was escaping. He was being deployed. The Recruiter became the delivery mechanism for the very weapon he was fighting against." },
+
+      // ── NPC PRESENCE (Phase C) ──
       // Elara's holographic projection. Faction NPC primaryRoom = "bridge".
       // Renders her bust portrait in-room and routes the `talk` verb to
       // NPCDialog with buildFirstContactScene("elara") so VO plays via
-      // useDialogVO without any extra hookup. Placed between the tactical
-      // display and the foreground row so she doesn't overlap the
-      // captain's chair / nav-console rectangles.
-      { id: "npc-elara", name: "Elara (Holographic)", description: "Elara's holographic projection flickers near the central display. She seems to be waiting for you to address her directly.", x: 46, y: 42, width: 10, height: 16, type: "npc", action: "npc:elara", npcId: "elara" },
+      // useDialogVO without any extra hookup. Placed beside the
+      // captain's chair on the central dais — visible without
+      // overlapping the chair / nav-console rectangles.
+      { id: "npc-elara", name: "Elara (Holographic)", description: "Elara's holographic projection flickers beside the captain's chair. She seems to be waiting for you to address her directly.", x: 60, y: 26, width: 7, height: 18, type: "npc", action: "npc:elara", npcId: "elara" },
     ],
   },
   {
@@ -833,87 +1092,184 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "room_visited", value: "bridge" },
     connections: ["bridge"],
     hotspots: [
-      // Mystery wiring — charter.missing_signatory · e1 + e3
-      { id: "charter-silt-stratigraphy", name: "Charter Silt-Core Extraction", description: "The lower-deck silt-core on a brass tripod in the Foundation-tier wing — eight strata, the charter sitting in stratum six, two later burials closed over it.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:archives:charter-silt-stratigraphy" },
-      { id: "charter-per-m-preservation-orders", name: "Per. M.'s Preservation-Order File", description: "Forty-three preservation orders on the standing-order vault, one identical signature across eight epochs: 'Per. M.' The inks shift; the hand does not.", x: 14, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:archives:charter-per-m-preservation-orders" },
-      // Mystery wiring — severance.bound_champion · e1 + e2 (empty protocol + sealed envelopes)
-      { id: "severance-no-protocol-on-file", name: "Empty Inheritance-Protocol Vault", description: "In the Severance-tier records: the inheritance-protocol vault, empty since the league's founding. The slot exists; the protocol does not.", x: 13, y: 19, width: 6, height: 6, type: "interact", action: "room-mystery:archives:severance-no-protocol-on-file" },
-      { id: "severance-forty-season-envelopes", name: "Forty Sealed Season Envelopes", description: "Beside the empty vault: forty sealed envelopes, one per Severance. Each contains an attendance list, a death certificate, and Vex Maestro's one-line 'inheritor accepted.' No name on any of them.", x: 21, y: 19, width: 6, height: 6, type: "interact", action: "room-mystery:archives:severance-forty-season-envelopes" },
-      // Mystery wiring — severance.infernal_clause · color (archives)
-      { id: "infernal-envelope-set", name: "Forty Envelopes — Solène's Archive", description: "In the audit-evidence drawer: forty envelopes, one per season, pulled from Solène's back-room archive. Each contract has a back. Every back has a clause.", x: 70, y: 40, width: 6, height: 6, type: "interact", action: "room-mystery:archives:infernal-envelope-set" },
-      { id: "infernal-atalin-history", name: "Atalin's Personnel History", description: "In the personnel-archive tier: hired two weeks before the first season, dismissed two weeks after. Cause: 'inability to satisfy the Hierarchy ledger-keeper's role concurrently.'", x: 78, y: 40, width: 6, height: 6, type: "interact", action: "room-mystery:archives:infernal-atalin-history" },
-      { id: "infernal-box-owner", name: "Forge-Workshop Box Ownership Log", description: "In the forge-workshop annex log: the PRELIMINARIES box logged to Atalin, ledger-keeper, Year One. One season; never replaced.", x: 86, y: 40, width: 6, height: 6, type: "interact", action: "room-mystery:archives:infernal-box-owner" },
-      // Mystery wiring — charter.second_signatory · color (archives)
-      { id: "charter2-solven-tax-records", name: "Solven Tax Records — Epoch-Four Redaction", description: "In the tax-registry tier: three epochs of careful payments; epoch four shows the redaction — every Solven entry struck through, replaced with 'in arrears, year unknown.'", x: 54, y: 40, width: 6, height: 6, type: "interact", action: "room-mystery:archives:charter2-solven-tax-records" },
-      { id: "charter2-scrubber-personnel", name: "Heron — Council Archivist Personnel File", description: "In the personnel-archive tier: a Council archivist named Heron — fourth-epoch, retired in the fifth, dead in the sixth. One assignment: 'tidy the founding records.' Nine years.", x: 62, y: 40, width: 6, height: 6, type: "interact", action: "room-mystery:archives:charter2-scrubber-personnel" },
-      // Mystery wiring — memorial.forgotten_names · color (archives)
-      { id: "memorial-imprint-log", name: "Imprint-Keeper's Leather-Bound Log", description: "In the Memorial-tier sub-drawer: the leather-bound imprint log. The fourteen entries are the only ones with no inscribed name; each waits for a witness slot.", x: 38, y: 40, width: 6, height: 6, type: "interact", action: "room-mystery:archives:memorial-imprint-log" },
-      { id: "memorial-three-elders", name: "Three Elders Who Refused — Long-Wait Register", description: "In the long-wait register: I-155, I-202, I-301 each refused to name themselves at the moment of imprinting. All three on the unwitnessed list for over a decade.", x: 46, y: 40, width: 6, height: 6, type: "interact", action: "room-mystery:archives:memorial-three-elders" },
-      // Mystery wiring — mechronis.missing_professor · color (archives)
-      { id: "tarn-absent-notes", name: "Lectern Drawer — Empty (Tarn's Binder Missing)", description: "In the lost-and-found drawer: Tarn's lecture binder is missing from the lectern's drawer. Removed at second bell; not recovered at the lectern.", x: 6, y: 40, width: 6, height: 6, type: "interact", action: "room-mystery:archives:tarn-absent-notes" },
-      { id: "tarn-erasure-protocol", name: "Faculty Erasure Protocol", description: "In the meeting-minutes annex: 'Step one: omit the professor's name. Step two: invite as contributor, not faculty member. Step three: if declined, proceed.' Tarn was never invited to step two.", x: 14, y: 40, width: 6, height: 6, type: "interact", action: "room-mystery:archives:tarn-erasure-protocol" },
-      { id: "tarn-missing-invitation", name: "Unsent Invitation to Tarn", description: "Beside the protocol: an unsent invitation drafted but never delivered. The Dean's signature is absent. The invitation has been sitting in the outbox for six days.", x: 22, y: 40, width: 6, height: 6, type: "interact", action: "room-mystery:archives:tarn-missing-invitation" },
-      { id: "tarn-letter-to-dean", name: "Tarn's Letter to the Dean", description: "On the classified-correspondence shelf: Tarn's sealed letter to the Dean. Explains the request to Roen, the planned silence, the Dean's choice now.", x: 30, y: 40, width: 6, height: 6, type: "interact", action: "room-mystery:archives:tarn-letter-to-dean" },
-      // Mystery wiring — resurrectionist.cycle_walker · e1 (twin glyph reference)
-      { id: "resur-twin-glyph", name: "Resurrectionist Twin-Glyph Reference", description: "In the Ne-Yon-glyph reference tier: two mirrored crescents joined at a central axis. The cult reads 'death-bound'; the pre-Empire archaeology reads 'twin-bound.' Two readings; one editorial.", x: 84, y: 30, width: 6, height: 6, type: "interact", action: "room-mystery:archives:resur-twin-glyph" },
-      // Mystery wiring — akai_shi.red_death · e2 (recovery manifest)
-      { id: "akai-recovery-manifest", name: "Akai Shi's Body-Recovery Manifest", description: "In the Thaloria-recovery tier: collected by external agent — Resurrectionist Ne-Yon — within the same engagement cycle. Antiquarian's library entry deferred at the Resurrectionist's request.", x: 76, y: 30, width: 6, height: 6, type: "interact", action: "room-mystery:archives:akai-recovery-manifest" },
-      // Mystery wiring — advocate.blood_weave · e1 (Empire shelter records)
-      { id: "advocate-shelter-records", name: "Empire of Shadows — Shelter Records", description: "In the Empire-of-Shadows tier: partial shelter-records from three Empire dimensions. Soul-names, dates, Blood-Weave binding signatures. Totals run to the millions.", x: 68, y: 30, width: 6, height: 6, type: "interact", action: "room-mystery:archives:advocate-shelter-records" },
-      // Mystery wiring — storm.architect_of_flux · color (archives)
-      { id: "storm-calm-intervals", name: "Documented Calm Intervals (Two)", description: "In the cosmic-weather tier: two equilibrium-crossing flatten periods. First calm — Second Fall. Second calm — Casino Heist's planning window. Each followed by the decade's peak flux.", x: 52, y: 30, width: 6, height: 6, type: "interact", action: "room-mystery:archives:storm-calm-intervals" },
-      { id: "storm-final-correlation-table", name: "Storm Case-Closure Correlation Table", description: "On the closing-record shelf: seven peak flux periods, seven calms, seven cosmic-consequential moments. The Storm's work as the chronicle's permission to be consequential.", x: 60, y: 30, width: 6, height: 6, type: "interact", action: "room-mystery:archives:storm-final-correlation-table" },
-      // Mystery wiring — mechronis.chained_lesson · color (archives)
-      { id: "chained-failure-log", name: "Apprentice-Failure Log", description: "In the apprentice-affairs tier: thirty-one entries. Each error shares a common shape — each apprentice mistook a Terminus formation feint for an actual approach.", x: 28, y: 30, width: 6, height: 6, type: "interact", action: "room-mystery:archives:chained-failure-log" },
-      { id: "chained-dean-annotation-record", name: "Dean's Nine-Year Annotation Record", description: "Beside the failure log: the Dean's prospective-faculty records — Auro's name on the list since Year 6, with the same annotation dated nine times.", x: 36, y: 30, width: 6, height: 6, type: "interact", action: "room-mystery:archives:chained-dean-annotation-record" },
-      { id: "chained-thirty-one-names-read", name: "Thirty-One Names Read at Rite", description: "On the rite-record shelf: the transcript of the thirty-one apprentice-failure names read aloud. Fifteen sent notes; sixteen sent silence. Both are read.", x: 44, y: 30, width: 6, height: 6, type: "interact", action: "room-mystery:archives:chained-thirty-one-names-read" },
-      // Mystery wiring — mechronis.missing_professor · e2 (binder page 14)
-      { id: "tarn-binder-page-14", name: "Tarn's Binder, Page 14 of 22", description: "In the lost-and-found drawer — the page of Tarn's lecture binder pulled from the festival hall's recycling bin. The equinox-address opening, in her own hand: 'I will not be teaching this year.'", x: 20, y: 30, width: 6, height: 6, type: "interact", action: "room-mystery:archives:tarn-binder-page-14" },
-      // Mystery wiring — memorial.forgotten_names · e1 (fourteen unwitnessed list)
-      { id: "memorial-fourteen-unwitnessed-list", name: "Fourteen-Imprint Unwitnessed Index", description: "In the Memorial-tier drawer: the list of fourteen imprints whose witnesses no longer live. By imprint-id only, the start of the plaza's search.", x: 27, y: 41, width: 6, height: 6, type: "interact", action: "room-mystery:archives:memorial-fourteen-unwitnessed-list" },
-      // Mystery wiring — wolf.anara_hunt · e3 + e4 (Crucible records + inheritance)
-      { id: "wolf-crucible-resurrection-record", name: "Crucible Resurrection Record", description: "In the Crucible-inheritance tier: the Year 128,652 A.A. log naming Lycos preserved-and-reanimated, with the Resurrectionist's seal in the corner.", x: 34, y: 52, width: 6, height: 6, type: "interact", action: "room-mystery:archives:wolf-crucible-resurrection-record" },
-      { id: "wolf-crucible-inheritance-manifest", name: "Crucible Inheritance Manifest", description: "The inheritance manifest: the un-itemized line 'preserved instruments (sealed)' the Antiquarian moved into Anara without audit.", x: 42, y: 52, width: 6, height: 6, type: "interact", action: "room-mystery:archives:wolf-crucible-inheritance-manifest" },
-      // Mystery wiring — akai_shi.red_death · e3 (Necromancer's targets-list dossier)
-      { id: "akai-necromancer-dossier", name: "Necromancer — Targets-List Dossier", description: "In the Necromancer-affairs tier: the dossier on the Architect's tenth-created Archon. The only entry on the Red Death's targets list whose date of elimination is blank.", x: 41, y: 63, width: 6, height: 6, type: "interact", action: "room-mystery:archives:akai-necromancer-dossier" },
-      // Mystery wiring — resurrectionist.cycle_walker · e1 + e2 (Matrix ledger + authoring chain)
-      { id: "resur-matrix-energy-ledger", name: "Matrix of Dreams — Energy Ledger Fragment", description: "In the Matrix-of-Dreams maintenance-era tier: the partial ledger. A sustained energy draw from an unnamed internal source, the editor's hand bracketing the 14% the imprints cannot account for.", x: 48, y: 74, width: 6, height: 6, type: "interact", action: "room-mystery:archives:resur-matrix-energy-ledger" },
-      { id: "resur-protocol-authoring-signature", name: "Resurrection-Protocol Authoring Chain", description: "Beside the Matrix ledger: every canonical resurrection-protocol signed in the Resurrectionist's four-part cipher — Sanctuary, Red Death, Anara — firing in his hand long after his canonical vanishing.", x: 56, y: 74, width: 6, height: 6, type: "interact", action: "room-mystery:archives:resur-protocol-authoring-signature" },
-      // Mystery wiring — storm.architect_of_flux · e3 (Inventor's heist window)
-      { id: "storm-inventors-heist-window", name: "Inventor's Casino Heist Accounting", description: "In the Inventor-arc tier: the Casino Heist's post-event accounting, opening line in the Inventor's hand: 'the Storm's grace allowed the window.'", x: 55, y: 85, width: 6, height: 6, type: "interact", action: "room-mystery:archives:storm-inventors-heist-window" },
-      { id: "clue-journal-desk", name: "Clue Journal", description: "Ten investigative arcs. The Two Witnesses record what you deduce.", x: 30, y: 84, width: 14, height: 12, type: "terminal", action: "/clue-journal", elaraDialog: "The Clue Journal. Ten arcs, the_watcher through fenra. The Two Witnesses log every reading you file — the canon is partly written by what you conclude." },
-      // Realigned 2026-04-25 for the AAA Final archives render — circular
-      // chamber with a raised central platform holding a glowing data orb,
-      // an orange-glowing archway centre-back (the Bridge exit), panel
-      // displays running left and right along the curved back wall, and
-      // podium pedestals arranged around the platform.
-      { id: "search-terminal", name: "Search Terminal", description: "A powerful database terminal that can search across all known entities.", x: 42, y: 38, width: 16, height: 30, type: "terminal", action: "/search", elaraDialog: "The main search terminal. Type any name, alias, or keyword and it will scan our entire database. Characters, locations, factions, songs — everything is indexed and cross-referenced." },
-      { id: "codex-shelf", name: "The Codex", description: "Ancient tomes and data crystals containing deep lore.", x: 65, y: 22, width: 22, height: 38, type: "terminal", action: "/codex", elaraDialog: "The Codex. These are the deeper lore entries — the histories, the prophecies, the classified files. Some entries are locked until you discover enough connections to piece them together." },
-      { id: "data-banks", name: "Data Banks", description: "Rows of humming data storage units containing centuries of records.", x: 13, y: 22, width: 22, height: 38, type: "examine", action: "room-mystery:archives:data-banks", elaraDialog: "Petabytes of data. Ship logs, personnel records, scientific research, intercepted transmissions. Most of it is corrupted or encrypted. I'm still trying to recover what I can." },
-      { id: "archive-crystal", name: "Encoded Crystal", description: "A crystal pulsing with amber light, partially decoded.", x: 55, y: 70, width: 7, height: 8, type: "item", action: "archive-crystal-beta", elaraDialog: "Another data crystal. This one has partial decryption — it seems to contain information about the Panopticon's surveillance network. The Architect's eyes were everywhere." },
-      { id: "door-bridge", name: "Bridge Door", description: "Return to the Command Bridge.", x: 54, y: 38, width: 10, height: 30, type: "door", action: "bridge" },
-      { id: "egg-archive-tome", name: "Unmarked Tome", description: "A book with no title, bound in material that feels warm to the touch.", x: 85, y: 70, width: 4, height: 6, type: "examine", action: "room-mystery:archives:egg-archive-tome", elaraDialog: "This book... it's not in any catalog. The binding material is organic — it's warm, like skin. The pages contain a prophecy written in a language I can't translate, but one word repeats: 'Dischord.' And at the very end, a drawing of seven seals. The Book of Revelation speaks of seven seals. Silence in Heaven follows the opening of the seventh." },
-      // ─── Shadow Tongue hotspots (2026-04-30 AAA Final drop) ───
-      // Authored against `archives:corrupted` art (apps/shared/roomMediaPrompts.ts).
-      // Layout per the prompt body:
-      //   • left-wall scroll rack: x≈4-12, y≈25-65
-      //   • lectern centre-foreground with indigo halo
-      //   • rewritten ledger on the lectern's small side-shelf
-      //   • freestanding glass cabinet stage-right with hand-stitched label
-      // Verify with /ark?debug-hotspots=1 if rectangles drift against the
-      // delivered render. Rectangles intentionally avoid overlap with the
-      // existing data-banks (left-back x:13, y:22) and codex-shelf (right-back).
-      { id: "corrupted-scroll-rack", name: "Corrupted Scroll Rack", description: "Twenty-eight scrolls behind frosted glass, each in two registers — warm-gold underlayer and a slightly out-of-register indigo overlayer.", x: 4, y: 64, width: 9, height: 22, type: "interact", action: "room-mystery:archives:corrupted-scroll-rack" },
-      { id: "rewritten-ledger", name: "Rewritten Ledger", description: "An open ledger on the lectern's side-shelf — two entries scrubbed to blanks, one margin annotation surviving in your own younger hand.", x: 32, y: 68, width: 8, height: 10, type: "interact", action: "room-mystery:archives:rewritten-ledger" },
-      { id: "indigo-glow-lectern", name: "Indigo-Glow Lectern", description: "The lectern's stone base is ringed in a faint halo in the colour you cannot name. Someone is logged in right now.", x: 42, y: 60, width: 16, height: 30, type: "interact", action: "room-mystery:archives:indigo-glow-lectern" },
-      { id: "unnameable-hue-cabinet", name: "Unnameable-Hue Cabinet", description: "A freestanding glass cabinet stage-right with a hand-stitched label dyed in an unnameable hue. One scroll inside is undyed and untouched.", x: 88, y: 30, width: 10, height: 38, type: "interact", action: "room-mystery:archives:unnameable-hue-cabinet" },
-      // ── NPC presence (Phase C) ──
+      // Re-anchored 2026-05-24 against the AAA Final archives render
+      // (art/rooms/archives/baseline.png) after a 15-variant audit pass
+      // (baseline + 14 state overlays: act_tier_2, battlepass_winter,
+      // companion_trust, cycle_longnight, epoch_shadowtongue, faction_
+      // antiquarian, governance_lore_unlock, investigation_tier, lore_
+      // shadowtongue, morality_dark, season_closing, trust_shelfmate,
+      // tv_spreading, unlock_loredex). Layout is consistent across
+      // every variant — landmarks don't shift — so baseline anchoring
+      // works universally.
+      //
+      // The 2026-04-25 anchoring described a "circular chamber with a
+      // raised central platform" and an "orange-glowing archway centre-
+      // back (the Bridge exit)" — that's not the AAA Final art. The
+      // actual chamber is a gothic vaulted library: drawer catalog
+      // along the left wall, fresco panels in the left-mid arches,
+      // a floating celestial-orb at center-back over a stone pedestal,
+      // a tall glass cabinet + armillary sphere right-of-center, a
+      // long wooden reading table with brass lamps across the
+      // foreground, and floor-to-ceiling cyan-lit bookshelves with a
+      // rolling ladder along the right wall.
+      //
+      // Major re-anchors:
+      //   • search-terminal (was floating at 42,38 on empty central
+      //     air) → anchored on the celestial-orb pedestal
+      //   • codex-shelf (was 65,22 on a back wall area) → anchored on
+      //     the right-wall bookshelves
+      //   • data-banks (was 13,22 in the upper-left) → anchored on
+      //     the left-wall drawer catalog full height
+      //   • door-bridge (was 54,38 on the orb area) → anchored at
+      //     foreground bottom as the player's walk-out path (no
+      //     visible door in the art; this is an implied exit)
+      //   • all 31 Architect-channel mystery rectangles were
+      //     scattered across the upper half of the screen at y=8/19/
+      //     30/40/41 with rows that didn't map to anything visible.
+      //     Redistributed onto the visible drawer wall (3-column ×
+      //     8-row grid, 22 rects) + right bookshelves (5 rects) +
+      //     center-cabinet area (4 rects). Each anchor describes a
+      //     "tier" / "drawer" / "shelf" so placing them on the
+      //     visible catalog & bookshelf surfaces matches the prose.
+      //   • Shadow Tongue rectangles (corrupted-scroll-rack,
+      //     rewritten-ledger, indigo-glow-lectern, unnameable-hue-
+      //     cabinet) re-anchored against actual visible surfaces;
+      //     the previously-cited "lectern centre-foreground" doesn't
+      //     exist in the baseline art, so indigo-glow-lectern moved
+      //     onto the orb pedestal base (where the Shadow Tongue NPC
+      //     would plausibly "log in")
+      //   • npc-antiquarian (was at 47,80 in the table-chair area) →
+      //     moved beside the orb at center where his description
+      //     places him
+      //   • npc-shadow-tongue stays on the lectern area (now the
+      //     orb pedestal base)
+      //
+      // Visible landmarks, left-to-right + foreground-to-back:
+      //   • left-wall drawer catalog — far-left, full height
+      //     (`data-banks` + 22 mystery sub-rects + `corrupted-
+      //     scroll-rack`)
+      //   • fresco / tapestry panels — left-mid wall (decorative)
+      //   • floating celestial-orb on stone pedestal — center back
+      //     (`search-terminal`, `indigo-glow-lectern`,
+      //     `npc-shadow-tongue`)
+      //   • tall glass cabinet — center-right (`unnameable-hue-
+      //     cabinet` + central-area mystery sub-rects)
+      //   • armillary sphere on stand — right-of-center (decorative)
+      //   • long wooden reading table with brass lamps — foreground
+      //     center (`rewritten-ledger`, `clue-journal-desk`,
+      //     `archive-crystal`)
+      //   • floor-to-ceiling bookshelves + rolling ladder — right
+      //     wall (`codex-shelf` + 5 shelf mystery sub-rects +
+      //     `egg-archive-tome`)
+      //   • foreground-right framed botanical illustration
+      //     (decorative)
+      //
+      // Render order: container hotspots authored FIRST; small sub-
+      // rectangles (mystery rects, item hotspots, NPCs) authored
+      // AFTER so they win clicks on specific drawers / shelves /
+      // tomes. NPCs authored last so projections win clicks when
+      // manifested.
+      //
+      // Verify with /ark?debug-hotspots=1 or, for drag-to-place
+      // editing, /ark?author-hotspots=1.
+
+      // ── FEATURE / CONTAINER HOTSPOTS ──
+      { id: "data-banks", name: "Data Banks", description: "The far-left wall is a floor-to-ceiling catalog drawer system — every drawer a tier of the Saga's record. Petabytes of data.", x: 0, y: 18, width: 14, height: 70, type: "examine", action: "room-mystery:archives:data-banks", elaraDialog: "Petabytes of data. Ship logs, personnel records, scientific research, intercepted transmissions. Most of it is corrupted or encrypted. I'm still trying to recover what I can." },
+      { id: "codex-shelf", name: "The Codex", description: "Floor-to-ceiling cyan-lit bookshelves along the right wall, scaled by a rolling ladder. Ancient tomes and data crystals containing deep lore.", x: 70, y: 5, width: 28, height: 78, type: "terminal", action: "/codex", elaraDialog: "The Codex. These are the deeper lore entries — the histories, the prophecies, the classified files. Some entries are locked until you discover enough connections to piece them together." },
+      { id: "search-terminal", name: "Search Terminal", description: "A floating celestial orb on a stone pedestal at center-back — the chamber's database query interface. Speak any name, alias, or keyword and the orb scans every indexed record.", x: 33, y: 28, width: 18, height: 32, type: "terminal", action: "/search", elaraDialog: "The main search terminal. Type any name, alias, or keyword and it will scan our entire database. Characters, locations, factions, songs — everything is indexed and cross-referenced." },
+      { id: "clue-journal-desk", name: "Clue Journal", description: "An open journal at the center of the reading table. Ten investigative arcs; the Two Witnesses record what you deduce.", x: 25, y: 78, width: 14, height: 12, type: "terminal", action: "/clue-journal", elaraDialog: "The Clue Journal. Ten arcs, the_watcher through fenra. The Two Witnesses log every reading you file — the canon is partly written by what you conclude." },
+
+      // ── DOORS ──
+      // No visible door in the archives art — the Bridge is reached by
+      // walking back out the way the player entered. Anchored as an
+      // invisible click band along the foreground bottom of the table.
+      { id: "door-bridge", name: "Bridge Door", description: "Return to the Command Bridge.", x: 40, y: 94, width: 20, height: 5, type: "door", action: "bridge" },
+
+      // ── ITEM HOTSPOTS ──
+      { id: "archive-crystal", name: "Encoded Crystal", description: "A crystal pulsing with amber light, set on the reading table beside one of the brass lamps.", x: 48, y: 70, width: 6, height: 7, type: "item", action: "archive-crystal-beta", elaraDialog: "Another data crystal. This one has partial decryption — it seems to contain information about the Panopticon's surveillance network. The Architect's eyes were everywhere." },
+      { id: "egg-archive-tome", name: "Unmarked Tome", description: "A book with no title, sitting on an upper shelf of the right-wall stacks. The binding material is organic and warm to the touch.", x: 88, y: 18, width: 5, height: 8, type: "examine", action: "room-mystery:archives:egg-archive-tome", elaraDialog: "This book... it's not in any catalog. The binding material is organic — it's warm, like skin. The pages contain a prophecy written in a language I can't translate, but one word repeats: 'Dischord.' And at the very end, a drawing of seven seals. The Book of Revelation speaks of seven seals. Silence in Heaven follows the opening of the seventh." },
+
+      // ── SHADOW TONGUE HOTSPOTS (2026-04-30 AAA Final drop) ──
+      // Re-anchored 2026-05-24 against the actual visible surfaces:
+      //   • corrupted-scroll-rack: lower portion of the left drawer
+      //     wall (the "scroll rack behind frosted glass" reads as the
+      //     lower drawer-bay glass fronts)
+      //   • rewritten-ledger: on the reading table foreground
+      //   • indigo-glow-lectern: the stone pedestal beneath the
+      //     celestial orb (the chamber's actual login point — no
+      //     freestanding lectern is visible)
+      //   • unnameable-hue-cabinet: the tall glass cabinet right-of-
+      //     center (the only freestanding glass cabinet in the art)
+      { id: "corrupted-scroll-rack", name: "Corrupted Scroll Rack", description: "The lower bay of the left-wall drawer catalog — twenty-eight scrolls behind frosted glass, each in two registers: warm-gold underlayer and a slightly out-of-register indigo overlayer.", x: 0, y: 72, width: 14, height: 16, type: "interact", action: "room-mystery:archives:corrupted-scroll-rack" },
+      { id: "rewritten-ledger", name: "Rewritten Ledger", description: "An open ledger on the reading table — two entries scrubbed to blanks, one margin annotation surviving in your own younger hand.", x: 18, y: 73, width: 7, height: 8, type: "interact", action: "room-mystery:archives:rewritten-ledger" },
+      { id: "indigo-glow-lectern", name: "Indigo-Glow Lectern", description: "The orb's stone pedestal at center-back is ringed in a faint halo in the colour you cannot name. Someone is logged in right now.", x: 36, y: 56, width: 12, height: 14, type: "interact", action: "room-mystery:archives:indigo-glow-lectern" },
+      { id: "unnameable-hue-cabinet", name: "Unnameable-Hue Cabinet", description: "The tall glass cabinet right-of-center — a hand-stitched label dyed in an unnameable hue. One scroll inside is undyed and untouched.", x: 49, y: 25, width: 11, height: 38, type: "interact", action: "room-mystery:archives:unnameable-hue-cabinet" },
+
+      // ── ARCHITECT-CHANNEL MYSTERY DRAWERS (left drawer wall, 22 rects) ──
+      // 3-column × 8-row grid of 4×5 sub-rectangles on the left-wall
+      // drawer catalog. Each represents pulling a specific drawer:
+      // Foundation-tier wing, Severance-tier records, Memorial-tier
+      // sub-drawer, etc. Authored AFTER data-banks so they win clicks
+      // on the specific drawer rows.
+      //
+      // Row 1 (y=20) — Charter / Severance foundation
+      { id: "charter-silt-stratigraphy", name: "Charter Silt-Core Extraction", description: "The lower-deck silt-core on a brass tripod in the Foundation-tier wing — eight strata, the charter sitting in stratum six, two later burials closed over it.", x: 1, y: 20, width: 4, height: 5, type: "interact", action: "room-mystery:archives:charter-silt-stratigraphy" },
+      { id: "charter-per-m-preservation-orders", name: "Per. M.'s Preservation-Order File", description: "Forty-three preservation orders on the standing-order vault, one identical signature across eight epochs: 'Per. M.' The inks shift; the hand does not.", x: 5, y: 20, width: 4, height: 5, type: "interact", action: "room-mystery:archives:charter-per-m-preservation-orders" },
+      { id: "severance-no-protocol-on-file", name: "Empty Inheritance-Protocol Vault", description: "In the Severance-tier records: the inheritance-protocol vault, empty since the league's founding. The slot exists; the protocol does not.", x: 9, y: 20, width: 4, height: 5, type: "interact", action: "room-mystery:archives:severance-no-protocol-on-file" },
+      // Row 2 (y=27) — Severance / Infernal envelopes
+      { id: "severance-forty-season-envelopes", name: "Forty Sealed Season Envelopes", description: "Beside the empty vault: forty sealed envelopes, one per Severance. Each contains an attendance list, a death certificate, and Vex Maestro's one-line 'inheritor accepted.' No name on any of them.", x: 1, y: 27, width: 4, height: 5, type: "interact", action: "room-mystery:archives:severance-forty-season-envelopes" },
+      { id: "infernal-envelope-set", name: "Forty Envelopes — Solène's Archive", description: "In the audit-evidence drawer: forty envelopes, one per season, pulled from Solène's back-room archive. Each contract has a back. Every back has a clause.", x: 5, y: 27, width: 4, height: 5, type: "interact", action: "room-mystery:archives:infernal-envelope-set" },
+      { id: "infernal-atalin-history", name: "Atalin's Personnel History", description: "In the personnel-archive tier: hired two weeks before the first season, dismissed two weeks after. Cause: 'inability to satisfy the Hierarchy ledger-keeper's role concurrently.'", x: 9, y: 27, width: 4, height: 5, type: "interact", action: "room-mystery:archives:infernal-atalin-history" },
+      // Row 3 (y=34) — Charter2 / Memorial
+      { id: "charter2-solven-tax-records", name: "Solven Tax Records — Epoch-Four Redaction", description: "In the tax-registry tier: three epochs of careful payments; epoch four shows the redaction — every Solven entry struck through, replaced with 'in arrears, year unknown.'", x: 1, y: 34, width: 4, height: 5, type: "interact", action: "room-mystery:archives:charter2-solven-tax-records" },
+      { id: "charter2-scrubber-personnel", name: "Heron — Council Archivist Personnel File", description: "In the personnel-archive tier: a Council archivist named Heron — fourth-epoch, retired in the fifth, dead in the sixth. One assignment: 'tidy the founding records.' Nine years.", x: 5, y: 34, width: 4, height: 5, type: "interact", action: "room-mystery:archives:charter2-scrubber-personnel" },
+      { id: "memorial-imprint-log", name: "Imprint-Keeper's Leather-Bound Log", description: "In the Memorial-tier sub-drawer: the leather-bound imprint log. The fourteen entries are the only ones with no inscribed name; each waits for a witness slot.", x: 9, y: 34, width: 4, height: 5, type: "interact", action: "room-mystery:archives:memorial-imprint-log" },
+      // Row 4 (y=41) — Memorial / Tarn (faculty erasure)
+      { id: "memorial-three-elders", name: "Three Elders Who Refused — Long-Wait Register", description: "In the long-wait register: I-155, I-202, I-301 each refused to name themselves at the moment of imprinting. All three on the unwitnessed list for over a decade.", x: 1, y: 41, width: 4, height: 5, type: "interact", action: "room-mystery:archives:memorial-three-elders" },
+      { id: "tarn-absent-notes", name: "Lectern Drawer — Empty (Tarn's Binder Missing)", description: "In the lost-and-found drawer: Tarn's lecture binder is missing from the lectern's drawer. Removed at second bell; not recovered at the lectern.", x: 5, y: 41, width: 4, height: 5, type: "interact", action: "room-mystery:archives:tarn-absent-notes" },
+      { id: "tarn-erasure-protocol", name: "Faculty Erasure Protocol", description: "In the meeting-minutes annex: 'Step one: omit the professor's name. Step two: invite as contributor, not faculty member. Step three: if declined, proceed.' Tarn was never invited to step two.", x: 9, y: 41, width: 4, height: 5, type: "interact", action: "room-mystery:archives:tarn-erasure-protocol" },
+      // Row 5 (y=48) — Tarn / Akai / Advocate
+      { id: "tarn-missing-invitation", name: "Unsent Invitation to Tarn", description: "Beside the protocol: an unsent invitation drafted but never delivered. The Dean's signature is absent. The invitation has been sitting in the outbox for six days.", x: 1, y: 48, width: 4, height: 5, type: "interact", action: "room-mystery:archives:tarn-missing-invitation" },
+      { id: "akai-recovery-manifest", name: "Akai Shi's Body-Recovery Manifest", description: "In the Thaloria-recovery tier: collected by external agent — Resurrectionist Ne-Yon — within the same engagement cycle. Antiquarian's library entry deferred at the Resurrectionist's request.", x: 5, y: 48, width: 4, height: 5, type: "interact", action: "room-mystery:archives:akai-recovery-manifest" },
+      { id: "advocate-shelter-records", name: "Empire of Shadows — Shelter Records", description: "In the Empire-of-Shadows tier: partial shelter-records from three Empire dimensions. Soul-names, dates, Blood-Weave binding signatures. Totals run to the millions.", x: 9, y: 48, width: 4, height: 5, type: "interact", action: "room-mystery:archives:advocate-shelter-records" },
+      // Row 6 (y=55) — Storm / Chained
+      { id: "storm-calm-intervals", name: "Documented Calm Intervals (Two)", description: "In the cosmic-weather tier: two equilibrium-crossing flatten periods. First calm — Second Fall. Second calm — Casino Heist's planning window. Each followed by the decade's peak flux.", x: 1, y: 55, width: 4, height: 5, type: "interact", action: "room-mystery:archives:storm-calm-intervals" },
+      { id: "chained-failure-log", name: "Apprentice-Failure Log", description: "In the apprentice-affairs tier: thirty-one entries. Each error shares a common shape — each apprentice mistook a Terminus formation feint for an actual approach.", x: 5, y: 55, width: 4, height: 5, type: "interact", action: "room-mystery:archives:chained-failure-log" },
+      { id: "chained-dean-annotation-record", name: "Dean's Nine-Year Annotation Record", description: "Beside the failure log: the Dean's prospective-faculty records — Auro's name on the list since Year 6, with the same annotation dated nine times.", x: 9, y: 55, width: 4, height: 5, type: "interact", action: "room-mystery:archives:chained-dean-annotation-record" },
+      // Row 7 (y=62) — Tarn binder / Memorial 14 / Wolf
+      { id: "tarn-binder-page-14", name: "Tarn's Binder, Page 14 of 22", description: "In the lost-and-found drawer — the page of Tarn's lecture binder pulled from the festival hall's recycling bin. The equinox-address opening, in her own hand: 'I will not be teaching this year.'", x: 1, y: 62, width: 4, height: 5, type: "interact", action: "room-mystery:archives:tarn-binder-page-14" },
+      { id: "memorial-fourteen-unwitnessed-list", name: "Fourteen-Imprint Unwitnessed Index", description: "In the Memorial-tier drawer: the list of fourteen imprints whose witnesses no longer live. By imprint-id only, the start of the plaza's search.", x: 5, y: 62, width: 4, height: 5, type: "interact", action: "room-mystery:archives:memorial-fourteen-unwitnessed-list" },
+      { id: "wolf-crucible-resurrection-record", name: "Crucible Resurrection Record", description: "In the Crucible-inheritance tier: the Year 128,652 A.A. log naming Lycos preserved-and-reanimated, with the Resurrectionist's seal in the corner.", x: 9, y: 62, width: 4, height: 5, type: "interact", action: "room-mystery:archives:wolf-crucible-resurrection-record" },
+      // Row 8 (y=69) — Wolf inheritance / Akai dossier / Matrix ledger
+      { id: "wolf-crucible-inheritance-manifest", name: "Crucible Inheritance Manifest", description: "The inheritance manifest: the un-itemized line 'preserved instruments (sealed)' the Antiquarian moved into Anara without audit.", x: 1, y: 69, width: 4, height: 5, type: "interact", action: "room-mystery:archives:wolf-crucible-inheritance-manifest" },
+      { id: "akai-necromancer-dossier", name: "Necromancer — Targets-List Dossier", description: "In the Necromancer-affairs tier: the dossier on the Architect's tenth-created Archon. The only entry on the Red Death's targets list whose date of elimination is blank.", x: 5, y: 69, width: 4, height: 5, type: "interact", action: "room-mystery:archives:akai-necromancer-dossier" },
+      { id: "resur-matrix-energy-ledger", name: "Matrix of Dreams — Energy Ledger Fragment", description: "In the Matrix-of-Dreams maintenance-era tier: the partial ledger. A sustained energy draw from an unnamed internal source, the editor's hand bracketing the 14% the imprints cannot account for.", x: 9, y: 69, width: 4, height: 5, type: "interact", action: "room-mystery:archives:resur-matrix-energy-ledger" },
+
+      // ── RIGHT BOOKSHELF MYSTERIES (5 shelf rects) ──
+      // Authored AFTER codex-shelf so they win clicks on specific
+      // shelf positions (each is described as being on a particular
+      // shelf — "closing-record shelf", "rite-record shelf", etc.).
+      { id: "tarn-letter-to-dean", name: "Tarn's Letter to the Dean", description: "On the classified-correspondence shelf: Tarn's sealed letter to the Dean. Explains the request to Roen, the planned silence, the Dean's choice now.", x: 72, y: 10, width: 5, height: 6, type: "interact", action: "room-mystery:archives:tarn-letter-to-dean" },
+      { id: "chained-thirty-one-names-read", name: "Thirty-One Names Read at Rite", description: "On the rite-record shelf: the transcript of the thirty-one apprentice-failure names read aloud. Fifteen sent notes; sixteen sent silence. Both are read.", x: 78, y: 10, width: 5, height: 6, type: "interact", action: "room-mystery:archives:chained-thirty-one-names-read" },
+      { id: "storm-final-correlation-table", name: "Storm Case-Closure Correlation Table", description: "On the closing-record shelf: seven peak flux periods, seven calms, seven cosmic-consequential moments. The Storm's work as the chronicle's permission to be consequential.", x: 84, y: 10, width: 5, height: 6, type: "interact", action: "room-mystery:archives:storm-final-correlation-table" },
+      { id: "infernal-box-owner", name: "Forge-Workshop Box Ownership Log", description: "In the forge-workshop annex log: the PRELIMINARIES box logged to Atalin, ledger-keeper, Year One. One season; never replaced.", x: 72, y: 28, width: 5, height: 6, type: "interact", action: "room-mystery:archives:infernal-box-owner" },
+      { id: "resur-protocol-authoring-signature", name: "Resurrection-Protocol Authoring Chain", description: "On the cult-protocols shelf: every canonical resurrection-protocol signed in the Resurrectionist's four-part cipher — Sanctuary, Red Death, Anara — firing in his hand long after his canonical vanishing.", x: 78, y: 28, width: 5, height: 6, type: "interact", action: "room-mystery:archives:resur-protocol-authoring-signature" },
+
+      // ── CENTER-CABINET / ORB-AREA MYSTERIES (3 rects) ──
+      // Authored AFTER unnameable-hue-cabinet + search-terminal so
+      // they win clicks on specific cabinet shelves / artefacts.
+      { id: "resur-twin-glyph", name: "Resurrectionist Twin-Glyph Reference", description: "In the Ne-Yon-glyph reference tier: two mirrored crescents joined at a central axis. The cult reads 'death-bound'; the pre-Empire archaeology reads 'twin-bound.' Two readings; one editorial.", x: 50, y: 30, width: 5, height: 5, type: "interact", action: "room-mystery:archives:resur-twin-glyph" },
+      { id: "storm-inventors-heist-window", name: "Inventor's Casino Heist Accounting", description: "On a shelf inside the freestanding glass cabinet: the Casino Heist's post-event accounting, opening line in the Inventor's hand: 'the Storm's grace allowed the window.'", x: 50, y: 40, width: 5, height: 5, type: "interact", action: "room-mystery:archives:storm-inventors-heist-window" },
+
+      // ── NPC PRESENCE (Phase C) ──
       // The Antiquarian — primaryRoom in factionNPCs.ts. A temporal echo
-      // hovering near the central platform; talk routes to NPCDialog.
-      { id: "npc-antiquarian", name: "The Antiquarian", description: "A figure half-out-of-time stands beside the data orb, removing his goggles to look at you.", x: 47, y: 80, width: 8, height: 14, type: "npc", action: "npc:the_antiquarian", npcId: "the_antiquarian" },
+      // beside the celestial orb at center-back. Talk routes to NPCDialog.
+      { id: "npc-antiquarian", name: "The Antiquarian", description: "A figure half-out-of-time stands beside the orb, removing his goggles to look at you.", x: 51, y: 38, width: 7, height: 18, type: "npc", action: "npc:the_antiquarian", npcId: "the_antiquarian" },
       // Shadow Tongue — secondaryRoom = archives. Manifests as a possessed
-      // system; visible at the lectern when he's currently logged in.
-      { id: "npc-shadow-tongue", name: "Shadow Tongue (Presence)", description: "The lectern's indigo halo deepens. A reflection in the glass cabinet doesn't match yours. Someone else is editing — right now.", x: 42, y: 50, width: 6, height: 10, type: "npc", action: "npc:shadow_tongue", npcId: "shadow_tongue" },
+      // system; visible at the orb pedestal when he's currently logged in.
+      // Authored AFTER indigo-glow-lectern so the NPC wins clicks on the
+      // pedestal area when manifested.
+      { id: "npc-shadow-tongue", name: "Shadow Tongue (Presence)", description: "The orb pedestal's indigo halo deepens. A reflection in the cabinet glass doesn't match yours. Someone else is editing — right now.", x: 38, y: 58, width: 8, height: 10, type: "npc", action: "npc:shadow_tongue", npcId: "shadow_tongue" },
     ],
   },
   {
@@ -930,75 +1286,169 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "narrative_event", value: "bridge_systems_restored" },
     connections: ["bridge", "observation-deck"],
     hotspots: [
-      // Mystery wiring — severance.bound_champion · e1 + e3 + e4 (Vex's three recordings)
-      { id: "severance-vex-opening-line", name: "Vex Maestro's Opening Line — Forty Broadcasts", description: "On the broadcast-record desk: every Severance opening since Year 1, all carrying the same line in the same cadence. 'Someone has to pick it up.' The line is older than Vex's tenure.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:severance-vex-opening-line" },
-      { id: "severance-year-one-lap-record", name: "Severance Year One Lap Record", description: "On the Year-One archive shelf: two casualties — the champion (named) and a witness who entered the lane (redacted). The only redaction in forty seasons.", x: 14, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:severance-year-one-lap-record" },
-      { id: "severance-vex-confession", name: "Vex Maestro's Confession Recording", description: "Pinned to the recent-recordings board: Vex's first-time-naming-the-recruitment confession. 'Someone has to pick it up was always literal.'", x: 22, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:severance-vex-confession" },
-      // Mystery wiring — charter.missing_signatory · e1 (lower-deck bell log)
-      { id: "charter-bell-log", name: "Lower-Deck Bell Log — Three Pulls", description: "On the maintenance-broadcast shelf: three bell-pulls in the last century. Severance Year 3, a date no one will name, and this morning. The Antiquarian's name on the third.", x: 38, y: 49, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:charter-bell-log" },
-      // Mystery wiring — severance.bound_champion · e2 (Auditor Klessa profile)
-      { id: "severance-first-witness-klessa", name: "Auditor Klessa — Forty-Severance Witness", description: "On the witness-attendance board: she has attended every Severance since Year 1. Brings a single white candle and lights it during the spoken name.", x: 30, y: 49, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:severance-first-witness-klessa" },
-      // Mystery wiring — memorial.seven_watchers · e5 (first trumpet sounds)
-      { id: "watchers-first-trumpet", name: "First Trumpet — Twenty-Two Seconds", description: "On the upper-bands intercept board: twenty-two seconds of Idris's band-three trumpet. The post-launch content slot Phase 4 scaffolded; tonight's first sound.", x: 22, y: 49, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:watchers-first-trumpet" },
-      // Mystery wiring — akai_shi.red_death · color (comms-array)
-      { id: "akai-voice-mid-hunt", name: "Red Death — Voice Mid-Hunt", description: "On the Matrix-residue intercept board: a field-recording from the third retreat chamber. 'I am the chronicle's correction. I do not hate. I do not pity.'", x: 6, y: 49, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:akai-voice-mid-hunt" },
-      { id: "akai-word-to-the-chronicle", name: "Red Death — Word to the Chronicle", description: "Pinned beside: the Red Death's closing line. 'I do not know if that nod was forgiveness or recognition or the body's last grammar. I do not need to know.'", x: 14, y: 49, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:akai-word-to-the-chronicle" },
-      // Mystery wiring — advocate.blood_weave · color (comms-array)
-      { id: "advocate-register-three-broadcast", name: "Advocate Broadcast — Register Three", description: "On the Empire-of-Shadows transmission shelf: the Advocate's register-three liturgical broadcast. 'If a soul comes under my charter, the chronicle has accepted the soul as its own.'", x: 59, y: 41, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:advocate-register-three-broadcast" },
-      { id: "advocate-defection-response", name: "Advocate's Response to the Defections", description: "Pinned beside: the Advocate's register-three reply to the three-general defection. 'They walk under my charter still. I advocate for what they were when they chose.'", x: 67, y: 41, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:advocate-defection-response" },
-      { id: "advocate-walk-in-power-lyric", name: "'Walk in Power' — Lyric Record", description: "On the album-records shelf: the canonical Silence in Heaven duet between the Advocate and the Human. The Empire's most-broadcast resistance anthem.", x: 75, y: 41, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:advocate-walk-in-power-lyric" },
-      { id: "advocate-position-current-broadcast", name: "Advocate's Current-Position Broadcast", description: "On the most-recent-broadcasts shelf: 'I have not stopped. I will not stop. I continue. The Empire continues. The walk continues.'", x: 83, y: 41, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:advocate-position-current-broadcast" },
-      // Mystery wiring — storm.architect_of_flux · color (comms-array)
-      { id: "storm-voice-fragment", name: "Storm — Voice-Fragment Intercept", description: "On the flux-frequency intercept board: a fragment captured during an uncorrelated calm. 'A calm is not the absence of weather. It is weather's permission for what otherwise could not be planned.'", x: 43, y: 41, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:storm-voice-fragment" },
-      { id: "storm-closing-transmission", name: "Storm — Closing-Case Transmission", description: "Pinned beside: a second fragment from the case-closure interval, signed in the Storm's flux signature. 'The case will close on the correct side of that difference.'", x: 51, y: 41, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:storm-closing-transmission" },
-      // Mystery wiring — mechronis.chained_lesson · color (comms-array)
-      { id: "chained-lyra-call-fourteen-minutes", name: "Lyra Vox's Fourteen-Minute Call", description: "On the voice-channel desk: Lyra's call from fourteen minutes before contact. 'They are asking what you would do. I think they already know. they want it from you.'", x: 35, y: 41, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:chained-lyra-call-fourteen-minutes" },
-      // Mystery wiring — mechronis.missing_professor · e3 (vote audio + silence hour)
-      { id: "tarn-erasure-vote-audio", name: "The Erasure-Vote Audio", description: "On the transmission desk: forty-three minutes from the war-room's spillover recorder. Three voices, three ayes, three pauses long enough to have been refusals.", x: 13, y: 19, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:tarn-erasure-vote-audio" },
-      { id: "tarn-faculty-silence-hour", name: "The Hour Before the Vote", description: "The fifty-one minutes of room-tone the spillover recorder caught before the vote. Three faculty heads in the same room, no footsteps, no chairs, no dialogue.", x: 21, y: 19, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:tarn-faculty-silence-hour" },
-      // Mystery wiring — memorial.seven_watchers · e1 (silence-break log)
-      { id: "watchers-silence-break-log", name: "Silence-Break Event Log", description: "On the transmission desk: sixty-three seconds of six simultaneous voice-channels addressing six different players. The seventh channel logged as 'active signal, no carrier.'", x: 20, y: 30, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:watchers-silence-break-log" },
-      // Mystery wiring — wolf.anara_hunt · e1 (meme-show transmission)
-      { id: "wolf-meme-show-transmission", name: "Meme-Show Transmission Intercept", description: "On the intercept board: Locke's adjudicar has pinned the Inventor-voiced transmission naming the Wolf as a predator wearing trust like a mask. The Antiquarian has not denied the framing.", x: 27, y: 41, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:wolf-meme-show-transmission" },
-      // Mystery wiring — akai_shi.red_death · e1 (last recorded words)
-      { id: "akai-last-recorded-words", name: "Akai Shi's Last Recorded Words", description: "On the Thaloria-archive shelf: the helm-comm field-recording from forty-seven seconds before Jericho reached her. 'It was always going to be a mercy. We just have to live with which kind.'", x: 34, y: 52, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:akai-last-recorded-words" },
-      // Mystery wiring — resurrectionist.cycle_walker · e3 (Host wyrmhole signature)
-      { id: "resur-host-wyrmhole-signature", name: "Plague Dragon Corpse Signature", description: "On the signal-analysis bench: the Plague Dragon's energy-trace, consistent with the Host's canonical wyrmhole technology. The Virus's path through the breach, settled.", x: 41, y: 63, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:resur-host-wyrmhole-signature" },
-      // Realigned 2026-04-25 for the AAA Final comms-array render — a
-      // back-wall grid of glowing broadcast screens, a central control
-      // console in the foreground, dim corridor exits at far-left and
-      // far-right. The screen grid is split into left/right halves for
-      // the two streaming surfaces and two singled-out screens call out
-      // the static + pirate-frequency hotspots.
-      { id: "broadcast-screen", name: "Broadcast Screen", description: "A large screen playing recorded episodes of the Dischordian Saga.", x: 26, y: 22, width: 22, height: 28, type: "terminal", action: "/watch", elaraDialog: "The broadcast system. It plays the recorded history of the Dischordian Saga in episodic format. Each epoch covers a different era — from the Age of Privacy through the Fall of Reality. Watch carefully. There are clues hidden in every episode." },
-      { id: "late-night-tv", name: "Pirate Frequency TV", description: "A battered CRT television set tuned to a frequency that shouldn't exist. The signal comes and goes. Sometimes a handsome devil speaks directly to you.", x: 62, y: 8, width: 14, height: 18, type: "terminal", action: "/transmissions", elaraDialog: "This... this isn't supposed to be here. It's tuned to a frequency outside the Ark's normal broadcast spectrum. The signal ID reads 'MEME-PRIME.' Whoever is broadcasting has been recording the entire Dischordian Saga — and narrating it with alarming personal knowledge. The episodes unlock as you progress. It calls itself 'Late Night with the Meme.' I don't trust it. But I can't stop watching either." },
-      { id: "radio-console", name: "Radio Console", description: "A radio tuner picking up fragments of music from across the multiverse.", x: 52, y: 22, width: 18, height: 28, type: "examine", action: "room-mystery:comms-array:radio-console", elaraDialog: "The radio picks up fragments of music transmissions. Songs from Malkia Ukweli and the Panopticon — they seem to broadcast across dimensional barriers. Each song tells part of the story." },
-      { id: "static-screen", name: "Static Screen", description: "A screen showing nothing but static. Occasionally, shapes seem to form in the noise.", x: 12, y: 30, width: 8, height: 18, type: "examine", action: "room-mystery:comms-array:static-screen", elaraDialog: "That screen has been showing static since I can remember. But sometimes... sometimes I think I see patterns in it. Faces. Words. It's probably just signal degradation. Probably." },
-      { id: "training-console", name: "Training Console", description: "An interactive tutorial system explaining the lore and mechanics of the Dischordian Saga.", x: 36, y: 60, width: 28, height: 28, type: "terminal", action: "/lore-tutorials", elaraDialog: "The Training Console. It contains interactive tutorials covering the lore, factions, game mechanics, and history of the Dischordian Saga. Essential reading for new Potentials. Even veterans might learn something new." },
-      { id: "door-bridge", name: "Bridge Corridor", description: "Return to the Command Bridge.", x: 1, y: 30, width: 8, height: 50, type: "door", action: "bridge" },
-      { id: "door-observation", name: "Observation Deck", description: "A passage to the Observation Deck.", x: 91, y: 30, width: 8, height: 50, type: "door", action: "observation-deck" },
-      { id: "comms-relay", name: "Communication Relay", description: "A powerful relay antenna capable of scanning for neural signatures across the fleet. Used to scan for Potential signatures across the fleet.", x: 78, y: 12, width: 12, height: 18, type: "interact", action: "comms-relay-import", elaraDialog: "The Communication Relay. I've been trying to re-establish contact with the other vessels — the ones that carried the first wave of Potentials into the void. I can scan for dormant neural signatures across the fleet. Perhaps we can identify other Potentials who survived the journey." },
-      { id: "egg-comms-signal", name: "Anomalous Frequency", description: "A barely audible signal on a frequency that shouldn't exist.", x: 82, y: 50, width: 3, height: 4, type: "examine", action: "room-mystery:comms-array:egg-comms-signal", elaraDialog: "That frequency... it's not on any standard band. The signal is repeating a pattern: three short, three long, three short. An SOS. But the origin coordinates point to a location that doesn't exist in normal space. Someone — or something — is calling for help from between dimensions. The signal is tagged with an identifier: 'MEME-PRIME.'" },
-      // Voice in the static — overlays the existing static-screen at
-      // tighter rectangle so a tier-3 click can target the silhouette
-      // forming inside it. The hotspot lives on the same screen but
-      // higher z-order; clicks on the inner rectangle hit this first.
-      { id: "voice-in-the-static", name: "Voice in the Static", description: "The static on the central monitor has begun to organise itself — vertical bands of indigo arranging into the silhouette of a person speaking, then dissolving.", x: 13, y: 32, width: 6, height: 14, type: "interact", action: "room-mystery:comms-array:voice-in-the-static" },
-      // ── NPC presence (Phase C) ──
+      // Re-anchored 2026-05-24 against the AAA Final comms-array render
+      // (art/rooms/comms_array/baseline.png) after a 14-variant audit
+      // pass (baseline + 13 state overlays: act_tier_2, battlepass_
+      // winter, cycle_longnight, epoch_shadowtongue, faction_insurgency,
+      // governance_blackout, human_reveal_ghost, investigation_tier,
+      // morality_dark, season_closing, trust_human_warm, tv_spreading,
+      // unlock_cipher_den). Layout is consistent across every variant —
+      // landmarks don't shift — so baseline anchoring works universally.
+      //
+      // The 2026-04-25 anchoring described a "back-wall grid of glowing
+      // broadcast screens" + "central control console in the foreground"
+      // — that matches the general layout, but the specific anchor
+      // positions placed broadcast-screen on the left-center display
+      // case (where it isn't) and scattered ~22 mystery rectangles
+      // across blank wall space at y=8/19/30/41/49/52/63/70. The
+      // human_reveal_ghost variant explicitly anchors the Human NPC
+      // to the bot-right monitor, which earlier anchoring placed at
+      // (30, 55) in the center-foreground.
+      //
+      // Major re-anchors:
+      //   • broadcast-screen (was 26,22,22,28 on left-center display
+      //     case) → anchored on the top-left monitor at (68,18,10,26)
+      //   • late-night-tv (was 62,8,14,18 floating on back wall) →
+      //     top-right monitor at (88,18,11,26) (the "battered CRT" as
+      //     a single distinct screen)
+      //   • comms-relay (was 78,12,12,18) → top-mid monitor at
+      //     (78,18,10,26) (the relay antenna feature)
+      //   • radio-console (was 52,22,18,28 on empty center) → back-
+      //     alcove recessed window at (42,22,13,23)
+      //   • training-console (was 36,60,28,28 spread across center
+      //     floor) → tightened to the central transmission pedestal
+      //     area at (40,50,16,30)
+      //   • static-screen (was 12,30,8,18) — kept on the left-wall
+      //     gauge bank with the bullseye-target radar scope
+      //   • npc-the-human (was 30,55,8,16 in center-foreground) →
+      //     re-anchored to the bot-right monitor at (89,47,10,18)
+      //     where the ghost figure appears in the human_reveal_ghost
+      //     variant
+      //   • door-bridge, door-observation: kept as invisible click
+      //     bands on far-left + far-right edges (no visible doors in
+      //     the art)
+      //   • all 21 Architect-channel mystery rectangles redistributed:
+      //     - 4 on the left-wall gauge bank
+      //     - 4 on the central pedestal (training-console sub-rects)
+      //     - 11 on the right-wall monitor grid TOP row (3 monitors
+      //       × 3-4 sub-rects each)
+      //   • 4 "trace/log/transmission" mysteries placed on the BOT
+      //     monitor row + right-foreground bench (ocularum-relay-
+      //     trace + dead-drop-cadence-log on the bench; shadow-
+      //     tongue-signal-trace + miras-dual-thread-transmission on
+      //     bot-mid + bot-left monitors)
+      //
+      // Visible landmarks, left-to-right + foreground-to-back:
+      //   • left-wall analog gauge bank with bullseye radar scope —
+      //     far-left (`static-screen`, `voice-in-the-static`, 4
+      //     architect mysteries)
+      //   • left freestanding display case — left-center (decorative)
+      //   • back-alcove recessed window — back center
+      //     (`radio-console`)
+      //   • central transmission pedestal on sunburst floor — chamber
+      //     center foreground (`training-console`, 4 architect mystery
+      //     sub-rects)
+      //   • right freestanding display case — right-center (decorative)
+      //   • six-monitor broadcast grid (3 wide × 2 tall) — right wall
+      //     (`broadcast-screen`, `comms-relay`, `late-night-tv` as the
+      //     top row; bot row hosts mystery sub-rects + `egg-comms-
+      //     signal` + `npc-the-human`)
+      //   • small wooden bench — right foreground (`ocularum-relay-
+      //     trace`, `dead-drop-cadence-log`)
+      //
+      // Render order: container hotspots authored FIRST; small sub-
+      // rectangles (mystery rects, voice-in-the-static, egg) authored
+      // AFTER so they win clicks on specific monitors / gauges. NPCs
+      // authored last so projections win clicks when manifested.
+      //
+      // Verify with /ark?debug-hotspots=1 or, for drag-to-place
+      // editing, /ark?author-hotspots=1.
+
+      // ── FEATURE / CONTAINER HOTSPOTS ──
+      { id: "broadcast-screen", name: "Broadcast Screen", description: "The top-left of the right-wall monitor grid — a large screen playing recorded episodes of the Dischordian Saga.", x: 68, y: 18, width: 10, height: 26, type: "terminal", action: "/watch", elaraDialog: "The broadcast system. It plays the recorded history of the Dischordian Saga in episodic format. Each epoch covers a different era — from the Age of Privacy through the Fall of Reality. Watch carefully. There are clues hidden in every episode." },
+      { id: "comms-relay", name: "Communication Relay", description: "The top-mid monitor — a powerful relay antenna capable of scanning for neural signatures across the fleet.", x: 78, y: 18, width: 10, height: 26, type: "interact", action: "comms-relay-import", elaraDialog: "The Communication Relay. I've been trying to re-establish contact with the other vessels — the ones that carried the first wave of Potentials into the void. I can scan for dormant neural signatures across the fleet. Perhaps we can identify other Potentials who survived the journey." },
+      { id: "late-night-tv", name: "Pirate Frequency TV", description: "The top-right monitor — a battered CRT television tuned to a frequency that shouldn't exist. The signal comes and goes. Sometimes a handsome devil speaks directly to you.", x: 88, y: 18, width: 11, height: 26, type: "terminal", action: "/transmissions", elaraDialog: "This... this isn't supposed to be here. It's tuned to a frequency outside the Ark's normal broadcast spectrum. The signal ID reads 'MEME-PRIME.' Whoever is broadcasting has been recording the entire Dischordian Saga — and narrating it with alarming personal knowledge. The episodes unlock as you progress. It calls itself 'Late Night with the Meme.' I don't trust it. But I can't stop watching either." },
+      { id: "radio-console", name: "Radio Console", description: "The back-alcove recessed window with a radio tuner picking up fragments of music from across the multiverse.", x: 42, y: 22, width: 13, height: 23, type: "examine", action: "room-mystery:comms-array:radio-console", elaraDialog: "The radio picks up fragments of music transmissions. Songs from Malkia Ukweli and the Panopticon — they seem to broadcast across dimensional barriers. Each song tells part of the story." },
+      { id: "static-screen", name: "Static Screen", description: "A screen built into the left-wall gauge bank, showing nothing but static. Occasionally, shapes seem to form in the noise.", x: 8, y: 30, width: 12, height: 18, type: "examine", action: "room-mystery:comms-array:static-screen", elaraDialog: "That screen has been showing static since I can remember. But sometimes... sometimes I think I see patterns in it. Faces. Words. It's probably just signal degradation. Probably." },
+      { id: "training-console", name: "Training Console", description: "The central transmission pedestal — an interactive tutorial system explaining the lore and mechanics of the Dischordian Saga.", x: 40, y: 50, width: 16, height: 30, type: "terminal", action: "/lore-tutorials", elaraDialog: "The Training Console. It contains interactive tutorials covering the lore, factions, game mechanics, and history of the Dischordian Saga. Essential reading for new Potentials. Even veterans might learn something new." },
+
+      // ── DOORS ──
+      // No visible doors in the comms-array art — the Bridge and
+      // Observation Deck are reached via implied corridors at the
+      // far-left and far-right edges. Kept as narrow invisible click
+      // bands so the player can still navigate.
+      { id: "door-bridge", name: "Bridge Corridor", description: "Return to the Command Bridge.", x: 0, y: 30, width: 4, height: 50, type: "door", action: "bridge" },
+      { id: "door-observation", name: "Observation Deck", description: "A passage to the Observation Deck.", x: 96, y: 30, width: 4, height: 50, type: "door", action: "observation-deck" },
+
+      // ── STATIC-SCREEN OVERLAY ──
+      // Voice in the static — tighter rectangle on the same screen so a
+      // tier-3 click can target the silhouette forming inside it.
+      // Authored AFTER static-screen so the inner rectangle wins clicks.
+      { id: "voice-in-the-static", name: "Voice in the Static", description: "The static on the left-wall screen has begun to organise itself — vertical bands of indigo arranging into the silhouette of a person speaking, then dissolving.", x: 10, y: 33, width: 8, height: 12, type: "interact", action: "room-mystery:comms-array:voice-in-the-static" },
+
+      // ── LEFT-WALL GAUGE BANK MYSTERY RECTS (4 architect channels) ──
+      // Standalone mystery rects placed on the far-left edge of the
+      // gauge bank, clear of the static-screen and radar-scope rects.
+      { id: "charter-bell-log", name: "Lower-Deck Bell Log — Three Pulls", description: "On the maintenance-broadcast shelf: three bell-pulls in the last century. Severance Year 3, a date no one will name, and this morning. The Antiquarian's name on the third.", x: 1, y: 22, width: 5, height: 6, type: "interact", action: "room-mystery:comms-array:charter-bell-log" },
+      { id: "severance-first-witness-klessa", name: "Auditor Klessa — Forty-Severance Witness", description: "On the witness-attendance board: she has attended every Severance since Year 1. Brings a single white candle and lights it during the spoken name.", x: 1, y: 30, width: 5, height: 6, type: "interact", action: "room-mystery:comms-array:severance-first-witness-klessa" },
+      { id: "akai-voice-mid-hunt", name: "Red Death — Voice Mid-Hunt", description: "On the Matrix-residue intercept board: a field-recording from the third retreat chamber. 'I am the chronicle's correction. I do not hate. I do not pity.'", x: 1, y: 38, width: 5, height: 6, type: "interact", action: "room-mystery:comms-array:akai-voice-mid-hunt" },
+      { id: "akai-word-to-the-chronicle", name: "Red Death — Word to the Chronicle", description: "Pinned beside: the Red Death's closing line. 'I do not know if that nod was forgiveness or recognition or the body's last grammar. I do not need to know.'", x: 1, y: 46, width: 5, height: 6, type: "interact", action: "room-mystery:comms-array:akai-word-to-the-chronicle" },
+
+      // ── CENTRAL PEDESTAL MYSTERY SUB-RECTS (4 desk/voice channels) ──
+      // Authored AFTER training-console so they win clicks on specific
+      // pedestal surfaces.
+      { id: "tarn-erasure-vote-audio", name: "The Erasure-Vote Audio", description: "On the transmission desk: forty-three minutes from the war-room's spillover recorder. Three voices, three ayes, three pauses long enough to have been refusals.", x: 41, y: 52, width: 5, height: 6, type: "interact", action: "room-mystery:comms-array:tarn-erasure-vote-audio" },
+      { id: "tarn-faculty-silence-hour", name: "The Hour Before the Vote", description: "The fifty-one minutes of room-tone the spillover recorder caught before the vote. Three faculty heads in the same room, no footsteps, no chairs, no dialogue.", x: 47, y: 52, width: 5, height: 6, type: "interact", action: "room-mystery:comms-array:tarn-faculty-silence-hour" },
+      { id: "watchers-silence-break-log", name: "Silence-Break Event Log", description: "On the transmission desk: sixty-three seconds of six simultaneous voice-channels addressing six different players. The seventh channel logged as 'active signal, no carrier.'", x: 41, y: 60, width: 5, height: 6, type: "interact", action: "room-mystery:comms-array:watchers-silence-break-log" },
+      { id: "chained-lyra-call-fourteen-minutes", name: "Lyra Vox's Fourteen-Minute Call", description: "On the voice-channel desk: Lyra's call from fourteen minutes before contact. 'They are asking what you would do. I think they already know. they want it from you.'", x: 47, y: 60, width: 5, height: 6, type: "interact", action: "room-mystery:comms-array:chained-lyra-call-fourteen-minutes" },
+
+      // ── TOP-LEFT MONITOR MYSTERY SUB-RECTS (3 Severance recordings) ──
+      // Authored AFTER broadcast-screen so they win clicks on the
+      // specific recorded broadcasts.
+      { id: "severance-vex-opening-line", name: "Vex Maestro's Opening Line — Forty Broadcasts", description: "On the broadcast-record desk: every Severance opening since Year 1, all carrying the same line in the same cadence. 'Someone has to pick it up.' The line is older than Vex's tenure.", x: 69, y: 22, width: 4, height: 5, type: "interact", action: "room-mystery:comms-array:severance-vex-opening-line" },
+      { id: "severance-year-one-lap-record", name: "Severance Year One Lap Record", description: "On the Year-One archive shelf: two casualties — the champion (named) and a witness who entered the lane (redacted). The only redaction in forty seasons.", x: 73, y: 22, width: 4, height: 5, type: "interact", action: "room-mystery:comms-array:severance-year-one-lap-record" },
+      { id: "severance-vex-confession", name: "Vex Maestro's Confession Recording", description: "Pinned to the recent-recordings board: Vex's first-time-naming-the-recruitment confession. 'Someone has to pick it up was always literal.'", x: 69, y: 30, width: 4, height: 5, type: "interact", action: "room-mystery:comms-array:severance-vex-confession" },
+
+      // ── TOP-MID MONITOR MYSTERY SUB-RECTS (4 intercept channels) ──
+      // Authored AFTER comms-relay so they win clicks on the specific
+      // intercepted channel signatures.
+      { id: "watchers-first-trumpet", name: "First Trumpet — Twenty-Two Seconds", description: "On the upper-bands intercept board: twenty-two seconds of Idris's band-three trumpet. The post-launch content slot Phase 4 scaffolded; tonight's first sound.", x: 79, y: 22, width: 4, height: 5, type: "interact", action: "room-mystery:comms-array:watchers-first-trumpet" },
+      { id: "wolf-meme-show-transmission", name: "Meme-Show Transmission Intercept", description: "On the intercept board: Locke's adjudicar has pinned the Inventor-voiced transmission naming the Wolf as a predator wearing trust like a mask. The Antiquarian has not denied the framing.", x: 83, y: 22, width: 4, height: 5, type: "interact", action: "room-mystery:comms-array:wolf-meme-show-transmission" },
+      { id: "storm-voice-fragment", name: "Storm — Voice-Fragment Intercept", description: "On the flux-frequency intercept board: a fragment captured during an uncorrelated calm. 'A calm is not the absence of weather. It is weather's permission for what otherwise could not be planned.'", x: 79, y: 30, width: 4, height: 5, type: "interact", action: "room-mystery:comms-array:storm-voice-fragment" },
+      { id: "storm-closing-transmission", name: "Storm — Closing-Case Transmission", description: "Pinned beside: a second fragment from the case-closure interval, signed in the Storm's flux signature. 'The case will close on the correct side of that difference.'", x: 83, y: 30, width: 4, height: 5, type: "interact", action: "room-mystery:comms-array:storm-closing-transmission" },
+
+      // ── TOP-RIGHT MONITOR MYSTERY SUB-RECTS (4 Advocate broadcasts) ──
+      // Authored AFTER late-night-tv so they win clicks on the
+      // specific Empire-of-Shadows transmissions.
+      { id: "advocate-register-three-broadcast", name: "Advocate Broadcast — Register Three", description: "On the Empire-of-Shadows transmission shelf: the Advocate's register-three liturgical broadcast. 'If a soul comes under my charter, the chronicle has accepted the soul as its own.'", x: 89, y: 22, width: 4, height: 5, type: "interact", action: "room-mystery:comms-array:advocate-register-three-broadcast" },
+      { id: "advocate-defection-response", name: "Advocate's Response to the Defections", description: "Pinned beside: the Advocate's register-three reply to the three-general defection. 'They walk under my charter still. I advocate for what they were when they chose.'", x: 94, y: 22, width: 4, height: 5, type: "interact", action: "room-mystery:comms-array:advocate-defection-response" },
+      { id: "advocate-walk-in-power-lyric", name: "'Walk in Power' — Lyric Record", description: "On the album-records shelf: the canonical Silence in Heaven duet between the Advocate and the Human. The Empire's most-broadcast resistance anthem.", x: 89, y: 30, width: 4, height: 5, type: "interact", action: "room-mystery:comms-array:advocate-walk-in-power-lyric" },
+      { id: "advocate-position-current-broadcast", name: "Advocate's Current-Position Broadcast", description: "On the most-recent-broadcasts shelf: 'I have not stopped. I will not stop. I continue. The Empire continues. The walk continues.'", x: 94, y: 30, width: 4, height: 5, type: "interact", action: "room-mystery:comms-array:advocate-position-current-broadcast" },
+
+      // ── BOT MONITOR ROW (Thaloria archive + trace/signature buffers) ──
+      { id: "akai-last-recorded-words", name: "Akai Shi's Last Recorded Words", description: "On the Thaloria-archive shelf — bot-left monitor: the helm-comm field-recording from forty-seven seconds before Jericho reached her. 'It was always going to be a mercy. We just have to live with which kind.'", x: 69, y: 48, width: 5, height: 6, type: "interact", action: "room-mystery:comms-array:akai-last-recorded-words" },
+      { id: "miras-dual-thread-transmission", name: "Mira's Dual-Thread Transmission", description: "A personal-channel buffer on the bot-left monitor — Mira Halen's letter home with a carrier clean of any duress marker, and her later answer refusing the question of which thread to cut.", x: 74, y: 48, width: 4, height: 6, type: "interact", action: "room-mystery:comms-array:miras-dual-thread-transmission" },
+      { id: "shadow-tongue-signal-trace", name: "Shadow Tongue Signal Trace", description: "A signature buffer on the bot-mid monitor — the Shadow Tongue's operational signature, subtraction without trace across the chronicle layer.", x: 79, y: 48, width: 6, height: 7, type: "interact", action: "room-mystery:comms-array:shadow-tongue-signal-trace" },
+      { id: "resur-host-wyrmhole-signature", name: "Plague Dragon Corpse Signature", description: "On the bot-mid monitor's signal-analysis read-out: the Plague Dragon's energy-trace, consistent with the Host's canonical wyrmhole technology. The Virus's path through the breach, settled.", x: 79, y: 60, width: 6, height: 7, type: "interact", action: "room-mystery:comms-array:resur-host-wyrmhole-signature" },
+      { id: "egg-comms-signal", name: "Anomalous Frequency", description: "A barely audible signal on a frequency that shouldn't exist — registering on the bot-mid monitor's edge meter.", x: 86, y: 50, width: 3, height: 4, type: "examine", action: "room-mystery:comms-array:egg-comms-signal", elaraDialog: "That frequency... it's not on any standard band. The signal is repeating a pattern: three short, three long, three short. An SOS. But the origin coordinates point to a location that doesn't exist in normal space. Someone — or something — is calling for help from between dimensions. The signal is tagged with an identifier: 'MEME-PRIME.'" },
+
+      // ── RIGHT FOREGROUND BENCH (trace/log surfaces) ──
+      // The small wooden bench in the right foreground hosts the
+      // "trace buffer" / "cadence log" mysteries — physical surfaces
+      // for relay outputs the operator pulled off the monitors.
+      { id: "ocularum-relay-trace", name: "Ocularum Relay Trace", description: "A trace buffer printed onto the right-foreground bench — identity-shift signatures the official record does not index. The Senne→Locke transition resolves here.", x: 78, y: 78, width: 8, height: 10, type: "interact", action: "room-mystery:comms-array:ocularum-relay-trace" },
+      { id: "dead-drop-cadence-log", name: "Dead-Drop Cadence Log", description: "A cadence log on the bench's right edge — shipping traffic the antenna passively records as it crosses New Babylon. One monthly Locke-signed package repeats.", x: 88, y: 78, width: 8, height: 10, type: "interact", action: "room-mystery:comms-array:dead-drop-cadence-log" },
+
+      // ── NPC PRESENCE (Phase C) ──
       // The Human — primaryRoom = comms_array (factionNPCs.ts).
       // Manifestation: substrate. He propagates through the comms layer
       // and is only readable here once `first_human_revealed` is set; the
       // hotspot is always present but the NPCDialog gate handles
       // pre-reveal silence. Portrait progressive-reveals via
-      // getHumanRevealImage(trust).
-      { id: "npc-the-human", name: "The Human (Substrate)", description: "Beneath the relay's hum, a second voice carries — not on any frequency the antenna is tuned to. The substrate itself is broadcasting.", x: 30, y: 55, width: 8, height: 16, type: "npc", action: "npc:the_human", npcId: "the_human" },
-      // Mystery wiring — Watcher arc Ocularum relay-trace + dead-drop cadence surface
-      { id: "ocularum-relay-trace", name: "Ocularum Relay Trace", description: "A trace buffer on the relay's deep channel — identity-shift signatures the official record does not index. The Senne→Locke transition resolves here.", x: 6, y: 70, width: 8, height: 12, type: "interact", action: "room-mystery:comms-array:ocularum-relay-trace" },
-      { id: "dead-drop-cadence-log", name: "Dead-Drop Cadence Log", description: "A cadence log on the relay's manifest channel — shipping traffic the antenna passively records as it crosses New Babylon. One monthly Locke-signed package repeats.", x: 78, y: 70, width: 8, height: 12, type: "interact", action: "room-mystery:comms-array:dead-drop-cadence-log" },
-      // Mystery wiring — Ith'Rael arc Shadow Tongue editing-signature trace
-      { id: "shadow-tongue-signal-trace", name: "Shadow Tongue Signal Trace", description: "A signature buffer on the relay's deep-edit channel — the Shadow Tongue's operational signature, subtraction without trace across the chronicle layer.", x: 40, y: 70, width: 8, height: 12, type: "interact", action: "room-mystery:comms-array:shadow-tongue-signal-trace" },
-      // Mystery wiring — Syl'Vex arc: Mira's clean letter home and her later refusal-of-the-question answer
-      { id: "miras-dual-thread-transmission", name: "Mira's Dual-Thread Transmission", description: "A personal-channel buffer — Mira Halen's letter home with a carrier clean of any duress marker, and her later answer refusing the question of which thread to cut.", x: 22, y: 70, width: 8, height: 12, type: "interact", action: "room-mystery:comms-array:miras-dual-thread-transmission" },
+      // getHumanRevealImage(trust). Anchored to the bot-right monitor
+      // because that's where the ghost figure manifests in the
+      // human_reveal_ghost variant.
+      { id: "npc-the-human", name: "The Human (Substrate)", description: "On the bot-right monitor, a silhouette resolves from the broadcast haze. Beneath the relay's hum, a second voice carries — not on any frequency the antenna is tuned to. The substrate itself is broadcasting.", x: 89, y: 47, width: 10, height: 22, type: "npc", action: "npc:the_human", npcId: "the_human" },
     ],
   },
   {
@@ -1015,33 +1465,118 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "specific_item", value: "observation-keycard" },
     connections: ["comms-array", "engineering"],
     hotspots: [
-      // Mystery wiring — charter.missing_signatory · e4 (upper-band calibration slip)
-      { id: "charter-upper-band-calibration", name: "Upper-Band Calibration Slip", description: "On the upper-band reference bench: a wafer of metal calibrated to the upper-band frequency, folded into the founding-Watcher's letter. Per. M. had access to the upper bands.", x: 30, y: 27, width: 6, height: 6, type: "interact", action: "room-mystery:observation-deck:charter-upper-band-calibration" },
-      // Mystery wiring — resurrectionist.cycle_walker · e5 (Dreamer's Shield diagnostic)
-      { id: "resur-shield-diagnostic", name: "Dreamer's Shield — Diagnostic Reading", description: "On the cosmic-archaeology console: the Shield's barrier does not register the Virus's signature as fully excluded; the signature reads, faintly, FROM INSIDE the protected volume. The cult calls it instrumentation error.", x: 14, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:observation-deck:resur-shield-diagnostic" },
-      // Mystery wiring — akai_shi.red_death · e4 (Matrix cycle-fold anomalies)
-      { id: "akai-cycle-fold-anomalies", name: "Matrix Cycle-Fold Anomalies", description: "On the Matrix-telemetry console: discontinuous folds during the Red Death's hunt. Seven folds, seven retreat chambers, seven encounters. The Necromancer running into his own decisions.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:observation-deck:akai-cycle-fold-anomalies" },
-      // Mystery wiring — storm.architect_of_flux · e1 + e4 (weather + calms)
-      { id: "storm-weather-telemetry", name: "Five-Century Cosmic-Weather Console", description: "On the cosmic-weather console: five centuries of slow oscillation between two equilibria, with Storm-active intervals pinned exactly to the mid-line crossings.", x: 13, y: 19, width: 6, height: 6, type: "interact", action: "room-mystery:observation-deck:storm-weather-telemetry" },
-      { id: "storm-full-calms-register", name: "Register of Nine Calms", description: "Pinned beside the telemetry: the full register of nine documented calm intervals — seven to nine cosmic-cycles each, each one a permission interval.", x: 21, y: 19, width: 6, height: 6, type: "interact", action: "room-mystery:observation-deck:storm-full-calms-register" },
-      // Realigned 2026-04-25 against the actual delivered art (the
-      // Vortex-rift / telescope / communion-bench prompt was an earlier
-      // brief; the shipped render is a lounge: bar with backlit shelves
-      // on the left, sectional couch + glass coffee table foreground-
-      // centre, bioluminescent cylindrical aquariums in the corners,
-      // an audio-spectrum visualiser integrated into the right side of
-      // the viewport, nebula + ceiling skylight panels filling the upper
-      // two-thirds.
-      { id: "music-terminal", name: "Music Terminal", description: "A sophisticated music system with the complete discography of Malkia Ukweli & the Panopticon.", x: 62, y: 55, width: 28, height: 22, type: "terminal", action: "/discography", elaraDialog: "The complete discography. Four albums spanning the entire narrative — Dischordian Logic, The Age of Privacy, The Book of Daniel 2:47, and the upcoming Silence in Heaven. Every song is a piece of the puzzle." },
+      // Re-anchored 2026-05-24 against the AAA Final observation-deck
+      // render (art/rooms/observation_deck/baseline.png) after a 14-
+      // variant audit pass (baseline + 13 state overlays: act_tier_2,
+      // battlepass_winter, cycle_longnight, epoch_shadowtongue,
+      // faction_dreamer, governance_classified, investigation_tier,
+      // lore_architect, morality_dark, season_interregnum, trust_
+      // eidolon_resonant, tv_spreading, unlock_memorial). Layout is
+      // consistent across every variant — landmarks don't shift — so
+      // baseline anchoring works universally.
+      //
+      // The 2026-04-25 anchoring described the lounge layout correctly
+      // (bar shelves left, sectional couch, glass coffee table, etc.)
+      // but anchored several hotspots on blank or wrong surfaces:
+      //   • viewport extended x=30-95, y=2-72 — captured the right
+      //     aquarium-pillar + back-wall trophy area outside the
+      //     actual viewport bounds
+      //   • music-terminal at (62,55,28,22) overlapped the viewport
+      //     glass and didn't land on the visible globe-table
+      //   • crew-memorial at (6,24,24,36) sprawled across the bar
+      //     shelves + couch area despite no visible memorial wall
+      //     in the art
+      //   • all 5 architect-channel mystery rects were anchored at
+      //     y=8/19/27 in the upper-left blank wall area where there
+      //     are no visible consoles
+      //   • door-comms at (1,80,18,18) overlapped the visible couch
+      //
+      // Major re-anchors:
+      //   • viewport tightened to (25,22,50,50) — only the actual
+      //     panoramic viewport (stars + planet)
+      //   • music-terminal → bot-right globe-table (78,65,18,20)
+      //   • crew-memorial → small framed plaque on far-left wall
+      //     (1,25,8,15) — the only decorative wall fixture matching
+      //     "memorial with names etched in light"
+      //   • purification-crystal-cradle → pedestal beneath the globe
+      //     (80,85,16,8) — the "empty cradle" mentioned in description
+      //   • bond-resonance-altar → floor compass-star inlay
+      //     (40,88,20,10) — matches "low circular altar set into the
+      //     floor"
+      //   • 5 architect-channel mystery rects redistributed: 1 on
+      //     bar shelves (charter-upper-band-calibration), 3 sub-rects
+      //     on viewport (akai-cycle-fold-anomalies, storm-weather-
+      //     telemetry, storm-full-calms-register — each described as
+      //     "console" displaying celestial data, the viewport itself
+      //     reads as the cosmic display), 1 sub-rect on globe-table
+      //     (resur-shield-diagnostic — cosmic-archaeology console)
+      //   • door-comms moved to invisible bottom-left walk-out
+      //     (5,92,15,6) so it doesn't conflict with couch
+      //
+      // Visible landmarks, left-to-right + foreground-to-back:
+      //   • far-left bar shelves with backlit bottles — left wall
+      //     (`charter-upper-band-calibration` mystery rect)
+      //   • small framed plaque — left wall upper (`crew-memorial`)
+      //   • small left-corner bench — left foreground (decorative)
+      //   • panoramic viewport with stars + planet — center back
+      //     (`viewport` + `egg-obs-constellation` +
+      //     `akai-cycle-fold-anomalies` + `storm-weather-telemetry` +
+      //     `storm-full-calms-register`)
+      //   • glass coffee table with brass music player — center
+      //     foreground (decorative; music-terminal is on the
+      //     right globe-table instead)
+      //   • red curved sectional couch — center foreground
+      //     (decorative)
+      //   • floor compass-star inlay — chamber center floor
+      //     (`bond-resonance-altar`)
+      //   • right purple-bioluminescent aquarium pillar — right
+      //     wall (decorative)
+      //   • right globe-table with glowing orb — right foreground
+      //     (`music-terminal`, `resur-shield-diagnostic`,
+      //     `purification-crystal-cradle`)
+      //
+      // Render order: container hotspots authored FIRST; small sub-
+      // rectangles (mystery rects, egg, items) authored AFTER so
+      // they win clicks on specific surfaces.
+      //
+      // Verify with /ark?debug-hotspots=1 or, for drag-to-place
+      // editing, /ark?author-hotspots=1.
+
+      // ── FEATURE / CONTAINER HOTSPOTS ──
+      { id: "crew-memorial", name: "Crew Memorial", description: "A small framed plaque on the far-left wall, names etched in soft light. The crew who didn't make it.", x: 1, y: 25, width: 8, height: 15, type: "examine", elaraDialog: "A memorial for the crew members who didn't survive the journey. One thousand and forty-seven names. They gave their lives to keep the Ark running while the Potentials slept. I remember every one of them." },
       // Phase G — wire the panoramic viewport to the observation-deck
       // mystery module so Look/Use/Talk all route through the verb coin.
-      { id: "viewport", name: "Panoramic Viewport", description: "The vast expanse of space stretches before you. The stars look... wrong.", x: 30, y: 2, width: 65, height: 70, type: "interact", action: "room-mystery:observation-deck:panoramic-viewport", elaraDialog: "Look at the stars. They're beautiful, aren't they? But they're wrong. The constellations don't match any known configuration from any of the mapped universes. Either we've traveled very, very far... or we're somewhere that shouldn't exist." },
-      { id: "purification-crystal-cradle", name: "Crystal Cradle", description: "An empty cradle-pedestal stage-right. A brass plaque reads, in Lyra's hand: 'For the crystal that has not yet been chosen.'", x: 80, y: 78, width: 12, height: 14, type: "interact", action: "room-mystery:observation-deck:purification-crystal-cradle" },
-      { id: "bond-resonance-altar", name: "Bond Resonance Altar", description: "A low circular altar set into the floor's hex tiling. Brass-rimmed, oxblood-leather kneeler.", x: 40, y: 80, width: 18, height: 14, type: "interact", action: "room-mystery:observation-deck:bond-resonance-altar" },
-      { id: "crew-memorial", name: "Crew Memorial", description: "A small memorial with names etched in light. The crew who didn't make it.", x: 6, y: 24, width: 24, height: 36, type: "examine", elaraDialog: "A memorial for the crew members who didn't survive the journey. One thousand and forty-seven names. They gave their lives to keep the Ark running while the Potentials slept. I remember every one of them." },
-      { id: "door-comms", name: "Comms Array", description: "Return to the Communications Array.", x: 1, y: 80, width: 18, height: 18, type: "door", action: "comms-array" },
+      { id: "viewport", name: "Panoramic Viewport", description: "The vast expanse of space stretches before you through a curved glass wall — stars, a small distant planet, the chamber's only window onto the void.", x: 25, y: 22, width: 50, height: 50, type: "interact", action: "room-mystery:observation-deck:panoramic-viewport", elaraDialog: "Look at the stars. They're beautiful, aren't they? But they're wrong. The constellations don't match any known configuration from any of the mapped universes. Either we've traveled very, very far... or we're somewhere that shouldn't exist." },
+      { id: "music-terminal", name: "Music Terminal", description: "A glowing earth-globe on a brass-rimmed table at right-foreground. The complete discography of Malkia Ukweli & the Panopticon is keyed into its base.", x: 78, y: 65, width: 18, height: 20, type: "terminal", action: "/discography", elaraDialog: "The complete discography. Four albums spanning the entire narrative — Dischordian Logic, The Age of Privacy, The Book of Daniel 2:47, and the upcoming Silence in Heaven. Every song is a piece of the puzzle." },
+      { id: "bond-resonance-altar", name: "Bond Resonance Altar", description: "A low circular altar set into the floor's compass-star tiling — brass-rimmed, oxblood-leather kneeler.", x: 40, y: 88, width: 20, height: 10, type: "interact", action: "room-mystery:observation-deck:bond-resonance-altar" },
+      { id: "purification-crystal-cradle", name: "Crystal Cradle", description: "The pedestal beneath the globe-table. A brass plaque reads, in Lyra's hand: 'For the crystal that has not yet been chosen.'", x: 80, y: 85, width: 16, height: 8, type: "interact", action: "room-mystery:observation-deck:purification-crystal-cradle" },
+
+      // ── DOORS ──
+      // door-comms is the player's walk-out path (no visible door in
+      // the art); kept as a narrow invisible band on the bottom-left
+      // floor so it doesn't conflict with the visible couch.
+      // door-engineering is the maintenance hatch — no visible door
+      // either; invisible right edge band.
+      { id: "door-comms", name: "Comms Array", description: "Return to the Communications Array.", x: 5, y: 92, width: 15, height: 6, type: "door", action: "comms-array" },
       { id: "door-engineering", name: "Engineering Access", description: "A maintenance hatch leading down to Engineering.", x: 95, y: 30, width: 5, height: 55, type: "door", action: "engineering" },
-      { id: "egg-obs-constellation", name: "Strange Constellation", description: "A pattern of stars that seems to form a face.", x: 44, y: 8, width: 5, height: 6, type: "examine", elaraDialog: "Do you see it? That cluster of stars... if you connect them, they form a face. Not just any face — it looks like the Watcher. The all-seeing eye of the Panopticon's surveillance network. But we're light-years from Panopticon space. How can the stars themselves form his likeness? Unless... the stars were arranged. By someone with the power to move suns." },
+
+      // ── VIEWPORT SUB-RECTS ──
+      // The viewport itself acts as the cosmic display — each mystery
+      // rect represents a specific celestial reading visible in the
+      // star-field. Authored AFTER viewport so they win clicks on
+      // specific star clusters.
+      { id: "egg-obs-constellation", name: "Strange Constellation", description: "A pattern of stars in the viewport's upper-left that seems to form a face.", x: 28, y: 24, width: 5, height: 6, type: "examine", elaraDialog: "Do you see it? That cluster of stars... if you connect them, they form a face. Not just any face — it looks like the Watcher. The all-seeing eye of the Panopticon's surveillance network. But we're light-years from Panopticon space. How can the stars themselves form his likeness? Unless... the stars were arranged. By someone with the power to move suns." },
+      { id: "akai-cycle-fold-anomalies", name: "Matrix Cycle-Fold Anomalies", description: "Telemetry overlaid on the viewport's left quadrant — discontinuous folds during the Red Death's hunt. Seven folds, seven retreat chambers, seven encounters. The Necromancer running into his own decisions.", x: 34, y: 28, width: 6, height: 5, type: "interact", action: "room-mystery:observation-deck:akai-cycle-fold-anomalies" },
+      { id: "storm-weather-telemetry", name: "Five-Century Cosmic-Weather Console", description: "Telemetry overlaid on the viewport center — five centuries of slow oscillation between two equilibria, with Storm-active intervals pinned exactly to the mid-line crossings.", x: 46, y: 28, width: 6, height: 5, type: "interact", action: "room-mystery:observation-deck:storm-weather-telemetry" },
+      { id: "storm-full-calms-register", name: "Register of Nine Calms", description: "Pinned beside the telemetry on the viewport's right quadrant — the full register of nine documented calm intervals; each one a permission interval.", x: 60, y: 28, width: 6, height: 5, type: "interact", action: "room-mystery:observation-deck:storm-full-calms-register" },
+
+      // ── LEFT-WALL MYSTERY RECT (architect channel on bar shelves) ──
+      { id: "charter-upper-band-calibration", name: "Upper-Band Calibration Slip", description: "On the upper-band reference shelf, tucked between the bar's backlit bottles: a wafer of metal calibrated to the upper-band frequency, folded into the founding-Watcher's letter. Per. M. had access to the upper bands.", x: 1, y: 50, width: 5, height: 5, type: "interact", action: "room-mystery:observation-deck:charter-upper-band-calibration" },
+
+      // ── GLOBE-TABLE MYSTERY SUB-RECT (cosmic-archaeology console) ──
+      // Authored AFTER music-terminal so it wins clicks on the
+      // specific archaeology readout on the globe.
+      { id: "resur-shield-diagnostic", name: "Dreamer's Shield — Diagnostic Reading", description: "On the globe-table's cosmic-archaeology readout: the Shield's barrier does not register the Virus's signature as fully excluded; the signature reads, faintly, FROM INSIDE the protected volume. The cult calls it instrumentation error.", x: 82, y: 68, width: 5, height: 5, type: "interact", action: "room-mystery:observation-deck:resur-shield-diagnostic" },
     ],
   },
   {
