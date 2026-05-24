@@ -2337,32 +2337,37 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "chain_complete", value: "engineer_chain" },
     connections: ["engineering"],
     hotspots: [
-      // Mystery wiring — charter.second_signatory · e3 (House Vyn gardens)
-      { id: "charter2-house-vyn", name: "House Vyn — Lower-Deck Hydroponic Gardens", description: "On the lower-deck-hydroponics console: kept by Vyn descendants for four epochs. Same scrubber's hand on their tax-record erasure.", x: 54, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:engineering-core:charter2-house-vyn" },
-      // Mystery wiring — charter.missing_signatory · e2 (Engineer Zero signature)
-      { id: "charter-signatory-engineer-zero", name: "Engineer Zero — Initialled Signature", description: "On the founding-records bench: Engineer Zero's signature, initialled rather than written. A clean Z above a horizontal bar. The bar runs into the wax.", x: 46, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:engineering-core:charter-signatory-engineer-zero" },
-      // Mystery wiring — resurrectionist.cycle_walker · e3 + e4 (protocol timestamp + Matrix-escape signature)
-      { id: "resur-protocol-activation-timestamp", name: "Resurrection-Protocol Activation Timestamp", description: "On the substrate-timestamp bench: a protocol activation timestamped to the Plague Dragon's death-instant. The cult calls the timestamp coincidental; the Antiquarian's discipline does not.", x: 30, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:engineering-core:resur-protocol-activation-timestamp" },
-      { id: "resur-matrix-escape-signature", name: "Necromancer Matrix-Escape Cipher Match", description: "Pinned beside: the Necromancer's Matrix-escape signature matching three of four parts of the Resurrectionist's cipher. The cult calls it 'partial-signature collision.'", x: 38, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:engineering-core:resur-matrix-escape-signature" },
-      // Mystery wiring — advocate.blood_weave · e2 (Zyr'Koth's Severance Protocol lineage)
-      { id: "advocate-zyrkoth-protocol-lineage", name: "Severance Protocol — Lineage Note", description: "On the substrate-research bench: Zyr'Koth's lineage note — the Severance Protocol is the Blood Weave's offensive inversion. Both share the substrate-consumption signature.", x: 22, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:engineering-core:advocate-zyrkoth-protocol-lineage" },
-      // Mystery wiring — storm.architect_of_flux · e1 + e2 (signature + balance audit)
-      { id: "storm-flux-signature", name: "Storm-Class Flux Signature", description: "On the calibration-class instrument bench: a non-natural flux signature detectable wherever the equilibrium-crossing pattern shows. The convention names it 'Storm-class.' Nothing else does.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:engineering-core:storm-flux-signature" },
-      { id: "storm-energy-balance-audit", name: "Cosmic Energy-Balance Audit", description: "The Game Master's cult-archived audit: volatility-source and fixed-archive-source instrumented against the Polarity canon, their interaction-product yielding the universe's net positive.", x: 14, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:engineering-core:storm-energy-balance-audit" },
-      // Realigned 2026-04-25 against the delivered render — industrial
-      // bay with the blue reactor portal centred at upper-right of the
-      // back wall, two cyan holo schematics in the upper corners, two
-      // orange holo schematics in the lower corners, twin porthole
-      // observation windows mid-left, and a steel staircase descending
-      // through the centre of the floor.
-      { id: "reactor-core", name: "Reactor Core", description: "A sphere of pure energy suspended by magnetic fields, pulsing with the heartbeat of the Ark.", x: 56, y: 26, width: 20, height: 36, type: "examine", elaraDialog: "The Reactor Core. It runs on compressed dark energy harvested from collapsed dimensions. The DeMagi called it 'The Breath of Creation.' It generates enough power to fold space-time. The Architect modified it to also serve as a beacon — broadcasting across every reality simultaneously. That's how the Ark finds lost Potentials like you." },
-      { id: "warp-schematics", name: "Warp Drive Schematics", description: "Holographic blueprints showing the Ark's dimensional fold engine in extraordinary detail.", x: 16, y: 12, width: 26, height: 26, type: "examine", elaraDialog: "These schematics show the Ark's warp drive — but not the one in Engineering Bay. This is the real drive. It doesn't move through space. It folds space around the Ark. The Architect reverse-engineered it from Quarchon quantum tunneling technology. Only an Engineer would understand the mathematics involved." },
-      { id: "door-engineering", name: "Return to Engineering Bay", description: "The sealed blast door back to the main engineering section.", x: 38, y: 70, width: 22, height: 28, type: "door", action: "engineering" },
-      { id: "egg-core-frequency", name: "Resonance Frequency", description: "A specific harmonic emanating from the core that seems to encode a message.", x: 4, y: 78, width: 8, height: 8, type: "item", action: "core-frequency", elaraDialog: "That frequency... it's not random. It's a message encoded in the core's harmonic oscillation. The Architect left it here for whoever found this room. It says: 'The machine remembers what the maker forgets. Build well, Engineer. The next Ark is yours to design.'" },
-      // Mystery wiring — apps/shared/roomMysteries/engineeringCore.ts
-      { id: "reactor-coil", name: "Reactor Coil", description: "A ribbed brass-and-steel column running phosphor-green coolant through transparent ducts. The hardware is nominal; the schematic is not.", x: 80, y: 14, width: 14, height: 30, type: "interact", action: "room-mystery:engineering-core:reactor-coil" },
-      { id: "coolant-pipe", name: "Coolant Pipe Array", description: "Six lines feeding the secondary loop. The pipes are correct; any future repair following the edited schematic would reroute them.", x: 80, y: 48, width: 14, height: 18, type: "interact", action: "room-mystery:engineering-core:coolant-pipe" },
-      { id: "core-terminal", name: "Core Terminal", description: "A brass console with three oxblood-leather levers — coolant flow, reactor draw, emergency shutdown. The shutdown lever is locked.", x: 14, y: 48, width: 18, height: 18, type: "interact", action: "room-mystery:engineering-core:core-terminal" },
+      // Re-anchored 2026-05-24 against the AAA Final engineering-core
+      // render after a 10-variant audit. The 2026-04-25 anchoring
+      // described "blue reactor portal upper-right + steel staircase
+      // descending through the floor center" — actual AAA Final is a
+      // central-back chamber with an orange-glowing reactor pylon +
+      // clock/gauge dial on the back wall, twin low workbenches in
+      // foreground (left + right), small left door, small right door,
+      // a foreground steam-vented floor channel.
+      //
+      // Verify with /ark?debug-hotspots=1 or /ark?author-hotspots=1.
+
+      { id: "reactor-core", name: "Reactor Core", description: "The central-back orange-glowing reactor pylon with clock/gauge dial — a sphere of pure energy suspended by magnetic fields, pulsing with the heartbeat of the Ark.", x: 40, y: 18, width: 20, height: 38, type: "examine", elaraDialog: "The Reactor Core. It runs on compressed dark energy harvested from collapsed dimensions. The DeMagi called it 'The Breath of Creation.' It generates enough power to fold space-time. The Architect modified it to also serve as a beacon — broadcasting across every reality simultaneously. That's how the Ark finds lost Potentials like you." },
+      { id: "warp-schematics", name: "Warp Drive Schematics", description: "The right-side wall panel with brass-rimmed inset — holographic blueprints showing the Ark's dimensional fold engine in extraordinary detail.", x: 62, y: 22, width: 22, height: 30, type: "examine", elaraDialog: "These schematics show the Ark's warp drive — but not the one in Engineering Bay. This is the real drive. It doesn't move through space. It folds space around the Ark. The Architect reverse-engineered it from Quarchon quantum tunneling technology. Only an Engineer would understand the mathematics involved." },
+      { id: "door-engineering", name: "Return to Engineering Bay", description: "The right-edge sealed blast door back to the main engineering section.", x: 88, y: 30, width: 10, height: 50, type: "door", action: "engineering" },
+      { id: "reactor-coil", name: "Reactor Coil", description: "The left-foreground workbench's brass-and-steel column running phosphor-green coolant — the hardware is nominal; the schematic is not.", x: 25, y: 55, width: 16, height: 22, type: "interact", action: "room-mystery:engineering-core:reactor-coil" },
+      { id: "coolant-pipe", name: "Coolant Pipe Array", description: "The right-foreground workbench's six coolant lines feeding the secondary loop. The pipes are correct; any future repair following the edited schematic would reroute them.", x: 58, y: 55, width: 16, height: 22, type: "interact", action: "room-mystery:engineering-core:coolant-pipe" },
+      { id: "core-terminal", name: "Core Terminal", description: "The small left-wall console with three oxblood-leather levers — coolant flow, reactor draw, emergency shutdown. The shutdown lever is locked.", x: 0, y: 30, width: 14, height: 30, type: "interact", action: "room-mystery:engineering-core:core-terminal" },
+      { id: "egg-core-frequency", name: "Resonance Frequency", description: "A specific harmonic emanating from the foreground floor channel — the steam-vented strip seems to encode a message.", x: 42, y: 85, width: 16, height: 10, type: "item", action: "core-frequency", elaraDialog: "That frequency... it's not random. It's a message encoded in the core's harmonic oscillation. The Architect left it here for whoever found this room. It says: 'The machine remembers what the maker forgets. Build well, Engineer. The next Ark is yours to design.'" },
+
+      // ── ARCHITECT-CHANNEL MYSTERY RECTS (7) ──
+      // Redistributed from y=8 blank-wall onto the actual visible
+      // workbench surfaces: left bench (founding-records / substrate-
+      // research benches) + right bench (substrate-timestamp /
+      // calibration-class benches).
+      { id: "storm-flux-signature", name: "Storm-Class Flux Signature", description: "On the left workbench (calibration-class instrument): a non-natural flux signature detectable wherever the equilibrium-crossing pattern shows. The convention names it 'Storm-class.' Nothing else does.", x: 27, y: 60, width: 5, height: 5, type: "interact", action: "room-mystery:engineering-core:storm-flux-signature" },
+      { id: "storm-energy-balance-audit", name: "Cosmic Energy-Balance Audit", description: "On the left workbench (Game Master's audit panel): volatility-source and fixed-archive-source instrumented against the Polarity canon, their interaction-product yielding the universe's net positive.", x: 33, y: 60, width: 5, height: 5, type: "interact", action: "room-mystery:engineering-core:storm-energy-balance-audit" },
+      { id: "advocate-zyrkoth-protocol-lineage", name: "Severance Protocol — Lineage Note", description: "On the left workbench (substrate-research panel): Zyr'Koth's lineage note — the Severance Protocol is the Blood Weave's offensive inversion. Both share the substrate-consumption signature.", x: 27, y: 67, width: 5, height: 5, type: "interact", action: "room-mystery:engineering-core:advocate-zyrkoth-protocol-lineage" },
+      { id: "resur-protocol-activation-timestamp", name: "Resurrection-Protocol Activation Timestamp", description: "On the right workbench (substrate-timestamp bench): a protocol activation timestamped to the Plague Dragon's death-instant. The cult calls the timestamp coincidental; the Antiquarian's discipline does not.", x: 60, y: 60, width: 5, height: 5, type: "interact", action: "room-mystery:engineering-core:resur-protocol-activation-timestamp" },
+      { id: "resur-matrix-escape-signature", name: "Necromancer Matrix-Escape Cipher Match", description: "Pinned beside on the right workbench: the Necromancer's Matrix-escape signature matching three of four parts of the Resurrectionist's cipher.", x: 66, y: 60, width: 5, height: 5, type: "interact", action: "room-mystery:engineering-core:resur-matrix-escape-signature" },
+      { id: "charter-signatory-engineer-zero", name: "Engineer Zero — Initialled Signature", description: "On the right workbench (founding-records bench): Engineer Zero's signature, initialled rather than written. A clean Z above a horizontal bar. The bar runs into the wax.", x: 60, y: 67, width: 5, height: 5, type: "interact", action: "room-mystery:engineering-core:charter-signatory-engineer-zero" },
+      { id: "charter2-house-vyn", name: "House Vyn — Lower-Deck Hydroponic Gardens", description: "On the right workbench (lower-deck-hydroponics console): kept by Vyn descendants for four epochs. Same scrubber's hand on their tax-record erasure.", x: 66, y: 67, width: 5, height: 5, type: "interact", action: "room-mystery:engineering-core:charter2-house-vyn" },
     ],
   },
   {
@@ -2430,14 +2435,20 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // showing constellations, ten circular meditation plates spread
       // across the reflective foreground floor, rune-script holo panels
       // on the far-left and far-right columns.
-      { id: "probability-sphere", name: "Probability Sphere", description: "A massive crystal sphere pulsing with purple energy, containing compressed probability fields.", x: 38, y: 18, width: 22, height: 38, type: "examine", elaraDialog: "The Probability Sphere. It contains every possible future of the Dischordian Saga compressed into a single point. When an Oracle touches it, they can navigate the probability streams — see which choices lead to salvation and which lead to destruction. The original Oracle used this to guide the Panopticon's decisions. Now it responds to you." },
-      { id: "meditation-platforms", name: "Meditation Platforms", description: "Hovering platforms that amplify precognitive abilities.", x: 10, y: 72, width: 80, height: 22, type: "examine", elaraDialog: "These platforms use quantum entanglement to synchronize your neural patterns with the probability field. Sit on one and your visions become clearer, more detailed. The original Oracle spent centuries here, mapping every possible future. Some say they went mad from seeing too much. Others say they achieved perfect clarity." },
-      { id: "door-observation", name: "Return to Observation Deck", description: "The shimmering portal back to the Observation Deck.", x: 1, y: 35, width: 8, height: 40, type: "door", action: "observation-deck" },
-      { id: "egg-oracle-vision", name: "Sealed Vision", description: "A sealed crystal containing a single frozen vision.", x: 76, y: 36, width: 5, height: 6, type: "item", action: "oracle-vision", elaraDialog: "A sealed vision. The Oracle locked this one away because it was too dangerous to share. It shows... the end. The final moment of the Saga. I can't see the details — only an Oracle can unseal it. But the emotion radiating from it is overwhelming. Hope and terror in equal measure." },
+      // Re-anchored 2026-05-24 against the AAA Final oracle-sanctum
+      // render (10-variant audit). Visible features: central GLOWING
+      // PURPLE/CYAN POOL set in the floor, standing rune-stones around
+      // the pool, vaulted oculus showing purple nebula on the back
+      // wall, small lectern with candle on the LEFT, brazier with
+      // green-fire on the RIGHT, floor compass rings around pool.
+      { id: "probability-sphere", name: "Probability Sphere", description: "The back-wall vaulted oculus showing the purple nebula — a window onto compressed probability fields.", x: 25, y: 0, width: 50, height: 28, type: "examine", elaraDialog: "The Probability Sphere. It contains every possible future of the Dischordian Saga compressed into a single point. When an Oracle touches it, they can navigate the probability streams — see which choices lead to salvation and which lead to destruction. The original Oracle used this to guide the Panopticon's decisions. Now it responds to you." },
+      { id: "meditation-platforms", name: "Meditation Platforms", description: "The floor compass rings encircling the central pool — hovering platforms that amplify precognitive abilities.", x: 18, y: 78, width: 64, height: 18, type: "examine", elaraDialog: "These platforms use quantum entanglement to synchronize your neural patterns with the probability field. Sit on one and your visions become clearer, more detailed. The original Oracle spent centuries here, mapping every possible future. Some say they went mad from seeing too much. Others say they achieved perfect clarity." },
+      { id: "door-observation", name: "Return to Observation Deck", description: "The shimmering portal back to the Observation Deck.", x: 0, y: 90, width: 8, height: 10, type: "door", action: "observation-deck" },
+      { id: "egg-oracle-vision", name: "Sealed Vision", description: "A sealed crystal on the side-altar — a single frozen vision the Oracle locked away.", x: 14, y: 65, width: 5, height: 6, type: "item", action: "oracle-vision", elaraDialog: "A sealed vision. The Oracle locked this one away because it was too dangerous to share. It shows... the end. The final moment of the Saga. I can't see the details — only an Oracle can unseal it. But the emotion radiating from it is overwhelming. Hope and terror in equal measure." },
       // Mystery wiring — apps/shared/roomMysteries/oracleSanctum.ts
-      { id: "oracle-pool", name: "Oracle Pool", description: "A circle of still water sunk into the floor, brass-rimmed and sigil-engraved. The water reflects something that is not in the pool.", x: 62, y: 18, width: 14, height: 32, type: "interact", action: "room-mystery:oracle-sanctum:oracle-pool" },
-      { id: "prophecy-tablet", name: "Prophecy Tablet", description: "A brass-pedestal'd slate. Currently blank, but the brass beneath has been worn smooth by thousands of writings.", x: 11, y: 6, width: 22, height: 14, type: "interact", action: "room-mystery:oracle-sanctum:prophecy-tablet" },
-      { id: "incense-brazier", name: "Incense Brazier", description: "A brazier on a chain, smoking phosphor-lavender. The smoke falls toward the pool rather than rising.", x: 84, y: 6, width: 14, height: 18, type: "interact", action: "room-mystery:oracle-sanctum:incense-brazier" },
+      { id: "oracle-pool", name: "Oracle Pool", description: "The central glowing purple/cyan pool sunk into the floor — brass-rimmed and sigil-engraved. The water reflects something that is not in the pool.", x: 28, y: 50, width: 40, height: 32, type: "interact", action: "room-mystery:oracle-sanctum:oracle-pool" },
+      { id: "prophecy-tablet", name: "Prophecy Tablet", description: "The left-side lectern with candle — a brass-pedestal'd slate. Currently blank, but the brass beneath has been worn smooth by thousands of writings.", x: 8, y: 50, width: 14, height: 28, type: "interact", action: "room-mystery:oracle-sanctum:prophecy-tablet" },
+      { id: "incense-brazier", name: "Incense Brazier", description: "The right-side brazier with green flame on a chain, smoking phosphor-lavender. The smoke falls toward the pool rather than rising.", x: 78, y: 55, width: 16, height: 25, type: "interact", action: "room-mystery:oracle-sanctum:incense-brazier" },
       // Mystery wiring — apps/shared/roomMysteries/oracleSanctum.ts
       // Seer arc clue surface; recessed back-wall cabinet behind the
       // brazier with reel-tape canisters indexed by session.
@@ -2513,9 +2524,16 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // centre: hooded vest + masks, right: surveillance drone +
       // infiltration suit), central holographic blueprint table on a
       // raised circular pad with edge-mounted spotlights.
-      { id: "weapon-arsenal", name: "Weapon Arsenal", description: "Glass cases containing legendary weapons from across the Saga.", x: 16, y: 28, width: 78, height: 32, type: "examine", elaraDialog: "Agent Zero's personal collection. The Whisper Blade — kills without a sound. The Phase Pistol — shoots through walls. The Null Dart — erases memories. Each weapon was designed for a specific target. Some of those targets were gods. The fact that these weapons exist means someone, somewhere, needed to kill something that shouldn't have been killable." },
-      { id: "infiltration-table", name: "Infiltration Table", description: "A holographic table showing routes, blind spots, and vulnerabilities.", x: 36, y: 64, width: 28, height: 22, type: "examine", elaraDialog: "The infiltration map. It shows every security system, every patrol route, every blind spot in every major installation across the Saga. The Panopticon, the Terminus Hive, the Quarchon Quantum Citadel — all mapped in perfect detail. Agent Zero spent lifetimes gathering this intelligence. Now it's yours." },
-      { id: "door-armory", name: "Return to Armory", description: "The concealed passage back to the main Armory.", x: 38, y: 88, width: 24, height: 12, type: "door", action: "armory" },
+      // Re-anchored 2026-05-24 against the AAA Final shadow-vault
+      // render (10-variant audit). The 2026-04-25 anchoring described
+      // "lit glass cases across the back wall with guns + hooded vest"
+      // — actual AAA Final is a dark sepulchre-style chamber: central
+      // blade/sword on a low pedestal lit by overhead spotlight, glowing
+      // light-coin markers on side walls (small relic alcoves), dark
+      // floor with light markers.
+      { id: "weapon-arsenal", name: "Weapon Arsenal", description: "The glowing light-coin alcoves on the side walls — small sealed cases containing legendary weapons from across the Saga.", x: 5, y: 30, width: 95, height: 30, type: "examine", elaraDialog: "Agent Zero's personal collection. The Whisper Blade — kills without a sound. The Phase Pistol — shoots through walls. The Null Dart — erases memories. Each weapon was designed for a specific target. Some of those targets were gods. The fact that these weapons exist means someone, somewhere, needed to kill something that shouldn't have been killable." },
+      { id: "infiltration-table", name: "Infiltration Table", description: "The central blade-on-pedestal at chamber center, lit by overhead spotlight — projects a holographic table showing routes, blind spots, and vulnerabilities.", x: 38, y: 40, width: 22, height: 32, type: "examine", elaraDialog: "The infiltration map. It shows every security system, every patrol route, every blind spot in every major installation across the Saga. The Panopticon, the Terminus Hive, the Quarchon Quantum Citadel — all mapped in perfect detail. Agent Zero spent lifetimes gathering this intelligence. Now it's yours." },
+      { id: "door-armory", name: "Return to Armory", description: "The concealed passage back to the main Armory.", x: 40, y: 93, width: 20, height: 6, type: "door", action: "armory" },
       { id: "egg-shadow-contract", name: "Final Contract", description: "A sealed dossier marked with a skull emblem.", x: 88, y: 32, width: 5, height: 6, type: "item", action: "shadow-contract", elaraDialog: "Agent Zero's final contract. Never completed. The target... is the Architect himself. Someone hired Zero to kill the creator of the Inception Ark. The contract was never fulfilled because Zero discovered the truth — killing the Architect would unravel every reality simultaneously. So Zero sealed the contract here as a warning: some targets must never be eliminated." },
       // ─── Shadow Tongue mystery hotspots (2026-04-30 AAA Final drop) ───
       // These coexist with the legacy assassin-arsenal hotspots above.
@@ -2720,9 +2738,15 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // the left AND right walls (mirrored), central foreground desk
       // with multiple keyboards + laptops, cables snaking across the
       // floor.
-      { id: "surveillance-feeds", name: "Surveillance Network", description: "Dozens of screens showing live feeds from across the Ark and beyond.", x: 24, y: 5, width: 54, height: 50, type: "examine", elaraDialog: "The Enigma's surveillance network. It doesn't just monitor the Ark — it taps into communication channels across multiple realities. Those feeds show conversations happening right now in the Panopticon, the Terminus Hive, even the Antiquarian's Library. The Enigma saw everything. Knew everything. And trusted no one." },
-      { id: "conspiracy-boards", name: "Conspiracy Boards", description: "String boards connecting photos, documents, and evidence across the entire Saga.", x: 0, y: 28, width: 24, height: 40, type: "examine", elaraDialog: "The conspiracy boards. Every thread connects to every other thread. The Architect's true identity. The Oracle's hidden agenda. The Collector's real purpose. The Enigma mapped it all. Some of these connections are terrifying — they suggest that certain events in the Saga weren't accidents. They were orchestrated by someone operating above even the Architect's awareness." },
-      { id: "door-comms", name: "Return to Comms Array", description: "The hidden panel back to the main Communications Array.", x: 38, y: 88, width: 24, height: 12, type: "door", action: "comms-array" },
+      // Re-anchored 2026-05-24 against the AAA Final cipher-den render
+      // (9-variant audit). Visible features: 4 large green monitor
+      // screens (2 left wall + 2 right wall), 3 framed silhouette
+      // portraits center-back (Lyra/Wraith/Vox), curved brass console
+      // with dials at foreground (with central monitor), brass
+      // listening cone right-center.
+      { id: "surveillance-feeds", name: "Surveillance Network", description: "The four large green monitor screens flanking the chamber (2 on each side wall) — live feeds from across the Ark and beyond.", x: 0, y: 18, width: 100, height: 40, type: "examine", elaraDialog: "The Enigma's surveillance network. It doesn't just monitor the Ark — it taps into communication channels across multiple realities. Those feeds show conversations happening right now in the Panopticon, the Terminus Hive, even the Antiquarian's Library. The Enigma saw everything. Knew everything. And trusted no one." },
+      { id: "conspiracy-boards", name: "Conspiracy Boards", description: "The three framed silhouette portraits in the center-back — Lyra, Wraith, and Vox. String-and-photo evidence connecting events across the entire Saga.", x: 38, y: 18, width: 24, height: 18, type: "examine", elaraDialog: "The conspiracy boards. Every thread connects to every other thread. The Architect's true identity. The Oracle's hidden agenda. The Collector's real purpose. The Enigma mapped it all. Some of these connections are terrifying — they suggest that certain events in the Saga weren't accidents. They were orchestrated by someone operating above even the Architect's awareness." },
+      { id: "door-comms", name: "Return to Comms Array", description: "The hidden panel back to the main Communications Array — walk out through the foreground.", x: 40, y: 93, width: 20, height: 6, type: "door", action: "comms-array" },
       { id: "egg-cipher-key", name: "Master Cipher Key", description: "A small device that can decrypt any message in the Saga.", x: 50, y: 56, width: 6, height: 8, type: "item", action: "cipher-key", elaraDialog: "The Master Cipher Key. The Enigma's ultimate tool. It can decrypt any message, crack any code, bypass any encryption in the entire Dischordian Saga. With this, there are no more secrets. The Enigma left it here with a note: 'The truth will set you free. But first, it will make you very, very angry.' Use it wisely, Spy." },
       // ─── Shadow Tongue uncorruption hub (2026-04-30 AAA Final drop) ───
       // These coexist with the legacy spy-intel hotspots above. Authored
@@ -2756,27 +2780,29 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "chain_complete", value: "order_chain" },
     connections: ["bridge"],
     hotspots: [
-      // Mystery wiring — wolf.anara_hunt · e1 (Judge's audit-trail open entry)
-      { id: "wolf-judge-audit-trail", name: "Judge's Audit Trail — Lycos Open Entry", description: "In the audit-archive chamber: the Judge's open entry under Day 15 of Resonance, Year 100,001 A.A. 'The work was clean. The instrument was not lost.'", x: 14, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:order-tribunal:wolf-judge-audit-trail" },
-      // Mystery wiring — wolf.anara_hunt · e3 (Judge's audit clarification)
-      { id: "wolf-judge-clarification", name: "The Judge's Audit Clarification", description: "In the audit-clarification chamber: the Second Ne-Yon's terse reply, distinguishing the instrument He destroyed (the Thought Virus) from the instrument that was preserved (Lycos).", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:order-tribunal:wolf-judge-clarification" },
-      // Mystery wiring — storm.architect_of_flux · e2 (Judge's arbitration register)
-      { id: "storm-judges-arbitration-register", name: "Judge's Storm-Silence Arbitration Register", description: "In the audit-clarification chamber: seven Judge-arbitrations between the Storm and the Silence, each closed with the same standing position — 'keep the polarity.'", x: 13, y: 19, width: 6, height: 6, type: "interact", action: "room-mystery:order-tribunal:storm-judges-arbitration-register" },
-      { id: "apprentice-rostrum", name: "Apprentice Rostrum", description: "The Mechronis Academy trial cadence — mentor a successor through the 28-day trial.", x: 12, y: 30, width: 14, height: 22, type: "terminal", action: "/apprentice", elaraDialog: "The Mechronis trial rostrum. You mentor a successor through the twelve-archetype, twenty-eight-day trial — while the Politician's dead insurance policy trains your rival's. The loop is a mirror." },
-      // Realigned 2026-04-25 against the delivered render — marble
-      // colonnade chamber with cyan neon strip-lighting in the column
-      // capitals, central golden Scales of Justice hovering on the
-      // foreground floor, raised altar/throne at back-centre under a
-      // domed light, floating holographic LAW books arrayed along
-      // both side walls.
-      { id: "scale-justice", name: "Scale of Justice", description: "A golden holographic scale that weighs moral decisions.", x: 40, y: 50, width: 20, height: 36, type: "examine", elaraDialog: "The Scale of Justice. It weighs not gold or silver, but intention and consequence. Every major decision in the Saga was evaluated by this scale. The Hierophant used it to determine which actions served the greater good and which served only selfish desire. It's responding to your presence — it recognizes a champion of Order." },
-      { id: "law-archives", name: "Law Archives", description: "Floating holographic tomes containing every law and code of the Saga.", x: 0, y: 30, width: 24, height: 36, type: "examine", elaraDialog: "The complete legal code of the Dischordian Saga. Laws governing reality itself — the Conservation of Narrative Energy, the Prohibition of Temporal Paradox, the Right of Every Potential to Choose Their Own Path. The Hierophant wrote most of these. Some say they're the only thing preventing the multiverse from collapsing into chaos." },
-      { id: "door-bridge-order", name: "Return to Bridge", description: "The formal corridor back to the Command Bridge.", x: 40, y: 22, width: 20, height: 30, type: "door", action: "bridge" },
-      // Mystery wiring — apps/shared/roomMysteries/orderTribunal.ts
-      { id: "judges-bench", name: "Judges' Bench", description: "A long brass-and-oak slab elevated on three steps. Three high-backed chairs; the chief adjudicator's middle seat is taller by a hand's-width.", x: 26, y: 60, width: 48, height: 28, type: "interact", action: "room-mystery:order-tribunal:judges-bench" },
-      { id: "evidence-locker", name: "Evidence Locker", description: "A wall of small brass-faced compartments. Most empty. Three sealed in red wax — open cases, awaiting verdict.", x: 78, y: 60, width: 18, height: 32, type: "interact", action: "room-mystery:order-tribunal:evidence-locker" },
-      // Mystery wiring — Degen arc audit-trail surface
-      { id: "mol-vereth-audit-ledger", name: "Mol'Vereth's Audit Ledger", description: "A small bound volume on the side-shelf beside the bench. Mol'Vereth files every annual audit through this ledger.", x: 16, y: 76, width: 8, height: 12, type: "interact", action: "room-mystery:order-tribunal:mol-vereth-audit-ledger" },
+      // Re-anchored 2026-05-24 against the AAA Final order-tribunal
+      // render after a 9-variant audit. The 2026-04-25 anchoring
+      // described "marble colonnade with cyan neon strip-lighting +
+      // central Scales of Justice + raised altar throne" — actual
+      // AAA Final is a wood-paneled tribunal hall: central judges'
+      // bench with 3 high-backed seats + 2 amber lamps, left
+      // audience pillars with purple glyph-strips, right jury box
+      // with chairs, floor compass + scales-of-justice motif in
+      // foreground, chandelier overhead.
+      //
+      // Verify with /ark?debug-hotspots=1 or /ark?author-hotspots=1.
+
+      { id: "judges-bench", name: "Judges' Bench", description: "The long brass-and-oak slab elevated on three steps at chamber-back, three high-backed chairs with amber lamps flanking. The chief adjudicator's middle seat is taller by a hand's-width.", x: 32, y: 32, width: 36, height: 30, type: "interact", action: "room-mystery:order-tribunal:judges-bench" },
+      { id: "scale-justice", name: "Scale of Justice", description: "The golden scales-of-justice motif inlaid on the foreground floor — weighs not gold or silver but intention and consequence.", x: 35, y: 75, width: 30, height: 20, type: "examine", elaraDialog: "The Scale of Justice. It weighs not gold or silver, but intention and consequence. Every major decision in the Saga was evaluated by this scale. The Hierophant used it to determine which actions served the greater good and which served only selfish desire. It's responding to your presence — it recognizes a champion of Order." },
+      { id: "law-archives", name: "Law Archives", description: "The left-wall audience pillars with purple-glyph strip lighting — holographic tomes containing every law and code of the Saga.", x: 0, y: 18, width: 22, height: 55, type: "examine", elaraDialog: "The complete legal code of the Dischordian Saga. Laws governing reality itself — the Conservation of Narrative Energy, the Prohibition of Temporal Paradox, the Right of Every Potential to Choose Their Own Path. The Hierophant wrote most of these. Some say they're the only thing preventing the multiverse from collapsing into chaos." },
+      { id: "evidence-locker", name: "Evidence Locker", description: "The right-wall jury box with chairs — a wall of small brass-faced compartments behind. Most empty. Three sealed in red wax — open cases, awaiting verdict.", x: 76, y: 30, width: 22, height: 50, type: "interact", action: "room-mystery:order-tribunal:evidence-locker" },
+      { id: "door-bridge-order", name: "Return to Bridge", description: "The formal corridor back to the Command Bridge.", x: 42, y: 22, width: 16, height: 8, type: "door", action: "bridge" },
+      { id: "apprentice-rostrum", name: "Apprentice Rostrum", description: "The left-side audience rostrum — the Mechronis Academy trial cadence; mentor a successor through the 28-day trial.", x: 22, y: 50, width: 12, height: 28, type: "terminal", action: "/apprentice", elaraDialog: "The Mechronis trial rostrum. You mentor a successor through the twelve-archetype, twenty-eight-day trial — while the Politician's dead insurance policy trains your rival's. The loop is a mirror." },
+      { id: "mol-vereth-audit-ledger", name: "Mol'Vereth's Audit Ledger", description: "A small bound volume on a side-shelf beside the judges' bench — Mol'Vereth files every annual audit through this ledger.", x: 24, y: 62, width: 7, height: 10, type: "interact", action: "room-mystery:order-tribunal:mol-vereth-audit-ledger" },
+      // Architect-channel mysteries on the judges' bench front (audit-archive readouts)
+      { id: "wolf-judge-audit-trail", name: "Judge's Audit Trail — Lycos Open Entry", description: "On the judges' bench front (left lamp area): the Judge's open entry under Day 15 of Resonance, Year 100,001 A.A. 'The work was clean. The instrument was not lost.'", x: 34, y: 48, width: 5, height: 5, type: "interact", action: "room-mystery:order-tribunal:wolf-judge-audit-trail" },
+      { id: "wolf-judge-clarification", name: "The Judge's Audit Clarification", description: "On the judges' bench front (center): the Second Ne-Yon's terse reply, distinguishing the instrument He destroyed (the Thought Virus) from the instrument that was preserved (Lycos).", x: 44, y: 48, width: 5, height: 5, type: "interact", action: "room-mystery:order-tribunal:wolf-judge-clarification" },
+      { id: "storm-judges-arbitration-register", name: "Judge's Storm-Silence Arbitration Register", description: "On the judges' bench front (right lamp area): seven Judge-arbitrations between the Storm and the Silence, each closed with the same standing position — 'keep the polarity.'", x: 54, y: 48, width: 5, height: 5, type: "interact", action: "room-mystery:order-tribunal:storm-judges-arbitration-register" },
     ],
   },
   {
@@ -2792,21 +2818,34 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "chain_complete", value: "chaos_chain" },
     connections: ["engineering"],
     hotspots: [
-      // Realigned 2026-04-25 against the delivered render — three
-      // chained-and-suspended weapon racks above the centre, three
-      // open braziers burning purple/orange/green flames at mid-floor
-      // level, a central holographic blueprint slab arcing red
-      // lightning, an "ANARCHIST" red graffiti sigil on the back-left
-      // wall, scrawled chaos equations covering the back-right wall,
-      // a metal grate-and-light-strip floor stage in the foreground.
-      { id: "reality-forges", name: "Reality Forges", description: "Forges burning with flames of different colors, each one warping reality around it.", x: 12, y: 38, width: 76, height: 42, type: "examine", elaraDialog: "The Reality Forges. Each one burns a different fuel — compressed probability, crystallized paradox, liquefied déjà vu. The Meme used them to forge weapons that shouldn't exist. A sword that cuts through time. A shield that reflects consequences. A bomb that erases the concept of a specific idea. Chaos isn't destruction — it's unlimited creativity." },
-      { id: "chaos-equations", name: "Chaos Equations", description: "Brilliant equations scrawled on the walls alongside anarchist graffiti.", x: 75, y: 8, width: 22, height: 55, type: "examine", elaraDialog: "The equations of chaos. They look like madness, but each one solves an impossible problem. How to travel faster than light without a ship. How to exist in two places simultaneously. How to make a joke so funny it literally rewrites reality. The Meme was a genius — they just expressed their genius through destruction and humor rather than order and logic." },
-      { id: "door-engineering-chaos", name: "Return to Engineering Bay", description: "A jagged hole blasted through the wall leading back to Engineering.", x: 38, y: 88, width: 24, height: 12, type: "door", action: "engineering" },
-      // Phase: room-mystery reachability — wire authored verb-coin
-      // responses (apps/shared/roomMysteries/chaosForge.ts) to
-      // clickable rectangles. Positions chosen to clear existing art.
-      { id: "chaos-anvil", name: "Chaos Anvil", description: "An asymmetric anvil heavier on the left than the right. Strikes ring different harmonics depending on where they land.", x: 4, y: 8, width: 10, height: 14, type: "interact", action: "room-mystery:chaos-forge:chaos-anvil" },
-      { id: "entropy-vat", name: "Entropy Vat", description: "A copper-rimmed bath of seething oil that never settles. Used for tempering — and, by deliberate design, for refusing the smith their certainty.", x: 4, y: 76, width: 10, height: 12, type: "interact", action: "room-mystery:chaos-forge:entropy-vat" },
+      // Re-anchored 2026-05-24 against the AAA Final chaos-forge render
+      // (art/rooms/chaos_forge/baseline.png) after a 10-variant audit.
+      // The 2026-04-25 anchoring described "three suspended weapon
+      // racks + three braziers + central holographic blueprint slab"
+      // — actual AAA Final has three CAULDRONS with colored flames
+      // (yellow left, red center, cyan right), a central anvil
+      // pedestal with glowing core, a crystal shelf far-left, and a
+      // keyhole-vault door far-right.
+      //
+      // Major re-anchors:
+      //   • reality-forges (was 12,38,76,42 sprawling) → tightened to
+      //     the three actual cauldrons (15,35,68,35)
+      //   • chaos-equations (was 75,8,22,55 on right wall) → central
+      //     red-cauldron + back-wall graffiti area (38,28,22,22)
+      //   • chaos-anvil (was 4,8 in blank corner) → visible central
+      //     anvil pedestal (40,72,18,20)
+      //   • entropy-vat (was 4,76 in blank corner) → left-most
+      //     cauldron with yellow flame "tempering bath" (15,55,17,22)
+      //   • door-engineering-chaos (was bottom-center floor) →
+      //     visible keyhole-vault door far-right (88,35,10,45)
+      //
+      // Verify with /ark?debug-hotspots=1 or /ark?author-hotspots=1.
+
+      { id: "reality-forges", name: "Reality Forges", description: "Three cauldrons burn with flames of different colors — yellow probability, red paradox, cyan déjà vu — each warping reality around it.", x: 15, y: 35, width: 68, height: 35, type: "examine", elaraDialog: "The Reality Forges. Each one burns a different fuel — compressed probability, crystallized paradox, liquefied déjà vu. The Meme used them to forge weapons that shouldn't exist. A sword that cuts through time. A shield that reflects consequences. A bomb that erases the concept of a specific idea. Chaos isn't destruction — it's unlimited creativity." },
+      { id: "chaos-equations", name: "Chaos Equations", description: "The back wall behind the central red cauldron — brilliant equations scrawled alongside anarchist graffiti.", x: 38, y: 28, width: 22, height: 22, type: "examine", elaraDialog: "The equations of chaos. They look like madness, but each one solves an impossible problem. How to travel faster than light without a ship. How to exist in two places simultaneously. How to make a joke so funny it literally rewrites reality. The Meme was a genius — they just expressed their genius through destruction and humor rather than order and logic." },
+      { id: "door-engineering-chaos", name: "Return to Engineering Bay", description: "A keyhole-vault door on the far-right wall leading back to Engineering.", x: 88, y: 35, width: 10, height: 45, type: "door", action: "engineering" },
+      { id: "chaos-anvil", name: "Chaos Anvil", description: "The central anvil pedestal at chamber center — asymmetric, heavier on the left than the right. Strikes ring different harmonics depending on where they land.", x: 40, y: 72, width: 18, height: 20, type: "interact", action: "room-mystery:chaos-forge:chaos-anvil" },
+      { id: "entropy-vat", name: "Entropy Vat", description: "The left-most cauldron with yellow flames — a copper-rimmed bath of seething oil that never settles. Used for tempering — and, by deliberate design, for refusing the smith their certainty.", x: 15, y: 55, width: 17, height: 22, type: "interact", action: "room-mystery:chaos-forge:entropy-vat" },
     ],
   },
   /* ═══ SPECIES-UNLOCKED HIDDEN ROOMS ═══ */
@@ -2823,19 +2862,36 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "chain_complete", value: "demagi_chain" },
     connections: ["observation-deck"],
     hotspots: [
-      // Realigned 2026-04-25 against the delivered render — gothic
-      // chamber flanked by four elemental columns (fire on far-left,
-      // earth/vines mid-left, air/cloud mid-right, water on far-right),
-      // central white-star convergence portal above a stepped altar,
-      // arched stained-glass windows with constellations behind the
-      // columns, glowing rune script + circular floor plates on a
-      // mirror-finish foreground floor.
-      { id: "convergence-point", name: "Convergence Point", description: "The center where all four elements merge into pure white energy.", x: 42, y: 18, width: 18, height: 50, type: "examine", elaraDialog: "The Convergence Point. Where fire, water, earth, and air become one. The DeMagi believed that all of reality was built from these four elements in different combinations. At the convergence, you can feel the truth of it — everything is connected, everything is one. The power here is immense. The DeMagi who built this room could reshape matter with a thought." },
-      { id: "demagi-runes", name: "DeMagi Runes", description: "Ancient runes carved into the floor, glowing with shifting elemental colors.", x: 8, y: 78, width: 84, height: 22, type: "examine", elaraDialog: "Ancient DeMagi script. These runes predate the Ark by millennia. They describe the Elemental Covenant — the agreement between the DeMagi and the elements themselves. In exchange for the power to command fire, water, earth, and air, the DeMagi swore to maintain the balance of nature across every world they touched. Your heritage carries that oath." },
-      { id: "door-observation-nexus", name: "Return to Observation Deck", description: "The elemental gateway back to the Observation Deck.", x: 42, y: 50, width: 16, height: 28, type: "door", action: "observation-deck" },
-      // Mystery wiring — apps/shared/roomMysteries/elementalNexus.ts
-      { id: "elemental-orrery", name: "Elemental Orrery", description: "A brass-armatured model of the eight elemental relations — four DeMagi, four Quarchon — orbiting an empty centre.", x: 64, y: 16, width: 14, height: 22, type: "interact", action: "room-mystery:elemental-nexus:elemental-orrery" },
-      { id: "node-pillar", name: "Node Pillar", description: "A fluted brass column with eight horizontal slots. Three hold etched-glass element-discs; five are empty.", x: 76, y: 18, width: 8, height: 30, type: "interact", action: "room-mystery:elemental-nexus:node-pillar" },
+      // Re-anchored 2026-05-24 against the AAA Final elemental-nexus
+      // render after a 9-variant audit. The 2026-04-25 anchoring
+      // described "gothic chamber with stained-glass constellations" —
+      // actual art is a brass chamber with 4 elemental pillars across
+      // the back wall (violet/cosmic, orb/spirit, cyan-water, green-
+      // air with swirl), a tall central fire-flame on a pedestal,
+      // a circular compass-rose floor with DeMagi runes, a purple
+      // sphere on the left-foreground, a golden sphere on the right-
+      // foreground.
+      //
+      // Major re-anchors:
+      //   • convergence-point (was 42,18,18,50) → tightened to the
+      //     central flame pedestal (40,18,18,40)
+      //   • demagi-runes (was 8,78,84,22 on floor edge) → the
+      //     compass-rose floor with rune ring (15,55,70,38)
+      //   • door-observation-nexus (was overlapping convergence) →
+      //     invisible bottom-center walk-out
+      //   • elemental-orrery (was 64,16,14,22) → right-foreground
+      //     golden sphere on stand (80,58,18,30) — brass-armatured
+      //     model fits
+      //   • node-pillar (was 76,18,8,30) → far-right elemental pillar
+      //     with green/air-swirl element (78,8,15,42)
+      //
+      // Verify with /ark?debug-hotspots=1 or /ark?author-hotspots=1.
+
+      { id: "convergence-point", name: "Convergence Point", description: "The central flame on a tall pedestal between the four pillars — where fire, water, earth, and air merge into pure white energy.", x: 40, y: 18, width: 18, height: 40, type: "examine", elaraDialog: "The Convergence Point. Where fire, water, earth, and air become one. The DeMagi believed that all of reality was built from these four elements in different combinations. At the convergence, you can feel the truth of it — everything is connected, everything is one. The power here is immense. The DeMagi who built this room could reshape matter with a thought." },
+      { id: "demagi-runes", name: "DeMagi Runes", description: "The compass-rose floor ringed in glowing rune script — ancient DeMagi carving in shifting elemental colors.", x: 15, y: 55, width: 70, height: 38, type: "examine", elaraDialog: "Ancient DeMagi script. These runes predate the Ark by millennia. They describe the Elemental Covenant — the agreement between the DeMagi and the elements themselves. In exchange for the power to command fire, water, earth, and air, the DeMagi swore to maintain the balance of nature across every world they touched. Your heritage carries that oath." },
+      { id: "door-observation-nexus", name: "Return to Observation Deck", description: "The elemental gateway back to the Observation Deck.", x: 40, y: 92, width: 20, height: 6, type: "door", action: "observation-deck" },
+      { id: "elemental-orrery", name: "Elemental Orrery", description: "The brass-armatured golden sphere on the right-foreground stand — a model of the eight elemental relations (four DeMagi, four Quarchon) orbiting an empty centre.", x: 80, y: 58, width: 18, height: 30, type: "interact", action: "room-mystery:elemental-nexus:elemental-orrery" },
+      { id: "node-pillar", name: "Node Pillar", description: "The far-right elemental pillar with green/air-swirl element-discs — a fluted brass column with eight horizontal slots. Three hold etched-glass discs; five are empty.", x: 78, y: 8, width: 15, height: 42, type: "interact", action: "room-mystery:elemental-nexus:node-pillar" },
     ],
   },
   {
@@ -2851,29 +2907,43 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "chain_complete", value: "quarchon_chain" },
     connections: ["archives"],
     hotspots: [
-      // Mystery wiring — charter.missing_signatory · e2 (wax mineralisation)
-      { id: "charter-wax-mineralisation-analysis", name: "Wax Mineralisation Analysis", description: "The charter's wax-blister on the lab's analysis stage. Standard solvents refused; quantum-imaging places the original temperature in the upper-band range. The Ark does not house a forge that can do this.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:quantum-lab:charter-wax-mineralisation-analysis" },
-      // Mystery wiring — severance.bound_champion · e2 (bond's internal log stack)
-      { id: "severance-bond-internal-log", name: "Companion Bond — Sieve Reading", description: "On the sieve-reading bench: the companion's bond from this finals night, held in stasis. Forty-one names whispered into the bond at each inheritance, intact and in order.", x: 13, y: 19, width: 6, height: 6, type: "interact", action: "room-mystery:quantum-lab:severance-bond-internal-log" },
-      // Mystery wiring — charter.second_signatory · e1 (parallel-vellum analysis)
-      { id: "charter2-vellum-comparison", name: "Parallel-Vellum Imaging Analysis", description: "Both charters side by side on the lab's parallel-stage. Quantum-imaging confirms same hide, adjacent cuts, same week's cure. Two parallel originals from one founding hand, not original-plus-forgery.", x: 20, y: 30, width: 6, height: 6, type: "interact", action: "room-mystery:quantum-lab:charter2-vellum-comparison" },
-      // Mystery wiring — severance.infernal_clause · e3 (quantum-dating)
-      { id: "infernal-quantum-dating", name: "Forty-Contract Ink-Dating Stage", description: "On the dating stage: every clause's ink dates to the same seven-day window in epoch one. Thirty-nine of forty clauses pre-date the contracts they appear on.", x: 27, y: 41, width: 6, height: 6, type: "interact", action: "room-mystery:quantum-lab:infernal-quantum-dating" },
-      // Mystery wiring — akai_shi.red_death · e4 (Matrix entry fold signature)
-      { id: "akai-matrix-entry-fold", name: "Matrix Entry — Day 14 of Fracture", description: "On the fold-analysis stage: the Red Death's Matrix-entry signature, timestamp Day 14 of Fracture, Year 117,046 A.A. A fold the Game Master's design did not anticipate.", x: 50, y: 52, width: 6, height: 6, type: "interact", action: "room-mystery:quantum-lab:akai-matrix-entry-fold" },
-      // Mystery wiring — akai_shi.red_death · e2 + e3 (Red Death signature + evasion log)
-      { id: "akai-red-death-energy-signature", name: "Red Death Energy Signature", description: "On the frequency-band stage: Akai Shi's pre-mortem markers intact, healing band replaced with a time-displacement frequency. The substitution carries the Cycle Walker's authoring signature.", x: 34, y: 52, width: 6, height: 6, type: "interact", action: "room-mystery:quantum-lab:akai-red-death-energy-signature" },
-      { id: "akai-necromancer-evasion-log", name: "Necromancer Evasion Log", description: "Beside the signature stage: the Necromancer's millennia-long movements inside the Matrix. Un-territorial geometry. Only a time-displaced agent could enter. The Resurrectionist built one.", x: 42, y: 52, width: 6, height: 6, type: "interact", action: "room-mystery:quantum-lab:akai-necromancer-evasion-log" },
-      // Realigned 2026-04-25 against the delivered render — central
-      // glass containment cube holding a writhing electric-cloud
-      // anomaly, ceiling-mounted ring of lightning haloed above it,
-      // twin porthole observation windows mid-left, holographic
-      // Schrödinger / wave-function panels in the upper corners and
-      // right wall, central staircase descending out of frame, control
-      // consoles flanking the foreground at lower-left and lower-right.
-      { id: "quantum-anomaly", name: "Quantum Anomaly", description: "A shimmering mass of matter existing in multiple states simultaneously.", x: 38, y: 20, width: 22, height: 42, type: "examine", elaraDialog: "The Quantum Anomaly. It's simultaneously a star, a planet, a person, and nothing at all. Quarchon physics says that observation collapses probability into reality — but this anomaly resists observation. It stays in superposition no matter who looks at it. The Quarchon scientists believed it was a fragment of the universe before the Big Bang — before anything decided to be anything." },
-      { id: "probability-engine", name: "Probability Engine", description: "A device that can calculate and manipulate quantum probability fields.", x: 78, y: 22, width: 20, height: 32, type: "examine", elaraDialog: "The Probability Engine. It doesn't predict the future — it calculates every possible present. Feed it a question and it shows you every reality where that question has a different answer. The Quarchon used it to find the optimal timeline — the one where the most beings survive the Terminus Swarm. They found it. We're living in it." },
-      { id: "door-archives-quantum", name: "Return to Archives", description: "The quantum-locked door back to the Archives.", x: 38, y: 70, width: 24, height: 28, type: "door", action: "archives" },
+      // Re-anchored 2026-05-24 against the AAA Final quantum-lab render
+      // after a 9-variant audit. The 2026-04-25 anchoring described
+      // "central glass containment CUBE + lightning halo + porthole
+      // observation windows" — actual AAA Final is a central glass
+      // CYLINDRICAL containment vessel holding a figure-silhouette,
+      // cyan holographic probability charts on left + right walls,
+      // brass cogs/gears in the foreground, and a chair on the right.
+      //
+      // Major re-anchors:
+      //   • quantum-anomaly tightened to the central glass cylinder
+      //     (37,5,28,70)
+      //   • probability-engine moved from right wall to LEFT wall
+      //     holographic displays (0,18,30,48) — the probability charts
+      //     with nodes/connections actually visible there
+      //   • door-archives-quantum invisible bottom-center walk-out
+      //   • all 7 architect-channel mysteries (charter-wax-min., etc.)
+      //     redistributed onto visible analysis stages: foreground
+      //     gears/brass area + right-wall holograms
+      //
+      // Verify with /ark?debug-hotspots=1 or /ark?author-hotspots=1.
+
+      { id: "quantum-anomaly", name: "Quantum Anomaly", description: "The tall cylindrical glass containment vessel at chamber center holds a figure-silhouette — matter existing in multiple states simultaneously.", x: 37, y: 5, width: 28, height: 70, type: "examine", elaraDialog: "The Quantum Anomaly. It's simultaneously a star, a planet, a person, and nothing at all. Quarchon physics says that observation collapses probability into reality — but this anomaly resists observation. It stays in superposition no matter who looks at it. The Quarchon scientists believed it was a fragment of the universe before the Big Bang — before anything decided to be anything." },
+      { id: "probability-engine", name: "Probability Engine", description: "Left-wall holographic probability charts — nodes and connections mapping every possible present.", x: 0, y: 18, width: 30, height: 48, type: "examine", elaraDialog: "The Probability Engine. It doesn't predict the future — it calculates every possible present. Feed it a question and it shows you every reality where that question has a different answer. The Quarchon used it to find the optimal timeline — the one where the most beings survive the Terminus Swarm. They found it. We're living in it." },
+      { id: "door-archives-quantum", name: "Return to Archives", description: "The quantum-locked door back to the Archives.", x: 40, y: 93, width: 20, height: 5, type: "door", action: "archives" },
+
+      // ── ANALYSIS-STAGE MYSTERY RECTS (7) ──
+      // Distributed onto right-wall holographic displays + foreground
+      // cogs/brass piping (the "analysis stage" surfaces). Each
+      // architect-channel mystery represents reading a specific
+      // analysis output.
+      { id: "charter-wax-mineralisation-analysis", name: "Wax Mineralisation Analysis", description: "On the lab's left analysis-stage hologram: the charter's wax-blister readout. Standard solvents refused; quantum-imaging places the original temperature in the upper-band range. The Ark does not house a forge that can do this.", x: 2, y: 22, width: 5, height: 5, type: "interact", action: "room-mystery:quantum-lab:charter-wax-mineralisation-analysis" },
+      { id: "severance-bond-internal-log", name: "Companion Bond — Sieve Reading", description: "On the lab's sieve-reading bench (left hologram): the companion's bond from this finals night, held in stasis. Forty-one names whispered into the bond at each inheritance, intact and in order.", x: 8, y: 22, width: 5, height: 5, type: "interact", action: "room-mystery:quantum-lab:severance-bond-internal-log" },
+      { id: "charter2-vellum-comparison", name: "Parallel-Vellum Imaging Analysis", description: "On the parallel-stage hologram (left wall lower): both charters side by side. Quantum-imaging confirms same hide, adjacent cuts, same week's cure. Two parallel originals from one founding hand.", x: 2, y: 45, width: 5, height: 5, type: "interact", action: "room-mystery:quantum-lab:charter2-vellum-comparison" },
+      { id: "infernal-quantum-dating", name: "Forty-Contract Ink-Dating Stage", description: "On the dating stage (right wall hologram): every clause's ink dates to the same seven-day window in epoch one. Thirty-nine of forty clauses pre-date the contracts they appear on.", x: 67, y: 22, width: 5, height: 5, type: "interact", action: "room-mystery:quantum-lab:infernal-quantum-dating" },
+      { id: "akai-matrix-entry-fold", name: "Matrix Entry — Day 14 of Fracture", description: "On the fold-analysis stage (right wall hologram): the Red Death's Matrix-entry signature, timestamp Day 14 of Fracture, Year 117,046 A.A. A fold the Game Master's design did not anticipate.", x: 73, y: 22, width: 5, height: 5, type: "interact", action: "room-mystery:quantum-lab:akai-matrix-entry-fold" },
+      { id: "akai-red-death-energy-signature", name: "Red Death Energy Signature", description: "On the frequency-band stage (right wall hologram lower): Akai Shi's pre-mortem markers intact, healing band replaced with a time-displacement frequency. The substitution carries the Cycle Walker's authoring signature.", x: 67, y: 45, width: 5, height: 5, type: "interact", action: "room-mystery:quantum-lab:akai-red-death-energy-signature" },
+      { id: "akai-necromancer-evasion-log", name: "Necromancer Evasion Log", description: "Beside the signature stage: the Necromancer's millennia-long movements inside the Matrix. Un-territorial geometry. Only a time-displaced agent could enter. The Resurrectionist built one.", x: 73, y: 45, width: 5, height: 5, type: "interact", action: "room-mystery:quantum-lab:akai-necromancer-evasion-log" },
       // Mystery wiring — apps/shared/roomMysteries/quantumLab.ts
       { id: "entanglement-rig", name: "Entanglement Rig", description: "A brass armature suspending two clear quartz orbs at opposite corners of the room. Strike one and the other rings half a beat later.", x: 4, y: 10, width: 26, height: 50, type: "interact", action: "room-mystery:quantum-lab:entanglement-rig" },
       { id: "observation-cage", name: "Observation Cage", description: "A small brass-mesh enclosure beside the entanglement-rig. Faraday-isolated; holds a single oxblood-leather notebook.", x: 64, y: 60, width: 16, height: 32, type: "interact", action: "room-mystery:quantum-lab:observation-cage" },
@@ -2892,23 +2962,33 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "chain_complete", value: "neyon_chain" },
     connections: ["medical-bay"],
     hotspots: [
-      // Realigned 2026-04-25 against the delivered render — bio-organic
-      // chamber with a massive central glowing-green DNA helix beneath
-      // a circular ceiling oculus, vine-wrapped gothic columns flanking
-      // both side walls with bioluminescent pods, holographic UI panels
-      // mounted on the side walls (cyan + amber), a stepped altar
-      // platform with stairs ascending to the helix, and circular
-      // bio-pod platforms scattered across the mossy foreground floor.
-      { id: "dna-helix", name: "Ne-Yon DNA Helix", description: "A rotating holographic DNA helix showing the fusion of organic and synthetic code.", x: 40, y: 8, width: 20, height: 70, type: "examine", elaraDialog: "The Ne-Yon DNA Helix. Half biological, half digital. It shows how the Ne-Yon evolved — or were engineered — to bridge the gap between organic life and artificial intelligence. Every Ne-Yon carries this dual code. Your thoughts are processed by both neurons and nanites simultaneously. That's why you can interface with technology that would fry a pure organic brain." },
-      { id: "bio-circuits", name: "Bio-Circuits", description: "Living vines that function as biological data cables.", x: 0, y: 12, width: 22, height: 76, type: "examine", elaraDialog: "Bio-circuits. Living data networks grown from Ne-Yon genetic material. They process information faster than silicon and repair themselves when damaged. The Ne-Yon dream of a future where all technology is alive — where machines grow, evolve, and think alongside their creators. This chamber is the prototype for that future." },
-      { id: "door-medical-synthesis", name: "Return to Medical Bay", description: "The bio-organic passage back to the Medical Bay.", x: 40, y: 78, width: 20, height: 22, type: "door", action: "medical-bay" },
-      // Mystery wiring — apps/shared/roomMysteries/synthesisChamber.ts
-      // (NOTE: the existing GameContext "dna-helix" hotspot above is
-      //  intentionally distinct from synthesis-chamber's mystery-only
-      //  "synth-vat" / "recipe-board" surfaces — different physical
-      //  features described in the mystery module.)
-      { id: "synth-vat", name: "Synthesis Vat", description: "A cylindrical glass tank ten feet tall, currently holding a slow-spinning amber fluid — the medical bay's neural-stim base, synthesised from raw biostock.", x: 64, y: 12, width: 18, height: 60, type: "interact", action: "room-mystery:synthesis-chamber:synth-vat" },
-      { id: "recipe-board", name: "Recipe Board", description: "A brass-framed slate listing the chamber's authorised syntheses. The newest entry — Substrate-N. RESTRICTED — is in a hand that is not Lyra's.",  x: 84, y: 12, width: 14, height: 60, type: "interact", action: "room-mystery:synthesis-chamber:recipe-board" },
+      // Re-anchored 2026-05-24 against the AAA Final synthesis-chamber
+      // render after a 9-variant audit. The 2026-04-25 anchoring
+      // described "central glowing-green DNA helix beneath a ceiling
+      // oculus + vine-wrapped gothic columns" — actual AAA Final is a
+      // brass-and-glass synthesis chamber: cyan input tube left, amber
+      // input tube right, central brass-rimmed bowl with bubbling
+      // contents and rising steam, holographic recipe panels on far-
+      // left + far-right walls, curved gantry overhead.
+      //
+      // Major re-anchors:
+      //   • dna-helix (was 40,8,20,70 sprawling up to ceiling) →
+      //     central brass-rimmed synthesis bowl (33,32,34,42)
+      //   • bio-circuits (was 0,12,22,76 sprawling left side) →
+      //     left cyan crystalline input tube (15,30,18,48)
+      //   • synth-vat (was 64,12,18,60) → right amber crystalline
+      //     input tube (62,30,18,48)
+      //   • recipe-board (was 84,12,14,60) → far-right wall
+      //     holographic recipe panels (85,18,14,55)
+      //   • door-medical-synthesis → invisible bottom-center walkout
+      //
+      // Verify with /ark?debug-hotspots=1 or /ark?author-hotspots=1.
+
+      { id: "dna-helix", name: "Ne-Yon DNA Helix", description: "The central brass-rimmed glass bowl at chamber center, bubbling with bio-synthesis fluid — a rotating holographic DNA helix overlay shows the fusion of organic and synthetic code.", x: 33, y: 32, width: 34, height: 42, type: "examine", elaraDialog: "The Ne-Yon DNA Helix. Half biological, half digital. It shows how the Ne-Yon evolved — or were engineered — to bridge the gap between organic life and artificial intelligence. Every Ne-Yon carries this dual code. Your thoughts are processed by both neurons and nanites simultaneously. That's why you can interface with technology that would fry a pure organic brain." },
+      { id: "bio-circuits", name: "Bio-Circuits", description: "The left cyan crystalline input tube feeding the central bowl — living vines functioning as biological data cables.", x: 15, y: 30, width: 18, height: 48, type: "examine", elaraDialog: "Bio-circuits. Living data networks grown from Ne-Yon genetic material. They process information faster than silicon and repair themselves when damaged. The Ne-Yon dream of a future where all technology is alive — where machines grow, evolve, and think alongside their creators. This chamber is the prototype for that future." },
+      { id: "door-medical-synthesis", name: "Return to Medical Bay", description: "The bio-organic passage back to the Medical Bay.", x: 40, y: 93, width: 20, height: 5, type: "door", action: "medical-bay" },
+      { id: "synth-vat", name: "Synthesis Vat", description: "The right amber crystalline input tube — a cylindrical glass tank holding slow-spinning amber fluid, the medical bay's neural-stim base synthesised from raw biostock.", x: 62, y: 30, width: 18, height: 48, type: "interact", action: "room-mystery:synthesis-chamber:synth-vat" },
+      { id: "recipe-board", name: "Recipe Board", description: "The far-right wall holographic recipe panels — a brass-framed slate listing the chamber's authorised syntheses. The newest entry — Substrate-N. RESTRICTED — is in a hand that is not Lyra's.", x: 85, y: 18, width: 14, height: 55, type: "interact", action: "room-mystery:synthesis-chamber:recipe-board" },
       // Mystery wiring — Collector arc: the Architect's assembly-record, the Collector's Garden bed
       { id: "architects-assembly-record", name: "The Architect's Assembly Record", description: "A folio in the chamber's assembly-doctrine drawer — the Collector's curatorial doctrine, his own donorless origin, and the Inception Ark mandate.", x: 4, y: 12, width: 16, height: 28, type: "interact", action: "room-mystery:synthesis-chamber:architects-assembly-record" },
       { id: "the-collectors-garden-bed", name: "The Collector's Garden Bed", description: "A sealed planter fed from the vat's overflow — the Collector's Garden: a three-thousand-year crossbreeding project, the one place he makes rather than keeps.", x: 4, y: 44, width: 16, height: 28, type: "interact", action: "room-mystery:synthesis-chamber:the-collectors-garden-bed" },
@@ -2930,25 +3010,25 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "room_visited", value: "engineering" },
     connections: ["engineering", "war-room"],
     hotspots: [
-      { id: "circuit-paddock", name: "Dead Man's Circuit Paddock", description: "Bone-tracks built from the remains of dead clones. Nilmorg narrates the season.", x: 12, y: 64, width: 16, height: 22, type: "terminal", action: "/circuit", elaraDialog: "Dead Man's Circuit. The karts race bone-tracks built from dead clones, and Nilmorg calls every lap. The most honest accounting of what disposability costs." },
-      // Anchored 2026-04-25 against the AAA Final station-dock render —
-      // octagonal chamber, hexagonal viewport at back showing the
-      // half-built orbital station against violet nebula, two
-      // construction drones mounted in ceiling cradles flanking the
-      // viewport, central low octagonal dais carrying the cyan
-      // build-table, a small trophy podium beside the dais, the
-      // Warden's Vigil holographic panel mounted on the right wall,
-      // doorway to Engineering on the far-left wall.
-      { id: "station-console", name: "Station Command Console", description: "Design and manage your personal space station from this holographic interface.", x: 38, y: 55, width: 24, height: 35, type: "terminal", action: "/space-station", elaraDialog: "The Station Command Console. From here you can build modules, collect resources, and customize your orbital base. Your civil skills in Engineering and Architecture directly affect build speed and module efficiency. Your class determines which specialized modules you can unlock." },
-      { id: "defense-grid", name: "The Warden's Vigil", description: "Dimensional fortification and raiding systems.", x: 80, y: 22, width: 18, height: 50, type: "terminal", action: "/tower-defense", elaraDialog: "The Warden's Vigil — named after the Archon who oversaw the Panopticon's defense grid. Place elemental towers to fortify your station, or launch raids against other Potentials. Your class, species, alignment, and skills all shape which towers and units you command." },
-      { id: "arena-portal", name: "Competitive Arena Portal", description: "Trophy rankings, daily streaks, and league standings.", x: 62, y: 52, width: 12, height: 22, type: "terminal", action: "/competitive-arena", elaraDialog: "The Competitive Arena. Track your raid trophies, climb the league ladder, and maintain your daily streak for Chrono Shards. Your RPG build gives you an edge — stronger characters earn more trophies per victory." },
-      { id: "door-engineering-dock", name: "Return to Engineering", description: "The corridor back to Engineering.", x: 2, y: 30, width: 12, height: 60, type: "door", action: "engineering" },
-      // Mystery wiring — apps/shared/roomMysteries/stationDock.ts
-      { id: "airlock-control", name: "Airlock Control", description: "A brass-rimmed cylinder with deep-oxblood seal gaskets. Currently sealed, ready-light glowing steady warm-gold.", x: 38, y: 8, width: 24, height: 28, type: "interact", action: "room-mystery:station-dock:airlock-control" },
-      { id: "ship-manifest", name: "Ship Manifest", description: "A brass slab with rolling-paper readouts. The most recent entry is dated the day before Lyra's death.", x: 18, y: 8, width: 18, height: 18, type: "interact", action: "room-mystery:station-dock:ship-manifest" },
-      { id: "cargo-lift", name: "Cargo Lift", description: "The platform is at floor level, currently empty. Last used to load Wraith's transport. A faint graphite smear remains.", x: 38, y: 91, width: 24, height: 7, type: "interact", action: "room-mystery:station-dock:cargo-lift" },
-      // Mystery wiring — Degen arc Coda books / Hierarchy queries surface
-      { id: "codas-trading-floor", name: "Coda's Trading-Floor Desk", description: "A brass-edged worktop tucked behind the manifest console where Hierarchy correspondents file documents in transit.", x: 18, y: 30, width: 14, height: 18, type: "interact", action: "room-mystery:station-dock:codas-trading-floor" },
+      // Re-anchored 2026-05-24 against the AAA Final station-dock
+      // render after a 14-variant audit. The 2026-04-25 anchoring
+      // described "octagonal chamber with hexagonal viewport + ceiling
+      // drone cradles + cyan build-table on dais" — actual AAA Final
+      // is different: central PURPLE GLOWING PORTAL door, right-wall
+      // faction banners, central pedestal with monitor/sign, brass
+      // display case + statue right-foreground, small left-wall door.
+      //
+      // Verify with /ark?debug-hotspots=1 or /ark?author-hotspots=1.
+
+      { id: "airlock-control", name: "Airlock Control", description: "The central PURPLE GLOWING PORTAL door — a brass-rimmed cylinder with deep-oxblood seal gaskets. Ready-light glowing steady warm-gold.", x: 22, y: 22, width: 28, height: 60, type: "interact", action: "room-mystery:station-dock:airlock-control" },
+      { id: "station-console", name: "Station Command Console", description: "The central foreground pedestal with cyan monitor — design and manage your personal space station from this holographic interface.", x: 38, y: 65, width: 22, height: 28, type: "terminal", action: "/space-station", elaraDialog: "The Station Command Console. From here you can build modules, collect resources, and customize your orbital base. Your civil skills in Engineering and Architecture directly affect build speed and module efficiency. Your class determines which specialized modules you can unlock." },
+      { id: "defense-grid", name: "The Warden's Vigil", description: "The right-wall faction banners — dimensional fortification and raiding systems, named after the Archon who oversaw the Panopticon's defense grid.", x: 60, y: 25, width: 30, height: 45, type: "terminal", action: "/tower-defense", elaraDialog: "The Warden's Vigil — named after the Archon who oversaw the Panopticon's defense grid. Place elemental towers to fortify your station, or launch raids against other Potentials. Your class, species, alignment, and skills all shape which towers and units you command." },
+      { id: "arena-portal", name: "Competitive Arena Portal", description: "The right-foreground brass display case with statue — trophy rankings, daily streaks, and league standings.", x: 78, y: 55, width: 18, height: 32, type: "terminal", action: "/competitive-arena", elaraDialog: "The Competitive Arena. Track your raid trophies, climb the league ladder, and maintain your daily streak for Chrono Shards. Your RPG build gives you an edge — stronger characters earn more trophies per victory." },
+      { id: "circuit-paddock", name: "Dead Man's Circuit Paddock", description: "The left-wall doorway area — bone-tracks built from the remains of dead clones, where Nilmorg narrates the season.", x: 0, y: 35, width: 14, height: 50, type: "terminal", action: "/circuit", elaraDialog: "Dead Man's Circuit. The karts race bone-tracks built from dead clones, and Nilmorg calls every lap. The most honest accounting of what disposability costs." },
+      { id: "door-engineering-dock", name: "Return to Engineering", description: "The small left-wall door back to Engineering.", x: 0, y: 25, width: 8, height: 12, type: "door", action: "engineering" },
+      { id: "ship-manifest", name: "Ship Manifest", description: "Brass slab with rolling-paper readouts on the foreground pedestal — the most recent entry is dated the day before Lyra's death.", x: 40, y: 70, width: 8, height: 8, type: "interact", action: "room-mystery:station-dock:ship-manifest" },
+      { id: "cargo-lift", name: "Cargo Lift", description: "The floor platform in front of the central portal — currently empty. Last used to load Wraith's transport. A faint graphite smear remains.", x: 30, y: 92, width: 30, height: 6, type: "interact", action: "room-mystery:station-dock:cargo-lift" },
+      { id: "codas-trading-floor", name: "Coda's Trading-Floor Desk", description: "The right-foreground brass display case interior — a worktop where Hierarchy correspondents file documents in transit.", x: 78, y: 60, width: 14, height: 18, type: "interact", action: "room-mystery:station-dock:codas-trading-floor" },
     ],
   },
   {
@@ -2964,38 +3044,39 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "room_visited", value: "bridge" },
     connections: ["bridge", "station-dock"],
     hotspots: [
-      { id: "conexus-governance-shell", name: "CoNexus Governance Shell", description: "The governance shell the Architect's dismantled CoNexus left behind.", x: 70, y: 30, width: 16, height: 22, type: "terminal", action: "/governance", elaraDialog: "The CoNexus governance shell. When the Architect dismantled the constructed CoNexus it left this voting chamber empty. The saga's nexus decisions are how the playerbase fills it." },
-      // Anchored 2026-04-25 against the AAA Final guild-sanctum render —
-      // domed circular chamber with seven faction banners hanging from
-      // the dome ribbing, central tiered dais carrying a holographic
-      // globe with a miniature capital city, right-side prestige
-      // shrine with a column of golden light, arched Bridge doorway
-      // on the left wall, mosaic compass-rose on the foreground floor.
-      { id: "world-projector", name: "Syndicate World Projector", description: "A holographic display of your guild's capital world.", x: 38, y: 22, width: 24, height: 50, type: "terminal", action: "/syndicate-world", elaraDialog: "The Syndicate World Projector. Your guild's capital is displayed here. Your civil skills in Architecture and Engineering reduce build costs and times. Your class mastery unlocks special buildings only available to certain classes." },
-      { id: "prestige-altar", name: "Prestige Altar", description: "A glowing altar where Potentials undertake quest chains to unlock prestige classes.", x: 70, y: 50, width: 18, height: 28, type: "terminal", action: "/prestige-quests", elaraDialog: "The Prestige Altar. Undertake quest chains that unlock prestige classes — advanced specializations that grant powerful bonuses to everything you do. Each requires specific base classes, species, and skill levels." },
-      { id: "door-bridge-sanctum", name: "Return to Bridge", description: "The passage back to the Command Bridge.", x: 10, y: 45, width: 14, height: 38, type: "door", action: "bridge" },
-      // Mystery wiring — apps/shared/roomMysteries/guildSanctum.ts
-      // Mystery wiring — resurrectionist.cycle_walker · color (guild-sanctum)
-      { id: "resur-degens-open-ledger-line", name: "Degen's Open Ledger Line — Ark Survivor", description: "On the casino-ledger console: 'Ark survivor, no fee — hundred-year arrangement, settlement deferred.' The cult calls the entry a 'copyist's pleasantry.' The Degen's clerks do not write copyist's pleasantries.", x: 46, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:guild-sanctum:resur-degens-open-ledger-line" },
-      { id: "resur-molvereth-contract-clause", name: "Mol'Vereth Contract — Cycle-Walker Clause", description: "Pinned beside: the Mol'Vereth contract clause. 'In the event of the second fall, the cycle walker rides the Ark.' The cult calls it metaphorical; Mol'Vereth's other clauses are notably literal.", x: 54, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:guild-sanctum:resur-molvereth-contract-clause" },
-      { id: "resur-degens-pending-settlement", name: "Degen's Pending Settlement — Ark 1047", description: "On the long-arrangement shelf: 'pending settlement — hundred-year arrangement, witness night TBD.' Authored, by canonical record, on the same instant as the Resurrectionist's vanishing.", x: 62, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:guild-sanctum:resur-degens-pending-settlement" },
-      // Mystery wiring — advocate.blood_weave · e4 (Xeth'Raal's debt ledger entry)
-      { id: "advocate-xethraal-debt-ledger", name: "Xeth'Raal's Debt Ledger — Advocate Entry", description: "On the debt-archive console: the Hierarchy CFO's ledger entry on the Advocate. 'Sacrifice... recorded as a debt that could never be fully repaid.'", x: 38, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:guild-sanctum:advocate-xethraal-debt-ledger" },
-      // Mystery wiring — wolf.anara_hunt · e5 (minigame entry state + Wolf-present chronicle window)
-      { id: "wolf-minigame-entry-state", name: "Hunt-the-Hero — Minigame Entry State", description: "On the case-handover board: the player's E2-E4 choices set the minigame's opening state. The investigation closes; the gameplay opens.", x: 22, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:guild-sanctum:wolf-minigame-entry-state" },
-      { id: "wolf-present-in-hall", name: "Wolf, Present in the Hall — Chronicle Window", description: "Through the sanctum's chronicle window: the Wolf wearing the medic's cloak, reading her inner-lining bond-prayer. Deciding whether to extend mercy a second time.", x: 30, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:guild-sanctum:wolf-present-in-hall" },
-      // Mystery wiring — storm.architect_of_flux · color (guild-sanctum)
-      { id: "storm-degens-house-advantage-anomaly", name: "Degen's House-Advantage Anomaly", description: "On the allegiance-pad's accounting console: a multi-decade anomaly in the Degen's house advantage, annotated 'patron arrangement — Storm-class.'", x: 14, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:guild-sanctum:storm-degens-house-advantage-anomaly" },
-      { id: "sigil-altar", name: "Sigil Altar", description: "A low brass slab inscribed with every guild-sigil the Ark has ever recognised. Some sigils are scratched out. Some are double-engraved.", x: 38, y: 78, width: 24, height: 14, type: "interact", action: "room-mystery:guild-sanctum:sigil-altar" },
-      { id: "allegiance-pad", name: "Allegiance Pad", description: "A small pressure-pad in the floor in front of the altar. Stepping on it puts your current allegiances on the record.", x: 38, y: 90, width: 24, height: 8, type: "interact", action: "room-mystery:guild-sanctum:allegiance-pad" },
-      // Mystery wiring — Zyr'Koth arc: the Advocate's structural blind spot and what telling her costs
-      { id: "the-advocates-blind-spot", name: "The Advocate's Blind Spot", description: "A cross-reference laid beside the altar's engraving log — the third use of the Blood Weave the Advocate's defensive doctrine cannot perceive, and the cost it relocates onto the subject.", x: 20, y: 22, width: 18, height: 12, type: "interact", action: "room-mystery:guild-sanctum:the-advocates-blind-spot" },
-      { id: "what-telling-the-advocate-costs", name: "What Telling the Advocate Costs", description: "Set against the altar's logic that speech here is witnessed and binding — the Advocate's unknowing by construction, and the small severance the player can perform by speaking.", x: 20, y: 40, width: 18, height: 12, type: "interact", action: "room-mystery:guild-sanctum:what-telling-the-advocate-costs" },
-      // Mystery wiring — Syl'Vex arc: the mirror doctrine of the same Weave, and the sister-of-the-Weave address and closure
-      { id: "the-mirror-doctrine-loom", name: "The Mirror-Doctrine Loom", description: "Laid against the altar's logic that two true allegiances stand engraved at once — the Advocate's doctrine that Syl'Vex weaves the same Weave to convert, the consent-mechanics of it, and what the defending cost the Advocate.", x: 62, y: 22, width: 18, height: 12, type: "interact", action: "room-mystery:guild-sanctum:the-mirror-doctrine-loom" },
-      { id: "the-sister-of-the-weave-letter", name: "The Sister-of-the-Weave Letter", description: "Where an address is witnessed and binding — the Weave's refusal to counter-convert, the Advocate's repeated canonical 'sister of the same Weave,' and her closure letter to the player.", x: 62, y: 40, width: 18, height: 12, type: "interact", action: "room-mystery:guild-sanctum:the-sister-of-the-weave-letter" },
-      // Mystery wiring — Riri'Ahlia arc: the binding chains that made the siege irrelevant, and what holding them cost the Advocate
-      { id: "the-binding-chains-cost", name: "The Binding-Chains Cost", description: "Set against the altar's logic that some defenses answer no coercion and cannot be inscribed — the Advocate's binding chains that made the Taskmaster's siege a category error, and the humanity holding them cost her, canonically and irreversibly.", x: 38, y: 58, width: 24, height: 12, type: "interact", action: "room-mystery:guild-sanctum:the-binding-chains-cost" },
+      // Re-anchored 2026-05-24 against the AAA Final guild-sanctum
+      // render after a 14-variant audit. The 2026-04-25 anchoring
+      // described "domed circular chamber with seven faction banners
+      // + central holographic globe + right-side prestige shrine" —
+      // actual AAA Final is a gothic chamber: left-wall tall sigil
+      // plaque, central raised octagonal floor seal, central-back
+      // desk + figure (NPC), right-wall large pink/purple star-chart
+      // display, arched door back-center, chandelier overhead.
+      //
+      // Verify with /ark?debug-hotspots=1 or /ark?author-hotspots=1.
+
+      { id: "world-projector", name: "Syndicate World Projector", description: "The right-wall pink/purple star-chart display — a holographic display of your guild's capital world.", x: 70, y: 22, width: 28, height: 50, type: "terminal", action: "/syndicate-world", elaraDialog: "The Syndicate World Projector. Your guild's capital is displayed here. Your civil skills in Architecture and Engineering reduce build costs and times. Your class mastery unlocks special buildings only available to certain classes." },
+      { id: "prestige-altar", name: "Prestige Altar", description: "The left-wall tall sigil plaque — a glowing altar where Potentials undertake quest chains to unlock prestige classes.", x: 0, y: 22, width: 22, height: 50, type: "terminal", action: "/prestige-quests", elaraDialog: "The Prestige Altar. Undertake quest chains that unlock prestige classes — advanced specializations that grant powerful bonuses to everything you do. Each requires specific base classes, species, and skill levels." },
+      { id: "sigil-altar", name: "Sigil Altar", description: "The central raised octagonal floor seal with sigil — a low brass slab inscribed with every guild-sigil the Ark has ever recognised. Some sigils are scratched out. Some are double-engraved.", x: 30, y: 65, width: 38, height: 30, type: "interact", action: "room-mystery:guild-sanctum:sigil-altar" },
+      { id: "conexus-governance-shell", name: "CoNexus Governance Shell", description: "The central-back desk where the figure stands — the governance shell the Architect's dismantled CoNexus left behind.", x: 40, y: 32, width: 20, height: 28, type: "terminal", action: "/governance", elaraDialog: "The CoNexus governance shell. When the Architect dismantled the constructed CoNexus it left this voting chamber empty. The saga's nexus decisions are how the playerbase fills it." },
+      { id: "door-bridge-sanctum", name: "Return to Bridge", description: "The arched door back to the Command Bridge.", x: 45, y: 22, width: 10, height: 14, type: "door", action: "bridge" },
+      { id: "allegiance-pad", name: "Allegiance Pad", description: "A small pressure-pad in the floor at the lip of the octagonal sigil-altar dais — stepping on it puts your current allegiances on the record.", x: 35, y: 90, width: 28, height: 8, type: "interact", action: "room-mystery:guild-sanctum:allegiance-pad" },
+
+      // ── PRESTIGE-ALTAR MYSTERY SUB-RECTS (left-wall sigil plaque) ──
+      { id: "wolf-minigame-entry-state", name: "Hunt-the-Hero — Minigame Entry State", description: "On the left-wall sigil plaque: the case-handover board — the player's E2-E4 choices set the minigame's opening state. The investigation closes; the gameplay opens.", x: 2, y: 28, width: 5, height: 5, type: "interact", action: "room-mystery:guild-sanctum:wolf-minigame-entry-state" },
+      { id: "wolf-present-in-hall", name: "Wolf, Present in the Hall — Chronicle Window", description: "On the left-wall sigil plaque: a chronicle window — the Wolf wearing the medic's cloak, reading her inner-lining bond-prayer. Deciding whether to extend mercy a second time.", x: 10, y: 28, width: 5, height: 5, type: "interact", action: "room-mystery:guild-sanctum:wolf-present-in-hall" },
+      { id: "storm-degens-house-advantage-anomaly", name: "Degen's House-Advantage Anomaly", description: "On the left-wall sigil plaque (allegiance-pad accounting): a multi-decade anomaly in the Degen's house advantage, annotated 'patron arrangement — Storm-class.'", x: 2, y: 38, width: 5, height: 5, type: "interact", action: "room-mystery:guild-sanctum:storm-degens-house-advantage-anomaly" },
+      { id: "advocate-xethraal-debt-ledger", name: "Xeth'Raal's Debt Ledger — Advocate Entry", description: "On the left-wall sigil plaque (debt-archive console): the Hierarchy CFO's ledger entry on the Advocate. 'Sacrifice... recorded as a debt that could never be fully repaid.'", x: 10, y: 38, width: 5, height: 5, type: "interact", action: "room-mystery:guild-sanctum:advocate-xethraal-debt-ledger" },
+      { id: "the-advocates-blind-spot", name: "The Advocate's Blind Spot", description: "On the left-wall sigil plaque (cross-reference panel): the third use of the Blood Weave the Advocate's defensive doctrine cannot perceive, and the cost it relocates onto the subject.", x: 2, y: 48, width: 15, height: 8, type: "interact", action: "room-mystery:guild-sanctum:the-advocates-blind-spot" },
+      { id: "what-telling-the-advocate-costs", name: "What Telling the Advocate Costs", description: "On the left-wall sigil plaque (witness-and-binding logic): the Advocate's unknowing by construction, and the small severance the player can perform by speaking.", x: 2, y: 60, width: 15, height: 8, type: "interact", action: "room-mystery:guild-sanctum:what-telling-the-advocate-costs" },
+
+      // ── WORLD-PROJECTOR (right-wall) MYSTERY SUB-RECTS ──
+      { id: "resur-degens-open-ledger-line", name: "Degen's Open Ledger Line — Ark Survivor", description: "On the right-wall projector (casino-ledger panel): 'Ark survivor, no fee — hundred-year arrangement, settlement deferred.' The Degen's clerks do not write copyist's pleasantries.", x: 72, y: 28, width: 5, height: 5, type: "interact", action: "room-mystery:guild-sanctum:resur-degens-open-ledger-line" },
+      { id: "resur-molvereth-contract-clause", name: "Mol'Vereth Contract — Cycle-Walker Clause", description: "Pinned to the right-wall projector: the Mol'Vereth contract clause. 'In the event of the second fall, the cycle walker rides the Ark.' Mol'Vereth's other clauses are notably literal.", x: 80, y: 28, width: 5, height: 5, type: "interact", action: "room-mystery:guild-sanctum:resur-molvereth-contract-clause" },
+      { id: "resur-degens-pending-settlement", name: "Degen's Pending Settlement — Ark 1047", description: "On the right-wall projector (long-arrangement shelf): 'pending settlement — hundred-year arrangement, witness night TBD.' Authored on the same instant as the Resurrectionist's vanishing.", x: 88, y: 28, width: 5, height: 5, type: "interact", action: "room-mystery:guild-sanctum:resur-degens-pending-settlement" },
+      { id: "the-mirror-doctrine-loom", name: "The Mirror-Doctrine Loom", description: "On the right-wall projector (doctrine cross-reference): the Advocate's doctrine that Syl'Vex weaves the same Weave to convert, the consent-mechanics of it, and what the defending cost the Advocate.", x: 72, y: 40, width: 15, height: 8, type: "interact", action: "room-mystery:guild-sanctum:the-mirror-doctrine-loom" },
+      { id: "the-sister-of-the-weave-letter", name: "The Sister-of-the-Weave Letter", description: "On the right-wall projector (witness-and-binding panel): the Weave's refusal to counter-convert, the Advocate's repeated 'sister of the same Weave,' and her closure letter to the player.", x: 72, y: 52, width: 15, height: 8, type: "interact", action: "room-mystery:guild-sanctum:the-sister-of-the-weave-letter" },
+      { id: "the-binding-chains-cost", name: "The Binding-Chains Cost", description: "On the right-wall projector lower-edge (defense-doctrine summary): the Advocate's binding chains that made the Taskmaster's siege a category error, and the humanity holding them cost her irreversibly.", x: 72, y: 62, width: 15, height: 8, type: "interact", action: "room-mystery:guild-sanctum:the-binding-chains-cost" },
     ],
   },
   {
@@ -3011,24 +3092,28 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "room_visited", value: "bridge" },
     connections: ["bridge", "guild-sanctum", "war-room"],
     hotspots: [
+      // Re-anchored 2026-05-24 against the AAA Final social-hub render
+      // after a 14-variant audit. The 2026-04-25 anchoring described
+      // "three back-wall kiosks + curved nebular viewport + Lore
+      // Journal Desk foreground" — actual AAA Final is a wood-paneled
+      // dining hall: LONG DINING TABLE with chairs across foreground,
+      // left-wall cork boards, right-wall framed announcement boards,
+      // back-center kitchen/bar area, hooded figure (NPC) seated at
+      // table, chandelier overhead.
+      //
+      // Verify with /ark?debug-hotspots=1 or /ark?author-hotspots=1.
+
+      { id: "comm-terminal", name: "Communications Terminal", description: "The left-wall cork board (upper) — send messages, manage friends, and stay connected.", x: 0, y: 18, width: 14, height: 25, type: "terminal", action: "/social", elaraDialog: "The Communications Terminal. Send friend requests, exchange direct messages, and manage your social connections. A strong network is essential for guild operations and cooperative raids." },
+      { id: "bulletin-board", name: "Bulletin Board", description: "The left-wall cork board (lower) — most pinned notices are decades old; a few, including a yearly memorial reading, are recent.", x: 0, y: 44, width: 14, height: 25, type: "interact", action: "room-mystery:social-hub:bulletin-board" },
+      { id: "challenge-board", name: "Challenge Board", description: "The back-center kitchen/bar area — issue and accept friendly challenges with custom rules.", x: 35, y: 28, width: 30, height: 30, type: "terminal", action: "/friendly-challenges", elaraDialog: "The Challenge Board. Issue friendly challenges to other Potentials — unranked matches with custom rules. Check the daily challenge for bonus rewards. Your RPG build affects your challenge effectiveness." },
+      { id: "donation-shrine", name: "Donation Shrine", description: "The right-wall framed board (upper) — donate resources to your guild and earn reputation.", x: 85, y: 18, width: 14, height: 25, type: "terminal", action: "/donations", elaraDialog: "The Donation Shrine. Contribute resources to your guild and earn reputation points. Higher reputation unlocks special guild perks and shows your dedication to the cause." },
+      { id: "degen-casino-table", name: "The Degen's Casino", description: "The right-wall framed board (lower) — the Trickster's inherited casino, at the edge of the Dreamer's Shield.", x: 85, y: 44, width: 14, height: 25, type: "terminal", action: "/casino", elaraDialog: "The Degen's Casino — won in the Casino Heist. You gamble at the edge of the Dreamer's Shield because the house is a Ne-Yon and the game is how he reads you." },
+      { id: "lore-desk", name: "Lore Journal Desk", description: "The long dining table across the foreground — write about the Dischordian Saga and earn XP.", x: 16, y: 60, width: 65, height: 30, type: "terminal", action: "/lore-journal", elaraDialog: "The Lore Journal. Write about characters, factions, events, and theories from the Dischordian Saga. Your writing earns XP based on word count, and your RPG build provides writing bonuses — Oracle class boosts XP multiplier, Diplomat civil skill improves engagement." },
+      { id: "mess-table", name: "Mess Table", description: "The dining table's surface (foreground sub-rect) — Lyra's discipline that no two crew ever ate from identical equipment; mismatched plates and cups remain.", x: 25, y: 75, width: 45, height: 12, type: "interact", action: "room-mystery:social-hub:mess-table" },
+      { id: "door-bridge-social", name: "Return to Bridge", description: "The corridor back to the Command Bridge.", x: 0, y: 92, width: 10, height: 8, type: "door", action: "bridge" },
       // Mystery wiring — advocate.blood_weave · e3 (Syl'Vex's recruitment pitch)
-      { id: "advocate-sylvex-recruitment-pitch", name: "Syl'Vex's Recruitment-Pitch Transcript", description: "On the recovered-transmissions board: the transcript of Syl'Vex's pitch to one of the Advocate's generals. Preserved by the Hierarchy as the doctrine's most-effective recruitment template.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:social-hub:advocate-sylvex-recruitment-pitch" },
-      { id: "degen-casino-table", name: "The Degen's Casino", description: "The Trickster's inherited casino, at the edge of the Dreamer's Shield.", x: 70, y: 30, width: 16, height: 22, type: "terminal", action: "/casino", elaraDialog: "The Degen's Casino — won in the Casino Heist. You gamble at the edge of the Dreamer's Shield because the house is a Ne-Yon and the game is how he reads you." },
-      // Anchored 2026-04-25 against the AAA Final social-hub render —
-      // warm wood-and-brass lounge with three back-wall kiosks
-      // (orange-icon comm wall on the left, central holographic
-      // challenge board with two combatants, golden donation column on
-      // the right), curved nebular viewport behind, walnut Lore
-      // Journal Desk in the foreground, cozy armchair reading nook on
-      // the right, Bridge doorway on the far-left wall.
-      { id: "comm-terminal", name: "Communications Terminal", description: "Send messages, manage friends, and stay connected.", x: 10, y: 30, width: 22, height: 35, type: "terminal", action: "/social", elaraDialog: "The Communications Terminal. Send friend requests, exchange direct messages, and manage your social connections. A strong network is essential for guild operations and cooperative raids." },
-      { id: "challenge-board", name: "Challenge Board", description: "Issue and accept friendly challenges with custom rules.", x: 32, y: 30, width: 22, height: 32, type: "terminal", action: "/friendly-challenges", elaraDialog: "The Challenge Board. Issue friendly challenges to other Potentials — unranked matches with custom rules. Check the daily challenge for bonus rewards. Your RPG build affects your challenge effectiveness." },
-      { id: "donation-shrine", name: "Donation Shrine", description: "Donate resources to your guild and earn reputation.", x: 52, y: 28, width: 14, height: 38, type: "terminal", action: "/donations", elaraDialog: "The Donation Shrine. Contribute resources to your guild and earn reputation points. Higher reputation unlocks special guild perks and shows your dedication to the cause." },
-      { id: "lore-desk", name: "Lore Journal Desk", description: "Write about the Dischordian Saga and earn XP.", x: 22, y: 60, width: 36, height: 35, type: "terminal", action: "/lore-journal", elaraDialog: "The Lore Journal. Write about characters, factions, events, and theories from the Dischordian Saga. Your writing earns XP based on word count, and your RPG build provides writing bonuses — Oracle class boosts XP multiplier, Diplomat civil skill improves engagement." },
-      { id: "door-bridge-social", name: "Return to Bridge", description: "The corridor back to the Command Bridge.", x: 0, y: 30, width: 10, height: 50, type: "door", action: "bridge" },
-      // Mystery wiring — apps/shared/roomMysteries/socialHub.ts
-      { id: "bulletin-board", name: "Bulletin Board", description: "A wide cork panel along the back wall. Most pinned notices are decades old; a few — including a yearly memorial reading — are recent.", x: 68, y: 16, width: 28, height: 22, type: "interact", action: "room-mystery:social-hub:bulletin-board" },
-      { id: "mess-table", name: "Mess Table", description: "A long wooden mess-table with mismatched plates and cups — Lyra's discipline that no two crew ever ate from identical equipment.", x: 60, y: 44, width: 36, height: 14, type: "interact", action: "room-mystery:social-hub:mess-table" },
+      // Anchored on the left-wall lower bulletin board as a sub-rect.
+      { id: "advocate-sylvex-recruitment-pitch", name: "Syl'Vex's Recruitment-Pitch Transcript", description: "Pinned to the left-wall lower bulletin board: the transcript of Syl'Vex's pitch to one of the Advocate's generals. Preserved by the Hierarchy as the doctrine's most-effective recruitment template.", x: 4, y: 50, width: 5, height: 5, type: "interact", action: "room-mystery:social-hub:advocate-sylvex-recruitment-pitch" },
     ],
   },
   {
