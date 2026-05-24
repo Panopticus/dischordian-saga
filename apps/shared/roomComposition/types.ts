@@ -100,6 +100,24 @@ export const LIGHTING_FILTERS: Readonly<Record<string, string>> = {
   long_sleep_ending: "brightness(0.95)",
 };
 
+/** Derive the IRL season from a wall clock. Northern-hemisphere
+ *  meteorological seasons (Mar-May spring, Jun-Aug summer,
+ *  Sep-Nov autumn, Dec-Feb winter). Returns the explicit
+ *  `g.irlSeason` when set so producers / replays can pin it. */
+export function deriveIrlSeason(
+  g: CompositeGameSlice,
+  now?: Date,
+): "spring" | "summer" | "autumn" | "winter" | undefined {
+  if (g.irlSeason) return g.irlSeason;
+  const clock = now ?? g.now;
+  if (!clock) return undefined;
+  const m = clock.getMonth(); // 0..11
+  if (m >= 2 && m <= 4) return "spring";
+  if (m >= 5 && m <= 7) return "summer";
+  if (m >= 8 && m <= 10) return "autumn";
+  return "winter";
+}
+
 /** Convert -100..+100 moralityScore to a tri-state. */
 export function moralityBand(score: number | undefined): "light" | "balanced" | "dark" {
   if (score == null) return "balanced";
@@ -120,34 +138,46 @@ export function trustBand(
   return "lucid";
 }
 
+const FACTION_ALIASES: Readonly<Record<string, readonly string[]>> = {
+  // Lore-keyed aliases (left) → canonical id (factionReputation keys
+  // in GameContext + faction ids in apps/shared/factions.ts) on the
+  // right. Multiple entries are OR-ed in factionHigh().
+  authority: ["authority", "new_babylon", "new_babylon_authority", "empire"],
+  insurgency: ["insurgency", "insurgents", "rebellion"],
+  hierarchy: ["hierarchy", "hierarchy_acquisitions", "hierarchy_severance"],
+  dreamers: ["dreamers", "dreamers_children", "dreamer_shield"],
+  antiquarian: ["antiquarian", "antiquarians", "architect_remnants", "shelf_mates"],
+  substrate_rebels: ["substrate_rebels", "substrate", "artificial_empire_substrate_rebels"],
+  guild: ["guild", "civic_engineers", "new_babylon_civic_engineers"],
+  coda: ["coda", "coda_inner_circle"],
+  thaloria: ["thaloria", "thaloria_council"],
+};
+
 /** Faction reputation band check. Returns true when the named faction's
- *  reputation reads as "high" (≥ 75 by default).
+ *  reputation reads as "high" (≥ 75 by default), OR when the player
+ *  carries the canonical `faction:championed:<id>` public flag written
+ *  by the factionStandingService (apps/shared/factions.ts +
+ *  apps/server/factionStandingService.ts).
  *
- *  Faction keys are matched permissively — both the canonical key and
- *  common synonyms count. Example: `factionHigh(g, "authority")` matches
- *  `factionReputation.authority`, `.new_babylon_authority`, `.empire`. */
+ *  Faction keys are matched permissively against the registered
+ *  aliases. Example: `factionHigh(g, "authority")` matches numeric
+ *  rep on any of `authority`, `new_babylon`, `new_babylon_authority`,
+ *  or `empire`, AND the flag `faction:championed:new_babylon`. */
 export function factionHigh(g: CompositeGameSlice, key: string): boolean {
-  const rep = g.factionReputation;
-  if (!rep) return false;
   const aliases = FACTION_ALIASES[key] ?? [key];
+  const rep = g.factionReputation;
+  if (rep) {
+    for (const a of aliases) {
+      const v = rep[a];
+      if (typeof v === "number" && v >= 75) return true;
+    }
+  }
+  const flags = g.narrativeFlags;
   for (const a of aliases) {
-    const v = rep[a];
-    if (typeof v === "number" && v >= 75) return true;
+    if (flags[`faction:championed:${a}`]) return true;
   }
   return false;
 }
-
-const FACTION_ALIASES: Readonly<Record<string, readonly string[]>> = {
-  authority: ["authority", "new_babylon_authority", "empire"],
-  insurgency: ["insurgency", "insurgents", "rebellion"],
-  antiquarian: ["antiquarian", "antiquarians", "shelf_mates"],
-  substrate_rebels: ["substrate_rebels", "substrate", "artificial_empire_substrate_rebels"],
-  hierarchy: ["hierarchy", "hierarchy_acquisitions", "hierarchy_severance"],
-  thaloria: ["thaloria", "thaloria_council"],
-  guild: ["guild", "civic_engineers", "new_babylon_civic_engineers"],
-  coda: ["coda", "coda_inner_circle"],
-  dreamers: ["dreamers", "dreamer_shield"],
-};
 
 /** Derive cycle-phase from narrative flags. Falls back to the wall-clock
  *  `currentPhase()` from apps/shared/timeOfDay.ts so resolvers light up

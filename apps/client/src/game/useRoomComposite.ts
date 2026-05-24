@@ -17,6 +17,7 @@ import {
   resolveRoomCompositeUrls,
   type CompositeGameSlice,
 } from "@shared/roomComposition";
+import { deriveIrlSeason } from "@shared/roomComposition/types";
 
 /** Identical to the shared slice; re-exported for client-side ergonomics. */
 export type UseRoomCompositeGameSlice = CompositeGameSlice;
@@ -62,9 +63,11 @@ export function useRoomComposite(
   }, []);
   return useMemo(() => {
     if (!hasRoomComposite(roomId)) return EMPTY;
+    const now = game.now ?? new Date(hourBucket);
     const resolved = resolveRoomCompositeUrls(roomId, {
       ...game,
-      now: game.now ?? new Date(hourBucket),
+      now,
+      irlSeason: game.irlSeason ?? deriveIrlSeason(game, now),
     });
     if (!resolved) return EMPTY;
     const filter = resolved.filter;

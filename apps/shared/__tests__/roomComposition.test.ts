@@ -18,7 +18,7 @@ import {
   resolveRoomCompositeUrls,
   type CompositeGameSlice,
 } from "../roomComposition";
-import { deriveActTier, deriveCyclePhase, deriveTVInfection } from "../roomComposition/types";
+import { deriveActTier, deriveCyclePhase, deriveIrlSeason, deriveTVInfection, factionHigh } from "../roomComposition/types";
 import { PUBLIC_ASSET_BASE } from "../lib/assetUrl";
 
 const emptyGame: CompositeGameSlice = { narrativeFlags: {} };
@@ -518,6 +518,58 @@ describe("roomComposition / derive bridges", () => {
       }),
     );
     expect(c.base).toBe("bridge_base_t2_act7_finale");
+  });
+
+  it("deriveIrlSeason maps wall-clock month → season", () => {
+    expect(deriveIrlSeason(emptyGame, new Date("2026-04-15"))).toBe("spring");
+    expect(deriveIrlSeason(emptyGame, new Date("2026-07-15"))).toBe("summer");
+    expect(deriveIrlSeason(emptyGame, new Date("2026-10-15"))).toBe("autumn");
+    expect(deriveIrlSeason(emptyGame, new Date("2026-01-15"))).toBe("winter");
+    // Explicit override wins.
+    expect(deriveIrlSeason(game({ irlSeason: "winter" }), new Date("2026-07-15"))).toBe("winter");
+    // No clock + no flag → undefined (no IRL trinket composited).
+    expect(deriveIrlSeason(emptyGame)).toBeUndefined();
+  });
+
+  it("factionHigh bridges to canonical faction.ts ids", () => {
+    // GameContext default factionReputation keys: empire / insurgency / independent / pirate.
+    expect(factionHigh(game({ factionReputation: { empire: 90 } }), "authority")).toBe(true);
+    // Canonical id from apps/shared/factions.ts.
+    expect(factionHigh(game({ factionReputation: { new_babylon: 80 } }), "authority")).toBe(true);
+    // Canonical Architect Remnants → "antiquarian" lore alias.
+    expect(
+      factionHigh(game({ factionReputation: { architect_remnants: 88 } }), "antiquarian"),
+    ).toBe(true);
+    // Dreamers Children → "dreamers" alias.
+    expect(
+      factionHigh(game({ factionReputation: { dreamers_children: 90 } }), "dreamers"),
+    ).toBe(true);
+    // Below threshold → false.
+    expect(factionHigh(game({ factionReputation: { empire: 60 } }), "authority")).toBe(false);
+  });
+
+  it("factionHigh bridges to the faction:championed:<id> public flag", () => {
+    // The factionStandingService writes `faction:championed:<id>` when
+    // a player crosses +75 — the resolver should respect that even when
+    // numeric reputation isn't tracked client-side.
+    expect(
+      factionHigh(
+        game({ narrativeFlags: { "faction:championed:new_babylon": true } }),
+        "authority",
+      ),
+    ).toBe(true);
+    expect(
+      factionHigh(
+        game({ narrativeFlags: { "faction:championed:architect_remnants": true } }),
+        "antiquarian",
+      ),
+    ).toBe(true);
+    expect(
+      factionHigh(
+        game({ narrativeFlags: { "faction:championed:dreamers_children": true } }),
+        "dreamers",
+      ),
+    ).toBe(true);
   });
 
   it("Phase H tv_phase global flag bleeds through to the bridge resolver", () => {
