@@ -106,8 +106,13 @@ const PLAYED_VO_IDS = new Set<string>();
  *
  * Theme restoration happens on `ended`, `pause`, or component cleanup.
  * ────────────────────────────────────────────────────────────────── */
-const THEME_DUCKED = 0.012;
-const THEME_BED_AFTER_VO = 0.20;
+// Theme bed levels for the awakening flow. THEME_DUCKED was 0.012
+// (effectively silent under Elara's VO) and THEME_BED_AFTER_VO was
+// 0.20; both bumped so the saga theme is actually perceptible as a
+// continuous bed across the cinematic → cryo-open → dialog handoff
+// instead of going inaudible during every line.
+const THEME_DUCKED = 0.06;
+const THEME_BED_AFTER_VO = 0.28;
 
 const AwakeningVOPlayer = (() => {
   let current: HTMLAudioElement | null = null;

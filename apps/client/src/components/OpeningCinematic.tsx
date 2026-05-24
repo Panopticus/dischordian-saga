@@ -34,9 +34,11 @@ export const AWAKENING_BED_URLS = [
   "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/saga-theme-3_59eac805.mp3",
 ] as const;
 /** Volume the bed runs at while the cinematic video is the focal
- *  audio — quiet enough not to fight the video, present enough to
- *  bridge into Elara's first line. */
-const BED_VOLUME_UNDER_VIDEO = 0.06;
+ *  audio. Matches SagaThemeBGMContext's canonical BGM level (0.12)
+ *  so the theme is actually audible under the video's baked-in
+ *  score — the previous 0.06 sat below the noise floor of the
+ *  cinematic audio and the player heard no music at all. */
+const BED_VOLUME_UNDER_VIDEO = 0.14;
 
 interface OpeningCinematicProps {
   /**
@@ -241,7 +243,10 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
   const armEndSafety = useCallback((durationSec: number) => {
     if (endSafetyTimerRef.current) clearTimeout(endSafetyTimerRef.current);
     if (!Number.isFinite(durationSec) || durationSec <= 0) return;
-    const ms = Math.min(120_000, Math.ceil(durationSec * 1000) + 2_000);
+    // 5s buffer (was 2s) — reported duration can lag the actual
+    // playable tail on CDN-hosted MP4s, and a too-tight safety
+    // window was cutting the cinematic off before its final beats.
+    const ms = Math.min(120_000, Math.ceil(durationSec * 1000) + 5_000);
     endSafetyTimerRef.current = setTimeout(() => handleComplete(false), ms);
   }, [handleComplete]);
 
@@ -265,16 +270,17 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
   // Belt-and-suspenders: if `timeupdate` shows the video has actually run
   // past its reported duration but `ended` never fired, complete anyway.
   // Must NOT trigger early, or the final moments of dialog get cut off:
-  // require `currentTime` to overshoot `duration` by 0.25s AND for the
+  // require `currentTime` to overshoot `duration` by 1.0s AND for the
   // browser to still consider the video "playing" (not seeking, not
   // paused). On well-behaved browsers `ended` fires first and this never
   // triggers; this only catches the iOS Safari case where `ended` is
-  // genuinely missed.
+  // genuinely missed. Was 0.25s but that was racing browser timing
+  // jitter and clipping the cinematic's last beats.
   const handleTimeUpdate = useCallback(() => {
     const v = videoRef.current;
     if (!v || !Number.isFinite(v.duration) || v.duration <= 0) return;
     if (v.paused) return;
-    if (v.currentTime >= v.duration + 0.25) {
+    if (v.currentTime >= v.duration + 1.0) {
       handleComplete(true);
     }
   }, [handleComplete]);
