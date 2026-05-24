@@ -28,7 +28,7 @@ export default function ReplayPage() {
     { enabled: !!selectedReplayId }
   );
   // Like functionality placeholder
-  const handleLike = () => toast.info("Feature coming soon");
+  const handleLike = () => toast.info("Reaction surface — awaiting disclosure");
 
   const replays = tab === "my" ? myReplays : featuredReplays;
 

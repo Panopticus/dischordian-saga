@@ -176,7 +176,24 @@ export default function DischordianSagaEpisodePlayer({
               preload="auto"
               onEnded={() => finish(true)}
               className="w-full h-full object-contain bg-black"
-            />
+              crossOrigin="anonymous"
+            >
+              {/* WebVTT captions track. Authored producer-side and
+                  uploaded to the CDN at the registered captionsPath
+                  (see apps/shared/dischordianSagaEpisodes.ts). The
+                  browser handles a missing file gracefully — the
+                  track element is ignored and the video plays without
+                  captions. `default` opts in when present. */}
+              {episode.captionsPath && (
+                <track
+                  kind="captions"
+                  src={assetUrl(episode.captionsPath)}
+                  srcLang="en"
+                  label="English"
+                  default
+                />
+              )}
+            </video>
           )}
 
           {/* Persistent CRT scan-line overlay — present in

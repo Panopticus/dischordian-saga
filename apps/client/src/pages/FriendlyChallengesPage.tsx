@@ -33,7 +33,7 @@ export default function FriendlyChallengesPage() {
     onError: (e: any) => toast.error(e.message),
   });
   // Decline = complete with status decline (no separate endpoint)
-  const handleDecline = (id: number) => toast.info("Challenge declined (feature coming soon)");
+  const handleDecline = (id: number) => toast.info("Challenge declined — refusal handler awaiting disclosure");
 
   if (isLoading) {
     return (

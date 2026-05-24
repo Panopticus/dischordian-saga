@@ -313,8 +313,10 @@ export const LoredexEntrySchema = z.object({
   // "dream" entries (e.g. dream_enigmas_lament) are replayable narrative
   // sequences unlocked by gameplay events. They share the same Loredex
   // shape as canonical entities but skip the era/affiliation/status fields
-  // (a dream isn't an entity — it's a memory).
-  type: z.enum(["character", "faction", "location", "concept", "song", "event", "artifact", "dream", "entity"]),
+  // (a dream isn't an entity — it's a memory). `episode` extends the same
+  // shape for Dischordian Saga show entries — they pair with a video on
+  // the CDN and get the Loredex "Replay Episode" affordance.
+  type: z.enum(["character", "faction", "location", "concept", "song", "event", "artifact", "dream", "entity", "episode"]),
   name: nonEmpty,
   aliases: z.array(z.string()).optional(),
   era: z.string().optional(),

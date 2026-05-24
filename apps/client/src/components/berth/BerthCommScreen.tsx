@@ -110,7 +110,7 @@ export function BerthCommScreen({ state, position = "wall_right" }: Props) {
                 — {speakerLabel(currentLine.speaker)} ·
                 {" "}
                 {lineIdx + 1}/{state.activeCall.lines.length}
-                {lineIdx < state.activeCall.lines.length - 1 && " · click to continue"}
+                {lineIdx < state.activeCall.lines.length - 1 && " · ▸ continue"}
               </div>
             </div>
           )}

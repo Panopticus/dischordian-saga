@@ -291,7 +291,7 @@ export default function SocialPage() {
                     >
                       <Check size={12} />
                     </Button>
-                    <Button size="sm" variant="ghost" onClick={() => toast.info("Feature coming soon")}>
+                    <Button size="sm" variant="ghost" onClick={() => toast.info("Surface awaiting disclosure")}>
                       <X size={12} />
                     </Button>
                   </div>

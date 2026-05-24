@@ -9,6 +9,8 @@ import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { dialogOpened, dialogClosed } from "@/lib/dialogState";
 import { claimActiveVo, releaseActiveVo } from "@/lib/voSpeakingState";
 import { useGame, ROOM_DEFINITIONS, type HotspotDef, type RoomDef } from "@/contexts/GameContext";
+import { getVisitTier } from "@shared/hotspotVisitTiers";
+import { getElaraHotspotResponse } from "@shared/elaraHotspotResponses";
 import { resolveRoomBackgroundUrl } from "@/game/roomStateAssets";
 import { getRoomTier, type RoomTier } from "@shared/roomTier";
 import { useGamification } from "@/contexts/GamificationContext";
@@ -1795,6 +1797,39 @@ export default function ArkExplorerPage() {
   const handleHotspotClick = useCallback((hotspot: HotspotDef, verb: Verb = "look") => {
     if (audioReady) playSFX("button_click");
 
+    // Tier-ladder substitution. For hotspots that author a `tiers`
+    // array (alternative to the heavier `room-mystery:*` system),
+    // bump the click counter and consult getVisitTier. When a tier
+    // applies, swap in its text/voId so the static elaraDialog
+    // becomes a 3-tier escalation. Only used by examine/interact/
+    // item paths — door clicks and NPC dispatches don't carry a
+    // hotspot riff.
+    let tieredOverrideText: string | undefined;
+    let tieredOverrideVoId: string | undefined;
+    if (hotspot.tiers && hotspot.tiers.length > 0 && state.currentRoomId) {
+      const clickCount = bumpHotspotClick(state.currentRoomId, hotspot.id);
+      const tier = getVisitTier(clickCount, hotspot);
+      if (tier) {
+        const resolved = getElaraHotspotResponse(tier.responseId);
+        tieredOverrideText = tier.textOverride ?? resolved?.text;
+        tieredOverrideVoId = resolved?.voId;
+      }
+    }
+
+    // Wrapper that prefers the tier override when set; consumers
+    // call this instead of narrateElara directly when they want
+    // tier escalation. Falls through to the passed defaults
+    // (typically hotspot.elaraDialog + elaraDialogVoId).
+    const narrateMaybeTiered = (
+      fallbackText: string | undefined,
+      fallbackVoId: string | undefined,
+    ) => {
+      const text = tieredOverrideText ?? fallbackText;
+      const voId = tieredOverrideVoId ?? fallbackVoId;
+      if (!text) return;
+      narrateElara({ text, voId });
+    };
+
     switch (hotspot.type) {
       case "door": {
         const targetRoomId = hotspot.action!;
@@ -1856,11 +1891,8 @@ export default function ArkExplorerPage() {
         // elaraDialogVoId and Elara actually speaks the line. Bare
         // setElaraText was rendering text-only with no audio — the bug
         // the player saw as "Elara's VO isn't playing in the cryo bay".
-        if (hotspot.elaraDialog) {
-          narrateElara({
-            text: hotspot.elaraDialog,
-            voId: hotspot.elaraDialogVoId,
-          });
+        if (hotspot.elaraDialog || tieredOverrideText) {
+          narrateMaybeTiered(hotspot.elaraDialog, hotspot.elaraDialogVoId);
         }
         if (hotspot.action) {
           const route = resolveActionRoute(hotspot.action, state.narrativeFlags);
@@ -1887,12 +1919,9 @@ export default function ArkExplorerPage() {
           discoverEntry(`item-${hotspot.action}`);
           if (audioReady) playSFX("item_pickup");
           notify("loot-drop", "Item Collected!", hotspot.name);
-          if (hotspot.elaraDialog) {
+          if (hotspot.elaraDialog || tieredOverrideText) {
             if (audioReady) playSFX("dialog_open");
-            narrateElara({
-              text: hotspot.elaraDialog,
-              voId: hotspot.elaraDialogVoId,
-            });
+            narrateMaybeTiered(hotspot.elaraDialog, hotspot.elaraDialogVoId);
           }
           // Stabilize-Elara Chapter 1 completion. The pickup is the
           // chapter beat — flag set here so the bridge war-table can
@@ -1901,7 +1930,15 @@ export default function ArkExplorerPage() {
             setNarrativeFlag("darren_artifact_recovered");
           }
         } else {
-          notify("info", "Already collected", hotspot.name);
+          // Tier ladders trigger on already-collected items too — the
+          // "looking at the same drawer expecting different information"
+          // joke is the entire point. Suppresses the toast on tiered
+          // hotspots so the line lands clean.
+          if (tieredOverrideText) {
+            narrateMaybeTiered(undefined, undefined);
+          } else {
+            notify("info", "Already collected", hotspot.name);
+          }
         }
         // Audit 2H — item_inspect whisper on any item click (both
         // newly-picked and already-owned; the inspection moment is

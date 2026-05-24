@@ -14,7 +14,7 @@
 
 import { z } from "zod";
 
-export const ENTRY_TYPES = ["character", "concept", "event", "faction", "location", "song", "artifact"] as const;
+export const ENTRY_TYPES = ["character", "concept", "event", "faction", "location", "song", "artifact", "dream", "episode"] as const;
 
 export const LoredexEntrySchema = z.object({
   id: z.string().min(1),
