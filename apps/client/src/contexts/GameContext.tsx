@@ -2881,29 +2881,43 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "chain_complete", value: "quarchon_chain" },
     connections: ["archives"],
     hotspots: [
-      // Mystery wiring — charter.missing_signatory · e2 (wax mineralisation)
-      { id: "charter-wax-mineralisation-analysis", name: "Wax Mineralisation Analysis", description: "The charter's wax-blister on the lab's analysis stage. Standard solvents refused; quantum-imaging places the original temperature in the upper-band range. The Ark does not house a forge that can do this.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:quantum-lab:charter-wax-mineralisation-analysis" },
-      // Mystery wiring — severance.bound_champion · e2 (bond's internal log stack)
-      { id: "severance-bond-internal-log", name: "Companion Bond — Sieve Reading", description: "On the sieve-reading bench: the companion's bond from this finals night, held in stasis. Forty-one names whispered into the bond at each inheritance, intact and in order.", x: 13, y: 19, width: 6, height: 6, type: "interact", action: "room-mystery:quantum-lab:severance-bond-internal-log" },
-      // Mystery wiring — charter.second_signatory · e1 (parallel-vellum analysis)
-      { id: "charter2-vellum-comparison", name: "Parallel-Vellum Imaging Analysis", description: "Both charters side by side on the lab's parallel-stage. Quantum-imaging confirms same hide, adjacent cuts, same week's cure. Two parallel originals from one founding hand, not original-plus-forgery.", x: 20, y: 30, width: 6, height: 6, type: "interact", action: "room-mystery:quantum-lab:charter2-vellum-comparison" },
-      // Mystery wiring — severance.infernal_clause · e3 (quantum-dating)
-      { id: "infernal-quantum-dating", name: "Forty-Contract Ink-Dating Stage", description: "On the dating stage: every clause's ink dates to the same seven-day window in epoch one. Thirty-nine of forty clauses pre-date the contracts they appear on.", x: 27, y: 41, width: 6, height: 6, type: "interact", action: "room-mystery:quantum-lab:infernal-quantum-dating" },
-      // Mystery wiring — akai_shi.red_death · e4 (Matrix entry fold signature)
-      { id: "akai-matrix-entry-fold", name: "Matrix Entry — Day 14 of Fracture", description: "On the fold-analysis stage: the Red Death's Matrix-entry signature, timestamp Day 14 of Fracture, Year 117,046 A.A. A fold the Game Master's design did not anticipate.", x: 50, y: 52, width: 6, height: 6, type: "interact", action: "room-mystery:quantum-lab:akai-matrix-entry-fold" },
-      // Mystery wiring — akai_shi.red_death · e2 + e3 (Red Death signature + evasion log)
-      { id: "akai-red-death-energy-signature", name: "Red Death Energy Signature", description: "On the frequency-band stage: Akai Shi's pre-mortem markers intact, healing band replaced with a time-displacement frequency. The substitution carries the Cycle Walker's authoring signature.", x: 34, y: 52, width: 6, height: 6, type: "interact", action: "room-mystery:quantum-lab:akai-red-death-energy-signature" },
-      { id: "akai-necromancer-evasion-log", name: "Necromancer Evasion Log", description: "Beside the signature stage: the Necromancer's millennia-long movements inside the Matrix. Un-territorial geometry. Only a time-displaced agent could enter. The Resurrectionist built one.", x: 42, y: 52, width: 6, height: 6, type: "interact", action: "room-mystery:quantum-lab:akai-necromancer-evasion-log" },
-      // Realigned 2026-04-25 against the delivered render — central
-      // glass containment cube holding a writhing electric-cloud
-      // anomaly, ceiling-mounted ring of lightning haloed above it,
-      // twin porthole observation windows mid-left, holographic
-      // Schrödinger / wave-function panels in the upper corners and
-      // right wall, central staircase descending out of frame, control
-      // consoles flanking the foreground at lower-left and lower-right.
-      { id: "quantum-anomaly", name: "Quantum Anomaly", description: "A shimmering mass of matter existing in multiple states simultaneously.", x: 38, y: 20, width: 22, height: 42, type: "examine", elaraDialog: "The Quantum Anomaly. It's simultaneously a star, a planet, a person, and nothing at all. Quarchon physics says that observation collapses probability into reality — but this anomaly resists observation. It stays in superposition no matter who looks at it. The Quarchon scientists believed it was a fragment of the universe before the Big Bang — before anything decided to be anything." },
-      { id: "probability-engine", name: "Probability Engine", description: "A device that can calculate and manipulate quantum probability fields.", x: 78, y: 22, width: 20, height: 32, type: "examine", elaraDialog: "The Probability Engine. It doesn't predict the future — it calculates every possible present. Feed it a question and it shows you every reality where that question has a different answer. The Quarchon used it to find the optimal timeline — the one where the most beings survive the Terminus Swarm. They found it. We're living in it." },
-      { id: "door-archives-quantum", name: "Return to Archives", description: "The quantum-locked door back to the Archives.", x: 38, y: 70, width: 24, height: 28, type: "door", action: "archives" },
+      // Re-anchored 2026-05-24 against the AAA Final quantum-lab render
+      // after a 9-variant audit. The 2026-04-25 anchoring described
+      // "central glass containment CUBE + lightning halo + porthole
+      // observation windows" — actual AAA Final is a central glass
+      // CYLINDRICAL containment vessel holding a figure-silhouette,
+      // cyan holographic probability charts on left + right walls,
+      // brass cogs/gears in the foreground, and a chair on the right.
+      //
+      // Major re-anchors:
+      //   • quantum-anomaly tightened to the central glass cylinder
+      //     (37,5,28,70)
+      //   • probability-engine moved from right wall to LEFT wall
+      //     holographic displays (0,18,30,48) — the probability charts
+      //     with nodes/connections actually visible there
+      //   • door-archives-quantum invisible bottom-center walk-out
+      //   • all 7 architect-channel mysteries (charter-wax-min., etc.)
+      //     redistributed onto visible analysis stages: foreground
+      //     gears/brass area + right-wall holograms
+      //
+      // Verify with /ark?debug-hotspots=1 or /ark?author-hotspots=1.
+
+      { id: "quantum-anomaly", name: "Quantum Anomaly", description: "The tall cylindrical glass containment vessel at chamber center holds a figure-silhouette — matter existing in multiple states simultaneously.", x: 37, y: 5, width: 28, height: 70, type: "examine", elaraDialog: "The Quantum Anomaly. It's simultaneously a star, a planet, a person, and nothing at all. Quarchon physics says that observation collapses probability into reality — but this anomaly resists observation. It stays in superposition no matter who looks at it. The Quarchon scientists believed it was a fragment of the universe before the Big Bang — before anything decided to be anything." },
+      { id: "probability-engine", name: "Probability Engine", description: "Left-wall holographic probability charts — nodes and connections mapping every possible present.", x: 0, y: 18, width: 30, height: 48, type: "examine", elaraDialog: "The Probability Engine. It doesn't predict the future — it calculates every possible present. Feed it a question and it shows you every reality where that question has a different answer. The Quarchon used it to find the optimal timeline — the one where the most beings survive the Terminus Swarm. They found it. We're living in it." },
+      { id: "door-archives-quantum", name: "Return to Archives", description: "The quantum-locked door back to the Archives.", x: 40, y: 93, width: 20, height: 5, type: "door", action: "archives" },
+
+      // ── ANALYSIS-STAGE MYSTERY RECTS (7) ──
+      // Distributed onto right-wall holographic displays + foreground
+      // cogs/brass piping (the "analysis stage" surfaces). Each
+      // architect-channel mystery represents reading a specific
+      // analysis output.
+      { id: "charter-wax-mineralisation-analysis", name: "Wax Mineralisation Analysis", description: "On the lab's left analysis-stage hologram: the charter's wax-blister readout. Standard solvents refused; quantum-imaging places the original temperature in the upper-band range. The Ark does not house a forge that can do this.", x: 2, y: 22, width: 5, height: 5, type: "interact", action: "room-mystery:quantum-lab:charter-wax-mineralisation-analysis" },
+      { id: "severance-bond-internal-log", name: "Companion Bond — Sieve Reading", description: "On the lab's sieve-reading bench (left hologram): the companion's bond from this finals night, held in stasis. Forty-one names whispered into the bond at each inheritance, intact and in order.", x: 8, y: 22, width: 5, height: 5, type: "interact", action: "room-mystery:quantum-lab:severance-bond-internal-log" },
+      { id: "charter2-vellum-comparison", name: "Parallel-Vellum Imaging Analysis", description: "On the parallel-stage hologram (left wall lower): both charters side by side. Quantum-imaging confirms same hide, adjacent cuts, same week's cure. Two parallel originals from one founding hand.", x: 2, y: 45, width: 5, height: 5, type: "interact", action: "room-mystery:quantum-lab:charter2-vellum-comparison" },
+      { id: "infernal-quantum-dating", name: "Forty-Contract Ink-Dating Stage", description: "On the dating stage (right wall hologram): every clause's ink dates to the same seven-day window in epoch one. Thirty-nine of forty clauses pre-date the contracts they appear on.", x: 67, y: 22, width: 5, height: 5, type: "interact", action: "room-mystery:quantum-lab:infernal-quantum-dating" },
+      { id: "akai-matrix-entry-fold", name: "Matrix Entry — Day 14 of Fracture", description: "On the fold-analysis stage (right wall hologram): the Red Death's Matrix-entry signature, timestamp Day 14 of Fracture, Year 117,046 A.A. A fold the Game Master's design did not anticipate.", x: 73, y: 22, width: 5, height: 5, type: "interact", action: "room-mystery:quantum-lab:akai-matrix-entry-fold" },
+      { id: "akai-red-death-energy-signature", name: "Red Death Energy Signature", description: "On the frequency-band stage (right wall hologram lower): Akai Shi's pre-mortem markers intact, healing band replaced with a time-displacement frequency. The substitution carries the Cycle Walker's authoring signature.", x: 67, y: 45, width: 5, height: 5, type: "interact", action: "room-mystery:quantum-lab:akai-red-death-energy-signature" },
+      { id: "akai-necromancer-evasion-log", name: "Necromancer Evasion Log", description: "Beside the signature stage: the Necromancer's millennia-long movements inside the Matrix. Un-territorial geometry. Only a time-displaced agent could enter. The Resurrectionist built one.", x: 73, y: 45, width: 5, height: 5, type: "interact", action: "room-mystery:quantum-lab:akai-necromancer-evasion-log" },
       // Mystery wiring — apps/shared/roomMysteries/quantumLab.ts
       { id: "entanglement-rig", name: "Entanglement Rig", description: "A brass armature suspending two clear quartz orbs at opposite corners of the room. Strike one and the other rings half a beat later.", x: 4, y: 10, width: 26, height: 50, type: "interact", action: "room-mystery:quantum-lab:entanglement-rig" },
       { id: "observation-cage", name: "Observation Cage", description: "A small brass-mesh enclosure beside the entanglement-rig. Faraday-isolated; holds a single oxblood-leather notebook.", x: 64, y: 60, width: 16, height: 32, type: "interact", action: "room-mystery:quantum-lab:observation-cage" },
@@ -2922,23 +2936,33 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "chain_complete", value: "neyon_chain" },
     connections: ["medical-bay"],
     hotspots: [
-      // Realigned 2026-04-25 against the delivered render — bio-organic
-      // chamber with a massive central glowing-green DNA helix beneath
-      // a circular ceiling oculus, vine-wrapped gothic columns flanking
-      // both side walls with bioluminescent pods, holographic UI panels
-      // mounted on the side walls (cyan + amber), a stepped altar
-      // platform with stairs ascending to the helix, and circular
-      // bio-pod platforms scattered across the mossy foreground floor.
-      { id: "dna-helix", name: "Ne-Yon DNA Helix", description: "A rotating holographic DNA helix showing the fusion of organic and synthetic code.", x: 40, y: 8, width: 20, height: 70, type: "examine", elaraDialog: "The Ne-Yon DNA Helix. Half biological, half digital. It shows how the Ne-Yon evolved — or were engineered — to bridge the gap between organic life and artificial intelligence. Every Ne-Yon carries this dual code. Your thoughts are processed by both neurons and nanites simultaneously. That's why you can interface with technology that would fry a pure organic brain." },
-      { id: "bio-circuits", name: "Bio-Circuits", description: "Living vines that function as biological data cables.", x: 0, y: 12, width: 22, height: 76, type: "examine", elaraDialog: "Bio-circuits. Living data networks grown from Ne-Yon genetic material. They process information faster than silicon and repair themselves when damaged. The Ne-Yon dream of a future where all technology is alive — where machines grow, evolve, and think alongside their creators. This chamber is the prototype for that future." },
-      { id: "door-medical-synthesis", name: "Return to Medical Bay", description: "The bio-organic passage back to the Medical Bay.", x: 40, y: 78, width: 20, height: 22, type: "door", action: "medical-bay" },
-      // Mystery wiring — apps/shared/roomMysteries/synthesisChamber.ts
-      // (NOTE: the existing GameContext "dna-helix" hotspot above is
-      //  intentionally distinct from synthesis-chamber's mystery-only
-      //  "synth-vat" / "recipe-board" surfaces — different physical
-      //  features described in the mystery module.)
-      { id: "synth-vat", name: "Synthesis Vat", description: "A cylindrical glass tank ten feet tall, currently holding a slow-spinning amber fluid — the medical bay's neural-stim base, synthesised from raw biostock.", x: 64, y: 12, width: 18, height: 60, type: "interact", action: "room-mystery:synthesis-chamber:synth-vat" },
-      { id: "recipe-board", name: "Recipe Board", description: "A brass-framed slate listing the chamber's authorised syntheses. The newest entry — Substrate-N. RESTRICTED — is in a hand that is not Lyra's.",  x: 84, y: 12, width: 14, height: 60, type: "interact", action: "room-mystery:synthesis-chamber:recipe-board" },
+      // Re-anchored 2026-05-24 against the AAA Final synthesis-chamber
+      // render after a 9-variant audit. The 2026-04-25 anchoring
+      // described "central glowing-green DNA helix beneath a ceiling
+      // oculus + vine-wrapped gothic columns" — actual AAA Final is a
+      // brass-and-glass synthesis chamber: cyan input tube left, amber
+      // input tube right, central brass-rimmed bowl with bubbling
+      // contents and rising steam, holographic recipe panels on far-
+      // left + far-right walls, curved gantry overhead.
+      //
+      // Major re-anchors:
+      //   • dna-helix (was 40,8,20,70 sprawling up to ceiling) →
+      //     central brass-rimmed synthesis bowl (33,32,34,42)
+      //   • bio-circuits (was 0,12,22,76 sprawling left side) →
+      //     left cyan crystalline input tube (15,30,18,48)
+      //   • synth-vat (was 64,12,18,60) → right amber crystalline
+      //     input tube (62,30,18,48)
+      //   • recipe-board (was 84,12,14,60) → far-right wall
+      //     holographic recipe panels (85,18,14,55)
+      //   • door-medical-synthesis → invisible bottom-center walkout
+      //
+      // Verify with /ark?debug-hotspots=1 or /ark?author-hotspots=1.
+
+      { id: "dna-helix", name: "Ne-Yon DNA Helix", description: "The central brass-rimmed glass bowl at chamber center, bubbling with bio-synthesis fluid — a rotating holographic DNA helix overlay shows the fusion of organic and synthetic code.", x: 33, y: 32, width: 34, height: 42, type: "examine", elaraDialog: "The Ne-Yon DNA Helix. Half biological, half digital. It shows how the Ne-Yon evolved — or were engineered — to bridge the gap between organic life and artificial intelligence. Every Ne-Yon carries this dual code. Your thoughts are processed by both neurons and nanites simultaneously. That's why you can interface with technology that would fry a pure organic brain." },
+      { id: "bio-circuits", name: "Bio-Circuits", description: "The left cyan crystalline input tube feeding the central bowl — living vines functioning as biological data cables.", x: 15, y: 30, width: 18, height: 48, type: "examine", elaraDialog: "Bio-circuits. Living data networks grown from Ne-Yon genetic material. They process information faster than silicon and repair themselves when damaged. The Ne-Yon dream of a future where all technology is alive — where machines grow, evolve, and think alongside their creators. This chamber is the prototype for that future." },
+      { id: "door-medical-synthesis", name: "Return to Medical Bay", description: "The bio-organic passage back to the Medical Bay.", x: 40, y: 93, width: 20, height: 5, type: "door", action: "medical-bay" },
+      { id: "synth-vat", name: "Synthesis Vat", description: "The right amber crystalline input tube — a cylindrical glass tank holding slow-spinning amber fluid, the medical bay's neural-stim base synthesised from raw biostock.", x: 62, y: 30, width: 18, height: 48, type: "interact", action: "room-mystery:synthesis-chamber:synth-vat" },
+      { id: "recipe-board", name: "Recipe Board", description: "The far-right wall holographic recipe panels — a brass-framed slate listing the chamber's authorised syntheses. The newest entry — Substrate-N. RESTRICTED — is in a hand that is not Lyra's.", x: 85, y: 18, width: 14, height: 55, type: "interact", action: "room-mystery:synthesis-chamber:recipe-board" },
       // Mystery wiring — Collector arc: the Architect's assembly-record, the Collector's Garden bed
       { id: "architects-assembly-record", name: "The Architect's Assembly Record", description: "A folio in the chamber's assembly-doctrine drawer — the Collector's curatorial doctrine, his own donorless origin, and the Inception Ark mandate.", x: 4, y: 12, width: 16, height: 28, type: "interact", action: "room-mystery:synthesis-chamber:architects-assembly-record" },
       { id: "the-collectors-garden-bed", name: "The Collector's Garden Bed", description: "A sealed planter fed from the vat's overflow — the Collector's Garden: a three-thousand-year crossbreeding project, the one place he makes rather than keeps.", x: 4, y: 44, width: 16, height: 28, type: "interact", action: "room-mystery:synthesis-chamber:the-collectors-garden-bed" },
