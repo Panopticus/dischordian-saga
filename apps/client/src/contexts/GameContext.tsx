@@ -460,27 +460,26 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "start" },
     connections: ["medical-bay", "bridge"],
     hotspots: [
-      // Re-anchored 2026-05-24 against the AAA Final cryo-bay render
-      // (art/rooms/cryo_bay/baseline.png) after a 14-variant audit
-      // pass (baseline + 13 state overlays). The 2026-05-23 anchoring
-      // (PR #740) had ~12 coordinate drifts and one fabricated
-      // hotspot:
-      //   • sealed-pods-left extended onto the empty seal floor
-      //   • sealed-pods-right started 11% too far right
-      //   • cryo-terminal + cryo-terminal-2 were 22% too low (y=60
-      //     vs visible y=38)
-      //   • antiquarian-tome overlapped sealed-pods-left
-      //   • door-medical extended down into the broken-pod foreground
-      //   • ichor-trail started 27% too far right (the trail begins
-      //     foreground-LEFT in the actual render)
-      //   • data-crystal was 7% too far right
-      //   • dead-pod (49, 38, 16, 54) was on the EMPTY CENTER FLOOR
-      //     where the bridge door + seal live — completely misplaced
-      //   • all four mystery sub-rects (frosted-glass, medical-chart,
-      //     cracked-panel, data-slate) inherited dead-pod's bad
-      //     position
-      //   • `lockers` was fabricated — no bank of crew lockers
-      //     appears in any variant; removed
+      // Re-anchored 2026-05-24 via tools/hotspot-author.html (standalone
+      // visual editor — see PR #748). The previous 2026-05-24 pass
+      // (PR #743) re-anchored against the AAA Final cryo-bay render
+      // but with rougher rectangles; this pass tightens every hotspot
+      // to its precise visual footprint based on user-driven drag-to-
+      // place editing against the live baseline image. Most rectangles
+      // shrunk dramatically (sealed-pods-left from 14×50 → 6.5×11,
+      // dead-pod from 6×32 → 2.8×9.5, etc.) because the user could
+      // see the exact pixel bounds of each interactive object.
+      //
+      // Notable narrative changes:
+      //   • data-crystal moved to under the cryo pod ("hidden on the
+      //     floor in the shadows beneath your cryo pod") + Elara
+      //     compliments the player's eye for spotting it
+      //   • medical-chart re-described as wall-clipped (not pod-
+      //     clipped) + new Elara line: "I wonder what that is. I
+      //     don't have any record of that."
+      //   • candle-ring-2 added as a second visible candle (the user
+      //     duplicated candle-ring to anchor both candles flanking
+      //     the seal)
       //
       // 14-variant survey confirmed: every variant preserves the
       // same geometry. Baseline anchoring works for baseline +
@@ -492,52 +491,9 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // quarantine wraps, crystal infections, etc.) are deferred to
       // the `requiresTier?` schema PR.
       //
-      // "Your pod" is the BROKEN, FALLEN pod with the handprint on the
-      // inside of the glass in the foreground-right, not the upright
-      // tilted pod on the left. Elara's intro beat — "All but one pod
-      // is empty. The one that wasn't is yours." — and her opening line
-      // about a handprint confirm this. The upright tilted left-side
-      // pods are *additional* sealed pods (`sealed-pods-left`).
-      //
-      // Visible landmarks, left-to-right, foreground-to-back:
-      //   • two arcade-style diagnostic kiosks — far-left wall
-      //     (`cryo-terminal`, `cryo-terminal-2`)
-      //   • Antiquarian's tome on a low pedestal — left-center
-      //     (`antiquarian-tome`)
-      //   • two upright sealed pods, tilted forward — center-left
-      //     (`sealed-pods-left`)
-      //   • recessed Aetheric-crown bulkhead — back center
-      //     (`door-bridge`)
-      //   • central floor compass-star seal + candle ring
-      //     (`candle-ring`, `ark-seal`)
-      //   • three-to-four standing sealed pods — right-center
-      //     (`sealed-pods-right`)
-      //   • a single isolated sealed pod (the "dead pod"), separated
-      //     from the right-cluster row — anchored to the rearmost
-      //     visible standing pod, since the standalone right-mid unit
-      //     is mostly obscured by the broken player pod foreground
-      //     (`dead-pod` + `frosted-glass`, `medical-chart`,
-      //     `cracked-panel`, `data-slate`)
-      //   • framed bulkhead on the far-right wall — Medical Bay door
-      //     (`door-medical`)
-      //   • the broken player pod with handprint — foreground-right
-      //     (`cryo-pod`)
-      //   • dog tags + datapad on the floor — foreground-center
-      //     (`personal-effect`, `data-crystal`)
-      //   • green ichor trail across the floor — foreground-LEFT,
-      //     snaking inward (`ichor-trail`)
-      //
-      // Render order: container hotspots authored BEFORE their
-      // sub-rects so the sub-rects z-stack above and win clicks on
-      // specific landmarks. `cryo-pod` is authored LAST so the
-      // foreground broken pod wins clicks on the lower-right area
-      // even where it visually obscures background landmarks (the
-      // mystery sub-rects on `dead-pod` are kept above y=60 so they
-      // don't conflict with `cryo-pod`).
-      //
       // Verify with /ark?debug-hotspots=1 or, for drag-to-place
-      // editing, /ark?author-hotspots=1.
-      { id: "sealed-pods-left", name: "Sealed Pods (Tilted)", description: "Two pods stand upright but tilted — cyan ECG readouts cycle steadily inside. Someone is still in there.", x: 22, y: 30, width: 14, height: 50, type: "examine", elaraDialog: "Those pods read warm-gold on the medical side and the heart-trace is still cycling. Whoever's inside is sustaining. Whether that's life or rehearsal-of-life, I genuinely cannot tell from out here.",
+      // editing, open tools/hotspot-author.html in a browser.
+      { id: "sealed-pods-left", name: "Sealed Pods (Tilted)", description: "Two pods stand upright but tilted — cyan ECG readouts cycle steadily inside. Someone is still in there.", x: 28.7, y: 37.1, width: 6.5, height: 11, type: "examine", elaraDialog: "Those pods read warm-gold on the medical side and the heart-trace is still cycling. Whoever's inside is sustaining. Whether that's life or rehearsal-of-life, I genuinely cannot tell from out here.",
         elaraDialogVoId: "room.cryo-bay.hotspot.sealed-pods-left.elara",
         responses: [
           { id: "human.cryo-bay.sealed-pods-left.acknowledge", label: "Leave them.", closesDialog: true },
@@ -549,7 +505,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
           },
         ],
       },
-      { id: "sealed-pods-right", name: "Sealed Pods (Right Cluster)", description: "A short column of three or four standing capsules right-of-center. Status indicators are dark.", x: 55, y: 32, width: 23, height: 42, type: "examine", elaraDialog: "Those pods are still sealed. Their status indicators went dark when the main power failed. I... I don't want to speculate about what's inside them. Not yet.",
+      { id: "sealed-pods-right", name: "Sealed Pods (Right Cluster)", description: "A short column of three or four standing capsules right-of-center. Status indicators are dark.", x: 60.2, y: 36.7, width: 7.6, height: 8.5, type: "examine", elaraDialog: "Those pods are still sealed. Their status indicators went dark when the main power failed. I... I don't want to speculate about what's inside them. Not yet.",
         elaraDialogVoId: "room.cryo-bay.hotspot.sealed-pods-right.elara",
         responses: [
           { id: "human.cryo-bay.sealed-pods-right.acknowledge", label: "Then we don't open them.", closesDialog: true },
@@ -564,35 +520,34 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "cryo-terminal", name: "Cryo Terminal", description: "An arcade-style terminal on the far-left wall displaying your character data and vital statistics.", x: 0, y: 38, width: 8, height: 34, type: "terminal", action: "/character-sheet", elaraDialog: "This terminal has your biometric data — your species markers, class aptitudes, everything we determined during your awakening. You can review your Citizen profile here.",
         elaraDialogVoId: "room.cryo-bay.hotspot.cryo-terminal.elara",
       },
-      { id: "cryo-terminal-2", name: "Diagnostics Kiosk", description: "A second arcade-style terminal directly beside the first. Status pages scroll past too fast to read.", x: 8, y: 42, width: 7, height: 30, type: "terminal", action: "/profile", elaraDialog: "That kiosk was the medical officer's station. It still cycles, but the data feed itself is sealed. We can mirror your Citizen profile here while we figure out what they were watching.",
+      { id: "cryo-terminal-2", name: "Diagnostics Kiosk", description: "A second arcade-style terminal directly beside the first. Status pages scroll past too fast to read.", x: 11.2, y: 37.1, width: 6.8, height: 14.8, type: "terminal", action: "/profile", elaraDialog: "That kiosk was the medical officer's station. It still cycles, but the data feed itself is sealed. We can mirror your Citizen profile here while we figure out what they were watching.",
         elaraDialogVoId: "room.cryo-bay.hotspot.cryo-terminal-2.elara",
       },
-      { id: "antiquarian-tome", name: "Tome on the Pedestal", description: "An old, leather-bound volume rests open on a low pedestal between the diagnostic kiosks and the tilted pods — the Antiquarian's mark glints faintly on the cover.", x: 14, y: 58, width: 8, height: 17, type: "item", action: "tome-antiquarian-cryo", elaraDialog: "The Antiquarian's Library found this for you and delivered it here. I'd read it somewhere quieter than the chamber it's pointing at.",
+      { id: "antiquarian-tome", name: "Tome on the Pedestal", description: "An old, leather-bound volume rests open on a low pedestal between the diagnostic kiosks and the tilted pods — the Antiquarian's mark glints faintly on the cover.", x: 19.8, y: 45.6, width: 7.1, height: 7.2, type: "item", action: "tome-antiquarian-cryo", elaraDialog: "The Antiquarian's Library found this for you and delivered it here. I'd read it somewhere quieter than the chamber it's pointing at.",
         elaraDialogVoId: "room.cryo-bay.hotspot.antiquarian-tome.elara",
       },
-      // door-medical is kept narrow vertically (y=32-60) so it doesn't
-      // extend down into the broken-pod foreground area; the broken
-      // pod's body occupies the lower-right quadrant from y≈62 down.
-      { id: "door-medical", name: "Medical Bay Door", description: "A reinforced door leading to the Medical Bay. Green status light.", x: 87, y: 32, width: 12, height: 28, type: "door", action: "medical-bay" },
-      { id: "door-bridge", name: "Bridge Access", description: "A recessed bulkhead at back-center beneath the Aetheric-crown emblem. A corridor leading up to Deck 2 — the Command deck.", x: 47, y: 25, width: 11, height: 32, type: "door", action: "bridge" },
-      // ichor-trail starts in the foreground-LEFT corner and snakes
-      // inward toward the bridge — the visible trail begins at x≈5,
-      // not x≈32 where the previous pass placed it.
-      { id: "ichor-trail", name: "Green Ichor Trail", description: "A trail of luminous green fluid arcs across the floor from the foreground-left, snaking toward the bridge corridor.", x: 5, y: 82, width: 30, height: 13, type: "examine", elaraDialog: "That isn't cryo-fluid. The spectrometry matches nothing in my registry — and the registry is comprehensive. Don't step in it, and don't let it touch the locket.",
+      { id: "door-medical", name: "Medical Bay Door", description: "A reinforced door leading to the Medical Bay. Green status light.", x: 77.1, y: 30.4, width: 7.3, height: 18, type: "door", action: "medical-bay" },
+      { id: "door-bridge", name: "Bridge Access", description: "A recessed bulkhead at back-center beneath the Aetheric-crown emblem. A corridor leading up to Deck 2 — the Command deck.", x: 46.3, y: 32.5, width: 7.4, height: 14.2, type: "door", action: "bridge" },
+      { id: "ichor-trail", name: "Green Ichor Trail", description: "A trail of luminous green fluid arcs across the floor from the foreground-left, snaking toward the bridge corridor.", x: 18.2, y: 72.6, width: 19, height: 12.6, type: "examine", elaraDialog: "That isn't cryo-fluid. The spectrometry matches nothing in my registry — and the registry is comprehensive. Don't step in it, and don't let it touch the locket.",
         elaraDialogVoId: "room.cryo-bay.hotspot.ichor-trail.elara",
       },
-      // candle-ring is authored BEFORE ark-seal so that a click in the
-      // inner ring hits the seal first (later entries z-stack above).
-      { id: "candle-ring", name: "Lit Candles", description: "A ring of small flames arranged around the central floor seal — recently lit.", x: 30, y: 70, width: 38, height: 15, type: "examine", elaraDialog: "The wax is still soft. Whoever lit these was here within the hour. It wasn't me, and it wasn't you, which leaves a question I would rather not answer alone.",
+      // The seal is flanked by TWO candles — candle-ring (left) and
+      // candle-ring-2 (right). Both authored BEFORE ark-seal so a
+      // click inside the seal hits the seal first (later entries
+      // z-stack above).
+      { id: "candle-ring", name: "Lit Candles (Left)", description: "A small flame at the left edge of the central floor seal — recently lit.", x: 41.3, y: 43.8, width: 1.6, height: 5, type: "examine", elaraDialog: "The wax is still soft. Whoever lit these was here within the hour. It wasn't me, and it wasn't you, which leaves a question I would rather not answer alone.",
         elaraDialogVoId: "room.cryo-bay.hotspot.candle-ring.elara",
       },
-      { id: "ark-seal", name: "Inception Ark Seal", description: "An eight-pointed compass star inlaid in gold across the chamber's center. The candles encircle it like wards.", x: 40, y: 75, width: 20, height: 17, type: "examine", elaraDialog: "The First Wave knelt here before they walked out. The seal isn't decoration — it's a binding, an oath taken in the chamber that made them. The candles say someone is still keeping the rite.",
+      { id: "candle-ring-2", name: "Lit Candles (Right)", description: "A small flame at the right edge of the central floor seal — recently lit, twin to the left.", x: 57, y: 43.7, width: 1.6, height: 5, type: "examine", elaraDialog: "The wax is still soft. Whoever lit these was here within the hour. It wasn't me, and it wasn't you, which leaves a question I would rather not answer alone.",
+        elaraDialogVoId: "room.cryo-bay.hotspot.candle-ring.elara",
+      },
+      { id: "ark-seal", name: "Inception Ark Seal", description: "An eight-pointed compass star inlaid in gold across the chamber's center. The candles encircle it like wards.", x: 43.6, y: 53.8, width: 12.8, height: 11.5, type: "examine", elaraDialog: "The First Wave knelt here before they walked out. The seal isn't decoration — it's a binding, an oath taken in the chamber that made them. The candles say someone is still keeping the rite.",
         elaraDialogVoId: "room.cryo-bay.hotspot.ark-seal.elara",
       },
-      { id: "data-crystal", name: "Data Crystal", description: "A small glinting crystal on the floor near the dropped dog tags.", x: 55, y: 89, width: 5, height: 5, type: "item", action: "data-crystal-alpha", elaraDialog: "A data crystal! These were used by the first wave to store personal logs. This one might contain information about what happened after they woke up.",
+      { id: "data-crystal", name: "Data Crystal", description: "A small glinting crystal hidden on the floor in the shadows beneath your cryo pod.", x: 66.7, y: 59.1, width: 2.5, height: 2.8, type: "item", action: "data-crystal-alpha", elaraDialog: "A hidden data crystal! You've certainly got a keen eye. These were used by the first wave to store personal logs. This one might contain information about what happened after they woke up.",
         elaraDialogVoId: "room.cryo-bay.hotspot.data-crystal.elara",
       },
-      { id: "egg-cryo-scratch", name: "Scratched Symbol", description: "Barely visible scratch marks on the wall behind a pod.", x: 84, y: 30, width: 3, height: 4, type: "examine", elaraDialog: "Wait... those scratch marks. They form a symbol — the mark of the Antiquarian. But that's impossible. The Antiquarian is a myth, a figure from the deepest layers of the prophecy. Who carved this here, and when? This predates our launch.",
+      { id: "egg-cryo-scratch", name: "Scratched Symbol", description: "Barely visible scratch marks on the wall behind a pod.", x: 48.3, y: 26, width: 3, height: 4, type: "examine", elaraDialog: "Wait... those scratch marks. They form a symbol — the mark of the Antiquarian. But that's impossible. The Antiquarian is a myth, a figure from the deepest layers of the prophecy. Who carved this here, and when? This predates our launch.",
         elaraDialogVoId: "room.cryo-bay.hotspot.egg-cryo-scratch.elara",
         responses: [
           { id: "human.cryo-bay.egg-cryo-scratch.acknowledge", label: "We saw nothing.", closesDialog: true },
@@ -606,32 +561,18 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       },
       // Section F — Cryo Bay mystery hotspots. Each fires through the
       // cryo-mystery hotspot-handler branch in ArkExplorerPage which
-      // resolves the Look response via resolveVerbResponse(). All four
-      // sub-rects anchor on `dead-pod`, the rearmost standing pod in
-      // the right cluster (chosen because the standalone right-mid
-      // unit is mostly obscured by the broken player pod foreground).
-      // Sub-rects are kept ABOVE y=60 so they remain clickable above
-      // the cryo-pod's foreground footprint. `personal-effect` is the
-      // locket on the foreground floor — separate anchor.
-      { id: "dead-pod", name: "Sealed Diplomatic Pod", description: "A pod whose status indicator is cold-blue instead of warm-gold. Something is in there.", x: 74, y: 35, width: 6, height: 32, type: "interact", action: "cryo-mystery:dead-pod" },
-      { id: "frosted-glass", name: "Frosted Pod Glass", description: "Wipe the frost — see who's inside.", x: 74, y: 38, width: 6, height: 12, type: "interact", action: "cryo-mystery:frosted-glass" },
-      { id: "medical-chart", name: "Medical Chart", description: "A printed medical chart magnet-clipped to the dark pod.", x: 74, y: 40, width: 3, height: 4, type: "interact", action: "cryo-mystery:medical-chart" },
-      { id: "cracked-panel", name: "Cracked Control Panel", description: "The dark pod's control panel is split along a hairline seam. Sabotage?", x: 74, y: 51, width: 6, height: 5, type: "interact", action: "cryo-mystery:cracked-panel" },
-      { id: "data-slate", name: "Hidden Data Slate", description: "The edge of a data-slate peeks out from under the pod.", x: 75, y: 57, width: 4, height: 3, type: "interact", action: "cryo-mystery:data-slate" },
-      // personal-effect is the dog-tag + datapad pair on the visible
-      // floor center, sitting just left of the broken player pod's
-      // base. Kept narrow (8×6) so it doesn't bleed into the ichor-
-      // trail to its left or the data-crystal to its right.
-      { id: "personal-effect", name: "Fallen Locket", description: "Something small has fallen on the floor — a tarnished locket and a cut ID-tag cord.", x: 52, y: 90, width: 8, height: 6, type: "interact", action: "cryo-mystery:personal-effect" },
+      // resolves the Look response via resolveVerbResponse().
+      { id: "dead-pod", name: "Sealed Diplomatic Pod", description: "A pod whose status indicator is cold-blue instead of warm-gold. Something is in there.", x: 36.3, y: 36.5, width: 2.8, height: 9.5, type: "interact", action: "cryo-mystery:dead-pod" },
+      { id: "frosted-glass", name: "Frosted Pod Glass", description: "Wipe the frost — see who's inside.", x: 79.6, y: 64.4, width: 4.8, height: 8.8, type: "interact", action: "cryo-mystery:frosted-glass" },
+      { id: "medical-chart", name: "Medical Chart", description: "A printed medical chart magnet-clipped to the wall.", x: 41.5, y: 34.3, width: 3, height: 4, type: "interact", action: "cryo-mystery:medical-chart", elaraDialog: "I wonder what that is. I don't have any record of that." },
+      { id: "cracked-panel", name: "Cracked Control Panel", description: "The dark pod's control panel is split along a hairline seam. Sabotage?", x: 81.3, y: 57.1, width: 3.1, height: 4.8, type: "interact", action: "cryo-mystery:cracked-panel" },
+      { id: "data-slate", name: "Hidden Data Slate", description: "The edge of a data-slate peeks out from under the pod.", x: 60, y: 90.3, width: 3.8, height: 4.7, type: "interact", action: "cryo-mystery:data-slate" },
+      { id: "personal-effect", name: "Fallen Locket", description: "Something small has fallen on the floor — a tarnished locket and a cut ID-tag cord.", x: 55.2, y: 86.4, width: 4.7, height: 3.6, type: "interact", action: "cryo-mystery:personal-effect" },
       // The player's actual pod — the broken, fallen capsule in the
       // foreground-right with a handprint smeared on the inside of
       // the glass. Authored LAST so its rectangle z-stacks above
-      // `personal-effect` and the right-edge of the `dead-pod`
-      // cluster in case of overlap. No `cryo-mystery:` action yet —
-      // inline `responses[]` are wired through ElaraConversationPopup
-      // natively; the richer verb-coin / clue-logging integration
-      // through cryoBayMystery.ts is a future authoring pass.
-      { id: "cryo-pod", name: "Your Cryo Pod", description: "Your pod. Fallen on its side, glass spider-webbed. A handprint is smeared on the inside of the glass — yours, from when you broke out.", x: 62, y: 62, width: 32, height: 33, type: "examine", elaraDialog: "That's your pod. AK-74-0074. You broke the seal from inside, which the engineering spec says is impossible — and yet, here we are. We need to understand how.",
+      // `personal-effect` and `data-crystal` in case of overlap.
+      { id: "cryo-pod", name: "Your Cryo Pod", description: "Your pod. Fallen on its side, glass spider-webbed. A handprint is smeared on the inside of the glass — yours, from when you broke out.", x: 65.7, y: 49.5, width: 12.7, height: 5.8, type: "examine", elaraDialog: "That's your pod. AK-74-0074. You broke the seal from inside, which the engineering spec says is impossible — and yet, here we are. We need to understand how.",
         elaraDialogVoId: "room.cryo-bay.hotspot.cryo-pod.elara",
         responses: [
           { id: "human.cryo-bay.cryo-pod.acknowledge", label: "Acknowledged.", closesDialog: true },

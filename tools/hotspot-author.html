@@ -11150,6 +11150,12 @@ function serializeHotspot(h) {
   if (h.elaraHoverVoId) parts.push(`elaraHoverVoId: ${JSON.stringify(h.elaraHoverVoId)}`);
   if (h.requiresItem) parts.push(`requiresItem: ${JSON.stringify(h.requiresItem)}`);
   if (h.npcId) parts.push(`npcId: ${JSON.stringify(h.npcId)}`);
+  // Preserve responses[] dialog branches when present. JSON.stringify
+  // produces valid TS literal syntax for the response-choice shape
+  // (id, label, closesDialog?, elaraFollowUpVoId?, elaraFollowUpText?).
+  if (Array.isArray(h.responses) && h.responses.length > 0) {
+    parts.push(`responses: ${JSON.stringify(h.responses)}`);
+  }
   return `      { ${parts.join(", ")} },`;
 }
 function flashStatus(msg) {
