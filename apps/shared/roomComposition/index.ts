@@ -9,6 +9,7 @@
 import { resolveBridgeComposite, BRIDGE_BASE_IDS, BRIDGE_SPRITE_IDS } from "./bridgeComposite";
 import { resolveCryoBayComposite, CRYO_BAY_BASE_IDS, CRYO_BAY_SPRITE_IDS } from "./cryoBayComposite";
 import { resolveMedicalBayComposite, MEDICAL_BAY_BASE_IDS, MEDICAL_BAY_SPRITE_IDS } from "./medicalBayComposite";
+import { resolveEngineeringComposite, ENGINEERING_BASE_IDS, ENGINEERING_SPRITE_IDS } from "./engineeringComposite";
 import { compositeBaseUrl, compositeSpriteUrl } from "./types";
 import type {
   CompositeGameSlice,
@@ -36,11 +37,17 @@ export const COMPOSITE_ASSET_CATALOG: Readonly<
   bridge: { bases: BRIDGE_BASE_IDS, sprites: BRIDGE_SPRITE_IDS },
   "cryo-bay": { bases: CRYO_BAY_BASE_IDS, sprites: CRYO_BAY_SPRITE_IDS },
   "medical-bay": { bases: MEDICAL_BAY_BASE_IDS, sprites: MEDICAL_BAY_SPRITE_IDS },
+  engineering: { bases: ENGINEERING_BASE_IDS, sprites: ENGINEERING_SPRITE_IDS },
 };
 
 /** True when the room has a Phase J composite resolver wired. */
 export function hasRoomComposite(roomId: string): roomId is CompositeRoomId {
-  return roomId === "bridge" || roomId === "cryo-bay" || roomId === "medical-bay";
+  return (
+    roomId === "bridge" ||
+    roomId === "cryo-bay" ||
+    roomId === "medical-bay" ||
+    roomId === "engineering"
+  );
 }
 
 /** Resolve a room composite for a given game state slice.
@@ -58,6 +65,8 @@ export function resolveRoomComposite(
       return resolveCryoBayComposite(game);
     case "medical-bay":
       return resolveMedicalBayComposite(game);
+    case "engineering":
+      return resolveEngineeringComposite(game);
   }
 }
 
@@ -81,3 +90,4 @@ export function resolveRoomCompositeUrls(
 export { resolveBridgeComposite } from "./bridgeComposite";
 export { resolveCryoBayComposite } from "./cryoBayComposite";
 export { resolveMedicalBayComposite } from "./medicalBayComposite";
+export { resolveEngineeringComposite } from "./engineeringComposite";
