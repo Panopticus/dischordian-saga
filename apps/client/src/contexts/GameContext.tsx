@@ -1286,75 +1286,169 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "narrative_event", value: "bridge_systems_restored" },
     connections: ["bridge", "observation-deck"],
     hotspots: [
-      // Mystery wiring — severance.bound_champion · e1 + e3 + e4 (Vex's three recordings)
-      { id: "severance-vex-opening-line", name: "Vex Maestro's Opening Line — Forty Broadcasts", description: "On the broadcast-record desk: every Severance opening since Year 1, all carrying the same line in the same cadence. 'Someone has to pick it up.' The line is older than Vex's tenure.", x: 6, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:severance-vex-opening-line" },
-      { id: "severance-year-one-lap-record", name: "Severance Year One Lap Record", description: "On the Year-One archive shelf: two casualties — the champion (named) and a witness who entered the lane (redacted). The only redaction in forty seasons.", x: 14, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:severance-year-one-lap-record" },
-      { id: "severance-vex-confession", name: "Vex Maestro's Confession Recording", description: "Pinned to the recent-recordings board: Vex's first-time-naming-the-recruitment confession. 'Someone has to pick it up was always literal.'", x: 22, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:severance-vex-confession" },
-      // Mystery wiring — charter.missing_signatory · e1 (lower-deck bell log)
-      { id: "charter-bell-log", name: "Lower-Deck Bell Log — Three Pulls", description: "On the maintenance-broadcast shelf: three bell-pulls in the last century. Severance Year 3, a date no one will name, and this morning. The Antiquarian's name on the third.", x: 38, y: 49, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:charter-bell-log" },
-      // Mystery wiring — severance.bound_champion · e2 (Auditor Klessa profile)
-      { id: "severance-first-witness-klessa", name: "Auditor Klessa — Forty-Severance Witness", description: "On the witness-attendance board: she has attended every Severance since Year 1. Brings a single white candle and lights it during the spoken name.", x: 30, y: 49, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:severance-first-witness-klessa" },
-      // Mystery wiring — memorial.seven_watchers · e5 (first trumpet sounds)
-      { id: "watchers-first-trumpet", name: "First Trumpet — Twenty-Two Seconds", description: "On the upper-bands intercept board: twenty-two seconds of Idris's band-three trumpet. The post-launch content slot Phase 4 scaffolded; tonight's first sound.", x: 22, y: 49, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:watchers-first-trumpet" },
-      // Mystery wiring — akai_shi.red_death · color (comms-array)
-      { id: "akai-voice-mid-hunt", name: "Red Death — Voice Mid-Hunt", description: "On the Matrix-residue intercept board: a field-recording from the third retreat chamber. 'I am the chronicle's correction. I do not hate. I do not pity.'", x: 6, y: 49, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:akai-voice-mid-hunt" },
-      { id: "akai-word-to-the-chronicle", name: "Red Death — Word to the Chronicle", description: "Pinned beside: the Red Death's closing line. 'I do not know if that nod was forgiveness or recognition or the body's last grammar. I do not need to know.'", x: 14, y: 49, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:akai-word-to-the-chronicle" },
-      // Mystery wiring — advocate.blood_weave · color (comms-array)
-      { id: "advocate-register-three-broadcast", name: "Advocate Broadcast — Register Three", description: "On the Empire-of-Shadows transmission shelf: the Advocate's register-three liturgical broadcast. 'If a soul comes under my charter, the chronicle has accepted the soul as its own.'", x: 59, y: 41, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:advocate-register-three-broadcast" },
-      { id: "advocate-defection-response", name: "Advocate's Response to the Defections", description: "Pinned beside: the Advocate's register-three reply to the three-general defection. 'They walk under my charter still. I advocate for what they were when they chose.'", x: 67, y: 41, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:advocate-defection-response" },
-      { id: "advocate-walk-in-power-lyric", name: "'Walk in Power' — Lyric Record", description: "On the album-records shelf: the canonical Silence in Heaven duet between the Advocate and the Human. The Empire's most-broadcast resistance anthem.", x: 75, y: 41, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:advocate-walk-in-power-lyric" },
-      { id: "advocate-position-current-broadcast", name: "Advocate's Current-Position Broadcast", description: "On the most-recent-broadcasts shelf: 'I have not stopped. I will not stop. I continue. The Empire continues. The walk continues.'", x: 83, y: 41, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:advocate-position-current-broadcast" },
-      // Mystery wiring — storm.architect_of_flux · color (comms-array)
-      { id: "storm-voice-fragment", name: "Storm — Voice-Fragment Intercept", description: "On the flux-frequency intercept board: a fragment captured during an uncorrelated calm. 'A calm is not the absence of weather. It is weather's permission for what otherwise could not be planned.'", x: 43, y: 41, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:storm-voice-fragment" },
-      { id: "storm-closing-transmission", name: "Storm — Closing-Case Transmission", description: "Pinned beside: a second fragment from the case-closure interval, signed in the Storm's flux signature. 'The case will close on the correct side of that difference.'", x: 51, y: 41, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:storm-closing-transmission" },
-      // Mystery wiring — mechronis.chained_lesson · color (comms-array)
-      { id: "chained-lyra-call-fourteen-minutes", name: "Lyra Vox's Fourteen-Minute Call", description: "On the voice-channel desk: Lyra's call from fourteen minutes before contact. 'They are asking what you would do. I think they already know. they want it from you.'", x: 35, y: 41, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:chained-lyra-call-fourteen-minutes" },
-      // Mystery wiring — mechronis.missing_professor · e3 (vote audio + silence hour)
-      { id: "tarn-erasure-vote-audio", name: "The Erasure-Vote Audio", description: "On the transmission desk: forty-three minutes from the war-room's spillover recorder. Three voices, three ayes, three pauses long enough to have been refusals.", x: 13, y: 19, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:tarn-erasure-vote-audio" },
-      { id: "tarn-faculty-silence-hour", name: "The Hour Before the Vote", description: "The fifty-one minutes of room-tone the spillover recorder caught before the vote. Three faculty heads in the same room, no footsteps, no chairs, no dialogue.", x: 21, y: 19, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:tarn-faculty-silence-hour" },
-      // Mystery wiring — memorial.seven_watchers · e1 (silence-break log)
-      { id: "watchers-silence-break-log", name: "Silence-Break Event Log", description: "On the transmission desk: sixty-three seconds of six simultaneous voice-channels addressing six different players. The seventh channel logged as 'active signal, no carrier.'", x: 20, y: 30, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:watchers-silence-break-log" },
-      // Mystery wiring — wolf.anara_hunt · e1 (meme-show transmission)
-      { id: "wolf-meme-show-transmission", name: "Meme-Show Transmission Intercept", description: "On the intercept board: Locke's adjudicar has pinned the Inventor-voiced transmission naming the Wolf as a predator wearing trust like a mask. The Antiquarian has not denied the framing.", x: 27, y: 41, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:wolf-meme-show-transmission" },
-      // Mystery wiring — akai_shi.red_death · e1 (last recorded words)
-      { id: "akai-last-recorded-words", name: "Akai Shi's Last Recorded Words", description: "On the Thaloria-archive shelf: the helm-comm field-recording from forty-seven seconds before Jericho reached her. 'It was always going to be a mercy. We just have to live with which kind.'", x: 34, y: 52, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:akai-last-recorded-words" },
-      // Mystery wiring — resurrectionist.cycle_walker · e3 (Host wyrmhole signature)
-      { id: "resur-host-wyrmhole-signature", name: "Plague Dragon Corpse Signature", description: "On the signal-analysis bench: the Plague Dragon's energy-trace, consistent with the Host's canonical wyrmhole technology. The Virus's path through the breach, settled.", x: 41, y: 63, width: 6, height: 6, type: "interact", action: "room-mystery:comms-array:resur-host-wyrmhole-signature" },
-      // Realigned 2026-04-25 for the AAA Final comms-array render — a
-      // back-wall grid of glowing broadcast screens, a central control
-      // console in the foreground, dim corridor exits at far-left and
-      // far-right. The screen grid is split into left/right halves for
-      // the two streaming surfaces and two singled-out screens call out
-      // the static + pirate-frequency hotspots.
-      { id: "broadcast-screen", name: "Broadcast Screen", description: "A large screen playing recorded episodes of the Dischordian Saga.", x: 26, y: 22, width: 22, height: 28, type: "terminal", action: "/watch", elaraDialog: "The broadcast system. It plays the recorded history of the Dischordian Saga in episodic format. Each epoch covers a different era — from the Age of Privacy through the Fall of Reality. Watch carefully. There are clues hidden in every episode." },
-      { id: "late-night-tv", name: "Pirate Frequency TV", description: "A battered CRT television set tuned to a frequency that shouldn't exist. The signal comes and goes. Sometimes a handsome devil speaks directly to you.", x: 62, y: 8, width: 14, height: 18, type: "terminal", action: "/transmissions", elaraDialog: "This... this isn't supposed to be here. It's tuned to a frequency outside the Ark's normal broadcast spectrum. The signal ID reads 'MEME-PRIME.' Whoever is broadcasting has been recording the entire Dischordian Saga — and narrating it with alarming personal knowledge. The episodes unlock as you progress. It calls itself 'Late Night with the Meme.' I don't trust it. But I can't stop watching either." },
-      { id: "radio-console", name: "Radio Console", description: "A radio tuner picking up fragments of music from across the multiverse.", x: 52, y: 22, width: 18, height: 28, type: "examine", action: "room-mystery:comms-array:radio-console", elaraDialog: "The radio picks up fragments of music transmissions. Songs from Malkia Ukweli and the Panopticon — they seem to broadcast across dimensional barriers. Each song tells part of the story." },
-      { id: "static-screen", name: "Static Screen", description: "A screen showing nothing but static. Occasionally, shapes seem to form in the noise.", x: 12, y: 30, width: 8, height: 18, type: "examine", action: "room-mystery:comms-array:static-screen", elaraDialog: "That screen has been showing static since I can remember. But sometimes... sometimes I think I see patterns in it. Faces. Words. It's probably just signal degradation. Probably." },
-      { id: "training-console", name: "Training Console", description: "An interactive tutorial system explaining the lore and mechanics of the Dischordian Saga.", x: 36, y: 60, width: 28, height: 28, type: "terminal", action: "/lore-tutorials", elaraDialog: "The Training Console. It contains interactive tutorials covering the lore, factions, game mechanics, and history of the Dischordian Saga. Essential reading for new Potentials. Even veterans might learn something new." },
-      { id: "door-bridge", name: "Bridge Corridor", description: "Return to the Command Bridge.", x: 1, y: 30, width: 8, height: 50, type: "door", action: "bridge" },
-      { id: "door-observation", name: "Observation Deck", description: "A passage to the Observation Deck.", x: 91, y: 30, width: 8, height: 50, type: "door", action: "observation-deck" },
-      { id: "comms-relay", name: "Communication Relay", description: "A powerful relay antenna capable of scanning for neural signatures across the fleet. Used to scan for Potential signatures across the fleet.", x: 78, y: 12, width: 12, height: 18, type: "interact", action: "comms-relay-import", elaraDialog: "The Communication Relay. I've been trying to re-establish contact with the other vessels — the ones that carried the first wave of Potentials into the void. I can scan for dormant neural signatures across the fleet. Perhaps we can identify other Potentials who survived the journey." },
-      { id: "egg-comms-signal", name: "Anomalous Frequency", description: "A barely audible signal on a frequency that shouldn't exist.", x: 82, y: 50, width: 3, height: 4, type: "examine", action: "room-mystery:comms-array:egg-comms-signal", elaraDialog: "That frequency... it's not on any standard band. The signal is repeating a pattern: three short, three long, three short. An SOS. But the origin coordinates point to a location that doesn't exist in normal space. Someone — or something — is calling for help from between dimensions. The signal is tagged with an identifier: 'MEME-PRIME.'" },
-      // Voice in the static — overlays the existing static-screen at
-      // tighter rectangle so a tier-3 click can target the silhouette
-      // forming inside it. The hotspot lives on the same screen but
-      // higher z-order; clicks on the inner rectangle hit this first.
-      { id: "voice-in-the-static", name: "Voice in the Static", description: "The static on the central monitor has begun to organise itself — vertical bands of indigo arranging into the silhouette of a person speaking, then dissolving.", x: 13, y: 32, width: 6, height: 14, type: "interact", action: "room-mystery:comms-array:voice-in-the-static" },
-      // ── NPC presence (Phase C) ──
+      // Re-anchored 2026-05-24 against the AAA Final comms-array render
+      // (art/rooms/comms_array/baseline.png) after a 14-variant audit
+      // pass (baseline + 13 state overlays: act_tier_2, battlepass_
+      // winter, cycle_longnight, epoch_shadowtongue, faction_insurgency,
+      // governance_blackout, human_reveal_ghost, investigation_tier,
+      // morality_dark, season_closing, trust_human_warm, tv_spreading,
+      // unlock_cipher_den). Layout is consistent across every variant —
+      // landmarks don't shift — so baseline anchoring works universally.
+      //
+      // The 2026-04-25 anchoring described a "back-wall grid of glowing
+      // broadcast screens" + "central control console in the foreground"
+      // — that matches the general layout, but the specific anchor
+      // positions placed broadcast-screen on the left-center display
+      // case (where it isn't) and scattered ~22 mystery rectangles
+      // across blank wall space at y=8/19/30/41/49/52/63/70. The
+      // human_reveal_ghost variant explicitly anchors the Human NPC
+      // to the bot-right monitor, which earlier anchoring placed at
+      // (30, 55) in the center-foreground.
+      //
+      // Major re-anchors:
+      //   • broadcast-screen (was 26,22,22,28 on left-center display
+      //     case) → anchored on the top-left monitor at (68,18,10,26)
+      //   • late-night-tv (was 62,8,14,18 floating on back wall) →
+      //     top-right monitor at (88,18,11,26) (the "battered CRT" as
+      //     a single distinct screen)
+      //   • comms-relay (was 78,12,12,18) → top-mid monitor at
+      //     (78,18,10,26) (the relay antenna feature)
+      //   • radio-console (was 52,22,18,28 on empty center) → back-
+      //     alcove recessed window at (42,22,13,23)
+      //   • training-console (was 36,60,28,28 spread across center
+      //     floor) → tightened to the central transmission pedestal
+      //     area at (40,50,16,30)
+      //   • static-screen (was 12,30,8,18) — kept on the left-wall
+      //     gauge bank with the bullseye-target radar scope
+      //   • npc-the-human (was 30,55,8,16 in center-foreground) →
+      //     re-anchored to the bot-right monitor at (89,47,10,18)
+      //     where the ghost figure appears in the human_reveal_ghost
+      //     variant
+      //   • door-bridge, door-observation: kept as invisible click
+      //     bands on far-left + far-right edges (no visible doors in
+      //     the art)
+      //   • all 21 Architect-channel mystery rectangles redistributed:
+      //     - 4 on the left-wall gauge bank
+      //     - 4 on the central pedestal (training-console sub-rects)
+      //     - 11 on the right-wall monitor grid TOP row (3 monitors
+      //       × 3-4 sub-rects each)
+      //   • 4 "trace/log/transmission" mysteries placed on the BOT
+      //     monitor row + right-foreground bench (ocularum-relay-
+      //     trace + dead-drop-cadence-log on the bench; shadow-
+      //     tongue-signal-trace + miras-dual-thread-transmission on
+      //     bot-mid + bot-left monitors)
+      //
+      // Visible landmarks, left-to-right + foreground-to-back:
+      //   • left-wall analog gauge bank with bullseye radar scope —
+      //     far-left (`static-screen`, `voice-in-the-static`, 4
+      //     architect mysteries)
+      //   • left freestanding display case — left-center (decorative)
+      //   • back-alcove recessed window — back center
+      //     (`radio-console`)
+      //   • central transmission pedestal on sunburst floor — chamber
+      //     center foreground (`training-console`, 4 architect mystery
+      //     sub-rects)
+      //   • right freestanding display case — right-center (decorative)
+      //   • six-monitor broadcast grid (3 wide × 2 tall) — right wall
+      //     (`broadcast-screen`, `comms-relay`, `late-night-tv` as the
+      //     top row; bot row hosts mystery sub-rects + `egg-comms-
+      //     signal` + `npc-the-human`)
+      //   • small wooden bench — right foreground (`ocularum-relay-
+      //     trace`, `dead-drop-cadence-log`)
+      //
+      // Render order: container hotspots authored FIRST; small sub-
+      // rectangles (mystery rects, voice-in-the-static, egg) authored
+      // AFTER so they win clicks on specific monitors / gauges. NPCs
+      // authored last so projections win clicks when manifested.
+      //
+      // Verify with /ark?debug-hotspots=1 or, for drag-to-place
+      // editing, /ark?author-hotspots=1.
+
+      // ── FEATURE / CONTAINER HOTSPOTS ──
+      { id: "broadcast-screen", name: "Broadcast Screen", description: "The top-left of the right-wall monitor grid — a large screen playing recorded episodes of the Dischordian Saga.", x: 68, y: 18, width: 10, height: 26, type: "terminal", action: "/watch", elaraDialog: "The broadcast system. It plays the recorded history of the Dischordian Saga in episodic format. Each epoch covers a different era — from the Age of Privacy through the Fall of Reality. Watch carefully. There are clues hidden in every episode." },
+      { id: "comms-relay", name: "Communication Relay", description: "The top-mid monitor — a powerful relay antenna capable of scanning for neural signatures across the fleet.", x: 78, y: 18, width: 10, height: 26, type: "interact", action: "comms-relay-import", elaraDialog: "The Communication Relay. I've been trying to re-establish contact with the other vessels — the ones that carried the first wave of Potentials into the void. I can scan for dormant neural signatures across the fleet. Perhaps we can identify other Potentials who survived the journey." },
+      { id: "late-night-tv", name: "Pirate Frequency TV", description: "The top-right monitor — a battered CRT television tuned to a frequency that shouldn't exist. The signal comes and goes. Sometimes a handsome devil speaks directly to you.", x: 88, y: 18, width: 11, height: 26, type: "terminal", action: "/transmissions", elaraDialog: "This... this isn't supposed to be here. It's tuned to a frequency outside the Ark's normal broadcast spectrum. The signal ID reads 'MEME-PRIME.' Whoever is broadcasting has been recording the entire Dischordian Saga — and narrating it with alarming personal knowledge. The episodes unlock as you progress. It calls itself 'Late Night with the Meme.' I don't trust it. But I can't stop watching either." },
+      { id: "radio-console", name: "Radio Console", description: "The back-alcove recessed window with a radio tuner picking up fragments of music from across the multiverse.", x: 42, y: 22, width: 13, height: 23, type: "examine", action: "room-mystery:comms-array:radio-console", elaraDialog: "The radio picks up fragments of music transmissions. Songs from Malkia Ukweli and the Panopticon — they seem to broadcast across dimensional barriers. Each song tells part of the story." },
+      { id: "static-screen", name: "Static Screen", description: "A screen built into the left-wall gauge bank, showing nothing but static. Occasionally, shapes seem to form in the noise.", x: 8, y: 30, width: 12, height: 18, type: "examine", action: "room-mystery:comms-array:static-screen", elaraDialog: "That screen has been showing static since I can remember. But sometimes... sometimes I think I see patterns in it. Faces. Words. It's probably just signal degradation. Probably." },
+      { id: "training-console", name: "Training Console", description: "The central transmission pedestal — an interactive tutorial system explaining the lore and mechanics of the Dischordian Saga.", x: 40, y: 50, width: 16, height: 30, type: "terminal", action: "/lore-tutorials", elaraDialog: "The Training Console. It contains interactive tutorials covering the lore, factions, game mechanics, and history of the Dischordian Saga. Essential reading for new Potentials. Even veterans might learn something new." },
+
+      // ── DOORS ──
+      // No visible doors in the comms-array art — the Bridge and
+      // Observation Deck are reached via implied corridors at the
+      // far-left and far-right edges. Kept as narrow invisible click
+      // bands so the player can still navigate.
+      { id: "door-bridge", name: "Bridge Corridor", description: "Return to the Command Bridge.", x: 0, y: 30, width: 4, height: 50, type: "door", action: "bridge" },
+      { id: "door-observation", name: "Observation Deck", description: "A passage to the Observation Deck.", x: 96, y: 30, width: 4, height: 50, type: "door", action: "observation-deck" },
+
+      // ── STATIC-SCREEN OVERLAY ──
+      // Voice in the static — tighter rectangle on the same screen so a
+      // tier-3 click can target the silhouette forming inside it.
+      // Authored AFTER static-screen so the inner rectangle wins clicks.
+      { id: "voice-in-the-static", name: "Voice in the Static", description: "The static on the left-wall screen has begun to organise itself — vertical bands of indigo arranging into the silhouette of a person speaking, then dissolving.", x: 10, y: 33, width: 8, height: 12, type: "interact", action: "room-mystery:comms-array:voice-in-the-static" },
+
+      // ── LEFT-WALL GAUGE BANK MYSTERY RECTS (4 architect channels) ──
+      // Standalone mystery rects placed on the far-left edge of the
+      // gauge bank, clear of the static-screen and radar-scope rects.
+      { id: "charter-bell-log", name: "Lower-Deck Bell Log — Three Pulls", description: "On the maintenance-broadcast shelf: three bell-pulls in the last century. Severance Year 3, a date no one will name, and this morning. The Antiquarian's name on the third.", x: 1, y: 22, width: 5, height: 6, type: "interact", action: "room-mystery:comms-array:charter-bell-log" },
+      { id: "severance-first-witness-klessa", name: "Auditor Klessa — Forty-Severance Witness", description: "On the witness-attendance board: she has attended every Severance since Year 1. Brings a single white candle and lights it during the spoken name.", x: 1, y: 30, width: 5, height: 6, type: "interact", action: "room-mystery:comms-array:severance-first-witness-klessa" },
+      { id: "akai-voice-mid-hunt", name: "Red Death — Voice Mid-Hunt", description: "On the Matrix-residue intercept board: a field-recording from the third retreat chamber. 'I am the chronicle's correction. I do not hate. I do not pity.'", x: 1, y: 38, width: 5, height: 6, type: "interact", action: "room-mystery:comms-array:akai-voice-mid-hunt" },
+      { id: "akai-word-to-the-chronicle", name: "Red Death — Word to the Chronicle", description: "Pinned beside: the Red Death's closing line. 'I do not know if that nod was forgiveness or recognition or the body's last grammar. I do not need to know.'", x: 1, y: 46, width: 5, height: 6, type: "interact", action: "room-mystery:comms-array:akai-word-to-the-chronicle" },
+
+      // ── CENTRAL PEDESTAL MYSTERY SUB-RECTS (4 desk/voice channels) ──
+      // Authored AFTER training-console so they win clicks on specific
+      // pedestal surfaces.
+      { id: "tarn-erasure-vote-audio", name: "The Erasure-Vote Audio", description: "On the transmission desk: forty-three minutes from the war-room's spillover recorder. Three voices, three ayes, three pauses long enough to have been refusals.", x: 41, y: 52, width: 5, height: 6, type: "interact", action: "room-mystery:comms-array:tarn-erasure-vote-audio" },
+      { id: "tarn-faculty-silence-hour", name: "The Hour Before the Vote", description: "The fifty-one minutes of room-tone the spillover recorder caught before the vote. Three faculty heads in the same room, no footsteps, no chairs, no dialogue.", x: 47, y: 52, width: 5, height: 6, type: "interact", action: "room-mystery:comms-array:tarn-faculty-silence-hour" },
+      { id: "watchers-silence-break-log", name: "Silence-Break Event Log", description: "On the transmission desk: sixty-three seconds of six simultaneous voice-channels addressing six different players. The seventh channel logged as 'active signal, no carrier.'", x: 41, y: 60, width: 5, height: 6, type: "interact", action: "room-mystery:comms-array:watchers-silence-break-log" },
+      { id: "chained-lyra-call-fourteen-minutes", name: "Lyra Vox's Fourteen-Minute Call", description: "On the voice-channel desk: Lyra's call from fourteen minutes before contact. 'They are asking what you would do. I think they already know. they want it from you.'", x: 47, y: 60, width: 5, height: 6, type: "interact", action: "room-mystery:comms-array:chained-lyra-call-fourteen-minutes" },
+
+      // ── TOP-LEFT MONITOR MYSTERY SUB-RECTS (3 Severance recordings) ──
+      // Authored AFTER broadcast-screen so they win clicks on the
+      // specific recorded broadcasts.
+      { id: "severance-vex-opening-line", name: "Vex Maestro's Opening Line — Forty Broadcasts", description: "On the broadcast-record desk: every Severance opening since Year 1, all carrying the same line in the same cadence. 'Someone has to pick it up.' The line is older than Vex's tenure.", x: 69, y: 22, width: 4, height: 5, type: "interact", action: "room-mystery:comms-array:severance-vex-opening-line" },
+      { id: "severance-year-one-lap-record", name: "Severance Year One Lap Record", description: "On the Year-One archive shelf: two casualties — the champion (named) and a witness who entered the lane (redacted). The only redaction in forty seasons.", x: 73, y: 22, width: 4, height: 5, type: "interact", action: "room-mystery:comms-array:severance-year-one-lap-record" },
+      { id: "severance-vex-confession", name: "Vex Maestro's Confession Recording", description: "Pinned to the recent-recordings board: Vex's first-time-naming-the-recruitment confession. 'Someone has to pick it up was always literal.'", x: 69, y: 30, width: 4, height: 5, type: "interact", action: "room-mystery:comms-array:severance-vex-confession" },
+
+      // ── TOP-MID MONITOR MYSTERY SUB-RECTS (4 intercept channels) ──
+      // Authored AFTER comms-relay so they win clicks on the specific
+      // intercepted channel signatures.
+      { id: "watchers-first-trumpet", name: "First Trumpet — Twenty-Two Seconds", description: "On the upper-bands intercept board: twenty-two seconds of Idris's band-three trumpet. The post-launch content slot Phase 4 scaffolded; tonight's first sound.", x: 79, y: 22, width: 4, height: 5, type: "interact", action: "room-mystery:comms-array:watchers-first-trumpet" },
+      { id: "wolf-meme-show-transmission", name: "Meme-Show Transmission Intercept", description: "On the intercept board: Locke's adjudicar has pinned the Inventor-voiced transmission naming the Wolf as a predator wearing trust like a mask. The Antiquarian has not denied the framing.", x: 83, y: 22, width: 4, height: 5, type: "interact", action: "room-mystery:comms-array:wolf-meme-show-transmission" },
+      { id: "storm-voice-fragment", name: "Storm — Voice-Fragment Intercept", description: "On the flux-frequency intercept board: a fragment captured during an uncorrelated calm. 'A calm is not the absence of weather. It is weather's permission for what otherwise could not be planned.'", x: 79, y: 30, width: 4, height: 5, type: "interact", action: "room-mystery:comms-array:storm-voice-fragment" },
+      { id: "storm-closing-transmission", name: "Storm — Closing-Case Transmission", description: "Pinned beside: a second fragment from the case-closure interval, signed in the Storm's flux signature. 'The case will close on the correct side of that difference.'", x: 83, y: 30, width: 4, height: 5, type: "interact", action: "room-mystery:comms-array:storm-closing-transmission" },
+
+      // ── TOP-RIGHT MONITOR MYSTERY SUB-RECTS (4 Advocate broadcasts) ──
+      // Authored AFTER late-night-tv so they win clicks on the
+      // specific Empire-of-Shadows transmissions.
+      { id: "advocate-register-three-broadcast", name: "Advocate Broadcast — Register Three", description: "On the Empire-of-Shadows transmission shelf: the Advocate's register-three liturgical broadcast. 'If a soul comes under my charter, the chronicle has accepted the soul as its own.'", x: 89, y: 22, width: 4, height: 5, type: "interact", action: "room-mystery:comms-array:advocate-register-three-broadcast" },
+      { id: "advocate-defection-response", name: "Advocate's Response to the Defections", description: "Pinned beside: the Advocate's register-three reply to the three-general defection. 'They walk under my charter still. I advocate for what they were when they chose.'", x: 94, y: 22, width: 4, height: 5, type: "interact", action: "room-mystery:comms-array:advocate-defection-response" },
+      { id: "advocate-walk-in-power-lyric", name: "'Walk in Power' — Lyric Record", description: "On the album-records shelf: the canonical Silence in Heaven duet between the Advocate and the Human. The Empire's most-broadcast resistance anthem.", x: 89, y: 30, width: 4, height: 5, type: "interact", action: "room-mystery:comms-array:advocate-walk-in-power-lyric" },
+      { id: "advocate-position-current-broadcast", name: "Advocate's Current-Position Broadcast", description: "On the most-recent-broadcasts shelf: 'I have not stopped. I will not stop. I continue. The Empire continues. The walk continues.'", x: 94, y: 30, width: 4, height: 5, type: "interact", action: "room-mystery:comms-array:advocate-position-current-broadcast" },
+
+      // ── BOT MONITOR ROW (Thaloria archive + trace/signature buffers) ──
+      { id: "akai-last-recorded-words", name: "Akai Shi's Last Recorded Words", description: "On the Thaloria-archive shelf — bot-left monitor: the helm-comm field-recording from forty-seven seconds before Jericho reached her. 'It was always going to be a mercy. We just have to live with which kind.'", x: 69, y: 48, width: 5, height: 6, type: "interact", action: "room-mystery:comms-array:akai-last-recorded-words" },
+      { id: "miras-dual-thread-transmission", name: "Mira's Dual-Thread Transmission", description: "A personal-channel buffer on the bot-left monitor — Mira Halen's letter home with a carrier clean of any duress marker, and her later answer refusing the question of which thread to cut.", x: 74, y: 48, width: 4, height: 6, type: "interact", action: "room-mystery:comms-array:miras-dual-thread-transmission" },
+      { id: "shadow-tongue-signal-trace", name: "Shadow Tongue Signal Trace", description: "A signature buffer on the bot-mid monitor — the Shadow Tongue's operational signature, subtraction without trace across the chronicle layer.", x: 79, y: 48, width: 6, height: 7, type: "interact", action: "room-mystery:comms-array:shadow-tongue-signal-trace" },
+      { id: "resur-host-wyrmhole-signature", name: "Plague Dragon Corpse Signature", description: "On the bot-mid monitor's signal-analysis read-out: the Plague Dragon's energy-trace, consistent with the Host's canonical wyrmhole technology. The Virus's path through the breach, settled.", x: 79, y: 60, width: 6, height: 7, type: "interact", action: "room-mystery:comms-array:resur-host-wyrmhole-signature" },
+      { id: "egg-comms-signal", name: "Anomalous Frequency", description: "A barely audible signal on a frequency that shouldn't exist — registering on the bot-mid monitor's edge meter.", x: 86, y: 50, width: 3, height: 4, type: "examine", action: "room-mystery:comms-array:egg-comms-signal", elaraDialog: "That frequency... it's not on any standard band. The signal is repeating a pattern: three short, three long, three short. An SOS. But the origin coordinates point to a location that doesn't exist in normal space. Someone — or something — is calling for help from between dimensions. The signal is tagged with an identifier: 'MEME-PRIME.'" },
+
+      // ── RIGHT FOREGROUND BENCH (trace/log surfaces) ──
+      // The small wooden bench in the right foreground hosts the
+      // "trace buffer" / "cadence log" mysteries — physical surfaces
+      // for relay outputs the operator pulled off the monitors.
+      { id: "ocularum-relay-trace", name: "Ocularum Relay Trace", description: "A trace buffer printed onto the right-foreground bench — identity-shift signatures the official record does not index. The Senne→Locke transition resolves here.", x: 78, y: 78, width: 8, height: 10, type: "interact", action: "room-mystery:comms-array:ocularum-relay-trace" },
+      { id: "dead-drop-cadence-log", name: "Dead-Drop Cadence Log", description: "A cadence log on the bench's right edge — shipping traffic the antenna passively records as it crosses New Babylon. One monthly Locke-signed package repeats.", x: 88, y: 78, width: 8, height: 10, type: "interact", action: "room-mystery:comms-array:dead-drop-cadence-log" },
+
+      // ── NPC PRESENCE (Phase C) ──
       // The Human — primaryRoom = comms_array (factionNPCs.ts).
       // Manifestation: substrate. He propagates through the comms layer
       // and is only readable here once `first_human_revealed` is set; the
       // hotspot is always present but the NPCDialog gate handles
       // pre-reveal silence. Portrait progressive-reveals via
-      // getHumanRevealImage(trust).
-      { id: "npc-the-human", name: "The Human (Substrate)", description: "Beneath the relay's hum, a second voice carries — not on any frequency the antenna is tuned to. The substrate itself is broadcasting.", x: 30, y: 55, width: 8, height: 16, type: "npc", action: "npc:the_human", npcId: "the_human" },
-      // Mystery wiring — Watcher arc Ocularum relay-trace + dead-drop cadence surface
-      { id: "ocularum-relay-trace", name: "Ocularum Relay Trace", description: "A trace buffer on the relay's deep channel — identity-shift signatures the official record does not index. The Senne→Locke transition resolves here.", x: 6, y: 70, width: 8, height: 12, type: "interact", action: "room-mystery:comms-array:ocularum-relay-trace" },
-      { id: "dead-drop-cadence-log", name: "Dead-Drop Cadence Log", description: "A cadence log on the relay's manifest channel — shipping traffic the antenna passively records as it crosses New Babylon. One monthly Locke-signed package repeats.", x: 78, y: 70, width: 8, height: 12, type: "interact", action: "room-mystery:comms-array:dead-drop-cadence-log" },
-      // Mystery wiring — Ith'Rael arc Shadow Tongue editing-signature trace
-      { id: "shadow-tongue-signal-trace", name: "Shadow Tongue Signal Trace", description: "A signature buffer on the relay's deep-edit channel — the Shadow Tongue's operational signature, subtraction without trace across the chronicle layer.", x: 40, y: 70, width: 8, height: 12, type: "interact", action: "room-mystery:comms-array:shadow-tongue-signal-trace" },
-      // Mystery wiring — Syl'Vex arc: Mira's clean letter home and her later refusal-of-the-question answer
-      { id: "miras-dual-thread-transmission", name: "Mira's Dual-Thread Transmission", description: "A personal-channel buffer — Mira Halen's letter home with a carrier clean of any duress marker, and her later answer refusing the question of which thread to cut.", x: 22, y: 70, width: 8, height: 12, type: "interact", action: "room-mystery:comms-array:miras-dual-thread-transmission" },
+      // getHumanRevealImage(trust). Anchored to the bot-right monitor
+      // because that's where the ghost figure manifests in the
+      // human_reveal_ghost variant.
+      { id: "npc-the-human", name: "The Human (Substrate)", description: "On the bot-right monitor, a silhouette resolves from the broadcast haze. Beneath the relay's hum, a second voice carries — not on any frequency the antenna is tuned to. The substrate itself is broadcasting.", x: 89, y: 47, width: 10, height: 22, type: "npc", action: "npc:the_human", npcId: "the_human" },
     ],
   },
   {
