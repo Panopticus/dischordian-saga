@@ -22,7 +22,6 @@ import { X } from "lucide-react";
 import type { NarratorId, NarratorRoomId } from "@shared/mobileNarrator";
 import {
   deriveNarratorDominance,
-  getBondLocks,
   type DismissalChoice,
 } from "@shared/mobileNarrator";
 import { pickNarratorLine } from "@shared/mobileNarratorDialog";
@@ -91,6 +90,11 @@ export function MobileNarratorSlot({ roomId, flags, className }: MobileNarratorS
   const currentRoomId = useWitnessingStore((s) => s.currentRoomId);
 
   const [wheelOpen, setWheelOpen] = useState(false);
+  // Per-visit hide: tapping X collapses the slot to a small avatar pip
+  // without firing the §1.3 bond-cost wheel. The pip restores the slot.
+  // Resets every time the player enters a new room.
+  const [sessionHidden, setSessionHidden] = useState(false);
+  useEffect(() => { setSessionHidden(false); setWheelOpen(false); }, [roomId]);
 
   // Reseed on room entry or when bonds/flags/dominance meaningfully
   // change. We key on (roomId, flag set identity, dominance) so
@@ -198,7 +202,34 @@ export function MobileNarratorSlot({ roomId, flags, className }: MobileNarratorS
   const isLyraVox = narratorId === "lyra_vox";
   const bust = isLyraVox ? null : getNPCBust(narratorId);
   const bond = narratorId === "elara" ? elaraBond : narratorId === "the_human" ? humanBond : 0;
-  const locks = isLyraVox ? [] : getBondLocks(narratorId, bond);
+  // Bond-lock chips were debug-style ("Locked: elara_callbacks, …") and
+  // broke the in-fiction read. Hidden until we wire diegetic hints.
+  const locks: string[] = [];
+
+  // Collapsed-pip mode: X-dismissed slots stay reachable via a small
+  // avatar puck in the corner. No costs, no wheel — restores on tap.
+  if (sessionHidden && !isLyraVox) {
+    return (
+      <button
+        type="button"
+        onClick={() => setSessionHidden(false)}
+        aria-label={`Show ${NARRATOR_NAME[narratorId]}`}
+        className={`absolute top-4 right-4 rounded-full ring-2 ${accent.ring} bg-black/40 backdrop-blur-sm transition hover:scale-105 ${className ?? ""}`}
+        data-testid={`narrator-slot-pip-${narratorId}`}
+      >
+        {bust ? (
+          <img
+            src={bust}
+            alt={NARRATOR_NAME[narratorId]}
+            className="w-10 h-10 rounded-full object-cover"
+            style={{ objectPosition: "center 22%" }}
+          />
+        ) : (
+          <span className={`block w-10 h-10 rounded-full ${accent.dot}`} />
+        )}
+      </button>
+    );
+  }
 
   return (
     <motion.div
@@ -232,17 +263,33 @@ export function MobileNarratorSlot({ roomId, flags, className }: MobileNarratorS
             {isLyraVox ? "Ship Substrate" : `Bond ${bond}`}
           </p>
         </div>
-        {/* Lyra Vox cannot be dismissed — she is the ship. */}
+        {/* Lyra Vox cannot be dismissed — she is the ship. The X is now
+            a cost-free per-visit hide that collapses the slot to a pip.
+            The §1.3 bond-cost wheel is reachable via the ⋯ button so
+            the narrative consequences still exist for players who want
+            to spend bond — they're just no longer the default action of
+            the only visible close affordance. */}
         {!isLyraVox && (
-          <button
-            type="button"
-            onClick={() => setWheelOpen((v) => !v)}
-            className="p-1.5 rounded-full bg-white/5 hover:bg-white/10 transition"
-            aria-label="Dismiss narrator"
-            data-testid="narrator-slot-dismiss"
-          >
-            <X size={14} className="text-white/60" />
-          </button>
+          <>
+            <button
+              type="button"
+              onClick={() => setWheelOpen((v) => !v)}
+              className="p-1.5 rounded-full bg-white/5 hover:bg-white/10 transition"
+              aria-label="Companion options"
+              data-testid="narrator-slot-options"
+            >
+              <span className="block w-3.5 text-center font-mono text-[13px] leading-none text-white/60">⋯</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => { setSessionHidden(true); setWheelOpen(false); }}
+              className="p-1.5 rounded-full bg-white/5 hover:bg-white/10 transition"
+              aria-label="Hide for now"
+              data-testid="narrator-slot-dismiss"
+            >
+              <X size={14} className="text-white/60" />
+            </button>
+          </>
         )}
       </div>
 

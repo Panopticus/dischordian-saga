@@ -48,6 +48,19 @@ import { MASTERY_BRANCHES } from "@shared/masteryTree";
 
 import LivingBackground from "@/components/LivingBackground";
 import { FactionStandingPanel } from "@/components/faction/FactionStandingPanel";
+import { characterSheetFrameUrls } from "@shared/aaaArtArchive/characterSheets";
+import { assetUrl } from "@/lib/assetUrl";
+
+/** Full-bleed species portrait shipped under art/ui. Used as a heritage
+ *  fallback so the player always sees their race even when the §G.9
+ *  paper-doll body PNG hasn't shipped for that combination. */
+const SPECIES_HERITAGE_PORTRAIT: Record<string, string | undefined> = {
+  demagi: assetUrl("art/ui/ui_cohort_species_demagi.png"),
+  quarchon: assetUrl("art/ui/ui_cohort_species_quarchon.png"),
+  neyon: assetUrl("art/cards/race/neyon_kael_first.webp"),
+  "ne-yon": assetUrl("art/cards/race/neyon_kael_first.webp"),
+  human: assetUrl("art/ui/ui_cohort_species_human.png"),
+};
 
 /* ═══════════════════════════════════════════════════
    CONSTANTS & MAPPINGS
@@ -944,8 +957,28 @@ export default function CharacterSheetPage() {
             <div className="flex flex-col sm:flex-row gap-5 sm:gap-6">
               {/* LEFT: Paper Doll Portrait */}
               <div className="flex flex-col items-center sm:items-start gap-3">
+                {/* Heritage portrait — always-visible species plate behind
+                    the paper-doll, so the operative reads as their race
+                    even when the §G.9 BG3 body PNG hasn't shipped for
+                    this species×foundation combination. The doll layers
+                    composite on top via the existing PaperDollBG3 stack;
+                    this background just guarantees a body is visible. */}
                 <div className={`relative rounded-lg border-2 ${alignBorderColor} overflow-hidden flex-shrink-0`}
                   style={{ boxShadow: isOrder ? '0 0 30px color-mix(in oklch, var(--energy-primary) 10%, transparent)' : '0 0 30px color-mix(in oklch, var(--energy-system) 10%, transparent)' }}>
+                  {(() => {
+                    const heritageSrc = SPECIES_HERITAGE_PORTRAIT[String(char.species).toLowerCase()];
+                    if (!heritageSrc) return null;
+                    return (
+                      <img
+                        src={heritageSrc}
+                        alt=""
+                        aria-hidden
+                        className="absolute inset-0 w-full h-full object-cover opacity-90 pointer-events-none z-[1]"
+                        style={{ objectPosition: "center 18%" }}
+                        onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                      />
+                    );
+                  })()}
                   <div className={`absolute inset-0 ${alignBg}`} />
                   <div className="absolute inset-0 grid-bg opacity-20" />
                   <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -1035,11 +1068,46 @@ export default function CharacterSheetPage() {
                   <div className={`absolute top-1 right-1 w-4 h-4 border-t-2 border-r-2 ${isOrder ? "void-border-success" : "void-border-system"}`} />
                   <div className={`absolute bottom-1 left-1 w-4 h-4 border-b-2 border-l-2 ${isOrder ? "void-border-success" : "void-border-system"}`} />
                   <div className={`absolute bottom-1 right-1 w-4 h-4 border-b-2 border-r-2 ${isOrder ? "void-border-success" : "void-border-system"}`} />
+                  {/* Ornamental portrait frame on top of everything —
+                      gold for Order, silver for Chaos. The PNG has a
+                      transparent center so the doll + heritage still
+                      read through. Pointer-events disabled so the slot
+                      pips beneath remain interactive. Falls back to the
+                      bare corner brackets above on 404. */}
+                  <img
+                    src={characterSheetFrameUrls(isOrder ? "gold" : "silver").final}
+                    alt=""
+                    aria-hidden
+                    className="absolute inset-0 w-full h-full object-fill pointer-events-none z-30"
+                    onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
+                  />
                   {char.species === "neyon" && char.neyonTokenId && (
-                    <div className="absolute top-2 right-2 px-1.5 py-0.5 rounded void-bg-sunk border void-border z-20">
+                    <div className="absolute top-2 right-2 px-1.5 py-0.5 rounded void-bg-sunk border void-border z-40">
                       <span className="font-mono text-[7px] void-text-accent font-bold">#{char.neyonTokenId} ✦ 1/1</span>
                     </div>
                   )}
+                </div>
+
+                {/* Heritage card — species + class base set the player
+                    is wearing. Always rendered so the operative reads
+                    as their race/class even when individual paper-doll
+                    art slots haven't shipped. Pulls lore from the same
+                    SPECIES_LORE / CLASS_LORE the chronicle uses. */}
+                <div className={`rounded-lg border ${alignBorderColor} ${alignBg} p-3 w-full max-w-[340px]`}>
+                  <div className="flex items-center gap-2 mb-2">
+                    <Sparkles size={10} className={alignTextColor} />
+                    <span className="font-mono text-[8px] tracking-[0.3em] text-muted-foreground/60">HERITAGE // BASE LOADOUT</span>
+                  </div>
+                  <p className={`font-display text-sm font-bold tracking-wide ${alignTextColor}`}>
+                    {speciesLore.title}
+                    <span className="font-mono text-[9px] text-muted-foreground/50 ml-1.5">{classLore.title.toUpperCase()}</span>
+                  </p>
+                  <p className="font-mono text-[10px] text-muted-foreground/70 italic leading-snug mt-1">
+                    {speciesLore.tagline}
+                  </p>
+                  <p className="font-mono text-[10px] text-muted-foreground/60 leading-snug mt-2">
+                    {classLore.tagline}
+                  </p>
                 </div>
 
                 {/* Equipment Stats Summary */}

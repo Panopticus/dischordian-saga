@@ -376,6 +376,18 @@ export function ElaraConversationPopup({
     setPhase("closed");
   };
 
+  // Esc dismisses the popup at any phase. Mirrors the X button so
+  // keyboard players never get trapped in a multi-beat conversation.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") handleClose();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+    // handleClose is stable enough — re-binding per render is fine and
+    // keeps the captured `phase` fresh for the audio teardown branch.
+  });
+
   const pickResponse = (choice: ConversationChoice) => {
     if (phase !== "awaitingPlayerChoice") return;
     choice.onPick?.();
