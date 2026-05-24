@@ -86,26 +86,22 @@ detects `durationSec: null` as the signal to render a diegetic
 "signal received, decoding in progress" fallback — gameplay path is never
 blocked while an episode is in production.
 
-### S01E01 — "The Worlds I Saved"
+### S01E01 — "Awakenings" — SHIPPED
 
 | Field | Value |
 |-------|-------|
-| Slug | `the-worlds-i-saved` |
+| Slug | `awakenings` |
 | Trigger flag | `engineer_recording_3_discovered` |
 | Paired recording | Engineer Recording 3 (`holo_worlds_i_saved`) |
 | Paired vote | `engineer_vote_thought_vs_violence` (opens on episode dismissal) |
-| Video path | `cdn/client-public/videos/episodes/s01e01-the-worlds-i-saved.mp4` |
-| Captions path | `cdn/client-public/captions/episodes/s01e01.vtt` |
-| Target duration | ~3–5 minutes (TBD with producer) |
-| Audio bed | TBD — episodes ship with their own mix, no separate music cue from client |
+| Video path | `cdn/client-public/videos/episodes/1.1-awakenings.mp4` |
+| Public URL | `https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/videos/episodes/1.1-awakenings.mp4` |
+| Captions path | `cdn/client-public/captions/episodes/s01e01.vtt` *(TODO — not yet authored)* |
+| Duration | 246 s (4m 06s) |
+| Audio bed | Producer-mixed; embedded in MP4 |
 
-**In-fiction synopsis (for production brief):** The Engineer's third
-recording, broadcast in full: an invisible network of survivors his class
-never wrote down, the worlds he fixed instead of broke, and the question
-the Potentials must answer before the cycle closes — patience or violence.
+**Source:** Copied 2026-05-24 from the producer drop at `s3://dgrsart/Videos/1.1 Awakenings.mp4` into the public CDN prefix via `aws s3 cp`. Player is wired through `DSAGA_EPISODES[0]` in `apps/shared/dischordianSagaEpisodes.ts` and the in-game flow is: Engineer Recording 3 discovery → `EngineerRecordingDiscoveryModal` detects the paired episode → mounts `DischordianSagaEpisodePlayer` full-screen → on dismissal `EngineerVoteOverlay` opens the Choose Violence vote directly.
 
-**Production gating:** once the MP4 ships and the captions are uploaded,
-update `DSAGA_EPISODES[0].durationSec` in
-`apps/shared/dischordianSagaEpisodes.ts` to the real runtime. That flips
-the player out of fallback mode automatically — no other client change
-required.
+**In-fiction synopsis:** The Engineer's third recording, broadcast in full: an invisible network of survivors his class never wrote down, the worlds he fixed instead of broke, and the question the Potentials must answer before the cycle closes — patience or violence.
+
+**Follow-ups:** Author the VTT captions and upload to the captions path above. (The player does not yet render a `<track>` element; that wiring is queued as a separate accessibility pass.)
