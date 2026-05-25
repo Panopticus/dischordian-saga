@@ -189,7 +189,29 @@ interface GeminiBbox {
 }
 
 const GEMINI_KEY = process.env.GEMINI_API_KEY ?? process.env.GOOGLE_API_KEY ?? "";
-const GEMINI_MODEL = "gemini-2.0-flash";
+const GEMINI_MODEL = process.env.GEMINI_MODEL ?? "gemini-2.0-flash";
+/** Min ms between Gemini requests. Free tier allows 15 RPM = 1 req / 4s.
+ *  Default 4500 ms keeps a safety margin. Override via env. */
+const GEMINI_MIN_INTERVAL_MS = parseInt(process.env.GEMINI_MIN_INTERVAL_MS ?? "4500", 10);
+const GEMINI_MAX_RETRIES = parseInt(process.env.GEMINI_MAX_RETRIES ?? "5", 10);
+
+let lastGeminiCallAt = 0;
+const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
+
+/** Parse a Gemini 429 body for retryDelay seconds. Returns ms or null. */
+function parseRetryDelayMs(bodyText: string): number | null {
+  try {
+    const j = JSON.parse(bodyText);
+    const details = j?.error?.details ?? [];
+    for (const d of details) {
+      if (d?.["@type"]?.includes("RetryInfo") && typeof d?.retryDelay === "string") {
+        const m = d.retryDelay.match(/^(\d+(?:\.\d+)?)s$/);
+        if (m) return Math.ceil(parseFloat(m[1]) * 1000);
+      }
+    }
+  } catch { /* ignore */ }
+  return null;
+}
 
 async function geminiLocateSubject(
   imagePath: string,
@@ -220,19 +242,62 @@ async function geminiLocateSubject(
     }],
     generationConfig: { temperature: 0.0, response_mime_type: "application/json" },
   };
-  const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_KEY}`,
-    {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(body),
-    },
-  );
-  if (!res.ok) {
-    throw new Error(`Gemini ${res.status}: ${await res.text()}`);
+
+  // Throttle: enforce min interval between requests
+  const sinceLast = Date.now() - lastGeminiCallAt;
+  if (sinceLast < GEMINI_MIN_INTERVAL_MS) {
+    await sleep(GEMINI_MIN_INTERVAL_MS - sinceLast);
   }
-  const json = await res.json() as any;
-  const text: string = json?.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+
+  let lastErr = "";
+  for (let attempt = 0; attempt <= GEMINI_MAX_RETRIES; attempt++) {
+    lastGeminiCallAt = Date.now();
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_KEY}`,
+      {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(body),
+      },
+    );
+    if (res.ok) {
+      const json = await res.json() as any;
+      const text: string = json?.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
+      try {
+        return parseBbox(text, canvasW, canvasH);
+      } catch (e: any) {
+        throw new Error(`Gemini parse: ${e?.message ?? e}; raw=${text.slice(0, 200)}`);
+      }
+    }
+    const bodyText = await res.text();
+    lastErr = `Gemini ${res.status}: ${bodyText.slice(0, 240)}`;
+    if (res.status === 429 && attempt < GEMINI_MAX_RETRIES) {
+      const delay = parseRetryDelayMs(bodyText) ?? Math.min(60_000, 2000 * Math.pow(2, attempt));
+      // If the message says "limit: 0" the quota is structurally unavailable
+      // — no point retrying. Surface the hint upward.
+      if (/limit:\s*0/.test(bodyText)) {
+        throw new Error(
+          `Gemini quota unavailable for this project (limit: 0). ` +
+          `Enable the Generative Language API and accept free-tier terms, ` +
+          `or enable billing on the Google Cloud project. Original: ${bodyText.slice(0, 200)}`,
+        );
+      }
+      console.error(`  [rate limit] retrying in ${(delay/1000).toFixed(1)}s (attempt ${attempt+1}/${GEMINI_MAX_RETRIES})`);
+      await sleep(delay);
+      continue;
+    }
+    if (res.status >= 500 && attempt < GEMINI_MAX_RETRIES) {
+      const delay = Math.min(60_000, 1000 * Math.pow(2, attempt));
+      console.error(`  [${res.status}] retrying in ${(delay/1000).toFixed(1)}s`);
+      await sleep(delay);
+      continue;
+    }
+    throw new Error(lastErr);
+  }
+  throw new Error(`Gemini retries exhausted: ${lastErr}`);
+}
+
+function parseBbox(text: string, canvasW: number, canvasH: number): GeminiBbox {
   const parsed = JSON.parse(text);
   const b = parsed?.box_2d;
   if (!Array.isArray(b) || b.length !== 4) {
