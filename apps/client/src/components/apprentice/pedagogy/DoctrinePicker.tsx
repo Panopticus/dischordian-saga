@@ -16,6 +16,8 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { BookOpen, Eye, Lock, Scroll, ShieldCheck } from "lucide-react";
 import type { ApprenticeArchetype } from "@shared/apprentices";
+import type { DoctrineId } from "@shared/apprenticeDoctrines";
+import { SignatureSlotSpec } from "@/components/apprentice/SignatureSlotSpec";
 
 interface Props {
   apprenticeId: string;
@@ -160,6 +162,15 @@ export default function DoctrinePicker({
                       </div>
                     ))}
                   </div>
+                </details>
+                <details className="mt-2 group">
+                  <summary className="cursor-pointer text-xs text-slate-400 hover:text-slate-200 flex items-center gap-1">
+                    <BookOpen className="w-3 h-3" /> Signature card art
+                  </summary>
+                  <SignatureSlotSpec
+                    archetype={archetype}
+                    doctrineId={d.id as DoctrineId}
+                  />
                 </details>
                 <Button
                   className="mt-4 w-full"

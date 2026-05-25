@@ -1357,7 +1357,7 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Every render-bearing manifest under apps/shared/expansionArt/ in RENDER_MANIFESTS must have at least one consumer file outside its own module under apps/client or apps/shared. Closes the 'manifest shipped, scene never built' gap that producer-drop coverage can't see.",
     check: () => checkExpansionArtRenderReachability(),
-    ratchet: { target: 2 },
+    ratchet: { target: 0 },
   },
   // ─── Section D6 — companion roster completeness ────────────
   {

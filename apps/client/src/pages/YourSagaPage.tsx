@@ -14,6 +14,7 @@
 import { useMemo } from "react";
 import { trpc } from "@/lib/trpc";
 import { PageSkeleton } from "@/components/SkeletonLoader";
+import { ChapterCardGallery } from "@/components/ChapterCardGallery";
 
 const LEDGER_LIMIT = 60;
 
@@ -116,6 +117,17 @@ export default function YourSagaPage() {
               ))}
             </ol>
           )}
+        </section>
+
+        <section aria-labelledby="chapters-heading">
+          <h2 id="chapters-heading" className="text-lg font-medium mb-3">
+            Chapters
+          </h2>
+          <p className="text-sm opacity-70 mb-4">
+            Cover art for every chapter of the saga — the same images the
+            cinematic system uses to title each beat.
+          </p>
+          <ChapterCardGallery />
         </section>
 
         <section aria-labelledby="standing-heading">
