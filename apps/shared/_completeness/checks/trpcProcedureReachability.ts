@@ -63,19 +63,19 @@ const MARQUEE_PROCEDURES: ReadonlyArray<MarqueeProcedure> = [
     reason:
       "Winback offer claim path — the lapse-scaled comeback reward is server-grant + anti-farm; without a client caller the offer never lands",
   },
-  // ─── Loredex discovery — the lore browse surface ─────────────
+  // ─── Loredex carry — dead members' discoveries surface ─────
   {
     router: "loredexCarry",
-    procedure: "list",
+    procedure: "getMemorialOnly",
     reason:
-      "Per-member loredex carry list — the dead's discoveries are stamped onto survivors via rippleEngine; the player must be able to read them",
+      "Per-member loredex carry list — the dead's discoveries are stamped onto survivors via rippleEngine; the player must be able to read them on MemorialWall",
   },
-  // ─── Mystery Engine — the deduction-panel feed ───────────────
+  // ─── Mystery Engine — the active-arc browse surface ──────────
   {
-    router: "mysteryEngine",
-    procedure: "getActiveMysteries",
+    router: "mysteries",
+    procedure: "listAvailable",
     reason:
-      "Mystery Engine arc list — the four §XVI authored arcs are registered (mystery-engine-roster gate); this gate ensures the player can actually browse them",
+      "Mystery arc list — the four §XVI authored arcs are registered (mystery-engine-roster gate); this gate ensures the player can actually browse them from CasesPage",
   },
 ];
 

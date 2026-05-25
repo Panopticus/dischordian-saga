@@ -50,6 +50,6 @@
     "economy.store_sku_parity": 0,
     "wolf_hunt.hero_target_coverage": 0,
     "narrative.cutscene_trigger_sites": 0,
-    "client.trpc_procedure_reachability": 4
+    "client.trpc_procedure_reachability": 1
   }
 }

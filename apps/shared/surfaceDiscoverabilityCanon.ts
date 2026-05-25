@@ -273,6 +273,11 @@ export const SURFACE_REGISTRY: readonly SurfaceEntry[] = [
   open("/deck-builder"),
   feat("/create-citizen", "cryo_bay", { sagaPhase: 1 }),
   feat("/character-sheet", "character_sheet", { sagaPhase: 1 }),
+  // "Your Saga" is the personal consequence ledger — read-only view of
+  // the player's ripple_events trail + how the world now regards them.
+  // Always-available because the ledger is empty until the player acts,
+  // and the act-itself is the gate (no extra unlock infra).
+  open("/your-saga"),
   phase("/ideology", 1, SAGA, "player ideology selection"),
   feat("/pet-battles", "pet_battles", { sagaPhase: 1 }),
   mode("/apprentice", "apprentice_mentor_loop", { sagaPhase: 3 }),
