@@ -37,6 +37,14 @@ import * as fs from "fs";
 import * as path from "path";
 import sharp from "sharp";
 
+import { BRIDGE_BASE_IDS, BRIDGE_SPRITE_IDS } from "../shared/roomComposition/bridgeComposite";
+import { CRYO_BAY_BASE_IDS, CRYO_BAY_SPRITE_IDS } from "../shared/roomComposition/cryoBayComposite";
+import { MEDICAL_BAY_BASE_IDS, MEDICAL_BAY_SPRITE_IDS } from "../shared/roomComposition/medicalBayComposite";
+import { ENGINEERING_BASE_IDS, ENGINEERING_SPRITE_IDS } from "../shared/roomComposition/engineeringComposite";
+import { ARCHIVES_BASE_IDS, ARCHIVES_SPRITE_IDS } from "../shared/roomComposition/archivesComposite";
+import { COMMS_ARRAY_BASE_IDS, COMMS_ARRAY_SPRITE_IDS } from "../shared/roomComposition/commsArrayComposite";
+import { OBSERVATION_DECK_BASE_IDS, OBSERVATION_DECK_SPRITE_IDS } from "../shared/roomComposition/observationDeckComposite";
+
 // ───────────────────────────────────────────────────────────────────
 // CLI parsing
 // ───────────────────────────────────────────────────────────────────
@@ -85,8 +93,55 @@ const ROOMS: Record<string, string> = {
   "observation-deck": "observation_deck",
 };
 
+/** Canonical sprite + base id lists per room (imported from the
+ *  composite resolvers — same source of truth the engine uses). */
+const ROOM_ASSETS: Record<string, { bases: readonly string[]; sprites: readonly string[] }> = {
+  bridge: { bases: BRIDGE_BASE_IDS, sprites: BRIDGE_SPRITE_IDS },
+  "cryo-bay": { bases: CRYO_BAY_BASE_IDS, sprites: CRYO_BAY_SPRITE_IDS },
+  "medical-bay": { bases: MEDICAL_BAY_BASE_IDS, sprites: MEDICAL_BAY_SPRITE_IDS },
+  engineering: { bases: ENGINEERING_BASE_IDS, sprites: ENGINEERING_SPRITE_IDS },
+  archives: { bases: ARCHIVES_BASE_IDS, sprites: ARCHIVES_SPRITE_IDS },
+  "comms-array": { bases: COMMS_ARRAY_BASE_IDS, sprites: COMMS_ARRAY_SPRITE_IDS },
+  "observation-deck": { bases: OBSERVATION_DECK_BASE_IDS, sprites: OBSERVATION_DECK_SPRITE_IDS },
+};
+
+const CDN_BASE = "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public";
+const CACHE_DIR = path.resolve("tools/sprite-isolation/_cache");
+
 function publicArtDir(roomDir: string): string {
   return path.resolve("apps/client/public/art/rooms", roomDir);
+}
+
+/** Resolve a sprite/base file: prefer the staged local copy in
+ *  apps/client/public/art (gitignored — only present on machines that
+ *  ran `assets:stage`); fall back to fetching from the CDN into a
+ *  local cache. Returns an absolute filesystem path either way. */
+async function ensureLocalAsset(localPath: string, cdnSubPath: string): Promise<string> {
+  if (fs.existsSync(localPath)) return localPath;
+  const cachePath = path.join(CACHE_DIR, cdnSubPath);
+  if (fs.existsSync(cachePath) && fs.statSync(cachePath).size > 50_000) return cachePath;
+  const url = `${CDN_BASE}/${cdnSubPath}`;
+  const res = await fetch(url);
+  if (!res.ok) {
+    throw new Error(`fetch ${url} → ${res.status} ${res.statusText}`);
+  }
+  const buf = Buffer.from(await res.arrayBuffer());
+  fs.mkdirSync(path.dirname(cachePath), { recursive: true });
+  fs.writeFileSync(cachePath, buf);
+  return cachePath;
+}
+
+async function ensureBase(roomDir: string): Promise<string> {
+  const baseId = `${roomDir}_base_initial`;
+  const localPath = path.join(publicArtDir(roomDir), "base", `${baseId}.png`);
+  const cdnSub = `art/rooms/${roomDir}/base/${baseId}.png`;
+  return ensureLocalAsset(localPath, cdnSub);
+}
+
+async function ensureSprite(roomDir: string, spriteId: string): Promise<string> {
+  const localPath = path.join(publicArtDir(roomDir), "sprites", `${spriteId}.png`);
+  const cdnSub = `art/rooms/${roomDir}/sprites/${spriteId}.png`;
+  return ensureLocalAsset(localPath, cdnSub);
 }
 
 // ───────────────────────────────────────────────────────────────────
@@ -421,7 +476,7 @@ async function main() {
     process.exit(2);
   }
 
-  // Single-sprite mode
+  // Single-sprite mode (path-based — local file required)
   if (opts.sprite) {
     const spritePath = path.resolve(opts.sprite);
     if (!fs.existsSync(spritePath)) throw new Error(`no such sprite: ${spritePath}`);
@@ -436,41 +491,47 @@ async function main() {
     return;
   }
 
-  // Room mode
+  // Room mode — sprite list comes from the composite resolver (canonical),
+  // and each PNG is fetched from the CDN on demand if not staged locally.
   const roomDir = ROOMS[opts.room!] ?? opts.room!;
-  const spriteDir = path.join(publicArtDir(roomDir), "sprites");
-  if (!fs.existsSync(spriteDir)) throw new Error(`no sprites at ${spriteDir}`);
-  const basePath = findInitialBase(roomDir);
+  const roomAssets = ROOM_ASSETS[opts.room!];
+  if (!roomAssets) {
+    throw new Error(`unknown room "${opts.room}". Known: ${Object.keys(ROOMS).join(", ")}`);
+  }
+  const basePath = await ensureBase(roomDir);
   const outDir = path.resolve("tools/sprite-isolation", roomDir);
   fs.mkdirSync(outDir, { recursive: true });
 
-  let sprites = fs.readdirSync(spriteDir).filter(f => f.endsWith(".png")).sort();
-  if (opts.limit) sprites = sprites.slice(0, opts.limit);
+  let spriteIds = [...roomAssets.sprites].sort();
+  if (opts.limit) spriteIds = spriteIds.slice(0, opts.limit);
 
-  console.log(`isolating ${sprites.length} sprites for ${opts.room} (${roomDir})`);
+  console.log(`isolating ${spriteIds.length} sprites for ${opts.room} (${roomDir})`);
   console.log(`base: ${path.basename(basePath)}`);
   console.log(`out:  ${outDir}`);
-  if (opts.dryRun) console.log("[dry-run] no Gemini calls, just subject preview");
+  if (opts.dryRun) console.log("[dry-run] no Gemini calls, no CDN fetch, just subject preview");
 
   const manifest: ManifestEntry[] = [];
   let ok = 0, err = 0, skipped = 0;
-  for (let i = 0; i < sprites.length; i++) {
-    const spritePath = path.join(spriteDir, sprites[i]);
+  for (let i = 0; i < spriteIds.length; i++) {
+    const spriteId = spriteIds[i];
+    const spritePath = opts.dryRun
+      ? path.join(publicArtDir(roomDir), "sprites", `${spriteId}.png`) // placeholder
+      : await ensureSprite(roomDir, spriteId);
     const entry = await processSprite(spritePath, basePath, outDir, opts);
     manifest.push(entry);
     if (entry.status === "ok") {
       ok++;
       console.log(
-        `  ${i+1}/${sprites.length}  OK   ${entry.sprite.slice(0,38).padEnd(38)} ` +
+        `  ${i+1}/${spriteIds.length}  OK   ${entry.sprite.slice(0,38).padEnd(38)} ` +
         `→ ${entry.outputSize[0]}×${entry.outputSize[1]} ` +
         `(${entry.reductionPct.toFixed(1)}% smaller, ${entry.coveragePct.toFixed(2)}% canvas)`
       );
     } else if (entry.status === "error") {
       err++;
-      console.log(`  ${i+1}/${sprites.length}  ERR  ${entry.sprite}: ${entry.error}`);
+      console.log(`  ${i+1}/${spriteIds.length}  ERR  ${entry.sprite}: ${entry.error}`);
     } else {
       skipped++;
-      console.log(`  ${i+1}/${sprites.length}  SKIP ${entry.sprite} (subject: "${entry.subject}")`);
+      console.log(`  ${i+1}/${spriteIds.length}  SKIP ${entry.sprite} (subject: "${entry.subject}")`);
     }
   }
 
