@@ -1,0 +1,68 @@
+/* Extract Phase J composite-room metadata for the standalone hotspot
+   author tool. Reads the four composite modules (bridge, cryo-bay,
+   medical-bay, engineering), resolves every base + sprite to its full
+   CDN URL via the runtime helpers, and writes tools/hotspot-author-
+   composites.json in a shape the tool can directly stack as <img> layers.
+*/
+
+import * as fs from "fs";
+import * as path from "path";
+import {
+  BRIDGE_BASE_IDS,
+  BRIDGE_SPRITE_IDS,
+} from "../shared/roomComposition/bridgeComposite";
+import {
+  CRYO_BAY_BASE_IDS,
+  CRYO_BAY_SPRITE_IDS,
+} from "../shared/roomComposition/cryoBayComposite";
+import {
+  MEDICAL_BAY_BASE_IDS,
+  MEDICAL_BAY_SPRITE_IDS,
+} from "../shared/roomComposition/medicalBayComposite";
+import {
+  ENGINEERING_BASE_IDS,
+  ENGINEERING_SPRITE_IDS,
+} from "../shared/roomComposition/engineeringComposite";
+import {
+  compositeBaseUrl,
+  compositeSpriteUrl,
+  LIGHTING_FILTERS,
+  type CompositeRoomId,
+} from "../shared/roomComposition/types";
+
+interface AssetEntry {
+  id: string;
+  url: string;
+}
+
+interface RoomComposite {
+  bases: AssetEntry[];
+  sprites: AssetEntry[];
+  lightingFilters: Readonly<Record<string, string>>;
+}
+
+const ROOMS: Record<CompositeRoomId, { bases: readonly string[]; sprites: readonly string[] }> = {
+  bridge: { bases: BRIDGE_BASE_IDS, sprites: BRIDGE_SPRITE_IDS },
+  "cryo-bay": { bases: CRYO_BAY_BASE_IDS, sprites: CRYO_BAY_SPRITE_IDS },
+  "medical-bay": { bases: MEDICAL_BAY_BASE_IDS, sprites: MEDICAL_BAY_SPRITE_IDS },
+  engineering: { bases: ENGINEERING_BASE_IDS, sprites: ENGINEERING_SPRITE_IDS },
+};
+
+const out: Record<string, RoomComposite> = {};
+for (const [roomId, ids] of Object.entries(ROOMS) as Array<[CompositeRoomId, typeof ROOMS[CompositeRoomId]]>) {
+  out[roomId] = {
+    bases: ids.bases.map((id) => ({ id, url: compositeBaseUrl(roomId, id) })),
+    sprites: ids.sprites.map((id) => ({ id, url: compositeSpriteUrl(roomId, id) })),
+    lightingFilters: LIGHTING_FILTERS,
+  };
+}
+
+const outPath = path.resolve("tools/hotspot-author-composites.json");
+fs.mkdirSync(path.dirname(outPath), { recursive: true });
+fs.writeFileSync(outPath, JSON.stringify(out, null, 2));
+
+const totalBases = Object.values(out).reduce((n, r) => n + r.bases.length, 0);
+const totalSprites = Object.values(out).reduce((n, r) => n + r.sprites.length, 0);
+console.log(
+  `Wrote ${Object.keys(out).length} composite rooms / ${totalBases} bases / ${totalSprites} sprites → ${outPath}`,
+);
