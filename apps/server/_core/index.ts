@@ -795,6 +795,16 @@ async function startServer() {
       console.error("[ChatReportsBootstrap] failed:", e),
     );
 
+    // coda_faction_standing table — CANON Rev 7 §2.4 Coda tier
+    // snapshot + per-player vexCodaTrust. New table on this branch
+    // with no drizzle migration yet; bootstrap until the next
+    // journal reconciliation. Without this, completeCodaMission
+    // 500s on first call.
+    const { bootstrapCodaFactionStandingTable } = await import("../services/codaFactionStandingBootstrap");
+    bootstrapCodaFactionStandingTable().catch(e =>
+      console.error("[CodaFactionStandingBootstrap] failed:", e),
+    );
+
     // community_discovery_events table — audit/16 PR 35 (AR7).
     // New table; no drizzle migration yet, so bootstrap until the
     // next journal reconciliation. Without it, the

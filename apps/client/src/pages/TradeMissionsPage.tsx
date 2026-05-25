@@ -18,6 +18,7 @@ import {
   TRADE_AGENCY_LABEL,
   type TradeMissionAgencyId,
 } from "@shared/tradeMissionCatalog";
+import { CodaAgencyBoard } from "@/components/CodaAgencyBoard";
 
 function formatHoursLeft(expiresAtMs: number): string {
   const dt = expiresAtMs - Date.now();
@@ -96,6 +97,10 @@ export default function TradeMissionsPage() {
           Back to Trade Empire
         </Link>
       </header>
+
+      <div className="mb-6">
+        <CodaAgencyBoard />
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-6">
         <main>
