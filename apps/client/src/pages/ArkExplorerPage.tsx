@@ -667,10 +667,12 @@ function RoomScene({
               exit={{ opacity: 0, scale: 0 }}
               className="absolute cursor-pointer"
               style={{
-                left: `${hotspot.x}%`,
-                top: `${hotspot.y}%`,
+                left: `${hotspot.cx - hotspot.width / 2}%`,
+                top: `${hotspot.cy - hotspot.height / 2}%`,
                 width: `${hotspot.width}%`,
                 height: `${hotspot.height}%`,
+                transform: hotspot.rotation ? `rotate(${hotspot.rotation}deg)` : undefined,
+                transformOrigin: "center",
                 zIndex: hotspotZ,
               }}
               onMouseEnter={() => {
@@ -975,10 +977,12 @@ function RoomScene({
           aria-hidden
           className="absolute pointer-events-none"
           style={{
-            left: `${h.x}%`,
-            top: `${h.y}%`,
+            left: `${h.cx - h.width / 2}%`,
+            top: `${h.cy - h.height / 2}%`,
             width: `${h.width}%`,
             height: `${h.height}%`,
+            transform: h.rotation ? `rotate(${h.rotation}deg)` : undefined,
+            transformOrigin: "center",
             border: "1px dashed magenta",
             background: "color-mix(in oklch, magenta 8%, transparent)",
             zIndex: 60,
@@ -996,7 +1000,7 @@ function RoomScene({
               whiteSpace: "nowrap",
             }}
           >
-            {h.id} ({h.x},{h.y},{h.width}×{h.height})
+            {h.id} ({h.cx},{h.cy},{h.width}×{h.height}{h.rotation ? `, ${h.rotation}°` : ""})
           </span>
         </div>
       ))}

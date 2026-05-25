@@ -2,9 +2,10 @@
    HOTSPOT AUTHOR — dev-only drag-to-place overlay
 
    Activated by ?author-hotspots=1 on /ark. Renders a
-   draggable + resizable wireframe of the current room's
-   hotspots on top of the live art, plus a side panel
-   that exports a ready-to-paste HotspotDef TS literal.
+   draggable + resizable + rotatable wireframe of the
+   current room's hotspots on top of the live art, plus a
+   side panel that exports a ready-to-paste HotspotDef TS
+   literal.
 
    Zero persistence — drafts live in component state only;
    the source of truth remains the ROOM_DEFINITIONS array
@@ -14,13 +15,13 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import type { HotspotDef } from "@/contexts/GameContext";
 
-type Handle = "move" | "n" | "s" | "e" | "w" | "ne" | "nw" | "se" | "sw";
+type Handle = "move" | "rotate" | "n" | "s" | "e" | "w" | "ne" | "nw" | "se" | "sw";
 
 interface DragState {
   id: string;
   handle: Handle;
   startPct: { x: number; y: number };
-  startBox: { x: number; y: number; width: number; height: number };
+  startBox: { cx: number; cy: number; width: number; height: number; rotation: number };
 }
 
 interface CreateState {
@@ -46,6 +47,22 @@ function roundPct(n: number): number {
   return Math.round(n * 10) / 10;
 }
 
+function roundDeg(n: number): number {
+  // Snap rotation to whole degrees; keep in (-180, 180]
+  let d = Math.round(n);
+  while (d > 180) d -= 360;
+  while (d <= -180) d += 360;
+  return d;
+}
+
+/** Rotate (dx, dy) by `deg` degrees clockwise. */
+function rotateVec(dx: number, dy: number, deg: number): { dx: number; dy: number } {
+  const r = (deg * Math.PI) / 180;
+  const c = Math.cos(r);
+  const s = Math.sin(r);
+  return { dx: dx * c - dy * s, dy: dx * s + dy * c };
+}
+
 function nextDraftId(existing: readonly HotspotDef[]): string {
   let n = 1;
   while (existing.some((h) => h.id === `new-hotspot-${n}`)) n++;
@@ -60,10 +77,11 @@ function serializeHotspot(h: HotspotDef): string {
   parts.push(`id: ${JSON.stringify(h.id)}`);
   parts.push(`name: ${JSON.stringify(h.name)}`);
   parts.push(`description: ${JSON.stringify(h.description)}`);
-  parts.push(`x: ${h.x}`);
-  parts.push(`y: ${h.y}`);
+  parts.push(`cx: ${h.cx}`);
+  parts.push(`cy: ${h.cy}`);
   parts.push(`width: ${h.width}`);
   parts.push(`height: ${h.height}`);
+  if (h.rotation) parts.push(`rotation: ${h.rotation}`);
   parts.push(`type: ${JSON.stringify(h.type)}`);
   if (h.action) parts.push(`action: ${JSON.stringify(h.action)}`);
   if (h.elaraDialog) parts.push(`elaraDialog: ${JSON.stringify(h.elaraDialog)}`);
@@ -98,7 +116,8 @@ export default function HotspotAuthor({ hotspots, roomId, roomName }: Props) {
     };
   }, []);
 
-  // Empty-canvas pointer-down: start drawing a new hotspot
+  // Empty-canvas pointer-down: start drawing a new hotspot. Origin becomes
+  // the center; w/h grow with the drag.
   const handleBackgroundPointerDown = (e: React.PointerEvent) => {
     if (e.target !== e.currentTarget) return;
     const origin = pctFromEvent(e);
@@ -109,8 +128,8 @@ export default function HotspotAuthor({ hotspots, roomId, roomName }: Props) {
         id,
         name: id,
         description: "",
-        x: roundPct(origin.x),
-        y: roundPct(origin.y),
+        cx: roundPct(origin.x),
+        cy: roundPct(origin.y),
         width: 0,
         height: 0,
         type: "examine",
@@ -134,7 +153,13 @@ export default function HotspotAuthor({ hotspots, roomId, roomName }: Props) {
       id,
       handle,
       startPct: pctFromEvent(e),
-      startBox: { x: box.x, y: box.y, width: box.width, height: box.height },
+      startBox: {
+        cx: box.cx,
+        cy: box.cy,
+        width: box.width,
+        height: box.height,
+        rotation: box.rotation ?? 0,
+      },
     });
     (e.currentTarget as Element).setPointerCapture(e.pointerId);
   };
@@ -142,41 +167,83 @@ export default function HotspotAuthor({ hotspots, roomId, roomName }: Props) {
   const handlePointerMove = (e: React.PointerEvent) => {
     const cur = pctFromEvent(e);
     if (creating) {
-      const x = Math.min(creating.origin.x, cur.x);
-      const y = Math.min(creating.origin.y, cur.y);
+      // While drawing, origin is the rect's anchor corner and cur is the
+      // opposite corner. Center is the midpoint.
+      const cx = (creating.origin.x + cur.x) / 2;
+      const cy = (creating.origin.y + cur.y) / 2;
       const width = Math.abs(cur.x - creating.origin.x);
       const height = Math.abs(cur.y - creating.origin.y);
       setDraft((prev) =>
         prev.map((h) =>
           h.id === creating.id
-            ? { ...h, x: roundPct(x), y: roundPct(y), width: roundPct(width), height: roundPct(height) }
+            ? { ...h, cx: roundPct(cx), cy: roundPct(cy), width: roundPct(width), height: roundPct(height) }
             : h,
         ),
       );
       return;
     }
     if (drag) {
-      const dx = cur.x - drag.startPct.x;
-      const dy = cur.y - drag.startPct.y;
+      const dxScreen = cur.x - drag.startPct.x;
+      const dyScreen = cur.y - drag.startPct.y;
       setDraft((prev) =>
         prev.map((h) => {
           if (h.id !== drag.id) return h;
-          let { x, y, width, height } = drag.startBox;
-          switch (drag.handle) {
-            case "move":
-              x = clamp(x + dx, 0, 100 - width);
-              y = clamp(y + dy, 0, 100 - height);
-              break;
-            case "n":  height = Math.max(0.5, height - dy); y = clamp(y + dy, 0, y + height); break;
-            case "s":  height = Math.max(0.5, height + dy); break;
-            case "e":  width  = Math.max(0.5, width + dx); break;
-            case "w":  width  = Math.max(0.5, width - dx); x = clamp(x + dx, 0, x + width); break;
-            case "ne": width  = Math.max(0.5, width + dx); height = Math.max(0.5, height - dy); y = clamp(y + dy, 0, y + height); break;
-            case "nw": width  = Math.max(0.5, width - dx); x = clamp(x + dx, 0, x + width); height = Math.max(0.5, height - dy); y = clamp(y + dy, 0, y + height); break;
-            case "se": width  = Math.max(0.5, width + dx); height = Math.max(0.5, height + dy); break;
-            case "sw": width  = Math.max(0.5, width - dx); x = clamp(x + dx, 0, x + width); height = Math.max(0.5, height + dy); break;
+          const start = drag.startBox;
+          // Move handle translates the center; rotation unchanged.
+          if (drag.handle === "move") {
+            const halfW = start.width / 2;
+            const halfH = start.height / 2;
+            return {
+              ...h,
+              cx: roundPct(clamp(start.cx + dxScreen, halfW, 100 - halfW)),
+              cy: roundPct(clamp(start.cy + dyScreen, halfH, 100 - halfH)),
+            };
           }
-          return { ...h, x: roundPct(x), y: roundPct(y), width: roundPct(width), height: roundPct(height) };
+          // Rotate handle: angle = atan2 of pointer vs rect center, minus the
+          // baseline angle (handle is at local up direction).
+          if (drag.handle === "rotate") {
+            const ang = Math.atan2(cur.y - start.cy, cur.x - start.cx) * 180 / Math.PI;
+            // Baseline: handle sits at local-up (-y direction in local frame),
+            // which when rotation=0 sits at world angle -90°. So:
+            //   rotation = ang - (-90) = ang + 90
+            return { ...h, rotation: roundDeg(ang + 90) || undefined };
+          }
+          // Resize: convert screen-space delta to the rect's local frame.
+          const localDelta = rotateVec(dxScreen, dyScreen, -start.rotation);
+          let dW = 0;
+          let dH = 0;
+          switch (drag.handle) {
+            case "e":  dW =  localDelta.dx; break;
+            case "w":  dW = -localDelta.dx; break;
+            case "s":  dH =  localDelta.dy; break;
+            case "n":  dH = -localDelta.dy; break;
+            case "se": dW =  localDelta.dx; dH =  localDelta.dy; break;
+            case "sw": dW = -localDelta.dx; dH =  localDelta.dy; break;
+            case "ne": dW =  localDelta.dx; dH = -localDelta.dy; break;
+            case "nw": dW = -localDelta.dx; dH = -localDelta.dy; break;
+          }
+          const newW = Math.max(0.5, start.width + dW);
+          const newH = Math.max(0.5, start.height + dH);
+          // Center shift in local frame = half the dimension change, signed
+          // by which side moved. For "e" + "w" the center always shifts by
+          // +localDelta.dx / 2 (right side moved or left side moved the same
+          // direction); same logic for vertical.
+          const centerShiftLocal = {
+            dx: drag.handle === "e" || drag.handle === "w" || drag.handle.endsWith("e") || drag.handle.endsWith("w")
+              ? localDelta.dx / 2
+              : 0,
+            dy: drag.handle === "n" || drag.handle === "s" || drag.handle.startsWith("n") || drag.handle.startsWith("s")
+              ? localDelta.dy / 2
+              : 0,
+          };
+          const centerShiftScreen = rotateVec(centerShiftLocal.dx, centerShiftLocal.dy, start.rotation);
+          return {
+            ...h,
+            cx: roundPct(clamp(start.cx + centerShiftScreen.dx)),
+            cy: roundPct(clamp(start.cy + centerShiftScreen.dy)),
+            width: roundPct(newW),
+            height: roundPct(newH),
+          };
         }),
       );
     }
@@ -248,15 +315,18 @@ export default function HotspotAuthor({ hotspots, roomId, roomName }: Props) {
           const isSelected = h.id === selectedId;
           const isNew = h.id.startsWith("new-hotspot-");
           const stroke = isSelected ? "cyan" : isNew ? "lime" : "magenta";
+          const rotation = h.rotation ?? 0;
           return (
             <div
               key={h.id}
               className="absolute"
               style={{
-                left: `${h.x}%`,
-                top: `${h.y}%`,
+                left: `${h.cx - h.width / 2}%`,
+                top: `${h.cy - h.height / 2}%`,
                 width: `${h.width}%`,
                 height: `${h.height}%`,
+                transform: rotation ? `rotate(${rotation}deg)` : undefined,
+                transformOrigin: "center",
                 border: `${isSelected ? 2 : 1}px solid ${stroke}`,
                 background: `color-mix(in oklch, ${stroke} ${isSelected ? 14 : 6}%, transparent)`,
                 cursor: "move",
@@ -274,26 +344,65 @@ export default function HotspotAuthor({ hotspots, roomId, roomName }: Props) {
                   color: stroke,
                   whiteSpace: "nowrap",
                   pointerEvents: "none",
+                  // Counter-rotate the label so it stays readable when the
+                  // box is rotated.
+                  transform: rotation ? `rotate(${-rotation}deg)` : undefined,
+                  transformOrigin: "top left",
                 }}
               >
-                {h.id} ({h.x},{h.y},{h.width}×{h.height})
+                {h.id} ({h.cx},{h.cy},{h.width}×{h.height}{rotation ? `, ${rotation}°` : ""})
               </span>
-              {isSelected &&
-                (["n", "s", "e", "w", "ne", "nw", "se", "sw"] as Handle[]).map((handle) => (
+              {isSelected && (
+                <>
+                  {(["n", "s", "e", "w", "ne", "nw", "se", "sw"] as Handle[]).map((handle) => (
+                    <div
+                      key={handle}
+                      onPointerDown={(e) => handleHotspotPointerDown(e, h.id, handle)}
+                      style={{
+                        position: "absolute",
+                        width: 10, // void-ignore — fixed-px drag handle
+                        height: 10, // void-ignore — fixed-px drag handle
+                        background: "cyan",
+                        border: "1px solid black",
+                        cursor: `${handle}-resize`,
+                        ...handlePosition(handle),
+                      }}
+                    />
+                  ))}
+                  {/* Rotation handle — circular grip on a stalk above the
+                      top-center edge. Stalk gives it visual separation from
+                      the "n" resize handle. */}
                   <div
-                    key={handle}
-                    onPointerDown={(e) => handleHotspotPointerDown(e, h.id, handle)}
+                    onPointerDown={(e) => handleHotspotPointerDown(e, h.id, "rotate")}
                     style={{
                       position: "absolute",
-                      width: 10, // void-ignore — fixed-px drag handle
-                      height: 10, // void-ignore — fixed-px drag handle
-                      background: "cyan",
+                      left: "50%",
+                      top: -28, // void-ignore — fixed-px stalk length
+                      marginLeft: -6, // void-ignore — centers the 12px grip
+                      width: 12, // void-ignore — circular grip
+                      height: 12, // void-ignore — circular grip
+                      borderRadius: "50%",
+                      background: "lime",
                       border: "1px solid black",
-                      cursor: `${handle}-resize`,
-                      ...handlePosition(handle),
+                      cursor: "grab",
+                    }}
+                    title="Drag to rotate"
+                  />
+                  <div
+                    aria-hidden
+                    style={{
+                      position: "absolute",
+                      left: "50%",
+                      top: -18, // void-ignore — connects grip to top edge
+                      marginLeft: -0.5,
+                      width: 1, // void-ignore — stalk
+                      height: 18, // void-ignore — stalk length
+                      background: "lime",
+                      pointerEvents: "none",
                     }}
                   />
-                ))}
+                </>
+              )}
             </div>
           );
         })}
@@ -322,7 +431,7 @@ export default function HotspotAuthor({ hotspots, roomId, roomName }: Props) {
           <span style={{ opacity: 0.6 }}>{roomName}</span>
         </div>
         <p style={{ opacity: 0.7, marginBottom: 8 }}>
-          Click-drag empty floor → new box. Click a box → select. Drag corners → resize. <kbd>Esc</kbd> deselect, <kbd>Del</kbd> remove.
+          Click-drag empty floor → new box. Click a box → select. Drag corners → resize. Drag green grip → rotate. <kbd>Esc</kbd> deselect, <kbd>Del</kbd> remove.
         </p>
 
         {selected ? (
@@ -385,11 +494,19 @@ export default function HotspotAuthor({ hotspots, roomId, roomName }: Props) {
               />
             </Field>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 4 }}>
-              <NumField label="x" value={selected.x} onChange={(v) => updateSelected({ x: v })} />
-              <NumField label="y" value={selected.y} onChange={(v) => updateSelected({ y: v })} />
+              <NumField label="cx" value={selected.cx} onChange={(v) => updateSelected({ cx: v })} />
+              <NumField label="cy" value={selected.cy} onChange={(v) => updateSelected({ cy: v })} />
               <NumField label="w" value={selected.width} onChange={(v) => updateSelected({ width: v })} />
               <NumField label="h" value={selected.height} onChange={(v) => updateSelected({ height: v })} />
             </div>
+            <NumField
+              label="rotation°"
+              value={selected.rotation ?? 0}
+              step={1}
+              min={-180}
+              max={180}
+              onChange={(v) => updateSelected({ rotation: v === 0 ? undefined : v })}
+            />
           </div>
         ) : (
           <p style={{ opacity: 0.6 }}>Nothing selected. Click a box or draw a new one.</p>
@@ -484,18 +601,25 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 }
 
 function NumField({
-  label, value, onChange,
-}: { label: string; value: number; onChange: (v: number) => void }) {
+  label, value, onChange, step = 0.5, min = 0, max = 100,
+}: {
+  label: string;
+  value: number;
+  onChange: (v: number) => void;
+  step?: number;
+  min?: number;
+  max?: number;
+}) {
   return (
     <label style={{ display: "flex", flexDirection: "column", gap: 2 }}>
       <span style={{ opacity: 0.6, fontSize: 10 }}>{label}</span>
       <input
         type="number"
-        step={0.5}
+        step={step}
         value={value}
         onChange={(e) => {
           const n = parseFloat(e.target.value);
-          if (!Number.isNaN(n)) onChange(roundPct(clamp(n)));
+          if (!Number.isNaN(n)) onChange(Math.max(min, Math.min(max, Math.round(n * 10) / 10)));
         }}
         style={inputStyle}
       />

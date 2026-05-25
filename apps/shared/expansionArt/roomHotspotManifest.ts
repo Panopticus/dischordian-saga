@@ -35,11 +35,14 @@ export interface RoomHotspotEntry {
   readonly name: string;
   /** One-line description for hover / tooltip. */
   readonly description: string;
-  /** Bounding box in percentage of room canvas (0–100). */
-  readonly x: number;
-  readonly y: number;
+  /** Rect center, percentage of room canvas (0–100). */
+  readonly cx: number;
+  readonly cy: number;
+  /** Rect size, percentage of room canvas. */
   readonly width: number;
   readonly height: number;
+  /** Rotation in degrees, clockwise, around (cx, cy). Optional; default 0. */
+  readonly rotation?: number;
   /** Routing type. Matches GameContext.HotspotDef.type. */
   readonly type: "terminal" | "item" | "door" | "examine" | "interact" | "npc";
   /** Action target id (route / item id / npc id / room id). */
@@ -67,8 +70,8 @@ const DEFAULT_EXAMINE_HOTSPOT: RoomHotspotEntry = {
   id: "examine_room",
   name: "Examine the room",
   description: "Take a closer look around.",
-  x: 40,
-  y: 40,
+  cx: 50,
+  cy: 50,
   width: 20,
   height: 20,
   type: "examine",
@@ -87,8 +90,8 @@ function vehicleHotspots(name: string): readonly RoomHotspotEntry[] {
       id: "board",
       name: `Board the ${name}`,
       description: `Step aboard.`,
-      x: 35,
-      y: 35,
+      cx: 50,
+      cy: 50,
       width: 30,
       height: 30,
       type: "interact",
@@ -98,8 +101,8 @@ function vehicleHotspots(name: string): readonly RoomHotspotEntry[] {
       id: "inspect_hull",
       name: "Inspect the hull",
       description: "Read the markings, count the scars.",
-      x: 70,
-      y: 70,
+      cx: 80,
+      cy: 80,
       width: 20,
       height: 20,
       type: "examine",
@@ -130,8 +133,8 @@ function destinationHotspots(
         id: primary.id,
         name: primary.name,
         description: primary.description,
-        x: 35,
-        y: 50,
+        cx: 50,
+        cy: 65,
         width: 30,
         height: 30,
         type: "interact",
@@ -146,8 +149,8 @@ function destinationHotspots(
       id: "survey",
       name: "Survey the surroundings",
       description: "Pan the horizon. Note what doesn't move.",
-      x: 5,
-      y: 5,
+      cx: 15,
+      cy: 15,
       width: 20,
       height: 20,
       type: "examine",
@@ -164,8 +167,8 @@ function panoramaHotspots(label: string): readonly RoomHotspotEntry[] {
       id: "regard",
       name: `Regard the ${label}`,
       description: "Hold the view in mind. It will matter later.",
-      x: 30,
-      y: 30,
+      cx: 50,
+      cy: 50,
       width: 40,
       height: 40,
       type: "examine",
@@ -218,8 +221,8 @@ export const DEFERRED_SPACE_HOTSPOTS: readonly RoomHotspotsBlock[] = (() => {
           name: "Enter the chamber",
           description:
             "Cross the threshold. The Hellbox receives visitors on its own schedule.",
-          x: 38,
-          y: 42,
+          cx: 50,
+          cy: 53,
           width: 24,
           height: 22,
           type: "door",
@@ -229,8 +232,8 @@ export const DEFERRED_SPACE_HOTSPOTS: readonly RoomHotspotsBlock[] = (() => {
           id: "matrix_dive",
           name: "Matrix of Dreams",
           description: "Submit to the level the Hellbox has chosen tonight.",
-          x: 70,
-          y: 70,
+          cx: 79,
+          cy: 78,
           width: 18,
           height: 16,
           type: "interact",

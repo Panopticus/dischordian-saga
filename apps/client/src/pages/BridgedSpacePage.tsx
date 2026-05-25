@@ -247,10 +247,12 @@ export default function BridgedSpacePage() {
               onClick={() => setOpenHotspot(h)}
               className="absolute z-20 rounded font-mono text-[10px]"
               style={{
-                left: `${h.x}%`,
-                top: `${h.y}%`,
+                left: `${h.cx - h.width / 2}%`,
+                top: `${h.cy - h.height / 2}%`,
                 width: `${h.width}%`,
                 height: `${h.height}%`,
+                transform: h.rotation ? `rotate(${h.rotation}deg)` : undefined,
+                transformOrigin: "center",
                 background: isHover
                   ? "color-mix(in oklch, var(--electric-blue) 22%, transparent)"
                   : "color-mix(in oklch, var(--electric-blue) 10%, transparent)",
