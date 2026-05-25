@@ -14,6 +14,7 @@ import { useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import HolographicElara from "@/components/HolographicElara";
+import { MobileNarratorSlot } from "@/components/MobileNarratorSlot";
 import OpeningCinematic, { AWAKENING_BED_URLS } from "@/components/OpeningCinematic";
 import { resolveRoomStateAsset } from "@/game/roomStateAssets";
 import { getAwakeningCinematic } from "@shared/awakeningCinematicPrompts";
@@ -1316,6 +1317,13 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
           {/* ─── FIRST STEPS ─── */}
           {awakeningStep === "FIRST_STEPS" && (
             <div key="first-steps" className="w-full max-w-2xl mx-auto flex flex-col items-center gap-3">
+              {/* Narrator first-contact mount — the introduction beat
+                  fires diegetically in cryo_bay (where the player
+                  physically is during Awakening). NARRATIVE_ARCHITECTURE.md
+                  §1.4 calls for the narrator slot to surface at this
+                  moment; the ship:check "Mobile Narrator page adoption"
+                  gate ratchets this expectation. */}
+              <MobileNarratorSlot roomId="cryo_bay" />
               <ElaraDialogBox
                 text={STEP_DIALOG.FIRST_STEPS ?? ""}
                 onContinue={creationInFlight ? undefined : handleCompleteCreation}

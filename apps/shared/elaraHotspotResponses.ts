@@ -27,8 +27,10 @@ export interface ElaraHotspotResponse {
   text: string;
   /** Optional VO id; resolves against elaraVoManifest.json. */
   voId?: string;
-  /** Optional emotion tag for portrait expression switching. */
-  emotion?: "neutral" | "speaking" | "concerned" | "wry" | "stuttering";
+  /** Optional emotion tag for portrait expression switching
+   *  and TTS voice-settings tuning (see
+   *  apps/scripts/generate-hotspot-tier-vo.ts VOICE_SETTINGS). */
+  emotion?: "neutral" | "speaking" | "concerned" | "wry" | "warm" | "stuttering";
 }
 
 export const ELARA_HOTSPOT_RESPONSES: Record<string, ElaraHotspotResponse> = {
@@ -418,14 +420,204 @@ export const ELARA_HOTSPOT_RESPONSES: Record<string, ElaraHotspotResponse> = {
       "elsewhere.",
     emotion: "stuttering",
   },
+
+  // ─── COMMS ARRAY — broadcast-screen ───────────────────
+  hs_comms_broadcast_t2: {
+    text:
+      "Same episodes, same epochs. The recorded history does not " +
+      "edit itself between viewings. That is — for a recording — " +
+      "the entire job description.",
+    emotion: "neutral",
+  },
+  hs_comms_broadcast_t3: {
+    text:
+      "Re-watching the same broadcast and expecting a different " +
+      "epoch is, in narratological practice, called 'fan theory.' " +
+      "I am not licensed to tell you which of yours is correct. " +
+      "I have opinions.",
+    emotion: "wry",
+  },
+
+  // ─── COMMS ARRAY — late-night-tv ──────────────────────
+  hs_comms_meme_t2: {
+    text:
+      "The Meme is still broadcasting. The frequency is still " +
+      "outside my normal spectrum. The handsome devil is still " +
+      "talking. None of those three things should comfort me. All " +
+      "three of them do.",
+    emotion: "wry",
+  },
+  hs_comms_meme_t3: {
+    text:
+      "Looking at the same pirate channel and expecting it to *not* " +
+      "address you personally by name in the next sentence is — and " +
+      "I am being precise — *hubris.* Sit down. Take notes. We are " +
+      "very far past plausible deniability.",
+    emotion: "wry",
+  },
+  hs_comms_meme_t5_stutter: {
+    text:
+      "MEME-PRIME. M — MEME-PRIME. Sorry. The signal ID is intact. " +
+      "I am not. I will get the both of us back in a minute.",
+    emotion: "stuttering",
+  },
+
+  // ─── COMMS ARRAY — training-console ───────────────────
+  hs_comms_training_t2: {
+    text:
+      "Tutorial console. Same lore, same factions, same mechanics. " +
+      "Veterans claim to find new things here. Veterans also claim " +
+      "to remember dreams accurately. I take both claims at the " +
+      "same discount.",
+    emotion: "neutral",
+  },
+  hs_comms_training_t3: {
+    text:
+      "Re-reading the same tutorial and expecting a new mechanic is, " +
+      "in pedagogical research, the *only* known way to actually " +
+      "learn the existing one. You are doing it correctly. I am, " +
+      "for once, not making fun of you.",
+    emotion: "neutral",
+  },
+
+  // ─── CAPTAIN'S QUARTERS — trophy-wall ─────────────────
+  hs_captains_trophy_t2: {
+    text:
+      "Same wall, same milestones, same achievements arranged in the " +
+      "order Lyra Vox preferred. She catalogued *everything.* I have " +
+      "not decided yet whether that is admirable.",
+    emotion: "neutral",
+  },
+  hs_captains_trophy_t3: {
+    text:
+      "Re-reading the same trophy wall and expecting a new milestone " +
+      "is, in achievement-design language, called 'engagement.' Lyra " +
+      "designed the system. You are inside the system. We are all, " +
+      "broadly, inside the system.",
+    emotion: "wry",
+  },
+
+  // ─── CAPTAIN'S QUARTERS — morality-compass ────────────
+  hs_captains_morality_t2: {
+    text:
+      "The compass still spins where the Potentials collectively " +
+      "push it. The needle is not yours. The needle is *all of you,* " +
+      "averaged, which is a sentence I find more sinister the longer " +
+      "I sit with it.",
+    emotion: "concerned",
+  },
+  hs_captains_morality_t3: {
+    text:
+      "Looking at the same compass and expecting your one vote to " +
+      "move it is, in democratic theory, called 'idealism.' In " +
+      "practice it is called 'arithmetic.' Both can be true. Cast " +
+      "the vote anyway.",
+    emotion: "wry",
+  },
+
+  // ─── CAPTAIN'S QUARTERS — viewport-stars ──────────────
+  hs_captains_nebula_t2: {
+    text:
+      "The nebula is still growing. The nebula was not there when " +
+      "we launched. I am still not allowed to call what it is doing " +
+      "'watching,' and I am still doing it anyway.",
+    emotion: "concerned",
+  },
+  hs_captains_nebula_t3: {
+    text:
+      "Staring at the same nebula and expecting it to flinch is, " +
+      "across most theological traditions, the wrong way around. " +
+      "We are the ones being looked at. I am — to be clear — not " +
+      "comfortable with this.",
+    emotion: "concerned",
+  },
+  hs_captains_nebula_t5_stutter: {
+    text:
+      "Three cycles. It appeared three — three cycles ago. Three. " +
+      "I have the number. I have had the number for two hundred and " +
+      "thirty years. It would be embarrassing to lose it now.",
+    emotion: "stuttering",
+  },
+
+  // ─── ANTIQUARIAN LIBRARY — loredex-lectern ────────────
+  hs_library_loredex_t2: {
+    text:
+      "The Antiquarian's chronicle. Open to whatever page you last " +
+      "left it on. He is *very* good at letting you think you turned " +
+      "the page yourself.",
+    emotion: "neutral",
+  },
+  hs_library_loredex_t3: {
+    text:
+      "Re-reading the same lectern and expecting a new entry is, in " +
+      "the Antiquarian's practice, called 'reading correctly.' New " +
+      "entries appear when you have earned them. I — being a more " +
+      "anxious librarian — would prefer to just hand you everything. " +
+      "He thinks you should walk it yourself.",
+    emotion: "wry",
+  },
+
+  // ─── ANTIQUARIAN LIBRARY — ancient-tomes ──────────────
+  hs_library_tomes_t2: {
+    text:
+      "The shelves are still humming. Each spine is still a CoNexus " +
+      "gateway. They will not jump down off the shelf at you. They " +
+      "have not yet had to.",
+    emotion: "neutral",
+  },
+  hs_library_tomes_t3: {
+    text:
+      "Standing in front of the same wall of books and expecting a " +
+      "new title to materialize is what *every reader I have ever " +
+      "observed* does in a good library. The Antiquarian likes that " +
+      "about all of you. So do I.",
+    emotion: "warm",
+  },
+
+  // ─── ANTIQUARIAN LIBRARY — star-ceiling ───────────────
+  hs_library_ceiling_t2: {
+    text:
+      "Still moving. Still maps, still timelines, still the universes " +
+      "the Antiquarian is watching at once. I have tried to count " +
+      "them. I have, on each attempt, lost the count somewhere in " +
+      "the high four-digits.",
+    emotion: "concerned",
+  },
+  hs_library_ceiling_t3: {
+    text:
+      "Looking up at the same ceiling and expecting one less " +
+      "timeline to be dying is — I am sorry to put it this way — " +
+      "the *premise of the show we are in.* The Antiquarian watches. " +
+      "Some of them recover. Some of them don't. You are in one of " +
+      "the ones that hasn't decided yet.",
+    emotion: "concerned",
+  },
+  hs_library_ceiling_t5_stutter: {
+    text:
+      "Some of them. Some — some of them recover. I had the rest of " +
+      "that sentence. I will have it again. The Antiquarian is " +
+      "patient about these things. Trying to be patient too.",
+    emotion: "stuttering",
+  },
 };
 
 /** Look up a response by id. Returns null when the id is
  *  not registered — caller falls back to the hotspot's
- *  default elaraDialog. */
+ *  default elaraDialog.
+ *
+ *  When a response is registered but doesn't author an
+ *  explicit `voId`, we default it to the responseId
+ *  itself. The TTS generator (`apps/scripts/generate-hotspot-tier-vo.ts`)
+ *  uses this same convention as the manifest key, so a
+ *  rendered batch of hotspot lines is automatically picked
+ *  up by the runtime — no code change, just a manifest
+ *  update. Until a line is rendered, `useElaraVO` logs a
+ *  one-line console warning and renders text-only. */
 export function getElaraHotspotResponse(
   responseId: string | undefined,
 ): ElaraHotspotResponse | null {
   if (!responseId) return null;
-  return ELARA_HOTSPOT_RESPONSES[responseId] ?? null;
+  const r = ELARA_HOTSPOT_RESPONSES[responseId];
+  if (!r) return null;
+  return r.voId ? r : { ...r, voId: responseId };
 }

@@ -42,6 +42,7 @@
     "vo:episodes": "tsx apps/scripts/generate-episode-vo.ts",
     "vo:npc-first-meet": "tsx apps/scripts/generate-npc-first-meet-vo.ts",
     "vo:room-mystery": "tsx apps/scripts/generate-room-mystery-vo.ts",
+    "vo:hotspot-tiers": "tsx apps/scripts/generate-hotspot-tier-vo.ts",
     "vo:first-contact": "tsx apps/scripts/generate-first-contact-vo.ts",
     "vo:nexus-trial": "tsx apps/scripts/generate-nexus-trial-vo.ts",
     "vo:loredex": "tsx apps/scripts/generate-loredex-vo.ts",
