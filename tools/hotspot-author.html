@@ -177,6 +177,48 @@ body.composite-room .sprite-panel { display: block; }
 .sprite-chip.on { background: var(--accent); color: #000; border-color: var(--accent); }
 .sprite-chip:hover { border-color: var(--accent); }
 
+/* NPC drag palette — always-visible horizontal strip */
+.npc-palette {
+  display: flex; gap: 6px;
+  background: var(--panel-2);
+  border-bottom: 1px solid var(--border);
+  padding: 4px 12px;
+  overflow-x: auto;
+  align-items: center;
+  font-size: 10px; color: var(--muted);
+}
+.npc-palette .palette-label {
+  white-space: nowrap;
+  margin-right: 4px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.npc-palette .npc-thumb {
+  flex: 0 0 auto;
+  width: 32px; height: 32px;
+  border-radius: 4px;
+  border: 2px solid var(--border);
+  background-size: cover; background-position: center top;
+  cursor: grab;
+  position: relative;
+}
+.npc-palette .npc-thumb:hover { transform: scale(1.08); }
+.npc-palette .npc-thumb:active { cursor: grabbing; }
+.npc-palette .npc-thumb .tip {
+  position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  margin-top: 4px;
+  background: rgba(0,0,0,0.85); color: var(--text);
+  font-size: 10px; padding: 2px 6px; border-radius: 3px;
+  white-space: nowrap; pointer-events: none; opacity: 0;
+  transition: opacity 0.1s; z-index: 10;
+}
+.npc-palette .npc-thumb:hover .tip { opacity: 1; }
+.canvas .overlay.drop-target {
+  background: rgba(0, 212, 255, 0.08);
+  outline: 2px dashed var(--accent);
+  outline-offset: -2px;
+}
+
 .canvas .sprite-stack {
   position: absolute; inset: 0;
   pointer-events: none;
@@ -235,6 +277,9 @@ body.composite-room .sprite-panel { display: block; }
   </span>
   <span class="stat" id="stat"></span>
 </header>
+<div class="npc-palette" id="npcPalette">
+  <span class="palette-label">NPC Palette · drag onto canvas →</span>
+</div>
 <div class="sprite-panel" id="spritePanel">
   <div class="sprite-panel-header">
     <span id="spriteCount">0 / 0 sprites on</span>
@@ -13113,11 +13158,80 @@ function resizeCanvas() {
 roomImg.addEventListener("load", resizeCanvas);
 window.addEventListener("resize", resizeCanvas);
 
+// ── NPC PALETTE ────────────────────────────────────────────────────
+const npcPalette = $("npcPalette");
+function renderNpcPalette() {
+  // Build one draggable thumb per NPC. Tooltip shows the name on hover.
+  const thumbs = NPCS.map((n) => `
+    <div class="npc-thumb"
+         draggable="true"
+         data-npc-id="${n.id}"
+         style="background-image:url('${n.bustPortrait}'); border-color:${n.factionColorHex};">
+      <div class="tip">${n.name}</div>
+    </div>`).join("");
+  npcPalette.insertAdjacentHTML("beforeend", thumbs);
+}
+let dragNpcId = null;
+npcPalette.addEventListener("dragstart", (e) => {
+  const t = e.target.closest(".npc-thumb");
+  if (!t) return;
+  dragNpcId = t.dataset.npcId;
+  // Required for Firefox to actually start a drag.
+  e.dataTransfer.setData("text/plain", dragNpcId);
+  e.dataTransfer.effectAllowed = "copy";
+});
+npcPalette.addEventListener("dragend", () => { dragNpcId = null; });
+// Drop target: the .overlay div on top of the canvas.
+overlay.addEventListener("dragover", (e) => {
+  if (!dragNpcId) return;
+  e.preventDefault();
+  e.dataTransfer.dropEffect = "copy";
+  overlay.classList.add("drop-target");
+});
+overlay.addEventListener("dragleave", (e) => {
+  // dragleave fires when entering child rects too — only clear when leaving
+  // the overlay itself.
+  if (e.target === overlay) overlay.classList.remove("drop-target");
+});
+overlay.addEventListener("drop", (e) => {
+  if (!dragNpcId) return;
+  e.preventDefault();
+  overlay.classList.remove("drop-target");
+  const npc = NPCS.find((n) => n.id === dragNpcId);
+  if (!npc) return;
+  const { x, y } = pctFromEvent(e);
+  // Default size: 4% wide x 6% tall, centered on drop point.
+  const w = 4, h = 6;
+  const newHotspot = {
+    id: `npc-${npc.id}`,
+    name: npc.name,
+    description: `${npc.name} stands here.`,
+    x: round1(clamp(x - w / 2, 0, 100 - w)),
+    y: round1(clamp(y - h / 2, 0, 100 - h)),
+    width: w, height: h,
+    type: "npc",
+    npcId: npc.id,
+    action: `npc:${npc.id}`,
+  };
+  // Avoid id collisions — if `npc-elara` exists, suffix with -2, -3, ...
+  if (findHotspot(newHotspot.id)) {
+    let n = 2;
+    while (findHotspot(`${newHotspot.id}-${n}`)) n++;
+    newHotspot.id = `${newHotspot.id}-${n}`;
+  }
+  draft.push(newHotspot);
+  selectedId = newHotspot.id;
+  render();
+  flashStatus(`Dropped ${npc.name}`);
+  dragNpcId = null;
+});
+
 // ── INIT ───────────────────────────────────────────────────────────
 populateRoomSelect();
 populateVariantSelect();
 loadVariant();
 loadRoom();
+renderNpcPalette();
 
 </script>
 </body>
