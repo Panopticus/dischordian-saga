@@ -59,6 +59,7 @@ import LoginMemeBroadcast from "@/components/LoginMemeBroadcast";
 import LoginMemeMiniCard from "@/components/LoginMemeMiniCard";
 import VoiceWhisper from "@/components/VoiceWhisper";
 import EngineerRecordingDiscoveryModal from "@/components/EngineerRecordingDiscoveryModal";
+import WinbackOfferModal from "@/components/WinbackOfferModal";
 
 const ARK_CONTROL_ROOM = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/ark_control_room_04cb4fe3.png";
 
@@ -219,6 +220,9 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
 
       {/* ═══ ENGINEER RECORDING DISCOVERY — Act 2 holographic reveal modal ═══ */}
       <EngineerRecordingDiscoveryModal />
+
+      {/* ═══ WINBACK COMEBACK GRANT — Fires once per session for lapsed players ═══ */}
+      <WinbackOfferModal />
 
       {/* ═══ MINIMAL HEADER — Only shows Ark identity + notifications ═══ */}
       {!isImmersive && (

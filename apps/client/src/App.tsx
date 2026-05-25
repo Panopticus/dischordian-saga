@@ -214,6 +214,7 @@ const WarMapPage = lazy(() => import("./pages/WarMapPage"));
 const DeckBuilderPage = lazy(() => import("./pages/DeckBuilderPage"));
 const CitizenCreationPage = lazy(() => import("./pages/CitizenCreationPage"));
 const CharacterSheetPage = lazy(() => import("./pages/CharacterSheetPage"));
+const YourSagaPage = lazy(() => import("./pages/YourSagaPage"));
 const IdeologyPage = lazy(() => import("./pages/IdeologyPage"));
 const PetBattlesPage = lazy(() => import("./pages/PetBattlesPage"));
 const ApprenticePage = lazy(() => import("./pages/ApprenticePage"));
@@ -487,6 +488,7 @@ function Router() {
         <Route path="/deck-builder" component={DeckBuilderPage} />
         <Route path="/create-citizen" component={CitizenCreationPage} />
         <Route path="/character-sheet" component={CharacterSheetPage} />
+        <Route path="/your-saga" component={YourSagaPage} />
         <Route path="/ideology" component={IdeologyPage} />
         <Route path="/pet-battles">{() => <GameRoute component={PetBattlesPage} />}</Route>
         <Route path="/apprentice" component={ApprenticePage} />

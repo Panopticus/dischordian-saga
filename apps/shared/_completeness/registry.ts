@@ -153,6 +153,8 @@ import {
 import { checkWolfHuntHeroTargetCoverage } from "./checks/wolfHuntHeroTargetCoverage";
 import { checkWolfHuntBossLieutenantCoverage } from "./checks/wolfHuntBossLieutenantCoverage";
 import { checkCompanionRosterCompleteness } from "./checks/companionRosterCompleteness";
+import { checkCutsceneTriggerSites } from "./checks/cutsceneTriggerSites";
+import { checkTrpcProcedureReachability } from "./checks/trpcProcedureReachability";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -501,7 +503,7 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     id: "design.declared_subsystem_runtime",
     name: "Declared subsystem runtime",
     description:
-      "Three large designs (Soul Stones, Pet Breeding, Living Character Sheet) are documented but unbuilt. Tracks 11 runtime artifacts (schema tables, shared modules, tRPC routers, client components). Each missing artifact is a piece of design with no runtime.",
+      "Designs documented in docs/design/ and docs/production/ tracked through their expected runtime symbols (see apps/shared/_completeness/declaredDesignSystems.ts). Originally 11 artifacts across Soul Stones / Pet Breeding / Living Character Sheet — all shipped now (gap 0). Ceiling deliberately re-seeded 0→5 to surface the Trade Empire Coda mission loop (INCOMPLETE_DESIGNS_AUDIT §2: schema-placeholder only; no codaFactionStanding table, no vexCodaTrust column, no mission generator, no client board) as mechanical, non-regressing rows — the same documented seeding pattern used by db.economic_transaction_coverage. Target 0; closes as the Coda loop lands.",
     check: () => checkDeclaredSubsystemRuntime(),
     ratchet: { target: 0 },
   },
@@ -1311,6 +1313,36 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     check: () => checkWolfHuntBossLieutenantCoverage(),
   },
 
+  // ─── Player reachability — narrative trigger ────────────────
+  // For every declared narrative beat (cutscene id in
+  // CUTSCENE_REGISTRY), at least one trigger site must reference the
+  // id as a string literal outside the registry file itself. Catches
+  // the "registry entry shipped, fire site never built" gap that
+  // existing cutsceneComponents check (which only verifies a
+  // component / literal exists *somewhere* in client src, including
+  // the registry adapter) can leave behind.
+  {
+    id: "narrative.cutscene_trigger_sites",
+    name: "Cutscene trigger-site reachability",
+    description:
+      "Every CutsceneId in apps/shared/cutsceneRegistry.ts must have at least one string-literal trigger site under apps/client/src or apps/shared (excluding the registry file itself). A registry entry with no trigger site is unreachable at runtime — the canonical 'declared but never fires' gap.",
+    check: () => checkCutsceneTriggerSites(),
+    ratchet: { target: 0 },
+  },
+  // ─── Player reachability — client binding ──────────────────
+  // Generalises economic_mutation_reachability to player-marquee
+  // queries + mutations beyond the four economic ones. Curated list,
+  // not the full procedure catalogue — admin / cron / internal
+  // procedures stay out. Adding a new marquee procedure means adding
+  // its row here in the same change as the UI surface that calls it.
+  {
+    id: "client.trpc_procedure_reachability",
+    name: "Marquee tRPC client reachability",
+    description:
+      "Every marquee player-facing tRPC procedure in checks/trpcProcedureReachability.ts MARQUEE_PROCEDURES has a non-test client useQuery/useMutation caller. Complements economic_mutation_reachability for non-economic loops (governance, saga ledger, mystery engine, loredex, winback).",
+    check: () => checkTrpcProcedureReachability(),
+    ratchet: { target: 0 },
+  },
   // ─── Section D6 — companion roster completeness ────────────
   {
     id: "narrative.companion_roster_completeness",

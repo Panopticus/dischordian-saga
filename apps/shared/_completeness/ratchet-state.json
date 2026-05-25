@@ -15,7 +15,7 @@
     "narrative.mobile_narrator_adoption": 0,
     "narrative.shadow_tongue_room_coverage": 0,
     "narrative.cutscene_components": 0,
-    "design.declared_subsystem_runtime": 0,
+    "design.declared_subsystem_runtime": 5,
     "schema.no_orphan_columns": 0,
     "schema.notification_enum_producers": 0,
     "world.woven_two_ripple_rule": 0,
@@ -48,6 +48,8 @@
     "narrative.spine_doorway_coverage": 0,
     "server.replay_determinism_guard": 0,
     "economy.store_sku_parity": 0,
-    "wolf_hunt.hero_target_coverage": 0
+    "wolf_hunt.hero_target_coverage": 0,
+    "narrative.cutscene_trigger_sites": 0,
+    "client.trpc_procedure_reachability": 0
   }
 }

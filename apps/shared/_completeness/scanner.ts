@@ -210,3 +210,109 @@ export function findKindReferences(
 function escapeRegex(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
+
+// ─── Reachability scanning ────────────────────────────────────
+//
+// The reachability checks all answer the same shape of question:
+// "does anything under <client|server|shared> reference this
+// literal?" Each check would otherwise re-walk a directory tree of
+// ~1000+ files and re-read every file. The corpus cache concatenates
+// all source files in a directory into one string per directory,
+// memoised for the life of the process. The full five-axis sweep
+// stays sub-second.
+//
+// Source tests do not contribute to the corpus — a literal that only
+// appears in a `.test.ts` file is not a real call site.
+
+interface CorpusEntry {
+  /** Concatenation of every source file's contents, separated by newlines. */
+  text: string;
+  /** Absolute file paths in the concatenation order. */
+  files: string[];
+}
+
+const corpusCache = new Map<string, CorpusEntry>();
+
+function loadCorpus(absDir: string): CorpusEntry {
+  const cached = corpusCache.get(absDir);
+  if (cached) return cached;
+  const files = walkSourceFiles(absDir);
+  const chunks: string[] = [];
+  for (const abs of files) {
+    try {
+      chunks.push(fs.readFileSync(abs, "utf-8"));
+    } catch {
+      // unreadable file shouldn't break the gate
+    }
+  }
+  const entry: CorpusEntry = { text: chunks.join("\n\n"), files };
+  corpusCache.set(absDir, entry);
+  return entry;
+}
+
+/** Concatenated source under apps/client/src, memoised. */
+export function getClientSourceCorpus(): CorpusEntry {
+  return loadCorpus(path.join(REPO_ROOT, "apps/client/src"));
+}
+
+/** Concatenated source under apps/server, memoised. */
+export function getServerSourceCorpus(): CorpusEntry {
+  return loadCorpus(path.join(REPO_ROOT, "apps/server"));
+}
+
+/** Concatenated source under apps/shared, memoised. */
+export function getSharedSourceCorpus(): CorpusEntry {
+  return loadCorpus(path.join(REPO_ROOT, "apps/shared"));
+}
+
+/**
+ * Find client-side `trpc.<router>.<procedure>.useQuery|useMutation|...`
+ * call sites for one procedure. Hits every flavour: useQuery,
+ * useMutation, useInfiniteQuery, useSuspenseQuery, useSubscription.
+ *
+ * Returns the count rather than the file list because that's all the
+ * reachability check needs; if a procedure's count is 0 it's
+ * unreachable. (The check reports the procedure id, not the
+ * candidate sites — there are none.)
+ */
+export function countTrpcClientCallSites(
+  router: string,
+  procedure: string,
+): number {
+  const { text } = getClientSourceCorpus();
+  const re = new RegExp(
+    String.raw`\btrpc\.` +
+      escapeRegex(router) +
+      String.raw`\.` +
+      escapeRegex(procedure) +
+      String.raw`\.(useQuery|useMutation|useInfiniteQuery|useSuspenseQuery|useSubscription)\b`,
+    "g",
+  );
+  let n = 0;
+  for (const _m of text.matchAll(re)) n += 1;
+  return n;
+}
+
+/**
+ * Find any literal-string reference to `needle` under the given
+ * directory, excluding the file at `excludeAbs` if provided (used
+ * by trigger-site checks to ignore the registry file the literal is
+ * declared in). Matches either `"<needle>"` or `'<needle>'`.
+ */
+export function hasLiteralStringReference(
+  absDir: string,
+  needle: string,
+  opts: { excludeAbs?: string } = {},
+): boolean {
+  const { files } = loadCorpus(absDir);
+  const re = new RegExp(String.raw`["']` + escapeRegex(needle) + String.raw`["']`);
+  for (const abs of files) {
+    if (opts.excludeAbs && abs === opts.excludeAbs) continue;
+    try {
+      if (re.test(fs.readFileSync(abs, "utf-8"))) return true;
+    } catch {
+      // skip unreadable
+    }
+  }
+  return false;
+}
