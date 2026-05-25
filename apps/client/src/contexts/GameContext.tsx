@@ -520,230 +520,31 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "narrative_event", value: "cryo_mystery_victim_identified" },
     connections: ["cryo-bay"],
     hotspots: [
-      // Re-anchored 2026-05-24 against the AAA Final medical-bay render
-      // (art/rooms/medical_bay/baseline.png + state_act_tier_2 + state_
-      // investigation_device_awakened). The 2026-04-25 pass anchored
-      // against an older symmetrical render with a central stasis
-      // chamber + overhead surgical arm; the AAA Final is an
-      // asymmetrical chamber dominated by an Aetheric Crown / phoenix
-      // stained-glass arch back-center, a foreground bio-bed on a
-      // raised pedestal, a tall imaging tower (gold pillar with cyan
-      // crown) to its right, twin foreground diagnostic consoles to
-      // its left, a glowing DNA-helix column on the far-right wall,
-      // and dispensary kiosks on the far-left wall. The surgical arm
-      // only appears in the `investigation_device_awakened` variant;
-      // its hotspot will be tier-gated when the `requiresTier?` schema
-      // extension lands in a follow-up.
-      //
-      // Visible landmarks, left-to-right + foreground-to-back:
-      //   • two stacked arcade-style dispensary kiosks — far-left
-      //     wall (`medicine-cabinet`)
-      //   • Cryo Bay door — left wall, arched (`door-cryo`)
-      //   • workbench / medical-officer station — left mid-distance
-      //     (`medical-log` rests on the pad here)
-      //   • twin foreground diagnostic consoles — left of bio-bed
-      //     (`autopsy-console`, `advocate-empire-zero-casualty`,
-      //     `akai-virus-telemetry`)
-      //   • bio-bed on a raised pedestal — center foreground
-      //     (`bio-bed`, `mystery-bio-bed`, `npc-the-source`,
-      //     `egg-vox-neural-bridge`, `mystery-vox-neural-bridge`)
-      //   • imaging tower / gold pillar with cyan crown — center
-      //     (`hellbox-lattice`, `severance-broker-quantum-imaging`)
-      //   • Aetheric Crown stained-glass arch — back center
-      //     (`aetheric-arch`)
-      //   • right-wall cabinet + safe drawers — right wall
-      //     (`emergency-safe`, `observation-keycard`,
-      //     `the-silences-vacated-body`, `egg-med-vial`)
-      //   • DNA helix column — far-right wall (`dna-helix`)
-      //   • circular floor seal — chamber-center floor
-      //     (`floor-seal`)
-      //
-      // Render order matters: `aetheric-arch` is authored FIRST as
-      // backdrop; `autopsy-console` is authored BEFORE its mystery
-      // sub-rects (`advocate-empire-zero-casualty`, `akai-virus-
-      // telemetry`) so those win clicks on their console screens;
-      // `bio-bed` is authored BEFORE `mystery-bio-bed` + `npc-the-
-      // source` so those overlays win clicks; `hellbox-lattice`
-      // (tower body) is authored BEFORE `severance-broker-quantum-
-      // imaging` (small overlay on the cyan crown).
-      //
-      // Verify with /ark?debug-hotspots=1 or, for drag-to-place
-      // editing, /ark?author-hotspots=1.
-
-      // ── BACKDROP + WALLS ──
-      { id: "aetheric-arch", name: "Aetheric Crown Window", description: "A stained-glass arch dominates the back wall — a phoenix-form Aetheric Crown rendered in gold and amber light. The glass is intact; the light source behind it is not the sun.", cx: 64.4, cy: 27, width: 13.6, height: 17, type: "examine", elaraDialog: "The Aetheric Crown. This window is the chamber's spine — every wake-cycle the first crew started here, and most of them started kneeling. Whatever lit it then is still lighting it now.",
-        elaraDialogVoId: "room.medical-bay.hotspot.aetheric-arch.elara",
-        tiers: [
-          { id: "tier_med_arch_t2", requiredVisitCount: 2, responseId: "hs_medbay_arch_t2" },
-          { id: "tier_med_arch_t3", requiredVisitCount: 3, responseId: "hs_medbay_arch_t3" },
-          { id: "tier_med_arch_t5", requiredVisitCount: 5, responseId: "hs_medbay_arch_t5_stutter" },
-        ],
-        responses: [
-          { id: "human.medical-bay.aetheric-arch.acknowledge", label: "Acknowledged.", closesDialog: true },
-          {
-            id: "human.medical-bay.aetheric-arch.what-lit-it",
-            label: "What's lighting it?",
-            elaraFollowUpVoId: "elara.medical-bay.aetheric-arch.what-lit-it",
-            elaraFollowUpText: "Not the sun. Not the ship's reactor — I'd see the draw. The closest match in my registry is the Hellbox's lattice running in reverse. I would rather not assume it's the same source.",
-          },
-          {
-            id: "human.medical-bay.aetheric-arch.who-knelt",
-            label: "Who knelt here?",
-            elaraFollowUpVoId: "elara.medical-bay.aetheric-arch.who-knelt",
-            elaraFollowUpText: "The First Wave's medics, the founding signatories, and — the disturbed dust on the chamber floor says — someone within the last week. I do not have a name for that someone yet.",
-          },
-        ],
-      },
-      { id: "medicine-cabinet", name: "Medicine Cabinet", description: "Two stacked dispensary kiosks built into the far-left wall. Each port holds a row of capped vials; most are labeled, several are not.", cx: 7.75, cy: 60.2, width: 11.1, height: 33.8, type: "examine", action: "room-mystery:medical-bay:medicine-cabinet", elaraDialog: "Medical supplies. Most are standard stim-packs and neural stabilizers. But some of these vials... I don't recognize the compounds. They weren't in the original manifest.",
-        elaraDialogVoId: "room.medical-bay.hotspot.medicine-cabinet.elara",
-      },
-      { id: "door-cryo", name: "Cryo Bay Door", description: "Return to the Cryo Bay.", cx: 21.25, cy: 52.75, width: 8.5, height: 30.9, type: "door", action: "cryo-bay" },
-      { id: "dna-helix", name: "DNA Analysis Station", description: "A floor-to-ceiling glass column on the far-right wall holds a slow-rotating holographic double helix, marker-bands lighting up in sequence as it turns.", cx: 94.4, cy: 53.65, width: 9, height: 56.3, type: "examine", action: "room-mystery:medical-bay:dna-helix", elaraDialog: "The DNA analysis station. It maps your genetic markers against known species templates. DeMagi, Quarchon, Ne-Yon... your hybrid signature is fascinating.",
-        elaraDialogVoId: "room.medical-bay.hotspot.dna-helix.elara",
-      },
-
-      // ── RIGHT-WALL CABINET / SAFE DRAWERS ──
-      // emergency-safe is authored BEFORE the smaller drawer rectangles
-      // (the-silences-vacated-body, observation-keycard, egg-med-vial)
-      // so those sub-rects can z-stack above and win their specific
-      // clicks within the larger safe area.
-      { id: "emergency-safe", name: "Emergency Safe", description: "A reinforced wall safe with Dr. Lyra Vox's nameplate. Biometric reader sabotaged by her own hand; numeric keypad still works.", cx: 32.1, cy: 42.15, width: 4.2, height: 13.1, type: "interact", action: "room-mystery:medical-bay:emergency-safe" },
-      { id: "observation-keycard", name: "Observation Keycard", description: "A biometric access card labeled 'OBS-DECK'. Stored in the medical safe.", cx: 32, cy: 40.35, width: 2.8, height: 6.7, type: "item", action: "observation-keycard", elaraDialog: "The Observation Keycard! It was in the medical safe all along. The previous crew stored sensitive access cards here for security. This will unlock the Observation Deck — the crew used it to monitor deep space anomalies. Take it.",
-        elaraDialogVoId: "room.medical-bay.hotspot.observation-keycard.elara",
-        responses: [
-          { id: "human.medical-bay.observation-keycard.take", label: "Take the keycard.", closesDialog: true },
-          {
-            id: "human.medical-bay.observation-keycard.what-deck",
-            label: "What's on the Observation Deck?",
-            elaraFollowUpVoId: "elara.medical-bay.observation-keycard.what-deck",
-            elaraFollowUpText: "Deep-space sensor array. The previous crew used it to watch anomalies the chart pretends aren't there. If the comms-array confirms what the deck records, we'll have a second source for the worst of what we suspect.",
-          },
-        ],
-      },
-      // Mystery wiring — Necromancer arc: the Silence's vacated body, catalogued under the Resurrectionist's Samsara-machine taxonomy
-      { id: "the-silences-vacated-body", name: "The Silence's Vacated Body (Catalog)", description: "A drawer in the body-catalog indexed to the Resurrectionist's Samsara-machine taxonomy — the Silence's body, tagged 'available' at the moment of her going.", cx: 82, cy: 46.6, width: 3.8, height: 8.6, type: "interact", action: "room-mystery:medical-bay:the-silences-vacated-body" },
-      { id: "egg-med-vial", name: "Unlabeled Vial", description: "A tiny vial of shimmering black liquid hidden behind the cabinet.", cx: 86.8, cy: 69.7, width: 3, height: 4, type: "item", action: "void-essence-sample", elaraDialog: "That vial... the liquid inside is moving on its own. The molecular structure doesn't match anything in my database. It's not from any known universe. The label has been torn off, but there's a serial number: VE-001. 'VE' — Void Essence? This shouldn't exist on this ship." },
-      // Stabilize-Elara questline Chapter 1: Darren Fessler's personal-
-      // effects locker. The artifact inside is Shadow-Tongue-immune by
-      // canon — Darren's habit of writing meaningful sentences in the
-      // un-indexable layer is the reason. Hotspot fires only when the
-      // questline is active (elara_degradation_revealed); ArkExplorerPage's
-      // item handler intercepts the action and sets
-      // `darren_artifact_recovered`. See apps/shared/questlineStabilizeElara.ts.
-      { id: "darren-personal-effects-locker", name: "Darren Fessler's Personal Effects", description: "A narrow personal-effects drawer in the right-wall cabinet, labeled D. FESSLER · MAINT in old serif. Inside: a folded scrap of paper that does not register on any scanner Elara has tried.", cx: 82, cy: 57.3, width: 3.8, height: 8.6, type: "item", action: "darren-fessler-artifact", elaraDialog: "There. The drawer says D. Fessler — maintenance, decades-out-of-date. Take what's inside; do not unfold it. Whatever it is, my registry does not see it. That is — for the first time today — exactly what I needed.",
-        elaraDialogVoId: "room.medical-bay.hotspot.darren-personal-effects-locker.elara",
-      },
-
-      // ── LEFT MID-DISTANCE WORKBENCH ──
-      { id: "medical-log", name: "Medical Log", description: "A data pad rests on the left-side workbench, screen still faintly lit.", cx: 31.2, cy: 54.8, width: 3, height: 3.4, type: "item", action: "medical-log-001", elaraDialog: "The last medical officer's log. Dated... I can't read the timestamp. But the entries describe patients with unusual symptoms. Nightmares. Voices. Something about 'the signal.'",
-        elaraDialogVoId: "room.medical-bay.hotspot.medical-log.elara",
-        tiers: [
-          { id: "tier_med_log_t2", requiredVisitCount: 2, responseId: "hs_medbay_log_t2" },
-          { id: "tier_med_log_t3", requiredVisitCount: 3, responseId: "hs_medbay_log_t3" },
-        ],
-        responses: [
-          { id: "human.medical-bay.medical-log.take", label: "Take the log.", closesDialog: true },
-          {
-            id: "human.medical-bay.medical-log.read-here",
-            label: "Read it here first.",
-            elaraFollowUpVoId: "elara.medical-bay.medical-log.read-here",
-            elaraFollowUpText: "The final entry is one line. 'The signal is in the room.' No timestamp, no signature, no follow-up. Whoever wrote it didn't get a chance to write a second sentence.",
-          },
-          {
-            id: "human.medical-bay.medical-log.the-signal",
-            label: "What signal?",
-            elaraFollowUpVoId: "elara.medical-bay.medical-log.the-signal",
-            elaraFollowUpText: "I don't know yet. The med-officer treated it as a known referent — no definition, no context. That tells me everyone here already knew what it was. Which tells me we should be more careful than we are.",
-          },
-        ],
-      },
+      // Re-anchored 2026-05-25 via tools/hotspot-author.html — rotation
+      // pass (PR #757). 21 hotspots; medical-bay's props are mostly
+      // axis-aligned so rotations stay zero, but every rect was tightened
+      // to the visual footprint of the actual object on the baseline.
+      { id: "aetheric-arch", name: "Aetheric Crown Window", description: "A stained-glass arch dominates the back wall — a phoenix-form Aetheric Crown rendered in gold and amber light. The glass is intact; the light source behind it is not the sun.", cx: 49.7, cy: 37.5, width: 11.1, height: 9.2, type: "examine", elaraDialog: "The Aetheric Crown. This window is the chamber's spine — every wake-cycle the first crew started here, and most of them started kneeling. Whatever lit it then is still lighting it now.", elaraDialogVoId: "room.medical-bay.hotspot.aetheric-arch.elara", responses: [{"id":"human.medical-bay.aetheric-arch.acknowledge","label":"Acknowledged.","closesDialog":true},{"id":"human.medical-bay.aetheric-arch.what-lit-it","label":"What's lighting it?","elaraFollowUpVoId":"elara.medical-bay.aetheric-arch.what-lit-it","elaraFollowUpText":"Not the sun. Not the ship's reactor — I'd see the draw. The closest match in my registry is the Hellbox's lattice running in reverse. I would rather not assume it's the same source."},{"id":"human.medical-bay.aetheric-arch.who-knelt","label":"Who knelt here?","elaraFollowUpVoId":"elara.medical-bay.aetheric-arch.who-knelt","elaraFollowUpText":"The First Wave's medics, the founding signatories, and — the disturbed dust on the chamber floor says — someone within the last week. I do not have a name for that someone yet."}] },
+      { id: "medicine-cabinet", name: "Medicine Cabinet", description: "Two stacked dispensary kiosks built into the far-left wall. Each port holds a row of capped vials; most are labeled, several are not.", cx: 12.1, cy: 41.4, width: 11.1, height: 15.4, type: "examine", action: "room-mystery:medical-bay:medicine-cabinet", elaraDialog: "Medical supplies. Most are standard stim-packs and neural stabilizers. But some of these vials... I don't recognize the compounds. They weren't in the original manifest.", elaraDialogVoId: "room.medical-bay.hotspot.medicine-cabinet.elara" },
+      { id: "door-cryo", name: "Cryo Bay Door", description: "Return to the Cryo Bay.", cx: 23.2, cy: 51.2, width: 4.1, height: 26.7, type: "door", action: "cryo-bay" },
+      { id: "dna-helix", name: "DNA Analysis Station", description: "A floor-to-ceiling glass column on the far-right wall holds a slow-rotating holographic double helix, marker-bands lighting up in sequence as it turns.", cx: 76, cy: 53.7, width: 3.8, height: 23.5, type: "examine", action: "room-mystery:medical-bay:dna-helix", elaraDialog: "The DNA analysis station. It maps your genetic markers against known species templates. DeMagi, Quarchon, Ne-Yon... your hybrid signature is fascinating.", elaraDialogVoId: "room.medical-bay.hotspot.dna-helix.elara" },
+      { id: "emergency-safe", name: "Emergency Safe", description: "A reinforced wall safe with Dr. Lyra Vox's nameplate. Biometric reader sabotaged by her own hand; numeric keypad still works.", cx: 40.6, cy: 49, width: 3.3, height: 7.5, type: "interact", action: "room-mystery:medical-bay:emergency-safe" },
+      { id: "observation-keycard", name: "Observation Keycard", description: "A biometric access card labeled 'OBS-DECK'. Stored in the medical safe.", cx: 40.6, cy: 50.2, width: 2.8, height: 6.7, type: "item", action: "observation-keycard", elaraDialog: "The Observation Keycard! It was in the medical safe all along. The previous crew stored sensitive access cards here for security. This will unlock the Observation Deck — the crew used it to monitor deep space anomalies. Take it.", elaraDialogVoId: "room.medical-bay.hotspot.observation-keycard.elara", responses: [{"id":"human.medical-bay.observation-keycard.take","label":"Take the keycard.","closesDialog":true},{"id":"human.medical-bay.observation-keycard.what-deck","label":"What's on the Observation Deck?","elaraFollowUpVoId":"elara.medical-bay.observation-keycard.what-deck","elaraFollowUpText":"Deep-space sensor array. The previous crew used it to watch anomalies the chart pretends aren't there. If the comms-array confirms what the deck records, we'll have a second source for the worst of what we suspect."}] },
+      { id: "the-silences-vacated-body", name: "The Silence's Vacated Body (Catalog)", description: "A drawer in the body-catalog indexed to the Resurrectionist's Samsara-machine taxonomy — the Silence's body, tagged 'available' at the moment of her going.", cx: 77.6, cy: 55.6, width: 5.2, height: 3.8, type: "interact", action: "room-mystery:medical-bay:the-silences-vacated-body" },
+      { id: "egg-med-vial", name: "Unlabeled Vial", description: "A tiny vial of shimmering black liquid hidden behind the cabinet.", cx: 7.7, cy: 56.5, width: 3, height: 4, type: "item", action: "void-essence-sample", elaraDialog: "That vial... the liquid inside is moving on its own. The molecular structure doesn't match anything in my database. It's not from any known universe. The label has been torn off, but there's a serial number: VE-001. 'VE' — Void Essence? This shouldn't exist on this ship." },
+      { id: "medical-log", name: "Medical Log", description: "A data pad rests on the left-side workbench, screen still faintly lit.", cx: 31.2, cy: 54.8, width: 3, height: 3.4, type: "item", action: "medical-log-001", elaraDialog: "The last medical officer's log. Dated... I can't read the timestamp. But the entries describe patients with unusual symptoms. Nightmares. Voices. Something about 'the signal.'", elaraDialogVoId: "room.medical-bay.hotspot.medical-log.elara", responses: [{"id":"human.medical-bay.medical-log.take","label":"Take the log.","closesDialog":true},{"id":"human.medical-bay.medical-log.read-here","label":"Read it here first.","elaraFollowUpVoId":"elara.medical-bay.medical-log.read-here","elaraFollowUpText":"The final entry is one line. 'The signal is in the room.' No timestamp, no signature, no follow-up. Whoever wrote it didn't get a chance to write a second sentence."},{"id":"human.medical-bay.medical-log.the-signal","label":"What signal?","elaraFollowUpVoId":"elara.medical-bay.medical-log.the-signal","elaraFollowUpText":"I don't know yet. The med-officer treated it as a known referent — no definition, no context. That tells me everyone here already knew what it was. Which tells me we should be more careful than we are."}] },
       { id: "mystery-medical-log", name: "Medical Log (Read)", description: "Read the data pad's final entry under the magnifier — patients across wake-cycles, the same dream, the word 'signal'.", cx: 34.9, cy: 52.15, width: 3.2, height: 3.7, type: "interact", action: "room-mystery:medical-bay:medical-log" },
-
-      // ── TWIN FOREGROUND DIAGNOSTIC CONSOLES (left of bio-bed) ──
-      // autopsy-console is the PARENT area covering both foreground
-      // consoles; the smaller mystery sub-rects below z-stack above it
-      // so the verb-coin sub-targets win clicks within their specific
-      // screen areas.
-      // Section 8 — Murder mystery turn-in. Reads the data-slate
-      // fragment recovered from the dead pod and recovers the
-      // bridge-reset-code. Without the slate the console reports an
-      // empty queue. The action `bio-bed-autopsy-console` is handled
-      // in ArkExplorerPage's hotspot branch.
-      { id: "autopsy-console", name: "Bio-Bed Autopsy Console", description: "A small subsystem of the bio-bed dedicated to forensic readouts. Slot for an external data-slate.", cx: 43.35, cy: 48.25, width: 4.1, height: 5.7, type: "interact", action: "bio-bed-autopsy-console", elaraDialog: "The autopsy console can read external data-slates. If you have the fragment from the dead pod, slot it in.",
-        elaraDialogVoId: "room.medical-bay.hotspot.autopsy-console.elara",
-        responses: [
-          { id: "human.medical-bay.autopsy-console.acknowledge", label: "Got it.", closesDialog: true },
-          {
-            id: "human.medical-bay.autopsy-console.what",
-            label: "What's it going to tell us?",
-            elaraFollowUpVoId: "elara.medical-bay.autopsy-console.what",
-            elaraFollowUpText: "If the slate's intact enough — a name. A timestamp of death. And whatever the dead Potential was trying to send before they didn't make it.",
-          },
-        ],
-      },
-      // Mystery wiring — advocate.blood_weave · e2 (zero-casualty defender record)
-      // Authored AFTER autopsy-console so it wins clicks on the left-console screen.
-      { id: "advocate-empire-zero-casualty", name: "Empire — Zero-Casualty Defender Record", description: "On the casualty-archive console: zero combatants killed, zero souls breached across the seven-dimensions siege. One combatant redirected to the Advocate's 'permanent care.' The substrate cost was levied on her alone.", cx: 44.6, cy: 56.5, width: 2.4, height: 3.4, type: "interact", action: "room-mystery:medical-bay:advocate-empire-zero-casualty" },
-      // Mystery wiring — akai_shi.red_death · e1 (virus-consumption telemetry)
-      // Authored AFTER autopsy-console so it wins clicks on the right-console screen.
-      { id: "akai-virus-telemetry", name: "Akai Shi — Virus-Consumption Telemetry", description: "On the neural-archive console: post-mortem readings show Akai Shi's consumption-curve as a gradient, not a cliff. She held the Virus inside her body longer than anyone in canonical record.", cx: 41.65, cy: 57.8, width: 2.7, height: 3.8, type: "interact", action: "room-mystery:medical-bay:akai-virus-telemetry" },
-
-      // ── FLOOR ──
-      { id: "floor-seal", name: "Medical Bay Floor Seal", description: "Concentric rings inlaid in pale stone span the chamber floor — a calibration mandala the first medics used to align the bio-bed's resonance.", cx: 50.6, cy: 76, width: 26.8, height: 14, type: "examine", elaraDialog: "The calibration mandala. The bio-bed's resonance is tuned against these rings; if the rings drift, the readouts drift with them. The lines look intact to me, but I'm reading slight distortion at the outer band. Worth checking when we have a free hand.",
-        elaraDialogVoId: "room.medical-bay.hotspot.floor-seal.elara",
-        responses: [
-          { id: "human.medical-bay.floor-seal.acknowledge", label: "Note it.", closesDialog: true },
-          {
-            id: "human.medical-bay.floor-seal.check-now",
-            label: "Walk the outer band now.",
-            elaraFollowUpVoId: "elara.medical-bay.floor-seal.check-now",
-            elaraFollowUpText: "Hairline crack — west arc. Small enough that the bio-bed compensates; large enough that the mandala isn't a perfect circle anymore. Whatever fractured it hit hard enough to crack inlaid stone and leave no visible debris.",
-          },
-        ],
-      },
-
-      // ── BIO-BED (center foreground) + overlays ──
-      { id: "bio-bed", name: "Bio-Bed Scanner", description: "A pedestal-mounted exam bed in the chamber's center. Holographic readouts ghost above the headrest in pale cyan.", cx: 48.4, cy: 62.7, width: 8.8, height: 6.8, type: "terminal", action: "/character-sheet", elaraDialog: "The bio-bed can give you a full diagnostic. Your stats, your Dream resonance levels, your cellular integrity. Step on and I'll run a scan.",
-        elaraDialogVoId: "room.medical-bay.hotspot.bio-bed.elara",
-      },
-      { id: "mystery-bio-bed", name: "Bio-Bed Trace Marker", description: "A faint trace marker on the bio-bed's diagnostic strip — your DNA's signature, registered without your having sat down.", cx: 47.85, cy: 55.35, width: 2.5, height: 4.5, type: "interact", action: "room-mystery:medical-bay:bio-bed" },
+      { id: "autopsy-console", name: "Bio-Bed Autopsy Console", description: "A small subsystem of the bio-bed dedicated to forensic readouts. Slot for an external data-slate.", cx: 58.1, cy: 49.7, width: 4.1, height: 5.7, type: "interact", action: "bio-bed-autopsy-console", elaraDialog: "The autopsy console can read external data-slates. If you have the fragment from the dead pod, slot it in.", elaraDialogVoId: "room.medical-bay.hotspot.autopsy-console.elara", responses: [{"id":"human.medical-bay.autopsy-console.acknowledge","label":"Got it.","closesDialog":true},{"id":"human.medical-bay.autopsy-console.what","label":"What's it going to tell us?","elaraFollowUpVoId":"elara.medical-bay.autopsy-console.what","elaraFollowUpText":"If the slate's intact enough — a name. A timestamp of death. And whatever the dead Potential was trying to send before they didn't make it."}] },
+      { id: "advocate-empire-zero-casualty", name: "Empire — Zero-Casualty Defender Record", description: "On the casualty-archive console: zero combatants killed, zero souls breached across the seven-dimensions siege. One combatant redirected to the Advocate's 'permanent care.' The substrate cost was levied on her alone.", cx: 15.3, cy: 60.2, width: 2.4, height: 3.4, type: "interact", action: "room-mystery:medical-bay:advocate-empire-zero-casualty" },
+      { id: "akai-virus-telemetry", name: "Akai Shi — Virus-Consumption Telemetry", description: "On the neural-archive console: post-mortem readings show Akai Shi's consumption-curve as a gradient, not a cliff. She held the Virus inside her body longer than anyone in canonical record.", cx: 68.4, cy: 56, width: 2.7, height: 3.8, type: "interact", action: "room-mystery:medical-bay:akai-virus-telemetry" },
+      { id: "floor-seal", name: "Medical Bay Floor Seal", description: "Concentric rings inlaid in pale stone span the chamber floor — a calibration mandala the first medics used to align the bio-bed's resonance.", cx: 49.9, cy: 77.6, width: 10, height: 9.8, type: "examine", elaraDialog: "The calibration mandala. The bio-bed's resonance is tuned against these rings; if the rings drift, the readouts drift with them. The lines look intact to me, but I'm reading slight distortion at the outer band. Worth checking when we have a free hand.", elaraDialogVoId: "room.medical-bay.hotspot.floor-seal.elara", responses: [{"id":"human.medical-bay.floor-seal.acknowledge","label":"Note it.","closesDialog":true},{"id":"human.medical-bay.floor-seal.check-now","label":"Walk the outer band now.","elaraFollowUpVoId":"elara.medical-bay.floor-seal.check-now","elaraFollowUpText":"Hairline crack — west arc. Small enough that the bio-bed compensates; large enough that the mandala isn't a perfect circle anymore. Whatever fractured it hit hard enough to crack inlaid stone and leave no visible debris."}] },
+      { id: "bio-bed", name: "Bio-Bed Scanner", description: "A pedestal-mounted exam bed in the chamber's center. Holographic readouts ghost above the headrest in pale cyan.", cx: 50, cy: 55.6, width: 5.3, height: 9, type: "terminal", action: "/character-sheet", elaraDialog: "The bio-bed can give you a full diagnostic. Your stats, your Dream resonance levels, your cellular integrity. Step on and I'll run a scan.", elaraDialogVoId: "room.medical-bay.hotspot.bio-bed.elara" },
+      { id: "mystery-bio-bed", name: "Bio-Bed Trace Marker", description: "A faint trace marker on the bio-bed's diagnostic strip — your DNA's signature, registered without your having sat down.", cx: 54.1, cy: 50.2, width: 2.5, height: 4.5, type: "interact", action: "room-mystery:medical-bay:bio-bed" },
       { id: "egg-vox-neural-bridge", name: "Unkempt Neural Device", description: "A hidden device behind the bio-bed's maintenance panel. Cables still warm. A humming needle-port waits for a DNA sample.", cx: 55.8, cy: 63.8, width: 4, height: 5, type: "interact", action: "dna-device-offer", elaraDialog: "[STATIC BURST] It's humming at a frequency your teeth can feel. A neural-bridge apparatus — military grade, built by Dr. Lyra Vox to move consciousness between a body and the Ark itself. It wants a sample. You don't know what it will give you back." },
       { id: "mystery-vox-neural-bridge", name: "Neural Bridge (Read)", description: "Lyra's etched plate beside the needle-port: 'L. Vox.' She built the bridge to move consciousness between a body and the Ark.", cx: 61.4, cy: 57.5, width: 4, height: 5, type: "interact", action: "room-mystery:medical-bay:egg-vox-neural-bridge" },
-
-      // ── IMAGING TOWER (center, right of bio-bed) ──
-      // hellbox-lattice rectangle covers the full tower body; the
-      // smaller broker-quantum-imaging sub-rect on the cyan crown
-      // is authored AFTER so it wins clicks for the calibration
-      // chip on the crown itself.
-      { id: "hellbox-lattice", name: "Hellbox Lattice", description: "A free-standing imaging tower beside the bio-bed — gold pillar, cyan crown. The neural-lattice kernel that opens a portal into the Matrix of Dreams.", cx: 62.65, cy: 45.1, width: 4.9, height: 11.6, type: "terminal", action: "/hellbox", elaraDialog: "The Hellbox. The cloning-pod's neural lattice opens straight into the Matrix of Dreams. Every descent is a small Blood-Weave bargain — the Advocate's path in miniature.",
-        elaraDialogVoId: "room.medical-bay.hotspot.hellbox-lattice.elara",
-        responses: [
-          { id: "human.medical-bay.hellbox-lattice.acknowledge", label: "Acknowledged.", closesDialog: true },
-          {
-            id: "human.medical-bay.hellbox-lattice.bargain",
-            label: "What's the bargain?",
-            elaraFollowUpVoId: "elara.medical-bay.hellbox-lattice.bargain",
-            elaraFollowUpText: "Every Hellbox descent siphons a thread of vitality the Advocate harvests on the other side. Small enough that one descent is cheap; large enough that a hundred descents are not. The math is honest; the framing is not.",
-          },
-          {
-            id: "human.medical-bay.hellbox-lattice.descend",
-            label: "Descend now.",
-            elaraFollowUpVoId: "elara.medical-bay.hellbox-lattice.descend",
-            elaraFollowUpText: "Then I'll log your re-entry vector before you go. If the Matrix decides to keep you, I want a thread to pull on.",
-          },
-        ],
-      },
-      // Mystery wiring — severance.bound_champion · e3 (Broker's quantum imaging)
-      // Authored AFTER hellbox-lattice so it wins clicks on the cyan crown's calibration chip.
-      { id: "severance-broker-quantum-imaging", name: "Broker's Quantum Body Scan", description: "On the quantum-imaging suite: the Broker of Nilmorg's volunteered scan. An age incompatible with a single spine; a Year-One cellular rest-mark; a continuity with one discontinuity.", cx: 51.85, cy: 47.9, width: 2.5, height: 5.8, type: "interact", action: "room-mystery:medical-bay:severance-broker-quantum-imaging" },
-
-      // ── NPC PRESENCE (Phase C) ──
-      // The Source — primaryRoom = medical_bay (factionNPCs.ts).
-      // Manifestation: possessed_system. He surfaces through the bio-bed
-      // monitors when called. Authored LAST so it z-stacks above the
-      // bio-bed + mystery-bio-bed rectangles and wins clicks when the
-      // NPC is actively manifested. Talk verb opens NPCDialog.
-      { id: "npc-the-source", name: "The Source (Echo)", description: "The bio-bed monitors flicker in unison. A face — or the suggestion of one — resolves on the central display. Patient Zero is awake.", cx: 55.1, cy: 48.4, width: 3.6, height: 4.4, type: "npc", action: "npc:the_source", npcId: "the_source" },
+      { id: "hellbox-lattice", name: "Hellbox Lattice", description: "A free-standing imaging tower beside the bio-bed — gold pillar, cyan crown. The neural-lattice kernel that opens a portal into the Matrix of Dreams.", cx: 59.8, cy: 80.2, width: 4.9, height: 11.6, type: "terminal", action: "/hellbox", elaraDialog: "The Hellbox. The cloning-pod's neural lattice opens straight into the Matrix of Dreams. Every descent is a small Blood-Weave bargain — the Advocate's path in miniature.", elaraDialogVoId: "room.medical-bay.hotspot.hellbox-lattice.elara", responses: [{"id":"human.medical-bay.hellbox-lattice.acknowledge","label":"Acknowledged.","closesDialog":true},{"id":"human.medical-bay.hellbox-lattice.bargain","label":"What's the bargain?","elaraFollowUpVoId":"elara.medical-bay.hellbox-lattice.bargain","elaraFollowUpText":"Every Hellbox descent siphons a thread of vitality the Advocate harvests on the other side. Small enough that one descent is cheap; large enough that a hundred descents are not. The math is honest; the framing is not."},{"id":"human.medical-bay.hellbox-lattice.descend","label":"Descend now.","elaraFollowUpVoId":"elara.medical-bay.hellbox-lattice.descend","elaraFollowUpText":"Then I'll log your re-entry vector before you go. If the Matrix decides to keep you, I want a thread to pull on."}] },
+      { id: "severance-broker-quantum-imaging", name: "Broker's Quantum Body Scan", description: "On the quantum-imaging suite: the Broker of Nilmorg's volunteered scan. An age incompatible with a single spine; a Year-One cellular rest-mark; a continuity with one discontinuity.", cx: 50.3, cy: 44.1, width: 2.5, height: 5.8, type: "interact", action: "room-mystery:medical-bay:severance-broker-quantum-imaging" },
+      { id: "npc-the-source", name: "The Source (Echo)", description: "The bio-bed monitors flicker in unison. A face — or the suggestion of one — resolves on the central display. Patient Zero is awake.", cx: 45.6, cy: 51.2, width: 3.6, height: 4.4, type: "npc", action: "npc:the_source", npcId: "the_source" },
     ],
   },
   {
