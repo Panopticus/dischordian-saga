@@ -37,11 +37,16 @@ const EXPECTED_NARRATOR_PAGES: ReadonlyArray<ExpectedNarratorPage> = [
     reason:
       "Yin/Yang dialog routes companion banter through the narrator slot per NARRATIVE_ARCHITECTURE.md §2",
   },
-  {
-    path: "apps/client/src/pages/AwakeningPage.tsx",
-    reason:
-      "first contact moment — narrator's introduction beat fires here per NARRATIVE_ARCHITECTURE.md §1.4",
-  },
+  // AwakeningPage.tsx is intentionally EXCLUDED. The page itself
+  // documents the rationale inline (AwakeningPage.tsx:989-993):
+  //   "Mobile narrator is intentionally NOT rendered during Awakening.
+  //    First contact (§1.4) reveals bond tiers, locked abilities, and
+  //    The Human's existence — beats that belong AFTER cryo, once the
+  //    player has actually woken up. The slot mounts on the Ark
+  //    exploration view, not here."
+  // The §1.4 first-contact beat is re-anchored to the post-cryo Ark
+  // explorer (already covered above). Re-adding this entry without
+  // removing the inline comment would re-open the design dispute.
   {
     path: "apps/client/src/pages/MemorialCorridorPage.tsx",
     reason:
