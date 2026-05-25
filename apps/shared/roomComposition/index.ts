@@ -10,6 +10,9 @@ import { resolveBridgeComposite, BRIDGE_BASE_IDS, BRIDGE_SPRITE_IDS } from "./br
 import { resolveCryoBayComposite, CRYO_BAY_BASE_IDS, CRYO_BAY_SPRITE_IDS } from "./cryoBayComposite";
 import { resolveMedicalBayComposite, MEDICAL_BAY_BASE_IDS, MEDICAL_BAY_SPRITE_IDS } from "./medicalBayComposite";
 import { resolveEngineeringComposite, ENGINEERING_BASE_IDS, ENGINEERING_SPRITE_IDS } from "./engineeringComposite";
+import { resolveArchivesComposite, ARCHIVES_BASE_IDS, ARCHIVES_SPRITE_IDS } from "./archivesComposite";
+import { resolveCommsArrayComposite, COMMS_ARRAY_BASE_IDS, COMMS_ARRAY_SPRITE_IDS } from "./commsArrayComposite";
+import { resolveObservationDeckComposite, OBSERVATION_DECK_BASE_IDS, OBSERVATION_DECK_SPRITE_IDS } from "./observationDeckComposite";
 import { compositeBaseUrl, compositeSpriteUrl } from "./types";
 import type {
   CompositeGameSlice,
@@ -38,6 +41,9 @@ export const COMPOSITE_ASSET_CATALOG: Readonly<
   "cryo-bay": { bases: CRYO_BAY_BASE_IDS, sprites: CRYO_BAY_SPRITE_IDS },
   "medical-bay": { bases: MEDICAL_BAY_BASE_IDS, sprites: MEDICAL_BAY_SPRITE_IDS },
   engineering: { bases: ENGINEERING_BASE_IDS, sprites: ENGINEERING_SPRITE_IDS },
+  archives: { bases: ARCHIVES_BASE_IDS, sprites: ARCHIVES_SPRITE_IDS },
+  "comms-array": { bases: COMMS_ARRAY_BASE_IDS, sprites: COMMS_ARRAY_SPRITE_IDS },
+  "observation-deck": { bases: OBSERVATION_DECK_BASE_IDS, sprites: OBSERVATION_DECK_SPRITE_IDS },
 };
 
 /** True when the room has a Phase J composite resolver wired. */
@@ -46,7 +52,10 @@ export function hasRoomComposite(roomId: string): roomId is CompositeRoomId {
     roomId === "bridge" ||
     roomId === "cryo-bay" ||
     roomId === "medical-bay" ||
-    roomId === "engineering"
+    roomId === "engineering" ||
+    roomId === "archives" ||
+    roomId === "comms-array" ||
+    roomId === "observation-deck"
   );
 }
 
@@ -67,6 +76,12 @@ export function resolveRoomComposite(
       return resolveMedicalBayComposite(game);
     case "engineering":
       return resolveEngineeringComposite(game);
+    case "archives":
+      return resolveArchivesComposite(game);
+    case "comms-array":
+      return resolveCommsArrayComposite(game);
+    case "observation-deck":
+      return resolveObservationDeckComposite(game);
   }
 }
 
@@ -91,3 +106,6 @@ export { resolveBridgeComposite } from "./bridgeComposite";
 export { resolveCryoBayComposite } from "./cryoBayComposite";
 export { resolveMedicalBayComposite } from "./medicalBayComposite";
 export { resolveEngineeringComposite } from "./engineeringComposite";
+export { resolveArchivesComposite } from "./archivesComposite";
+export { resolveCommsArrayComposite } from "./commsArrayComposite";
+export { resolveObservationDeckComposite } from "./observationDeckComposite";

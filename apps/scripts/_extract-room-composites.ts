@@ -1,8 +1,9 @@
 /* Extract Phase J composite-room metadata for the standalone hotspot
-   author tool. Reads the four composite modules (bridge, cryo-bay,
-   medical-bay, engineering), resolves every base + sprite to its full
-   CDN URL via the runtime helpers, and writes tools/hotspot-author-
-   composites.json in a shape the tool can directly stack as <img> layers.
+   author tool. Reads every composite module (bridge, cryo-bay,
+   medical-bay, engineering, archives, comms-array, observation-deck),
+   resolves every base + sprite to its full CDN URL via the runtime
+   helpers, and writes tools/hotspot-author-composites.json in a shape
+   the tool can directly stack as <img> layers.
 */
 
 import * as fs from "fs";
@@ -23,6 +24,18 @@ import {
   ENGINEERING_BASE_IDS,
   ENGINEERING_SPRITE_IDS,
 } from "../shared/roomComposition/engineeringComposite";
+import {
+  ARCHIVES_BASE_IDS,
+  ARCHIVES_SPRITE_IDS,
+} from "../shared/roomComposition/archivesComposite";
+import {
+  COMMS_ARRAY_BASE_IDS,
+  COMMS_ARRAY_SPRITE_IDS,
+} from "../shared/roomComposition/commsArrayComposite";
+import {
+  OBSERVATION_DECK_BASE_IDS,
+  OBSERVATION_DECK_SPRITE_IDS,
+} from "../shared/roomComposition/observationDeckComposite";
 import {
   compositeBaseUrl,
   compositeSpriteUrl,
@@ -46,6 +59,9 @@ const ROOMS: Record<CompositeRoomId, { bases: readonly string[]; sprites: readon
   "cryo-bay": { bases: CRYO_BAY_BASE_IDS, sprites: CRYO_BAY_SPRITE_IDS },
   "medical-bay": { bases: MEDICAL_BAY_BASE_IDS, sprites: MEDICAL_BAY_SPRITE_IDS },
   engineering: { bases: ENGINEERING_BASE_IDS, sprites: ENGINEERING_SPRITE_IDS },
+  archives: { bases: ARCHIVES_BASE_IDS, sprites: ARCHIVES_SPRITE_IDS },
+  "comms-array": { bases: COMMS_ARRAY_BASE_IDS, sprites: COMMS_ARRAY_SPRITE_IDS },
+  "observation-deck": { bases: OBSERVATION_DECK_BASE_IDS, sprites: OBSERVATION_DECK_SPRITE_IDS },
 };
 
 const out: Record<string, RoomComposite> = {};

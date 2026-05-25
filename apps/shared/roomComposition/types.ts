@@ -28,7 +28,14 @@
    ═══════════════════════════════════════════════════════ */
 
 /** Rooms covered by Phase J composite rendering. */
-export type CompositeRoomId = "bridge" | "cryo-bay" | "medical-bay" | "engineering";
+export type CompositeRoomId =
+  | "bridge"
+  | "cryo-bay"
+  | "medical-bay"
+  | "engineering"
+  | "archives"
+  | "comms-array"
+  | "observation-deck";
 
 /** Map the public room id ("cryo-bay") to the S3 path segment ("cryo_bay"). */
 export const COMPOSITE_ROOM_S3_DIR: Readonly<Record<CompositeRoomId, string>> = {
@@ -36,6 +43,9 @@ export const COMPOSITE_ROOM_S3_DIR: Readonly<Record<CompositeRoomId, string>> = 
   "cryo-bay": "cryo_bay",
   "medical-bay": "medical_bay",
   engineering: "engineering",
+  archives: "archives",
+  "comms-array": "comms_array",
+  "observation-deck": "observation_deck",
 };
 
 /** A resolved composite: the single chosen base + ordered sprite list. */
