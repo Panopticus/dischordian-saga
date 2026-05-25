@@ -266,6 +266,7 @@ async function geminiLocateSubject(
       try {
         return parseBbox(text, canvasW, canvasH);
       } catch (e: any) {
+        if (e instanceof NoSubjectError) throw e;  // don't double-wrap — driver matches on type
         throw new Error(`Gemini parse: ${e?.message ?? e}; raw=${text.slice(0, 200)}`);
       }
     }
@@ -297,9 +298,20 @@ async function geminiLocateSubject(
   throw new Error(`Gemini retries exhausted: ${lastErr}`);
 }
 
+/** Sentinel thrown when Gemini honestly reports the named subject is
+ *  not visible as a discrete object (e.g. subtle tint edits, lighting-
+ *  only changes). The driver catches this and records a "no_subject"
+ *  manifest entry instead of erroring. */
+export class NoSubjectError extends Error {
+  constructor(public raw: string) { super("Gemini: subject not visible (box_2d=null)"); }
+}
+
 function parseBbox(text: string, canvasW: number, canvasH: number): GeminiBbox {
   const parsed = JSON.parse(text);
   const b = parsed?.box_2d;
+  if (b === null || b === undefined) {
+    throw new NoSubjectError(text);
+  }
   if (!Array.isArray(b) || b.length !== 4) {
     throw new Error(`Gemini returned non-bbox: ${text}`);
   }
@@ -461,7 +473,7 @@ interface ManifestEntry {
   reductionPct: number;
   coveragePct: number;
   outPath: string;
-  status: "ok" | "skipped" | "error";
+  status: "ok" | "skipped" | "error" | "no_subject";
   error?: string;
 }
 
@@ -514,12 +526,15 @@ async function processSprite(
       outPath, status: "ok",
     };
   } catch (e: any) {
+    const isNoSubject = e instanceof NoSubjectError;
     return {
       sprite: stem, subject,
       geminiBbox: [0,0,0,0], tightBbox: [0,0,0,0],
       outputSize: [0,0], originalBytes: 0, outputBytes: 0,
       reductionPct: 0, coveragePct: 0,
-      outPath: "", status: "error", error: e?.message ?? String(e),
+      outPath: "",
+      status: isNoSubject ? "no_subject" : "error",
+      error: e?.message ?? String(e),
     };
   }
 }
@@ -576,7 +591,7 @@ async function main() {
   if (opts.dryRun) console.log("[dry-run] no Gemini calls, no CDN fetch, just subject preview");
 
   const manifest: ManifestEntry[] = [];
-  let ok = 0, err = 0, skipped = 0;
+  let ok = 0, err = 0, skipped = 0, noSubject = 0;
   for (let i = 0; i < spriteIds.length; i++) {
     const spriteId = spriteIds[i];
     const spritePath = opts.dryRun
@@ -591,6 +606,9 @@ async function main() {
         `→ ${entry.outputSize[0]}×${entry.outputSize[1]} ` +
         `(${entry.reductionPct.toFixed(1)}% smaller, ${entry.coveragePct.toFixed(2)}% canvas)`
       );
+    } else if (entry.status === "no_subject") {
+      noSubject++;
+      console.log(`  ${i+1}/${spriteIds.length}  NONE ${entry.sprite.slice(0,38).padEnd(38)} (Gemini: subject not visible — likely subtle tint edit)`);
     } else if (entry.status === "error") {
       err++;
       console.log(`  ${i+1}/${spriteIds.length}  ERR  ${entry.sprite}: ${entry.error}`);
@@ -605,7 +623,7 @@ async function main() {
   const totalOrig = manifest.reduce((n,e) => n + e.originalBytes, 0);
   const totalOut  = manifest.reduce((n,e) => n + e.outputBytes, 0);
   console.log();
-  console.log(`done — ok=${ok}, err=${err}, skipped=${skipped}`);
+  console.log(`done — ok=${ok}, no_subject=${noSubject}, err=${err}, skipped=${skipped}`);
   if (totalOrig > 0) {
     console.log(
       `bytes: ${(totalOrig/1024/1024).toFixed(1)} MB → ${(totalOut/1024/1024).toFixed(1)} MB ` +
