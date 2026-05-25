@@ -154,3 +154,6 @@ apps/client/public/audio/episodes/
 
 # Trade Empire voice-design previews — local audition MP3s only.
 apps/scripts/voice_previews/
+
+# Sprite isolation salvage outputs — regenerated via pnpm sprites:isolate.
+tools/sprite-isolation/
