@@ -230,6 +230,33 @@ body.composite-room .sprite-panel { display: block; }
   display: block;
 }
 
+/* Phase 5 — dim out-of-scope hotspots in Stage mode */
+.hotspot.scope-dim { opacity: 0.22; }
+.hotspot .scope-badge {
+  position: absolute; bottom: -12px; right: 0;
+  font: 8px/1 monospace; padding: 1px 4px;
+  background: rgba(0,0,0,0.78); color: var(--accent);
+  white-space: nowrap; pointer-events: none;
+}
+/* Composite-scope chip-list inside the editor (Phase 4) */
+.scope-list {
+  display: flex; flex-wrap: wrap; gap: 3px;
+  max-height: 120px; overflow-y: auto;
+  padding: 4px; background: var(--bg);
+  border: 1px solid var(--border); border-radius: 3px;
+}
+.scope-list .scope-chip {
+  font: 9px/1.3 monospace;
+  padding: 2px 5px; border-radius: 3px;
+  background: var(--panel-2); color: var(--muted);
+  border: 1px solid var(--border);
+  cursor: pointer; user-select: none;
+}
+.scope-list .scope-chip.on { background: var(--accent); color: #000; border-color: var(--accent); }
+.scope-list .scope-chip.group { background: transparent; border: none; color: var(--muted); cursor: default; padding-left: 0; }
+.scope-list .scope-chip.group:first-child { width: 100%; }
+.scope-list .scope-chip.group { width: 100%; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
+
 /* Type legend (header strip) */
 .type-legend {
   display: inline-flex; gap: 6px; align-items: center;
@@ -263,6 +290,11 @@ body.composite-room .sprite-panel { display: block; }
   <select id="baseSelect" class="composite-only"></select>
   <label class="composite-only">Lighting:</label>
   <select id="lightingSelect" class="composite-only"></select>
+  <label class="composite-only">Mode:</label>
+  <select id="modeSelect" class="composite-only">
+    <option value="stage">Stage (dim out-of-scope)</option>
+    <option value="author">Author (all visible + badges)</option>
+  </select>
   <button id="newBtn">+ New (drag canvas)</button>
   <button id="resetBtn">Reset</button>
   <button id="copyBtn" class="primary">Copy TS literal</button>
@@ -321,6 +353,10 @@ body.composite-room .sprite-panel { display: block; }
             <input id="fW" type="number" step="0.5" />
             <input id="fH" type="number" step="0.5" />
           </div>
+        </div>
+        <div id="fScopeField" class="field hidden" style="grid-template-columns: 90px 1fr;">
+          <label title="Hotspot only fires when one of these composite states is active. Click chips to toggle. Empty = always.">Show in</label>
+          <div id="fScopeList" class="scope-list"></div>
         </div>
         <div class="actions">
           <button id="duplicateBtn">Duplicate</button>
@@ -12650,6 +12686,7 @@ let currentVariantUrl = null;
 let currentBaseId = null;
 let currentSpriteIds = new Set();
 let currentLightingKey = ""; // "" = no filter; otherwise key into LIGHTING_FILTERS
+let viewMode = "stage"; // "stage" = dim out-of-scope hotspots, "author" = all visible + scope badges
 let originalHotspots = []; // snapshot for reset
 let draft = []; // working copy
 let selectedId = null;
@@ -12663,6 +12700,9 @@ const roomSelect = $("roomSelect");
 const variantSelect = $("variantSelect");
 const baseSelect = $("baseSelect");
 const lightingSelect = $("lightingSelect");
+const modeSelect = $("modeSelect");
+const fScopeField = $("fScopeField");
+const fScopeList = $("fScopeList");
 const spritePanel = $("spritePanel");
 const spriteChips = $("spriteChips");
 const spriteCount = $("spriteCount");
@@ -12838,15 +12878,36 @@ function npcById(npcId) {
   if (!npcId) return null;
   return NPCS.find((n) => n.id === npcId) ?? null;
 }
+/** Set of composite-state IDs currently active in the canvas — the base
+ *  plus every toggled-on sprite. Used by Phase 5 dim logic and the scope
+ *  picker's "currently active" hinting. */
+function activeCompositeStates() {
+  const out = new Set();
+  if (isCompositeRoom(currentRoomId)) {
+    if (currentBaseId) out.add(currentBaseId);
+    for (const id of currentSpriteIds) out.add(id);
+  }
+  return out;
+}
+function isHotspotInScope(h, active) {
+  if (!Array.isArray(h.compositeScopes) || h.compositeScopes.length === 0) return true;
+  for (const s of h.compositeScopes) if (active.has(s)) return true;
+  return false;
+}
 function renderHotspots() {
   // Remove old hotspots from overlay but keep the .overlay itself
   Array.from(overlay.querySelectorAll(".hotspot")).forEach((el) => el.remove());
+  const active = activeCompositeStates();
+  const composite = isCompositeRoom(currentRoomId);
   for (const h of draft) {
+    const inScope = isHotspotInScope(h, active);
+    const dimmed = composite && viewMode === "stage" && !inScope;
     const el = document.createElement("div");
     const typeClass = h.type ? `hs-type-${h.type}` : "";
     el.className = ["hotspot", typeClass,
       (h.id === selectedId ? "selected" : ""),
       (h.id.startsWith("new-hotspot-") ? "is-new" : ""),
+      (dimmed ? "scope-dim" : ""),
     ].filter(Boolean).join(" ");
     el.style.left = h.x + "%";
     el.style.top = h.y + "%";
@@ -12874,6 +12935,16 @@ function renderHotspots() {
     label.className = "label";
     label.textContent = labelText;
     el.appendChild(label);
+    // Scope badge — only in Author mode, only when the hotspot has scopes.
+    if (composite && viewMode === "author" &&
+        Array.isArray(h.compositeScopes) && h.compositeScopes.length > 0) {
+      const badge = document.createElement("div");
+      badge.className = "scope-badge";
+      badge.textContent = h.compositeScopes.length === 1
+        ? h.compositeScopes[0]
+        : `${h.compositeScopes.length} scopes`;
+      el.appendChild(badge);
+    }
     if (h.id === selectedId) {
       for (const k of ["nw","ne","sw","se","n","s","e","w"]) {
         const handle = document.createElement("div");
@@ -12920,6 +12991,29 @@ function renderEditor() {
   fDescription.value = h.description || "";
   fElaraDialog.value = h.elaraDialog || "";
   fX.value = h.x; fY.value = h.y; fW.value = h.width; fH.value = h.height;
+  renderScopeField(h);
+}
+function renderScopeField(h) {
+  if (!isCompositeRoom(currentRoomId)) {
+    fScopeField.classList.add("hidden");
+    return;
+  }
+  fScopeField.classList.remove("hidden");
+  const c = COMPOSITES[currentRoomId];
+  const selected = new Set(Array.isArray(h.compositeScopes) ? h.compositeScopes : []);
+  const active = activeCompositeStates();
+  const chip = (id, kind) => {
+    const on = selected.has(id);
+    const activeTick = active.has(id) ? " ●" : "";
+    return `<span class="scope-chip${on ? " on" : ""}" data-scope-id="${id}" title="${kind}${active.has(id) ? " · currently active" : ""}">${id}${activeTick}</span>`;
+  };
+  const html = [
+    `<span class="scope-chip group">Bases (${c.bases.length})</span>`,
+    ...c.bases.map((b) => chip(b.id, "base")),
+    `<span class="scope-chip group">Sprites (${c.sprites.length})</span>`,
+    ...c.sprites.map((s) => chip(s.id, "sprite")),
+  ].join("");
+  fScopeList.innerHTML = html;
 }
 
 // ── INPUT HANDLERS ─────────────────────────────────────────────────
@@ -13008,6 +13102,22 @@ bindFormInput(fY, "y", (v) => Number(v));
 bindFormInput(fW, "width", (v) => Number(v));
 bindFormInput(fH, "height", (v) => Number(v));
 
+fScopeList.addEventListener("click", (e) => {
+  const chip = e.target.closest(".scope-chip");
+  if (!chip || chip.classList.contains("group")) return;
+  const id = chip.dataset.scopeId;
+  const h = findHotspot(selectedId); if (!h) return;
+  const set = new Set(Array.isArray(h.compositeScopes) ? h.compositeScopes : []);
+  if (set.has(id)) set.delete(id); else set.add(id);
+  if (set.size === 0) delete h.compositeScopes;
+  else h.compositeScopes = Array.from(set);
+  render();
+});
+modeSelect.addEventListener("change", () => {
+  viewMode = modeSelect.value;
+  render();
+});
+
 duplicateBtn.addEventListener("click", () => {
   const h = findHotspot(selectedId); if (!h) return;
   const copy = JSON.parse(JSON.stringify(h));
@@ -13065,6 +13175,12 @@ function serializeHotspot(h) {
   if (Array.isArray(h.responses) && h.responses.length > 0) {
     parts.push(`responses: ${JSON.stringify(h.responses)}`);
   }
+  // Phase 4 — composite-state scope tags. The runtime schema doesn't
+  // accept this field yet; strip before pasting until the follow-up PR
+  // extends HotspotDef and adds the ArkExplorerPage filter.
+  if (Array.isArray(h.compositeScopes) && h.compositeScopes.length > 0) {
+    parts.push(`compositeScopes: ${JSON.stringify(h.compositeScopes)}`);
+  }
   return `      { ${parts.join(", ")} },`;
 }
 function flashStatus(msg) {
@@ -13113,6 +13229,7 @@ variantSelect.addEventListener("change", () => {
 baseSelect.addEventListener("change", () => {
   currentBaseId = baseSelect.value;
   loadCompositeArt();
+  render(); // refresh dim state + scope-active hints
 });
 lightingSelect.addEventListener("change", () => {
   currentLightingKey = lightingSelect.value;
@@ -13126,11 +13243,13 @@ spriteChips.addEventListener("click", (e) => {
   else currentSpriteIds.add(id);
   renderSpriteChips();
   loadCompositeArt();
+  render();
 });
 spritesAllOff.addEventListener("click", () => {
   currentSpriteIds = new Set();
   renderSpriteChips();
   loadCompositeArt();
+  render();
 });
 spritesAllOn.addEventListener("click", () => {
   const c = COMPOSITES[currentRoomId];
@@ -13138,6 +13257,7 @@ spritesAllOn.addEventListener("click", () => {
   currentSpriteIds = new Set(c.sprites.map((s) => s.id));
   renderSpriteChips();
   loadCompositeArt();
+  render();
 });
 
 // Resize canvas to fit container while maintaining aspect from image
