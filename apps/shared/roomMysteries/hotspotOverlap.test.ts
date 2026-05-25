@@ -31,8 +31,8 @@ interface ParsedRoom {
   roomId: string;
   hotspots: Array<{
     id: string;
-    x: number;
-    y: number;
+    cx: number;
+    cy: number;
     width: number;
     height: number;
     line: number;
@@ -41,7 +41,7 @@ interface ParsedRoom {
 
 /** Walk GameContext.tsx top-to-bottom, locating each
  *  `id: "<roomId>"` followed by `hotspots: [...]` block.
- *  Within each block, parse every `{ id: ..., x, y, width,
+ *  Within each block, parse every `{ id: ..., cx, cy, width,
  *  height, ... }` row.
  *
  *  Returns one entry per declared room, with its parsed
@@ -75,14 +75,14 @@ function parseRoomHotspots(): ParsedRoom[] {
     }
     if (inHotspots && currentRoom) {
       const hsMatch = line.match(
-        /\{\s*id:\s*"([^"]+)"[\s\S]*?x:\s*(-?\d+)\s*,\s*y:\s*(-?\d+)\s*,\s*width:\s*(\d+)\s*,\s*height:\s*(\d+)/,
+        /\{\s*id:\s*"([^"]+)"[\s\S]*?cx:\s*(-?\d+(?:\.\d+)?)\s*,\s*cy:\s*(-?\d+(?:\.\d+)?)\s*,\s*width:\s*(\d+(?:\.\d+)?)\s*,\s*height:\s*(\d+(?:\.\d+)?)/,
       );
       if (hsMatch) {
         const room = rooms[rooms.length - 1];
         room.hotspots.push({
           id: hsMatch[1],
-          x: Number(hsMatch[2]),
-          y: Number(hsMatch[3]),
+          cx: Number(hsMatch[2]),
+          cy: Number(hsMatch[3]),
           width: Number(hsMatch[4]),
           height: Number(hsMatch[5]),
           line: i + 1,
@@ -103,11 +103,11 @@ describe("hotspot rectangle collisions (PR #672 follow-up)", () => {
 
   for (const room of rooms) {
     if (room.hotspots.length < 2) continue;
-    it(`${room.roomId}: no two hotspots share exact (x,y,w,h)`, () => {
+    it(`${room.roomId}: no two hotspots share exact (cx,cy,w,h)`, () => {
       const seen = new Map<string, string>();
       const collisions: string[] = [];
       for (const hs of room.hotspots) {
-        const key = `${hs.x},${hs.y},${hs.width},${hs.height}`;
+        const key = `${hs.cx},${hs.cy},${hs.width},${hs.height}`;
         const prior = seen.get(key);
         if (prior) {
           collisions.push(

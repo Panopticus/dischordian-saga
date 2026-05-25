@@ -84,20 +84,22 @@ describe("GameContext — Shadow Tongue hotspot rectangles", () => {
     for (const [, hotspot] of ST_HOTSPOTS) {
       const idx = CTX_SRC.indexOf(`id: "${hotspot}"`);
       const slice = CTX_SRC.slice(idx, idx + 800);
-      const xMatch = slice.match(/x:\s*(\d+)/);
-      const yMatch = slice.match(/y:\s*(\d+)/);
-      const wMatch = slice.match(/width:\s*(\d+)/);
-      const hMatch = slice.match(/height:\s*(\d+)/);
-      expect(xMatch, `${hotspot} missing x`).not.toBeNull();
-      expect(yMatch, `${hotspot} missing y`).not.toBeNull();
+      const cxMatch = slice.match(/cx:\s*(\d+(?:\.\d+)?)/);
+      const cyMatch = slice.match(/cy:\s*(\d+(?:\.\d+)?)/);
+      const wMatch = slice.match(/width:\s*(\d+(?:\.\d+)?)/);
+      const hMatch = slice.match(/height:\s*(\d+(?:\.\d+)?)/);
+      expect(cxMatch, `${hotspot} missing cx`).not.toBeNull();
+      expect(cyMatch, `${hotspot} missing cy`).not.toBeNull();
       expect(wMatch, `${hotspot} missing width`).not.toBeNull();
       expect(hMatch, `${hotspot} missing height`).not.toBeNull();
-      const x = Number(xMatch![1]);
-      const y = Number(yMatch![1]);
+      const cx = Number(cxMatch![1]);
+      const cy = Number(cyMatch![1]);
       const w = Number(wMatch![1]);
       const h = Number(hMatch![1]);
-      expect(x + w, `${hotspot}: x+width must be <= 100`).toBeLessThanOrEqual(100);
-      expect(y + h, `${hotspot}: y+height must be <= 100`).toBeLessThanOrEqual(100);
+      expect(cx + w / 2, `${hotspot}: cx+w/2 must be <= 100`).toBeLessThanOrEqual(100);
+      expect(cx - w / 2, `${hotspot}: cx-w/2 must be >= 0`).toBeGreaterThanOrEqual(0);
+      expect(cy + h / 2, `${hotspot}: cy+h/2 must be <= 100`).toBeLessThanOrEqual(100);
+      expect(cy - h / 2, `${hotspot}: cy-h/2 must be >= 0`).toBeGreaterThanOrEqual(0);
       expect(w, `${hotspot}: width must be > 0`).toBeGreaterThan(0);
       expect(h, `${hotspot}: height must be > 0`).toBeGreaterThan(0);
     }
