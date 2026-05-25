@@ -155,6 +155,7 @@ import { checkWolfHuntBossLieutenantCoverage } from "./checks/wolfHuntBossLieute
 import { checkCompanionRosterCompleteness } from "./checks/companionRosterCompleteness";
 import { checkCutsceneTriggerSites } from "./checks/cutsceneTriggerSites";
 import { checkTrpcProcedureReachability } from "./checks/trpcProcedureReachability";
+import { checkExpansionArtRenderReachability } from "./checks/expansionArtRenderReachability";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -1342,6 +1343,21 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
       "Every marquee player-facing tRPC procedure in checks/trpcProcedureReachability.ts MARQUEE_PROCEDURES has a non-test client useQuery/useMutation caller. Complements economic_mutation_reachability for non-economic loops (governance, saga ledger, mystery engine, loredex, winback).",
     check: () => checkTrpcProcedureReachability(),
     ratchet: { target: 0 },
+  },
+  // ─── Asset reachability — render-side of the producer pipeline ─
+  // Generalises the cutscene + tRPC reachability axes to expansion
+  // art manifests. newArtDropCoverage verifies URLs *resolve*; this
+  // gate verifies someone is *asking* for the URLs. A manifest can
+  // have 100% URL coverage and still be unrendered — that gap (1,838
+  // signed-off producer assets with no client component rendering
+  // them) is what this row surfaces.
+  {
+    id: "assets.expansion_art_render_reachability",
+    name: "Expansion-art manifest render reachability",
+    description:
+      "Every render-bearing manifest under apps/shared/expansionArt/ in RENDER_MANIFESTS must have at least one consumer file outside its own module under apps/client or apps/shared. Closes the 'manifest shipped, scene never built' gap that producer-drop coverage can't see.",
+    check: () => checkExpansionArtRenderReachability(),
+    ratchet: { target: 2 },
   },
   // ─── Section D6 — companion roster completeness ────────────
   {
