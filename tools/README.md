@@ -42,12 +42,36 @@ When you add new rooms or new variants, re-run:
 ```bash
 pnpm tsx apps/scripts/_extract-hotspot-data.ts
 pnpm tsx apps/scripts/_extract-room-variants.ts
+pnpm tsx apps/scripts/_extract-room-composites.ts
 ```
 
-Both scripts write to `tools/hotspot-author-data.json` and
-`tools/hotspot-author-variants.json`. After regenerating, rebuild the
-HTML (the data is embedded — replace the contents between
-`const ROOMS = ...;` and `const VARIANTS = ...;` with the new JSON).
+These scripts write to `tools/hotspot-author-data.json`,
+`tools/hotspot-author-variants.json`, and
+`tools/hotspot-author-composites.json` respectively. After regenerating,
+rebuild the HTML (the data is embedded — replace the contents between
+`const ROOMS = ...;`, `const VARIANTS = ...;`, and
+`const COMPOSITES = ...;` with the new JSON).
+
+## Phase J composite rooms (bridge, cryo-bay, medical-bay, engineering)
+
+These four rooms render through `apps/shared/roomComposition/` — a
+base PNG plus zero-or-more sprite PNGs layered on top, optionally with
+a CSS lighting filter applied to the sprite stack. When one of these
+rooms is selected, the tool replaces the single Variant dropdown with
+three pickers:
+
+- **Base** — choose one of ~13 base scenes (e.g. `cryo_bay_base_initial`)
+- **Lighting** — apply a CSS filter to the sprite stack matching the
+  runtime (`cycle_long_night`, `tv_corrupted`, etc.), or `(no filter)`
+- **Sprites** panel below the header — click chips to toggle individual
+  sprite layers on/off; "All on" / "All off" shortcuts for sweeping
+
+Sprite positions are baked into each PNG (transparent everywhere
+except where the element appears) — there are no coordinates to drag.
+The tool stacks the PNGs the same way the runtime does (see
+`apps/client/src/components/ParallaxRoom.tsx`, `backgroundSize:
+contain`), so toggling a sprite shows it at exactly the pixel position
+players will see, ready for accurate hotspot placement.
 
 A future improvement would be to add `scripts/_build-hotspot-author.mjs`
 that templates the HTML automatically. For now manual is fine — the

@@ -1,0 +1,1558 @@
+{
+  "bridge": {
+    "bases": [
+      {
+        "id": "bridge_base_t0_dormant",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/base/bridge_base_t0_dormant.png"
+      },
+      {
+        "id": "bridge_base_t2_act6_chair_tilted",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/base/bridge_base_t2_act6_chair_tilted.png"
+      },
+      {
+        "id": "bridge_base_t2_act7_finale",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/base/bridge_base_t2_act7_finale.png"
+      },
+      {
+        "id": "bridge_base_t2_activated",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/base/bridge_base_t2_activated.png"
+      },
+      {
+        "id": "bridge_base_t2_cycle_dawn",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/base/bridge_base_t2_cycle_dawn.png"
+      },
+      {
+        "id": "bridge_base_t2_cycle_dimming",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/base/bridge_base_t2_cycle_dimming.png"
+      },
+      {
+        "id": "bridge_base_t2_cycle_long_night",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/base/bridge_base_t2_cycle_long_night.png"
+      },
+      {
+        "id": "bridge_base_t2_epoch_grand_edit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/base/bridge_base_t2_epoch_grand_edit.png"
+      },
+      {
+        "id": "bridge_base_t2_morality_dark",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/base/bridge_base_t2_morality_dark.png"
+      },
+      {
+        "id": "bridge_base_t2_season_interregnum",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/base/bridge_base_t2_season_interregnum.png"
+      },
+      {
+        "id": "bridge_base_t2_tv_corrupted",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/base/bridge_base_t2_tv_corrupted.png"
+      },
+      {
+        "id": "bridge_base_t2_tv_exposed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/base/bridge_base_t2_tv_exposed.png"
+      },
+      {
+        "id": "bridge_base_t2_tv_quarantined",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/base/bridge_base_t2_tv_quarantined.png"
+      },
+      {
+        "id": "bridge_base_t2_tv_spreading",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/base/bridge_base_t2_tv_spreading.png"
+      },
+      {
+        "id": "bridge_base_t3_restored",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/base/bridge_base_t3_restored.png"
+      }
+    ],
+    "sprites": [
+      {
+        "id": "sp01_banner_authority",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp01_banner_authority.png"
+      },
+      {
+        "id": "sp02_banner_insurgency",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp02_banner_insurgency.png"
+      },
+      {
+        "id": "sp03_banner_antiquarian",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp03_banner_antiquarian.png"
+      },
+      {
+        "id": "sp04_banner_substrate_rebels",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp04_banner_substrate_rebels.png"
+      },
+      {
+        "id": "sp05_viewport_substrate_purple_bleed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp05_viewport_substrate_purple_bleed.png"
+      },
+      {
+        "id": "sp06_viewport_act4_sector_etch",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp06_viewport_act4_sector_etch.png"
+      },
+      {
+        "id": "sp07_viewport_insurgency_swarm_particle",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp07_viewport_insurgency_swarm_particle.png"
+      },
+      {
+        "id": "sp08_comms_locke_panel",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp08_comms_locke_panel.png"
+      },
+      {
+        "id": "sp09_comms_locke_panel_double",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp09_comms_locke_panel_double.png"
+      },
+      {
+        "id": "sp10_comms_declaration_glyphs",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp10_comms_declaration_glyphs.png"
+      },
+      {
+        "id": "sp11_comms_substrate_rebel_sigil",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp11_comms_substrate_rebel_sigil.png"
+      },
+      {
+        "id": "sp12_comms_human_archon_iris",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp12_comms_human_archon_iris.png"
+      },
+      {
+        "id": "sp13_comms_guild_crest",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp13_comms_guild_crest.png"
+      },
+      {
+        "id": "sp14_board_act2_five_new_cards",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp14_board_act2_five_new_cards.png"
+      },
+      {
+        "id": "sp15_board_act3_color_bands",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp15_board_act3_color_bands.png"
+      },
+      {
+        "id": "sp16_board_act5_cyan_thread_exit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp16_board_act5_cyan_thread_exit.png"
+      },
+      {
+        "id": "sp17_board_governance_vote_open_glyph",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp17_board_governance_vote_open_glyph.png"
+      },
+      {
+        "id": "sp18_board_governance_vote_closed_glyph",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp18_board_governance_vote_closed_glyph.png"
+      },
+      {
+        "id": "sp19_board_governance_modifier_edge",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp19_board_governance_modifier_edge.png"
+      },
+      {
+        "id": "sp20_board_guild_banner_drape",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp20_board_guild_banner_drape.png"
+      },
+      {
+        "id": "sp21_board_insurgency_hot_orange_card",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp21_board_insurgency_hot_orange_card.png"
+      },
+      {
+        "id": "sp22_board_shadow_tongue_44th_thread",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp22_board_shadow_tongue_44th_thread.png"
+      },
+      {
+        "id": "sp23_board_shadow_tongue_marginalia",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp23_board_shadow_tongue_marginalia.png"
+      },
+      {
+        "id": "sp24_board_tournament_bracket_chip",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp24_board_tournament_bracket_chip.png"
+      },
+      {
+        "id": "sp25_board_hellbox3_chalk_sigil",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp25_board_hellbox3_chalk_sigil.png"
+      },
+      {
+        "id": "sp26_floor_compass_authority_lattice",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp26_floor_compass_authority_lattice.png"
+      },
+      {
+        "id": "sp27_chess_baseline_architects_gambit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp27_chess_baseline_architects_gambit.png"
+      },
+      {
+        "id": "sp28_chess_act2_advanced",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp28_chess_act2_advanced.png"
+      },
+      {
+        "id": "sp29_chess_act5_king_on_side",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp29_chess_act5_king_on_side.png"
+      },
+      {
+        "id": "sp30_chess_act7_folded",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp30_chess_act7_folded.png"
+      },
+      {
+        "id": "sp31_chess_mastered_endgame",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp31_chess_mastered_endgame.png"
+      },
+      {
+        "id": "sp32_chess_climb_master_empty_with_plate",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp32_chess_climb_master_empty_with_plate.png"
+      },
+      {
+        "id": "sp33_chess_antiquarian_set",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp33_chess_antiquarian_set.png"
+      },
+      {
+        "id": "sp34_chess_authority_pawn_on_rail",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp34_chess_authority_pawn_on_rail.png"
+      },
+      {
+        "id": "sp35_pedestal_brass_plaque",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp35_pedestal_brass_plaque.png"
+      },
+      {
+        "id": "sp36_pedestal_panopticon_eye_glyph",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp36_pedestal_panopticon_eye_glyph.png"
+      },
+      {
+        "id": "sp37_pedestal_trade_empire_coin",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp37_pedestal_trade_empire_coin.png"
+      },
+      {
+        "id": "sp38_pedestal_antiquarian_leaf",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp38_pedestal_antiquarian_leaf.png"
+      },
+      {
+        "id": "sp39_chair_closure_plate",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp39_chair_closure_plate.png"
+      },
+      {
+        "id": "sp40_investigation_yellow_tape",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp40_investigation_yellow_tape.png"
+      },
+      {
+        "id": "sp41_investigation_cyan_tape",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp41_investigation_cyan_tape.png"
+      },
+      {
+        "id": "sp42_investigation_brass_evidence_cart",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp42_investigation_brass_evidence_cart.png"
+      },
+      {
+        "id": "sp43_chair_hand_mark",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp43_chair_hand_mark.png"
+      },
+      {
+        "id": "sp44_chandelier_irl_spring",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp44_chandelier_irl_spring.png"
+      },
+      {
+        "id": "sp45_chandelier_irl_summer",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp45_chandelier_irl_summer.png"
+      },
+      {
+        "id": "sp46_chandelier_irl_autumn",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp46_chandelier_irl_autumn.png"
+      },
+      {
+        "id": "sp47_chandelier_irl_winter",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp47_chandelier_irl_winter.png"
+      },
+      {
+        "id": "sp48_cades_dischordia_card",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp48_cades_dischordia_card.png"
+      },
+      {
+        "id": "sp49_cades_chair_warm_impression",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp49_cades_chair_warm_impression.png"
+      },
+      {
+        "id": "sp50_cades_agent_zero_station_cleaned",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp50_cades_agent_zero_station_cleaned.png"
+      },
+      {
+        "id": "sp51_elara_default",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp51_elara_default.png"
+      },
+      {
+        "id": "sp52_elara_trust_lucid",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp52_elara_trust_lucid.png"
+      },
+      {
+        "id": "sp53_elara_trust_luminous",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp53_elara_trust_luminous.png"
+      },
+      {
+        "id": "sp54_elara_morality_light",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp54_elara_morality_light.png"
+      },
+      {
+        "id": "sp55_elara_morality_dark",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp55_elara_morality_dark.png"
+      },
+      {
+        "id": "sp56_elara_cades_flickering",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp56_elara_cades_flickering.png"
+      },
+      {
+        "id": "sp57_witness_glyph_lucid_filament",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp57_witness_glyph_lucid_filament.png"
+      },
+      {
+        "id": "sp58_witness_glyph_luminous_halo",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/bridge/sprites/sp58_witness_glyph_luminous_halo.png"
+      }
+    ],
+    "lightingFilters": {
+      "cycle_dawn": "brightness(1.05) sepia(0.10) hue-rotate(-4deg)",
+      "cycle_dimming": "brightness(0.85) hue-rotate(4deg)",
+      "cycle_long_night": "brightness(0.65) hue-rotate(220deg) saturate(0.85)",
+      "morality_dark": "brightness(0.90) hue-rotate(260deg) saturate(0.80)",
+      "season_interregnum": "brightness(0.55)",
+      "tv_corrupted": "brightness(0.70) saturate(0.60)",
+      "tv_quarantined": "brightness(0.85) saturate(1.10) hue-rotate(8deg)",
+      "epoch_grand_edit": "brightness(0.85) hue-rotate(240deg)",
+      "hellbox1_transit": "brightness(1.10) sepia(0.15)",
+      "long_sleep_ending": "brightness(0.95)"
+    }
+  },
+  "cryo-bay": {
+    "bases": [
+      {
+        "id": "cryo_bay_base_act7_finale",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/base/cryo_bay_base_act7_finale.png"
+      },
+      {
+        "id": "cryo_bay_base_cycle_dawn",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/base/cryo_bay_base_cycle_dawn.png"
+      },
+      {
+        "id": "cryo_bay_base_cycle_dimming",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/base/cryo_bay_base_cycle_dimming.png"
+      },
+      {
+        "id": "cryo_bay_base_cycle_long_night",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/base/cryo_bay_base_cycle_long_night.png"
+      },
+      {
+        "id": "cryo_bay_base_epoch_grand_edit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/base/cryo_bay_base_epoch_grand_edit.png"
+      },
+      {
+        "id": "cryo_bay_base_initial",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/base/cryo_bay_base_initial.png"
+      },
+      {
+        "id": "cryo_bay_base_long_sleep_ending",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/base/cryo_bay_base_long_sleep_ending.png"
+      },
+      {
+        "id": "cryo_bay_base_morality_dark",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/base/cryo_bay_base_morality_dark.png"
+      },
+      {
+        "id": "cryo_bay_base_season_interregnum",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/base/cryo_bay_base_season_interregnum.png"
+      },
+      {
+        "id": "cryo_bay_base_tv_corrupted",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/base/cryo_bay_base_tv_corrupted.png"
+      },
+      {
+        "id": "cryo_bay_base_tv_exposed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/base/cryo_bay_base_tv_exposed.png"
+      },
+      {
+        "id": "cryo_bay_base_tv_quarantined",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/base/cryo_bay_base_tv_quarantined.png"
+      },
+      {
+        "id": "cryo_bay_base_tv_spreading",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/base/cryo_bay_base_tv_spreading.png"
+      }
+    ],
+    "sprites": [
+      {
+        "id": "sp01_med_bay_door_amber",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp01_med_bay_door_amber.png"
+      },
+      {
+        "id": "sp02_med_bay_door_open",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp02_med_bay_door_open.png"
+      },
+      {
+        "id": "sp03_bridge_door_open",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp03_bridge_door_open.png"
+      },
+      {
+        "id": "sp04_second_retrofitted_bulkhead",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp04_second_retrofitted_bulkhead.png"
+      },
+      {
+        "id": "sp05_phosphor_green_hatch",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp05_phosphor_green_hatch.png"
+      },
+      {
+        "id": "sp06_pod9_vex_empty",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp06_pod9_vex_empty.png"
+      },
+      {
+        "id": "sp07_pod5_annika_empty",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp07_pod5_annika_empty.png"
+      },
+      {
+        "id": "sp08_pod5_amber_warning",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp08_pod5_amber_warning.png"
+      },
+      {
+        "id": "sp09_pod7_amber_warning",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp09_pod7_amber_warning.png"
+      },
+      {
+        "id": "sp10_dead_pod_brass_patched",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp10_dead_pod_brass_patched.png"
+      },
+      {
+        "id": "sp11_rear_row_blast_plate",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp11_rear_row_blast_plate.png"
+      },
+      {
+        "id": "sp12_rear_row_pod_brass_token",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp12_rear_row_pod_brass_token.png"
+      },
+      {
+        "id": "sp13_pod2_voss_polished",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp13_pod2_voss_polished.png"
+      },
+      {
+        "id": "sp14_all_pods_declaration_sigils",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp14_all_pods_declaration_sigils.png"
+      },
+      {
+        "id": "sp15_dead_pod_glass_condensed_silhouette",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp15_dead_pod_glass_condensed_silhouette.png"
+      },
+      {
+        "id": "sp16_dead_pod_glass_wiped_oval",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp16_dead_pod_glass_wiped_oval.png"
+      },
+      {
+        "id": "sp17_dead_pod_cordoned_tape",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp17_dead_pod_cordoned_tape.png"
+      },
+      {
+        "id": "sp18_cracked_panel_phosphor_arc",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp18_cracked_panel_phosphor_arc.png"
+      },
+      {
+        "id": "sp19_cracked_panel_brass_patch",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp19_cracked_panel_brass_patch.png"
+      },
+      {
+        "id": "sp20_medical_chart_clipped",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp20_medical_chart_clipped.png"
+      },
+      {
+        "id": "sp21_torn_id_tag_floor",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp21_torn_id_tag_floor.png"
+      },
+      {
+        "id": "sp22_silver_locket_floor",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp22_silver_locket_floor.png"
+      },
+      {
+        "id": "sp23_data_slate_under_pod",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp23_data_slate_under_pod.png"
+      },
+      {
+        "id": "sp24_diagnostic_cart_consolidated",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp24_diagnostic_cart_consolidated.png"
+      },
+      {
+        "id": "sp25_brass_wrench_sigil_token",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp25_brass_wrench_sigil_token.png"
+      },
+      {
+        "id": "sp26_chart_psi_watermark_indigo",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp26_chart_psi_watermark_indigo.png"
+      },
+      {
+        "id": "sp27_chart_name_lit_l_vox",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp27_chart_name_lit_l_vox.png"
+      },
+      {
+        "id": "sp28_ichor_trail_faint",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp28_ichor_trail_faint.png"
+      },
+      {
+        "id": "sp29_ichor_trail_bright_luminous",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp29_ichor_trail_bright_luminous.png"
+      },
+      {
+        "id": "sp30_ichor_trail_dry_dark",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp30_ichor_trail_dry_dark.png"
+      },
+      {
+        "id": "sp31_candle_lit_west_1",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp31_candle_lit_west_1.png"
+      },
+      {
+        "id": "sp32_candle_lit_west_2",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp32_candle_lit_west_2.png"
+      },
+      {
+        "id": "sp33_candle_lit_west_3",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp33_candle_lit_west_3.png"
+      },
+      {
+        "id": "sp34_candle_lit_east_1",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp34_candle_lit_east_1.png"
+      },
+      {
+        "id": "sp35_candle_lit_east_2",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp35_candle_lit_east_2.png"
+      },
+      {
+        "id": "sp36_candle_lit_east_3",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp36_candle_lit_east_3.png"
+      },
+      {
+        "id": "sp37_candle_smoke_west_1",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp37_candle_smoke_west_1.png"
+      },
+      {
+        "id": "sp38_candle_smoke_west_2",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp38_candle_smoke_west_2.png"
+      },
+      {
+        "id": "sp39_candle_smoke_west_3",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp39_candle_smoke_west_3.png"
+      },
+      {
+        "id": "sp40_candle_smoke_east_1",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp40_candle_smoke_east_1.png"
+      },
+      {
+        "id": "sp41_candle_smoke_east_2",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp41_candle_smoke_east_2.png"
+      },
+      {
+        "id": "sp42_candle_smoke_east_3",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp42_candle_smoke_east_3.png"
+      },
+      {
+        "id": "sp43_player_pod_act2_service_slot",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp43_player_pod_act2_service_slot.png"
+      },
+      {
+        "id": "sp44_player_pod_act4_magnetized_token",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp44_player_pod_act4_magnetized_token.png"
+      },
+      {
+        "id": "sp45_player_pod_act4_radial_frost",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp45_player_pod_act4_radial_frost.png"
+      },
+      {
+        "id": "sp46_player_pod_act6_rim_decal_sigil",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp46_player_pod_act6_rim_decal_sigil.png"
+      },
+      {
+        "id": "sp47_master_control_alert_ring",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp47_master_control_alert_ring.png"
+      },
+      {
+        "id": "sp48_master_control_ballot_open",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp48_master_control_ballot_open.png"
+      },
+      {
+        "id": "sp49_master_control_ballot_closed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp49_master_control_ballot_closed.png"
+      },
+      {
+        "id": "sp50_master_control_insurgent_override",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp50_master_control_insurgent_override.png"
+      },
+      {
+        "id": "sp51_master_control_guild_crest",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp51_master_control_guild_crest.png"
+      },
+      {
+        "id": "sp52_tome_open_glowing",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp52_tome_open_glowing.png"
+      },
+      {
+        "id": "sp53_tome_open_indigo",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp53_tome_open_indigo.png"
+      },
+      {
+        "id": "sp54_tome_closed_sigil_lock",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp54_tome_closed_sigil_lock.png"
+      },
+      {
+        "id": "sp55_tome_missing",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp55_tome_missing.png"
+      },
+      {
+        "id": "sp56_tome_bookmark_ribbon",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp56_tome_bookmark_ribbon.png"
+      },
+      {
+        "id": "sp57_terminal_green_data_scroll",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp57_terminal_green_data_scroll.png"
+      },
+      {
+        "id": "sp58_terminal_red_lockout",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp58_terminal_red_lockout.png"
+      },
+      {
+        "id": "sp59_locker_open_empty",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp59_locker_open_empty.png"
+      },
+      {
+        "id": "sp60_locker_open_jumpsuit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp60_locker_open_jumpsuit.png"
+      },
+      {
+        "id": "sp61_locker_scratched_sigil",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp61_locker_scratched_sigil.png"
+      },
+      {
+        "id": "sp62_locker_photo_pinned",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp62_locker_photo_pinned.png"
+      },
+      {
+        "id": "sp63_wall_emblem_authority_crest",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp63_wall_emblem_authority_crest.png"
+      },
+      {
+        "id": "sp64_wall_emblem_substrate_sigil",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp64_wall_emblem_substrate_sigil.png"
+      },
+      {
+        "id": "sp65_wall_emblem_guild_banner",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp65_wall_emblem_guild_banner.png"
+      },
+      {
+        "id": "sp66_floor_compass_authority_lattice",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp66_floor_compass_authority_lattice.png"
+      },
+      {
+        "id": "sp67_floor_frost_mandala",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp67_floor_frost_mandala.png"
+      },
+      {
+        "id": "sp68_faction_atmo_authority_gold_haze",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp68_faction_atmo_authority_gold_haze.png"
+      },
+      {
+        "id": "sp69_faction_atmo_substrate_purple_static",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp69_faction_atmo_substrate_purple_static.png"
+      },
+      {
+        "id": "sp70_faction_atmo_guild_green_mist",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp70_faction_atmo_guild_green_mist.png"
+      },
+      {
+        "id": "sp71_faction_atmo_insurgent_red_haze",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp71_faction_atmo_insurgent_red_haze.png"
+      },
+      {
+        "id": "sp72_tournament_bracket_chip",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp72_tournament_bracket_chip.png"
+      },
+      {
+        "id": "sp73_hellbox_chalk_sigil_floor",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp73_hellbox_chalk_sigil_floor.png"
+      },
+      {
+        "id": "sp74_hellbox_candle_ring",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp74_hellbox_candle_ring.png"
+      },
+      {
+        "id": "sp75_irl_trinket_spring_flower",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp75_irl_trinket_spring_flower.png"
+      },
+      {
+        "id": "sp76_irl_trinket_summer_shell",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp76_irl_trinket_summer_shell.png"
+      },
+      {
+        "id": "sp77_irl_trinket_autumn_leaf",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp77_irl_trinket_autumn_leaf.png"
+      },
+      {
+        "id": "sp78_irl_trinket_winter_snowflake",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp78_irl_trinket_winter_snowflake.png"
+      },
+      {
+        "id": "sp79_cades_dischordia_card",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp79_cades_dischordia_card.png"
+      },
+      {
+        "id": "sp80_cades_warm_impression_pod",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp80_cades_warm_impression_pod.png"
+      },
+      {
+        "id": "sp81_cades_agent_zero_console_cleaned",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp81_cades_agent_zero_console_cleaned.png"
+      },
+      {
+        "id": "sp82_witness_glyph_lucid_filament",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp82_witness_glyph_lucid_filament.png"
+      },
+      {
+        "id": "sp83_witness_glyph_luminous_halo",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cryo_bay/sprites/sp83_witness_glyph_luminous_halo.png"
+      }
+    ],
+    "lightingFilters": {
+      "cycle_dawn": "brightness(1.05) sepia(0.10) hue-rotate(-4deg)",
+      "cycle_dimming": "brightness(0.85) hue-rotate(4deg)",
+      "cycle_long_night": "brightness(0.65) hue-rotate(220deg) saturate(0.85)",
+      "morality_dark": "brightness(0.90) hue-rotate(260deg) saturate(0.80)",
+      "season_interregnum": "brightness(0.55)",
+      "tv_corrupted": "brightness(0.70) saturate(0.60)",
+      "tv_quarantined": "brightness(0.85) saturate(1.10) hue-rotate(8deg)",
+      "epoch_grand_edit": "brightness(0.85) hue-rotate(240deg)",
+      "hellbox1_transit": "brightness(1.10) sepia(0.15)",
+      "long_sleep_ending": "brightness(0.95)"
+    }
+  },
+  "medical-bay": {
+    "bases": [
+      {
+        "id": "medical_bay_base_act7_finale",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/base/medical_bay_base_act7_finale.png"
+      },
+      {
+        "id": "medical_bay_base_cycle_dawn",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/base/medical_bay_base_cycle_dawn.png"
+      },
+      {
+        "id": "medical_bay_base_cycle_long_night",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/base/medical_bay_base_cycle_long_night.png"
+      },
+      {
+        "id": "medical_bay_base_epoch_grand_edit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/base/medical_bay_base_epoch_grand_edit.png"
+      },
+      {
+        "id": "medical_bay_base_hellbox1_transit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/base/medical_bay_base_hellbox1_transit.png"
+      },
+      {
+        "id": "medical_bay_base_initial",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/base/medical_bay_base_initial.png"
+      },
+      {
+        "id": "medical_bay_base_morality_dark",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/base/medical_bay_base_morality_dark.png"
+      },
+      {
+        "id": "medical_bay_base_season_interregnum",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/base/medical_bay_base_season_interregnum.png"
+      },
+      {
+        "id": "medical_bay_base_tv_corrupted",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/base/medical_bay_base_tv_corrupted.png"
+      },
+      {
+        "id": "medical_bay_base_tv_exposed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/base/medical_bay_base_tv_exposed.png"
+      },
+      {
+        "id": "medical_bay_base_tv_quarantined",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/base/medical_bay_base_tv_quarantined.png"
+      },
+      {
+        "id": "medical_bay_base_tv_spreading",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/base/medical_bay_base_tv_spreading.png"
+      }
+    ],
+    "sprites": [
+      {
+        "id": "sp01_panel_ajar_30_device_sliver",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp01_panel_ajar_30_device_sliver.png"
+      },
+      {
+        "id": "sp02_panel_open_device_awakened",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp02_panel_open_device_awakened.png"
+      },
+      {
+        "id": "sp03_panel_open_device_donated",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp03_panel_open_device_donated.png"
+      },
+      {
+        "id": "sp04_panel_closed_hairline_seam",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp04_panel_closed_hairline_seam.png"
+      },
+      {
+        "id": "sp05_readout_idle_cyan_pulse",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp05_readout_idle_cyan_pulse.png"
+      },
+      {
+        "id": "sp06_readout_ready_warm_gold_glyph",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp06_readout_ready_warm_gold_glyph.png"
+      },
+      {
+        "id": "sp07_readout_cooled_steel_blue",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp07_readout_cooled_steel_blue.png"
+      },
+      {
+        "id": "sp08_readout_red_glyph_alarm",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp08_readout_red_glyph_alarm.png"
+      },
+      {
+        "id": "sp09_readout_research_sub_panel",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp09_readout_research_sub_panel.png"
+      },
+      {
+        "id": "sp10_surgical_array_active",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp10_surgical_array_active.png"
+      },
+      {
+        "id": "sp11_helix_baseline_green_rotating",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp11_helix_baseline_green_rotating.png"
+      },
+      {
+        "id": "sp12_helix_locked_paused",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp12_helix_locked_paused.png"
+      },
+      {
+        "id": "sp13_helix_reversed_lavender",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp13_helix_reversed_lavender.png"
+      },
+      {
+        "id": "sp14_helix_third_strand_violet",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp14_helix_third_strand_violet.png"
+      },
+      {
+        "id": "sp15_helix_iris_cyan_filaments",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp15_helix_iris_cyan_filaments.png"
+      },
+      {
+        "id": "sp16_autoclave_coda_silk_ribbon",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp16_autoclave_coda_silk_ribbon.png"
+      },
+      {
+        "id": "sp17_autoclave_brass_steam_wisp",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp17_autoclave_brass_steam_wisp.png"
+      },
+      {
+        "id": "sp18_autoclave_petals_emerging",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp18_autoclave_petals_emerging.png"
+      },
+      {
+        "id": "sp19_autoclave_dna_receipt_plate",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp19_autoclave_dna_receipt_plate.png"
+      },
+      {
+        "id": "sp20_synthesis_door_amber_baseline",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp20_synthesis_door_amber_baseline.png"
+      },
+      {
+        "id": "sp21_synthesis_door_open",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp21_synthesis_door_open.png"
+      },
+      {
+        "id": "sp22_synthesis_door_quarantine_band",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp22_synthesis_door_quarantine_band.png"
+      },
+      {
+        "id": "sp23_cryo_door_warm_gold_spill",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp23_cryo_door_warm_gold_spill.png"
+      },
+      {
+        "id": "sp24_floor_seal_calibration_active",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp24_floor_seal_calibration_active.png"
+      },
+      {
+        "id": "sp25_floor_quarantine_band",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp25_floor_quarantine_band.png"
+      },
+      {
+        "id": "sp26_floor_boot_glass_footprints",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp26_floor_boot_glass_footprints.png"
+      },
+      {
+        "id": "sp27_floor_blood_weave_lattice_edges",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp27_floor_blood_weave_lattice_edges.png"
+      },
+      {
+        "id": "sp28_apsidal_glass_dawn_intensified",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp28_apsidal_glass_dawn_intensified.png"
+      },
+      {
+        "id": "sp29_apsidal_glass_grand_edit_indigo",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp29_apsidal_glass_grand_edit_indigo.png"
+      },
+      {
+        "id": "sp30_apsidal_glass_hb1_petal_burst",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp30_apsidal_glass_hb1_petal_burst.png"
+      },
+      {
+        "id": "sp31_medicine_cabinet_cracked_open",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp31_medicine_cabinet_cracked_open.png"
+      },
+      {
+        "id": "sp32_medicine_cabinet_empty",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp32_medicine_cabinet_empty.png"
+      },
+      {
+        "id": "sp33_body_catalog_drawer_marked",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp33_body_catalog_drawer_marked.png"
+      },
+      {
+        "id": "sp34_safe_open_keycard_visible",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp34_safe_open_keycard_visible.png"
+      },
+      {
+        "id": "sp35_safe_open_empty",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp35_safe_open_empty.png"
+      },
+      {
+        "id": "sp36_bio_bed_dais_biocontainment_hood",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp36_bio_bed_dais_biocontainment_hood.png"
+      },
+      {
+        "id": "sp37_bio_bed_dais_column_etched_ring",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp37_bio_bed_dais_column_etched_ring.png"
+      },
+      {
+        "id": "sp38_fabricators_act2_glyph_etched",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp38_fabricators_act2_glyph_etched.png"
+      },
+      {
+        "id": "sp39_fabricators_civic_engineers_stickers",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp39_fabricators_civic_engineers_stickers.png"
+      },
+      {
+        "id": "sp40_fabricator_pulled_to_service_trolley",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp40_fabricator_pulled_to_service_trolley.png"
+      },
+      {
+        "id": "sp41_autopsy_console_active",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp41_autopsy_console_active.png"
+      },
+      {
+        "id": "sp42_console_advocate_empire_zero_casualty",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp42_console_advocate_empire_zero_casualty.png"
+      },
+      {
+        "id": "sp43_console_akai_virus_telemetry",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp43_console_akai_virus_telemetry.png"
+      },
+      {
+        "id": "sp44_console_broker_quantum_imaging",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp44_console_broker_quantum_imaging.png"
+      },
+      {
+        "id": "sp45_vex_stranger_at_bench",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp45_vex_stranger_at_bench.png"
+      },
+      {
+        "id": "sp46_vex_watcher_face_down_card",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp46_vex_watcher_face_down_card.png"
+      },
+      {
+        "id": "sp47_vex_confidant_relaxed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp47_vex_confidant_relaxed.png"
+      },
+      {
+        "id": "sp48_vex_inner_circle_unmasked",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp48_vex_inner_circle_unmasked.png"
+      },
+      {
+        "id": "sp49_vex_eyes_of_reality_rigid",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp49_vex_eyes_of_reality_rigid.png"
+      },
+      {
+        "id": "sp50_vex_absent",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp50_vex_absent.png"
+      },
+      {
+        "id": "sp51_source_anchor_bio_bed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp51_source_anchor_bio_bed.png"
+      },
+      {
+        "id": "sp52_source_anchor_helix",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp52_source_anchor_helix.png"
+      },
+      {
+        "id": "sp53_source_anchor_autoclave",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp53_source_anchor_autoclave.png"
+      },
+      {
+        "id": "sp54_source_anchor_apsidal",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp54_source_anchor_apsidal.png"
+      },
+      {
+        "id": "sp55_hellbox_chalk_sigil_floor",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp55_hellbox_chalk_sigil_floor.png"
+      },
+      {
+        "id": "sp56_hellbox_candle_ring",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp56_hellbox_candle_ring.png"
+      },
+      {
+        "id": "sp57_tournament_bracket_chip",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp57_tournament_bracket_chip.png"
+      },
+      {
+        "id": "sp58_faction_atmo_authority_gold_haze",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp58_faction_atmo_authority_gold_haze.png"
+      },
+      {
+        "id": "sp59_faction_atmo_substrate_purple_static",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp59_faction_atmo_substrate_purple_static.png"
+      },
+      {
+        "id": "sp60_faction_atmo_guild_green_mist",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp60_faction_atmo_guild_green_mist.png"
+      },
+      {
+        "id": "sp61_faction_atmo_insurgent_red_haze",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp61_faction_atmo_insurgent_red_haze.png"
+      },
+      {
+        "id": "sp62_irl_trinket_spring_flower",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp62_irl_trinket_spring_flower.png"
+      },
+      {
+        "id": "sp63_irl_trinket_summer_shell",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp63_irl_trinket_summer_shell.png"
+      },
+      {
+        "id": "sp64_irl_trinket_autumn_leaf",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp64_irl_trinket_autumn_leaf.png"
+      },
+      {
+        "id": "sp65_irl_trinket_winter_snowflake",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp65_irl_trinket_winter_snowflake.png"
+      },
+      {
+        "id": "sp66_cades_dischordia_card",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp66_cades_dischordia_card.png"
+      },
+      {
+        "id": "sp67_tournament_bracket_panels_restricted",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp67_tournament_bracket_panels_restricted.png"
+      },
+      {
+        "id": "sp68_tournament_bracket_chip_console",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp68_tournament_bracket_chip_console.png"
+      },
+      {
+        "id": "sp69_hellbox3_chalk_spiral_floor",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp69_hellbox3_chalk_spiral_floor.png"
+      },
+      {
+        "id": "sp70_irl_spring_petals_vex_desk",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp70_irl_spring_petals_vex_desk.png"
+      },
+      {
+        "id": "sp71_irl_summer_brass_sun_charm",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp71_irl_summer_brass_sun_charm.png"
+      },
+      {
+        "id": "sp72_irl_autumn_oak_sprig_autoclave_shelf",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp72_irl_autumn_oak_sprig_autoclave_shelf.png"
+      },
+      {
+        "id": "sp73_irl_winter_frost_evergreen_apsidal",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp73_irl_winter_frost_evergreen_apsidal.png"
+      },
+      {
+        "id": "sp74_witness_glyph_fragmented",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp74_witness_glyph_fragmented.png"
+      },
+      {
+        "id": "sp75_witness_glyph_lucid_filament",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp75_witness_glyph_lucid_filament.png"
+      },
+      {
+        "id": "sp76_witness_glyph_luminous_halo",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp76_witness_glyph_luminous_halo.png"
+      },
+      {
+        "id": "sp77_lore_research_vessel_helix_third_strand",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp77_lore_research_vessel_helix_third_strand.png"
+      },
+      {
+        "id": "sp78_lore_source_is_kael_voidblack_static",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp78_lore_source_is_kael_voidblack_static.png"
+      },
+      {
+        "id": "sp79_lore_cryo_victim_engineer_panel_brass_steam",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp79_lore_cryo_victim_engineer_panel_brass_steam.png"
+      },
+      {
+        "id": "sp80_vex_journal_closed_baseline",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp80_vex_journal_closed_baseline.png"
+      },
+      {
+        "id": "sp81_vex_journal_open_pages",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp81_vex_journal_open_pages.png"
+      },
+      {
+        "id": "sp82_vex_sample_tray_phosphor_green",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp82_vex_sample_tray_phosphor_green.png"
+      },
+      {
+        "id": "sp83_vex_diagnostic_card_tray_act_2",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp83_vex_diagnostic_card_tray_act_2.png"
+      },
+      {
+        "id": "sp84_vex_workstation_cleared_act_7",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp84_vex_workstation_cleared_act_7.png"
+      },
+      {
+        "id": "sp85_egg_void_essence_vial",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp85_egg_void_essence_vial.png"
+      },
+      {
+        "id": "sp86_egg_medical_log_data_pad",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp86_egg_medical_log_data_pad.png"
+      },
+      {
+        "id": "sp87_egg_floor_seal_hairline_crack",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp87_egg_floor_seal_hairline_crack.png"
+      },
+      {
+        "id": "sp88_egg_autoclave_brass_patina_mark",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/medical_bay/sprites/sp88_egg_autoclave_brass_patina_mark.png"
+      }
+    ],
+    "lightingFilters": {
+      "cycle_dawn": "brightness(1.05) sepia(0.10) hue-rotate(-4deg)",
+      "cycle_dimming": "brightness(0.85) hue-rotate(4deg)",
+      "cycle_long_night": "brightness(0.65) hue-rotate(220deg) saturate(0.85)",
+      "morality_dark": "brightness(0.90) hue-rotate(260deg) saturate(0.80)",
+      "season_interregnum": "brightness(0.55)",
+      "tv_corrupted": "brightness(0.70) saturate(0.60)",
+      "tv_quarantined": "brightness(0.85) saturate(1.10) hue-rotate(8deg)",
+      "epoch_grand_edit": "brightness(0.85) hue-rotate(240deg)",
+      "hellbox1_transit": "brightness(1.10) sepia(0.15)",
+      "long_sleep_ending": "brightness(0.95)"
+    }
+  },
+  "engineering": {
+    "bases": [
+      {
+        "id": "engineering_base_act7_green_saved",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/base/engineering_base_act7_green_saved.png"
+      },
+      {
+        "id": "engineering_base_act7_red_cascade",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/base/engineering_base_act7_red_cascade.png"
+      },
+      {
+        "id": "engineering_base_cycle_dawn",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/base/engineering_base_cycle_dawn.png"
+      },
+      {
+        "id": "engineering_base_cycle_long_night",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/base/engineering_base_cycle_long_night.png"
+      },
+      {
+        "id": "engineering_base_epoch_grand_edit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/base/engineering_base_epoch_grand_edit.png"
+      },
+      {
+        "id": "engineering_base_hb4_transit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/base/engineering_base_hb4_transit.png"
+      },
+      {
+        "id": "engineering_base_morality_dark",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/base/engineering_base_morality_dark.png"
+      },
+      {
+        "id": "engineering_base_season_interregnum",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/base/engineering_base_season_interregnum.png"
+      },
+      {
+        "id": "engineering_base_t0_dormant",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/base/engineering_base_t0_dormant.png"
+      },
+      {
+        "id": "engineering_base_t2_activated",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/base/engineering_base_t2_activated.png"
+      },
+      {
+        "id": "engineering_base_t3_restored",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/base/engineering_base_t3_restored.png"
+      },
+      {
+        "id": "engineering_base_tv_corrupted",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/base/engineering_base_tv_corrupted.png"
+      },
+      {
+        "id": "engineering_base_tv_exposed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/base/engineering_base_tv_exposed.png"
+      },
+      {
+        "id": "engineering_base_tv_quarantined",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/base/engineering_base_tv_quarantined.png"
+      },
+      {
+        "id": "engineering_base_tv_spreading",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/base/engineering_base_tv_spreading.png"
+      }
+    ],
+    "sprites": [
+      {
+        "id": "sp01_ley_lines_intermittent_flicker",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp01_ley_lines_intermittent_flicker.png"
+      },
+      {
+        "id": "sp02_ley_lines_solid_bright_circuit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp02_ley_lines_solid_bright_circuit.png"
+      },
+      {
+        "id": "sp03_ley_lines_wrap_reactor_ring",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp03_ley_lines_wrap_reactor_ring.png"
+      },
+      {
+        "id": "sp04_reactor_cold_grey_weak",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp04_reactor_cold_grey_weak.png"
+      },
+      {
+        "id": "sp05_reactor_stable_warm_lavender",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp05_reactor_stable_warm_lavender.png"
+      },
+      {
+        "id": "sp06_reactor_full_lavender_green_ring",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp06_reactor_full_lavender_green_ring.png"
+      },
+      {
+        "id": "sp07_reactor_red_alert_flickering",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp07_reactor_red_alert_flickering.png"
+      },
+      {
+        "id": "sp08_reactor_green_stable_saved",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp08_reactor_green_stable_saved.png"
+      },
+      {
+        "id": "sp09_capacity_gauge_stalled_partial",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp09_capacity_gauge_stalled_partial.png"
+      },
+      {
+        "id": "sp10_capacity_gauge_two_thirds",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp10_capacity_gauge_two_thirds.png"
+      },
+      {
+        "id": "sp11_capacity_gauge_maximum",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp11_capacity_gauge_maximum.png"
+      },
+      {
+        "id": "sp12_capacity_gauge_critical_red",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp12_capacity_gauge_critical_red.png"
+      },
+      {
+        "id": "sp13_floor_radial_seams_green_glow",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp13_floor_radial_seams_green_glow.png"
+      },
+      {
+        "id": "sp14_floor_quarantine_band",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp14_floor_quarantine_band.png"
+      },
+      {
+        "id": "sp15_floor_investigation_yellow_tape",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp15_floor_investigation_yellow_tape.png"
+      },
+      {
+        "id": "sp16_floor_investigation_cyan_tape",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp16_floor_investigation_cyan_tape.png"
+      },
+      {
+        "id": "sp17_forge_door_warm_gold_unlocked",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp17_forge_door_warm_gold_unlocked.png"
+      },
+      {
+        "id": "sp18_armory_door_quarantine_band",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp18_armory_door_quarantine_band.png"
+      },
+      {
+        "id": "sp19_observation_door_warm_gold_spill",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp19_observation_door_warm_gold_spill.png"
+      },
+      {
+        "id": "sp20_warning_strobes_red_alert",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp20_warning_strobes_red_alert.png"
+      },
+      {
+        "id": "sp21_ceiling_one_high_bay_failed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp21_ceiling_one_high_bay_failed.png"
+      },
+      {
+        "id": "sp22_tool_rack_east_full_t3",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp22_tool_rack_east_full_t3.png"
+      },
+      {
+        "id": "sp23_tool_rack_back_wall_new_panel",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp23_tool_rack_back_wall_new_panel.png"
+      },
+      {
+        "id": "sp24_tool_rack_one_missing_captain_key",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp24_tool_rack_one_missing_captain_key.png"
+      },
+      {
+        "id": "sp25_tool_rack_insurgency_caltrop_stamp",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp25_tool_rack_insurgency_caltrop_stamp.png"
+      },
+      {
+        "id": "sp26_blueprint_dark",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp26_blueprint_dark.png"
+      },
+      {
+        "id": "sp27_blueprint_single_card_schematic",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp27_blueprint_single_card_schematic.png"
+      },
+      {
+        "id": "sp28_blueprint_three_rotating_schematics",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp28_blueprint_three_rotating_schematics.png"
+      },
+      {
+        "id": "sp29_blueprint_mechronis_class_notation",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp29_blueprint_mechronis_class_notation.png"
+      },
+      {
+        "id": "sp30_research_dim_standby",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp30_research_dim_standby.png"
+      },
+      {
+        "id": "sp31_research_active_warm_gold",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp31_research_active_warm_gold.png"
+      },
+      {
+        "id": "sp32_research_experiment_rig_lattice",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp32_research_experiment_rig_lattice.png"
+      },
+      {
+        "id": "sp33_bench_unfinished_tools_fanned",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp33_bench_unfinished_tools_fanned.png"
+      },
+      {
+        "id": "sp34_bench_signal_booster_finished",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp34_bench_signal_booster_finished.png"
+      },
+      {
+        "id": "sp35_bench_multi_part_active",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp35_bench_multi_part_active.png"
+      },
+      {
+        "id": "sp36_bench_combine_in_progress",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp36_bench_combine_in_progress.png"
+      },
+      {
+        "id": "sp37_bench_act7_cleaned_honour",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp37_bench_act7_cleaned_honour.png"
+      },
+      {
+        "id": "sp38_combine_signal_booster_active_glow",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp38_combine_signal_booster_active_glow.png"
+      },
+      {
+        "id": "sp39_combine_schematic_restoration",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp39_combine_schematic_restoration.png"
+      },
+      {
+        "id": "sp40_combine_viral_antidote",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp40_combine_viral_antidote.png"
+      },
+      {
+        "id": "sp41_combine_temporal_lens",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp41_combine_temporal_lens.png"
+      },
+      {
+        "id": "sp42_schematic_pad_indigo_overlay",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp42_schematic_pad_indigo_overlay.png"
+      },
+      {
+        "id": "sp43_schematic_pad_rubbing_taken",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp43_schematic_pad_rubbing_taken.png"
+      },
+      {
+        "id": "sp44_schematic_pad_restored_under_glass",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp44_schematic_pad_restored_under_glass.png"
+      },
+      {
+        "id": "sp45_manual_closed_baseline",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp45_manual_closed_baseline.png"
+      },
+      {
+        "id": "sp46_manual_open_page_47",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp46_manual_open_page_47.png"
+      },
+      {
+        "id": "sp47_manual_page_47_overstamped_indigo",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp47_manual_page_47_overstamped_indigo.png"
+      },
+      {
+        "id": "sp48_engineer_locker_closed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp48_engineer_locker_closed.png"
+      },
+      {
+        "id": "sp49_engineer_locker_open_journal",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp49_engineer_locker_open_journal.png"
+      },
+      {
+        "id": "sp50_mezz1_reactor_console_amber",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp50_mezz1_reactor_console_amber.png"
+      },
+      {
+        "id": "sp51_mezz2_diagnostic_console_active",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp51_mezz2_diagnostic_console_active.png"
+      },
+      {
+        "id": "sp52_mezz2_pod_zero_anomaly",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp52_mezz2_pod_zero_anomaly.png"
+      },
+      {
+        "id": "sp53_counting_tally_south_wall",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp53_counting_tally_south_wall.png"
+      },
+      {
+        "id": "sp54_incomplete_engine_schematic",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp54_incomplete_engine_schematic.png"
+      },
+      {
+        "id": "sp55_substrate_integrity_alert",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp55_substrate_integrity_alert.png"
+      },
+      {
+        "id": "sp56_wolf_host_residue_active",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp56_wolf_host_residue_active.png"
+      },
+      {
+        "id": "sp57_wolf_anara_architecture_active",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp57_wolf_anara_architecture_active.png"
+      },
+      {
+        "id": "sp58_egg_psi_null_formula",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp58_egg_psi_null_formula.png"
+      },
+      {
+        "id": "sp59_egg_warlord_residue_bio_scanner",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp59_egg_warlord_residue_bio_scanner.png"
+      },
+      {
+        "id": "sp60_kell_physical_residue_bench",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp60_kell_physical_residue_bench.png"
+      },
+      {
+        "id": "sp61_faction_insurgency_caltrop_reactor",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp61_faction_insurgency_caltrop_reactor.png"
+      },
+      {
+        "id": "sp62_faction_hierarchy_seal_workbench",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp62_faction_hierarchy_seal_workbench.png"
+      },
+      {
+        "id": "sp63_faction_antiquarian_codex_bench",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp63_faction_antiquarian_codex_bench.png"
+      },
+      {
+        "id": "sp64_faction_hierarchy_enemied_dimmed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp64_faction_hierarchy_enemied_dimmed.png"
+      },
+      {
+        "id": "sp65_sparks_workbench_baseline",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp65_sparks_workbench_baseline.png"
+      },
+      {
+        "id": "sp66_sparks_forge_door_cascade",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp66_sparks_forge_door_cascade.png"
+      },
+      {
+        "id": "sp67_dust_motes_warm_pendant",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp67_dust_motes_warm_pendant.png"
+      },
+      {
+        "id": "sp68_steam_vent_floor_grating",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp68_steam_vent_floor_grating.png"
+      },
+      {
+        "id": "sp69_cogsworth_absent",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp69_cogsworth_absent.png"
+      },
+      {
+        "id": "sp70_cogsworth_at_workstation",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp70_cogsworth_at_workstation.png"
+      },
+      {
+        "id": "sp71_hb4_workbench_partial_dissolution",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp71_hb4_workbench_partial_dissolution.png"
+      },
+      {
+        "id": "sp72_cogsworth_at_workbench",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp72_cogsworth_at_workbench.png"
+      },
+      {
+        "id": "sp73_cogsworth_at_mezzanine_diagnostic",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp73_cogsworth_at_mezzanine_diagnostic.png"
+      },
+      {
+        "id": "sp74_cogsworth_seated_finale",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp74_cogsworth_seated_finale.png"
+      },
+      {
+        "id": "sp75_wraith_smear_corner",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp75_wraith_smear_corner.png"
+      },
+      {
+        "id": "sp76_wraith_smear_extended_wall",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp76_wraith_smear_extended_wall.png"
+      },
+      {
+        "id": "sp77_wraith_handprint_concretised",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp77_wraith_handprint_concretised.png"
+      },
+      {
+        "id": "sp78_tournament_bracket_chip_crafting_console",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp78_tournament_bracket_chip_crafting_console.png"
+      },
+      {
+        "id": "sp79_tournament_banner_workshop_drape",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp79_tournament_banner_workshop_drape.png"
+      },
+      {
+        "id": "sp80_hellbox3_chalk_spiral_floor",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp80_hellbox3_chalk_spiral_floor.png"
+      },
+      {
+        "id": "sp81_irl_spring_dried_flowers_chair",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp81_irl_spring_dried_flowers_chair.png"
+      },
+      {
+        "id": "sp82_irl_summer_brass_sun_workbench",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp82_irl_summer_brass_sun_workbench.png"
+      },
+      {
+        "id": "sp83_irl_autumn_oak_tool_rack",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp83_irl_autumn_oak_tool_rack.png"
+      },
+      {
+        "id": "sp84_irl_winter_evergreen_anvil",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp84_irl_winter_evergreen_anvil.png"
+      },
+      {
+        "id": "sp85_witness_glyph_fragmented",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp85_witness_glyph_fragmented.png"
+      },
+      {
+        "id": "sp86_witness_glyph_lucid_filament_to_reactor",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp86_witness_glyph_lucid_filament_to_reactor.png"
+      },
+      {
+        "id": "sp87_witness_glyph_luminous_three_anchor",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/engineering/sprites/sp87_witness_glyph_luminous_three_anchor.png"
+      }
+    ],
+    "lightingFilters": {
+      "cycle_dawn": "brightness(1.05) sepia(0.10) hue-rotate(-4deg)",
+      "cycle_dimming": "brightness(0.85) hue-rotate(4deg)",
+      "cycle_long_night": "brightness(0.65) hue-rotate(220deg) saturate(0.85)",
+      "morality_dark": "brightness(0.90) hue-rotate(260deg) saturate(0.80)",
+      "season_interregnum": "brightness(0.55)",
+      "tv_corrupted": "brightness(0.70) saturate(0.60)",
+      "tv_quarantined": "brightness(0.85) saturate(1.10) hue-rotate(8deg)",
+      "epoch_grand_edit": "brightness(0.85) hue-rotate(240deg)",
+      "hellbox1_transit": "brightness(1.10) sepia(0.15)",
+      "long_sleep_ending": "brightness(0.95)"
+    }
+  }
+}
