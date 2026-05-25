@@ -1,0 +1,74 @@
+[
+  {
+    "id": "locke",
+    "name": "Adjudicator Locke",
+    "bustPortrait": "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775528071/locke-base_j7mxqz.jpg",
+    "factionColorHex": "#e040fb"
+  },
+  {
+    "id": "agent_zero",
+    "name": "Agent Zero",
+    "bustPortrait": "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775528077/agent-zero-base_yzcjxv.jpg",
+    "factionColorHex": "#ff6600"
+  },
+  {
+    "id": "akai_shi",
+    "name": "Akai Shi",
+    "bustPortrait": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/akai_shi_base.webp",
+    "factionColorHex": "#dc2626"
+  },
+  {
+    "id": "elara",
+    "name": "Elara",
+    "bustPortrait": "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775528068/elara-base_i4kbzp.jpg",
+    "factionColorHex": "#3b82f6"
+  },
+  {
+    "id": "jericho_jones",
+    "name": "Jericho Jones",
+    "bustPortrait": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/jericho_jones_base.webp",
+    "factionColorHex": "#f59e0b"
+  },
+  {
+    "id": "shadow_tongue",
+    "name": "Shadow Tongue",
+    "bustPortrait": "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775528037/shadow-tongue-invisible_cjtj4b.jpg",
+    "factionColorHex": "#6366f1"
+  },
+  {
+    "id": "antiquarian",
+    "name": "The Antiquarian",
+    "bustPortrait": "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775525313/antiquarian-base_d0rlc7.jpg",
+    "factionColorHex": "#00e676"
+  },
+  {
+    "id": "the_human",
+    "name": "The Human",
+    "bustPortrait": "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775528038/the-human-base_tjxrdj.jpg",
+    "factionColorHex": "#f87171"
+  },
+  {
+    "id": "the_meme",
+    "name": "The Meme",
+    "bustPortrait": "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775528039/the-meme-base_sdggfn.jpg",
+    "factionColorHex": "#ec4899"
+  },
+  {
+    "id": "the_source",
+    "name": "The Source / Kael",
+    "bustPortrait": "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775528042/the-source-empty_xt73mm.jpg",
+    "factionColorHex": "#ff1744"
+  },
+  {
+    "id": "vex_solene",
+    "name": "Vex Solene",
+    "bustPortrait": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/vex_solene_base.webp",
+    "factionColorHex": "#22c55e"
+  },
+  {
+    "id": "wraith_calder",
+    "name": "Wraith Calder",
+    "bustPortrait": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/wraith_calder_base.webp",
+    "factionColorHex": "#a855f7"
+  }
+]

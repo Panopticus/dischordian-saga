@@ -51,17 +51,41 @@ main { display: grid; grid-template-columns: 1fr 360px; height: calc(100% - 47px
   position: absolute; pointer-events: auto;
   border: 1px solid #ff00aa; background: rgba(255, 0, 170, 0.08);
   cursor: move;
+  overflow: hidden;
 }
 .hotspot.selected { border: 2px solid #00d4ff; background: rgba(0, 212, 255, 0.14); }
 .hotspot.is-new { border-color: #66ff66; background: rgba(102, 255, 102, 0.10); }
+/* Per-type border tints — applied via .hs-type-* classes on the rect.
+   The selected/is-new state still wins because those rules come later. */
+.hotspot.hs-type-examine { border-color: #ff00aa; background: rgba(255, 0, 170, 0.08); }
+.hotspot.hs-type-interact { border-color: #a78bfa; background: rgba(167, 139, 250, 0.10); }
+.hotspot.hs-type-terminal { border-color: #22d3ee; background: rgba(34, 211, 238, 0.10); }
+.hotspot.hs-type-item { border-color: #4ade80; background: rgba(74, 222, 128, 0.10); }
+.hotspot.hs-type-door { border-color: #fbbf24; background: rgba(251, 191, 36, 0.10); }
+.hotspot.hs-type-npc { border-color: #ff00aa; background: rgba(255, 0, 170, 0.06); }
+.hotspot.selected { border-color: #00d4ff !important; background: rgba(0, 212, 255, 0.14) !important; }
+.hotspot.is-new { border-color: #66ff66 !important; background: rgba(102, 255, 102, 0.10) !important; }
+.hotspot .npc-bust {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.55;
+  pointer-events: none;
+}
 .hotspot .label {
   position: absolute; top: -14px; left: 0;
   font: 9px/1 monospace; padding: 1px 4px;
   background: rgba(0,0,0,0.78); color: #ff00aa;
   white-space: nowrap; pointer-events: none;
 }
-.hotspot.selected .label { color: #00d4ff; }
-.hotspot.is-new .label { color: #66ff66; }
+.hotspot.hs-type-examine .label { color: #ff00aa; }
+.hotspot.hs-type-interact .label { color: #a78bfa; }
+.hotspot.hs-type-terminal .label { color: #22d3ee; }
+.hotspot.hs-type-item .label { color: #4ade80; }
+.hotspot.hs-type-door .label { color: #fbbf24; }
+.hotspot.hs-type-npc .label { color: #ff77c8; }
+.hotspot.selected .label { color: #00d4ff !important; }
+.hotspot.is-new .label { color: #66ff66 !important; }
 .handle {
   position: absolute; width: 8px; height: 8px;
   background: #00d4ff; border: 1px solid #000;
@@ -163,6 +187,27 @@ body.composite-room .sprite-panel { display: block; }
   object-fit: contain;
   display: block;
 }
+
+/* Type legend (header strip) */
+.type-legend {
+  display: inline-flex; gap: 6px; align-items: center;
+  font-size: 10px; color: var(--muted); margin-left: 8px;
+}
+.type-legend .swatch {
+  display: inline-flex; align-items: center; gap: 3px;
+  padding: 1px 4px; border-radius: 3px;
+  background: var(--panel-2);
+}
+.type-legend .swatch::before {
+  content: ""; width: 8px; height: 8px; border-radius: 1px;
+  border: 1px solid currentColor;
+}
+.type-legend .swatch.examine { color: #ff00aa; }
+.type-legend .swatch.interact { color: #a78bfa; }
+.type-legend .swatch.terminal { color: #22d3ee; }
+.type-legend .swatch.item { color: #4ade80; }
+.type-legend .swatch.door { color: #fbbf24; }
+.type-legend .swatch.npc { color: #ff77c8; }
 </style>
 </head>
 <body>
@@ -180,6 +225,14 @@ body.composite-room .sprite-panel { display: block; }
   <button id="resetBtn">Reset</button>
   <button id="copyBtn" class="primary">Copy TS literal</button>
   <span id="status" class="status"></span>
+  <span class="type-legend">
+    <span class="swatch examine">examine</span>
+    <span class="swatch interact">interact</span>
+    <span class="swatch terminal">terminal</span>
+    <span class="swatch item">item</span>
+    <span class="swatch door">door</span>
+    <span class="swatch npc">npc (faction)</span>
+  </span>
   <span class="stat" id="stat"></span>
 </header>
 <div class="sprite-panel" id="spritePanel">
@@ -10896,6 +10949,83 @@ const VARIANTS =
 };
 
 
+// ── INLINE DATA: NPC PORTRAITS ─────────────────────────────────────
+const NPCS = 
+[
+  {
+    "id": "locke",
+    "name": "Adjudicator Locke",
+    "bustPortrait": "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775528071/locke-base_j7mxqz.jpg",
+    "factionColorHex": "#e040fb"
+  },
+  {
+    "id": "agent_zero",
+    "name": "Agent Zero",
+    "bustPortrait": "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775528077/agent-zero-base_yzcjxv.jpg",
+    "factionColorHex": "#ff6600"
+  },
+  {
+    "id": "akai_shi",
+    "name": "Akai Shi",
+    "bustPortrait": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/akai_shi_base.webp",
+    "factionColorHex": "#dc2626"
+  },
+  {
+    "id": "elara",
+    "name": "Elara",
+    "bustPortrait": "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775528068/elara-base_i4kbzp.jpg",
+    "factionColorHex": "#3b82f6"
+  },
+  {
+    "id": "jericho_jones",
+    "name": "Jericho Jones",
+    "bustPortrait": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/jericho_jones_base.webp",
+    "factionColorHex": "#f59e0b"
+  },
+  {
+    "id": "shadow_tongue",
+    "name": "Shadow Tongue",
+    "bustPortrait": "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775528037/shadow-tongue-invisible_cjtj4b.jpg",
+    "factionColorHex": "#6366f1"
+  },
+  {
+    "id": "antiquarian",
+    "name": "The Antiquarian",
+    "bustPortrait": "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775525313/antiquarian-base_d0rlc7.jpg",
+    "factionColorHex": "#00e676"
+  },
+  {
+    "id": "the_human",
+    "name": "The Human",
+    "bustPortrait": "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775528038/the-human-base_tjxrdj.jpg",
+    "factionColorHex": "#f87171"
+  },
+  {
+    "id": "the_meme",
+    "name": "The Meme",
+    "bustPortrait": "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775528039/the-meme-base_sdggfn.jpg",
+    "factionColorHex": "#ec4899"
+  },
+  {
+    "id": "the_source",
+    "name": "The Source / Kael",
+    "bustPortrait": "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775528042/the-source-empty_xt73mm.jpg",
+    "factionColorHex": "#ff1744"
+  },
+  {
+    "id": "vex_solene",
+    "name": "Vex Solene",
+    "bustPortrait": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/vex_solene_base.webp",
+    "factionColorHex": "#22c55e"
+  },
+  {
+    "id": "wraith_calder",
+    "name": "Wraith Calder",
+    "bustPortrait": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/recruits/wraith_calder_base.webp",
+    "factionColorHex": "#a855f7"
+  }
+];
+
 // ── INLINE DATA: PHASE J COMPOSITES (base + sprites per room) ───
 const COMPOSITES = 
 {
@@ -12659,23 +12789,45 @@ function render() {
   renderEditor();
   stat.textContent = `${draft.length} hotspots • ${currentRoomId}`;
 }
+function npcById(npcId) {
+  if (!npcId) return null;
+  return NPCS.find((n) => n.id === npcId) ?? null;
+}
 function renderHotspots() {
   // Remove old hotspots from overlay but keep the .overlay itself
   Array.from(overlay.querySelectorAll(".hotspot")).forEach((el) => el.remove());
   for (const h of draft) {
     const el = document.createElement("div");
-    el.className = "hotspot" +
-      (h.id === selectedId ? " selected" : "") +
-      (h.id.startsWith("new-hotspot-") ? " is-new" : "");
+    const typeClass = h.type ? `hs-type-${h.type}` : "";
+    el.className = ["hotspot", typeClass,
+      (h.id === selectedId ? "selected" : ""),
+      (h.id.startsWith("new-hotspot-") ? "is-new" : ""),
+    ].filter(Boolean).join(" ");
     el.style.left = h.x + "%";
     el.style.top = h.y + "%";
     el.style.width = h.width + "%";
     el.style.height = h.height + "%";
     el.dataset.id = h.id;
     el.addEventListener("pointerdown", (e) => onHotspotDown(e, h.id, "move"));
+    // NPC bust portrait + faction-colored border.
+    let labelText = h.id;
+    if (h.type === "npc") {
+      const npc = npcById(h.npcId);
+      if (npc) {
+        const img = document.createElement("img");
+        img.className = "npc-bust";
+        img.src = npc.bustPortrait;
+        img.alt = "";
+        img.draggable = false;
+        el.appendChild(img);
+        // Faction color wins over the .hs-type-npc default.
+        el.style.borderColor = npc.factionColorHex;
+        labelText = npc.name;
+      }
+    }
     const label = document.createElement("div");
     label.className = "label";
-    label.textContent = h.id;
+    label.textContent = labelText;
     el.appendChild(label);
     if (h.id === selectedId) {
       for (const k of ["nw","ne","sw","se","n","s","e","w"]) {
