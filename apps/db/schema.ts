@@ -7495,6 +7495,39 @@ export const tradeAgencyStanding = mysqlTable("trade_agency_standing", {
 export type TradeAgencyStandingRow = typeof tradeAgencyStanding.$inferSelect;
 
 /* ─────────────────────────────────────────────────────────────────
+ * CODA FACTION STANDING (CANON_REV_7_ORACLE_VEX_EXPANSION.md §2.4)
+ * Per-user Coda tier snapshot. Distinct from `trade_agency_standing`
+ * which stores raw points across all agencies — this table is
+ * Coda-specific and persists the derived tier plus the per-player
+ * Vex Coda Trust value (0-100) that gates the Vex reveal cadence
+ * (CANON Rev 7 §1.4 item 4). Promoted by `completeCodaMission`.
+ * ───────────────────────────────────────────────────────────────── */
+export const codaFactionStanding = mysqlTable("coda_faction_standing", {
+  userId: int("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" })
+    .primaryKey(),
+  tier: mysqlEnum("tier", [
+    "unknown",
+    "noticed",
+    "client",
+    "operative",
+    "lieutenant",
+    "inner_circle",
+  ])
+    .notNull()
+    .default("unknown"),
+  /** Per-player Coda trust 0-100. Gates Vex reveal-cadence steps. */
+  vexCodaTrust: int("vexCodaTrust").notNull().default(0),
+  /** Total Coda missions completed across all three tracks. */
+  missionsCompleted: int("missionsCompleted").notNull().default(0),
+  /** Diplomacy-track Reconciliation Arcs closed (lieutenant gate). */
+  reconciliationArcs: int("reconciliationArcs").notNull().default(0),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull().onUpdateNow(),
+});
+export type CodaFactionStandingRow = typeof codaFactionStanding.$inferSelect;
+
+/* ─────────────────────────────────────────────────────────────────
  * GLOBAL ALIGNMENT METER (NARRATIVE_ARCHITECTURE.md §0)
  * Singleton row tracking the community-wide Light/Dark balance.
  * Each player contributes their `users.lightAlignment` and
