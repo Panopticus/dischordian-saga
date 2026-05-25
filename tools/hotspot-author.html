@@ -13167,8 +13167,8 @@ window.addEventListener("pointermove", (e) => {
       dy: hasVert ? local.dy / 2 : 0,
     };
     const shiftScreen = rotateVec(shiftLocal.dx, shiftLocal.dy, start.rotation);
-    box.cx = round1(clamp(start.cx + shiftScreen.dx));
-    box.cy = round1(clamp(start.cy + shiftScreen.dy));
+    box.cx = round1(clamp(start.cx + shiftScreen.dx, 0, 100));
+    box.cy = round1(clamp(start.cy + shiftScreen.dy, 0, 100));
     box.width = round1(newW);
     box.height = round1(newH);
     render();
