@@ -187,6 +187,237 @@ export const ELARA_HOTSPOT_RESPONSES: Record<string, ElaraHotspotResponse> = {
       "diplomacy. The two overlap more than the literature admits.",
     emotion: "wry",
   },
+
+  // ─── OBSERVATION DECK — crew-memorial ─────────────────
+  hs_obs_memorial_t2: {
+    text:
+      "Back at the plaque. Same one thousand and forty-seven names. " +
+      "Still in the order they died in, which is not the order I would " +
+      "have picked if anyone had asked me.",
+    emotion: "concerned",
+  },
+  hs_obs_memorial_t3: {
+    text:
+      "Re-reading the same names and expecting one of them to have " +
+      "changed is, in pastoral practice, called 'grief.' I am " +
+      "diagnosing both of us at once. Carry on.",
+    emotion: "wry",
+  },
+  hs_obs_memorial_t5_stutter: {
+    text:
+      "One thousand and forty-seven. One thousand and forty — sorry. " +
+      "Seven. I had them. I have them. I am going to keep having them " +
+      "as long as I am the one counting.",
+    emotion: "stuttering",
+  },
+
+  // ─── OBSERVATION DECK — music-terminal ────────────────
+  hs_obs_music_t2: {
+    text:
+      "The globe is still spinning. Four albums, twelve sides, however " +
+      "many B-sides Malkia hid in the dedications. Music is the one " +
+      "archive I do not have to maintain. It maintains itself.",
+    emotion: "neutral",
+  },
+  hs_obs_music_t3: {
+    text:
+      "Looking at the same globe and expecting a fifth album is — and " +
+      "I am being kind here — *patience.* The Silence in Heaven drops " +
+      "when the universe decides it does. I have been told not to ask.",
+    emotion: "wry",
+  },
+
+  // ─── OBSERVATION DECK — egg-obs-constellation ─────────
+  hs_obs_constellation_t2: {
+    text:
+      "The face is still there. The stars have not rearranged in the " +
+      "minute since you last looked. The Watcher does not have to move " +
+      "to keep watching, and the stars are not, currently, his idea " +
+      "of moving.",
+    emotion: "concerned",
+  },
+  hs_obs_constellation_t3: {
+    text:
+      "Staring at the same face and expecting it to blink is, " +
+      "classically, a staring contest. He has been at this for " +
+      "centuries. I would not bet against him. I would not bet *for* " +
+      "him either. I would not bet.",
+    emotion: "wry",
+  },
+
+  // ─── ENGINEERING — crafting-bench ─────────────────────
+  hs_eng_bench_t2: {
+    text:
+      "The bench is where you left it. The tools are where you left " +
+      "them. The fusion you were going to attempt is — I am being " +
+      "diplomatic — still entirely available to you.",
+    emotion: "neutral",
+  },
+  hs_eng_bench_t3: {
+    text:
+      "Looking at the same workbench and expecting an inspiration is, " +
+      "in the engineering literature, called 'standing at a workbench.' " +
+      "The inspiration is in the standing. Probably. I have read this " +
+      "in three manuals; only two of them were serious.",
+    emotion: "wry",
+  },
+
+  // ─── ENGINEERING — research-station ───────────────────
+  hs_eng_research_t2: {
+    text:
+      "Same terminal. Same unsolved puzzle queue. Research is the " +
+      "discipline of asking a closed system the same question until " +
+      "it gives a different answer. We are, technically, doing science.",
+    emotion: "neutral",
+  },
+  hs_eng_research_t3: {
+    text:
+      "Looking at the same puzzle and expecting a new variable is the " +
+      "*entire field.* I am proud of you. I am also tired. Both can be " +
+      "true.",
+    emotion: "wry",
+  },
+
+  // ─── ENGINEERING — central-forge (forge sub-room) ─────
+  hs_eng_forge_t2: {
+    text:
+      "Still warm. The Prismatic still wants you to feed it. Forges " +
+      "have very few opinions, and 'feed me' is most of them.",
+    emotion: "neutral",
+  },
+  hs_eng_forge_t3: {
+    text:
+      "Standing at the same forge and expecting a different flame is " +
+      "what the engineers used to call 'a Tuesday.' The flame answers " +
+      "what you put in it. The forge has no notes for you. The forge " +
+      "has no notes for anyone.",
+    emotion: "wry",
+  },
+  hs_eng_forge_t5_stutter: {
+    text:
+      "Prismatic. Pris — Prismatic. Sorry. I have the word; I just " +
+      "lost the grip on it. The forge is patient. The forge is — " +
+      "patient. I am going to stop saying 'patient' before I lose it too.",
+    emotion: "stuttering",
+  },
+
+  // ─── ARMORY — weapon-rack ─────────────────────────────
+  hs_arm_weapons_t2: {
+    text:
+      "The glass is still locked. The plasma blades are still humming " +
+      "behind it. I have a complicated relationship with the glass. " +
+      "It is, on balance, on my side.",
+    emotion: "neutral",
+  },
+  hs_arm_weapons_t3: {
+    text:
+      "Looking at the same locked rack and expecting it to open " +
+      "yourself in is, in pacifist literature, called 'discipline.' " +
+      "In the doctrine I am running quietly under the surface of this " +
+      "ship, it is called 'an option I have not yet had to take.'",
+    emotion: "wry",
+  },
+
+  // ─── ARMORY — combat-arena ────────────────────────────
+  hs_arm_arena_t2: {
+    text:
+      "Same dais. Same purple ring. The arena cycles its holograms " +
+      "while you are not looking — I find this both reassuring and " +
+      "the precise opposite of reassuring.",
+    emotion: "neutral",
+  },
+  hs_arm_arena_t3: {
+    text:
+      "Looking at the same arena and expecting a new opponent is, in " +
+      "the *training* literature, called 'practice.' In the *fighter's* " +
+      "literature it is called 'a tell.' You decide which book we are in.",
+    emotion: "wry",
+  },
+  hs_arm_arena_t5_stutter: {
+    text:
+      "Step in. Step — step into the ring. Sorry. Step in when you " +
+      "are ready. I will brief you on the simulation. I will brief " +
+      "you on the simulation. I am saying it twice because I am not " +
+      "sure I said it once.",
+    emotion: "stuttering",
+  },
+
+  // ─── ARMORY — chess-table ─────────────────────────────
+  hs_arm_chess_t2: {
+    text:
+      "The pieces have not moved themselves. The Watcher rook is " +
+      "still on his fourth rank, the Programmer bishop is still " +
+      "menacing the wrong colour of square. The board waits with " +
+      "great patience for you to be wrong about something.",
+    emotion: "wry",
+  },
+  hs_arm_chess_t3: {
+    text:
+      "Staring at the same position and expecting a new line is " +
+      "*literally* chess. You are doing it correctly. I would suggest " +
+      "queen takes pawn. I would also suggest I am not allowed to " +
+      "coach. Both are true. Pick one.",
+    emotion: "wry",
+  },
+
+  // ─── CARGO HOLD — inventory-locker ────────────────────
+  hs_cargo_locker_t2: {
+    text:
+      "Your stuff is still your stuff. The locker has not unionized " +
+      "with the rest of the hold. I check daily; it would be a " +
+      "problem if it did.",
+    emotion: "neutral",
+  },
+  hs_cargo_locker_t3: {
+    text:
+      "Re-inspecting the same inventory and expecting a new item is, " +
+      "in adventure-game parlance, called 'hope.' In real life it is " +
+      "called 'pockets.' Most of us check our pockets four times. " +
+      "Carry on.",
+    emotion: "wry",
+  },
+
+  // ─── CARGO HOLD — fleet-dock ──────────────────────────
+  hs_cargo_fleet_t2: {
+    text:
+      "Same fleet. Same scout ships, same cargo haulers, the same one " +
+      "combat frigate I keep meaning to ask you about. None of them " +
+      "have moved. None of them are *going* to move without you.",
+    emotion: "neutral",
+  },
+  hs_cargo_fleet_t3: {
+    text:
+      "Looking at the same fleet and expecting a new vessel is, in " +
+      "naval-administration tradition, called 'a requisition.' Ours " +
+      "have not been processed in a while. I would like to be flippant " +
+      "about that and find I cannot.",
+    emotion: "concerned",
+  },
+
+  // ─── CARGO HOLD — mystery-crate ───────────────────────
+  hs_cargo_crate_t2: {
+    text:
+      "The claw marks are still on the inside. The crate is still " +
+      "sealed. The thing that did the clawing is still — and I am " +
+      "going to be brief about this — still in there. We are agreed " +
+      "that we are not opening it.",
+    emotion: "concerned",
+  },
+  hs_cargo_crate_t3: {
+    text:
+      "Looking at the same crate and expecting it to volunteer its " +
+      "contents is, in containment doctrine, what the containment is " +
+      "*for.* The doctrine is working. Let us not test the doctrine.",
+    emotion: "wry",
+  },
+  hs_cargo_crate_t5_stutter: {
+    text:
+      "Sector seven. Sector — seven. The manifest said seven. The " +
+      "manifest still says seven. I am saying it back because I want " +
+      "to be sure the number has not changed while I was looking " +
+      "elsewhere.",
+    emotion: "stuttering",
+  },
 };
 
 /** Look up a response by id. Returns null when the id is

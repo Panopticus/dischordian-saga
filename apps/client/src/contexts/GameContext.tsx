@@ -1551,11 +1551,22 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // editing, /ark?author-hotspots=1.
 
       // ── FEATURE / CONTAINER HOTSPOTS ──
-      { id: "crew-memorial", name: "Crew Memorial", description: "A small framed plaque on the far-left wall, names etched in soft light. The crew who didn't make it.", x: 1, y: 25, width: 8, height: 15, type: "examine", elaraDialog: "A memorial for the crew members who didn't survive the journey. One thousand and forty-seven names. They gave their lives to keep the Ark running while the Potentials slept. I remember every one of them." },
+      { id: "crew-memorial", name: "Crew Memorial", description: "A small framed plaque on the far-left wall, names etched in soft light. The crew who didn't make it.", x: 1, y: 25, width: 8, height: 15, type: "examine", elaraDialog: "A memorial for the crew members who didn't survive the journey. One thousand and forty-seven names. They gave their lives to keep the Ark running while the Potentials slept. I remember every one of them.",
+        tiers: [
+          { id: "tier_obs_memorial_t2", requiredVisitCount: 2, responseId: "hs_obs_memorial_t2" },
+          { id: "tier_obs_memorial_t3", requiredVisitCount: 3, responseId: "hs_obs_memorial_t3" },
+          { id: "tier_obs_memorial_t5", requiredVisitCount: 5, responseId: "hs_obs_memorial_t5_stutter" },
+        ],
+      },
       // Phase G — wire the panoramic viewport to the observation-deck
       // mystery module so Look/Use/Talk all route through the verb coin.
       { id: "viewport", name: "Panoramic Viewport", description: "The vast expanse of space stretches before you through a curved glass wall — stars, a small distant planet, the chamber's only window onto the void.", x: 25, y: 22, width: 50, height: 50, type: "interact", action: "room-mystery:observation-deck:panoramic-viewport", elaraDialog: "Look at the stars. They're beautiful, aren't they? But they're wrong. The constellations don't match any known configuration from any of the mapped universes. Either we've traveled very, very far... or we're somewhere that shouldn't exist." },
-      { id: "music-terminal", name: "Music Terminal", description: "A glowing earth-globe on a brass-rimmed table at right-foreground. The complete discography of Malkia Ukweli & the Panopticon is keyed into its base.", x: 78, y: 65, width: 18, height: 20, type: "terminal", action: "/discography", elaraDialog: "The complete discography. Four albums spanning the entire narrative — Dischordian Logic, The Age of Privacy, The Book of Daniel 2:47, and the upcoming Silence in Heaven. Every song is a piece of the puzzle." },
+      { id: "music-terminal", name: "Music Terminal", description: "A glowing earth-globe on a brass-rimmed table at right-foreground. The complete discography of Malkia Ukweli & the Panopticon is keyed into its base.", x: 78, y: 65, width: 18, height: 20, type: "terminal", action: "/discography", elaraDialog: "The complete discography. Four albums spanning the entire narrative — Dischordian Logic, The Age of Privacy, The Book of Daniel 2:47, and the upcoming Silence in Heaven. Every song is a piece of the puzzle.",
+        tiers: [
+          { id: "tier_obs_music_t2", requiredVisitCount: 2, responseId: "hs_obs_music_t2" },
+          { id: "tier_obs_music_t3", requiredVisitCount: 3, responseId: "hs_obs_music_t3" },
+        ],
+      },
       { id: "bond-resonance-altar", name: "Bond Resonance Altar", description: "A low circular altar set into the floor's compass-star tiling — brass-rimmed, oxblood-leather kneeler.", x: 40, y: 88, width: 20, height: 10, type: "interact", action: "room-mystery:observation-deck:bond-resonance-altar" },
       { id: "purification-crystal-cradle", name: "Crystal Cradle", description: "The pedestal beneath the globe-table. A brass plaque reads, in Lyra's hand: 'For the crystal that has not yet been chosen.'", x: 80, y: 85, width: 16, height: 8, type: "interact", action: "room-mystery:observation-deck:purification-crystal-cradle" },
 
@@ -1573,7 +1584,12 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // rect represents a specific celestial reading visible in the
       // star-field. Authored AFTER viewport so they win clicks on
       // specific star clusters.
-      { id: "egg-obs-constellation", name: "Strange Constellation", description: "A pattern of stars in the viewport's upper-left that seems to form a face.", x: 28, y: 24, width: 5, height: 6, type: "examine", elaraDialog: "Do you see it? That cluster of stars... if you connect them, they form a face. Not just any face — it looks like the Watcher. The all-seeing eye of the Panopticon's surveillance network. But we're light-years from Panopticon space. How can the stars themselves form his likeness? Unless... the stars were arranged. By someone with the power to move suns." },
+      { id: "egg-obs-constellation", name: "Strange Constellation", description: "A pattern of stars in the viewport's upper-left that seems to form a face.", x: 28, y: 24, width: 5, height: 6, type: "examine", elaraDialog: "Do you see it? That cluster of stars... if you connect them, they form a face. Not just any face — it looks like the Watcher. The all-seeing eye of the Panopticon's surveillance network. But we're light-years from Panopticon space. How can the stars themselves form his likeness? Unless... the stars were arranged. By someone with the power to move suns.",
+        tiers: [
+          { id: "tier_obs_constellation_t2", requiredVisitCount: 2, responseId: "hs_obs_constellation_t2" },
+          { id: "tier_obs_constellation_t3", requiredVisitCount: 3, responseId: "hs_obs_constellation_t3" },
+        ],
+      },
       { id: "akai-cycle-fold-anomalies", name: "Matrix Cycle-Fold Anomalies", description: "Telemetry overlaid on the viewport's left quadrant — discontinuous folds during the Red Death's hunt. Seven folds, seven retreat chambers, seven encounters. The Necromancer running into his own decisions.", x: 34, y: 28, width: 6, height: 5, type: "interact", action: "room-mystery:observation-deck:akai-cycle-fold-anomalies" },
       { id: "storm-weather-telemetry", name: "Five-Century Cosmic-Weather Console", description: "Telemetry overlaid on the viewport center — five centuries of slow oscillation between two equilibria, with Storm-active intervals pinned exactly to the mid-line crossings.", x: 46, y: 28, width: 6, height: 5, type: "interact", action: "room-mystery:observation-deck:storm-weather-telemetry" },
       { id: "storm-full-calms-register", name: "Register of Nine Calms", description: "Pinned beside the telemetry on the viewport's right quadrant — the full register of nine documented calm intervals; each one a permission interval.", x: 60, y: 28, width: 6, height: 5, type: "interact", action: "room-mystery:observation-deck:storm-full-calms-register" },
@@ -1673,9 +1689,19 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
 
       // ── FEATURE / CONTAINER HOTSPOTS ──
       { id: "reactor-core", name: "Reactor Core", description: "The central archway holds the chamber's heart — a glowing forge fire above an anvil pedestal, fed by power conduits running into the back wall. The engineers called it the Ark's reactor.", x: 40, y: 22, width: 16, height: 38, type: "examine", action: "room-mystery:engineering:reactor-core", elaraDialog: "The reactor core. It runs on a substance the engineers called 'Dream' — a crystallized form of quantum consciousness. It's the same resource that powers your abilities. The core is running at 34% capacity. We're losing power slowly." },
-      { id: "crafting-bench", name: "Crafting Workbench", description: "The left foreground workbench, laid out with tools for card crafting and fusion experiments.", x: 15, y: 68, width: 28, height: 28, type: "terminal", action: "/research-lab", elaraDialog: "The crafting workbench. Here you can fuse cards together to create more powerful versions. The recipes were developed by the Ark's engineers — combine the right elements and you might create something legendary." },
+      { id: "crafting-bench", name: "Crafting Workbench", description: "The left foreground workbench, laid out with tools for card crafting and fusion experiments.", x: 15, y: 68, width: 28, height: 28, type: "terminal", action: "/research-lab", elaraDialog: "The crafting workbench. Here you can fuse cards together to create more powerful versions. The recipes were developed by the Ark's engineers — combine the right elements and you might create something legendary.",
+        tiers: [
+          { id: "tier_eng_bench_t2", requiredVisitCount: 2, responseId: "hs_eng_bench_t2" },
+          { id: "tier_eng_bench_t3", requiredVisitCount: 3, responseId: "hs_eng_bench_t3" },
+        ],
+      },
       { id: "blueprints", name: "Holographic Blueprints", description: "A cyan holographic blueprint floats above a brass desk at right-center — schematics for card designs and weapon systems the engineers never finished.", x: 55, y: 30, width: 17, height: 28, type: "examine", action: "room-mystery:engineering:blueprints", elaraDialog: "Card schematics. The engineers were designing new card types before... before they stopped. Some of these designs are brilliant. Legendary-tier cards that could turn the tide of any battle." },
-      { id: "research-station", name: "Research Station", description: "The right foreground workbench — an interactive research terminal with puzzles and experiments.", x: 55, y: 68, width: 25, height: 28, type: "terminal", action: "/research-minigame", elaraDialog: "The Research Station. Solve engineering puzzles and conduct experiments to unlock new card recipes and crafting techniques. The harder the puzzle, the rarer the reward." },
+      { id: "research-station", name: "Research Station", description: "The right foreground workbench — an interactive research terminal with puzzles and experiments.", x: 55, y: 68, width: 25, height: 28, type: "terminal", action: "/research-minigame", elaraDialog: "The Research Station. Solve engineering puzzles and conduct experiments to unlock new card recipes and crafting techniques. The harder the puzzle, the rarer the reward.",
+        tiers: [
+          { id: "tier_eng_research_t2", requiredVisitCount: 2, responseId: "hs_eng_research_t2" },
+          { id: "tier_eng_research_t3", requiredVisitCount: 3, responseId: "hs_eng_research_t3" },
+        ],
+      },
 
       // ── DOORS ──
       // door-forge anchors on the small doorway to the LEFT of the forge
@@ -1789,7 +1815,13 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // editing, /ark?author-hotspots=1.
 
       // ── FEATURE / CONTAINER HOTSPOTS ──
-      { id: "central-forge", name: "Prismatic Forge", description: "The main crafting station — stone-and-brass furnace with the forge fire chamber glowing orange. Step up to the bellows to begin a craft.", x: 28, y: 22, width: 27, height: 50, type: "terminal", action: "/forge", elaraDialog: "The Prismatic Forge. Its flames change color based on the materials you feed it — blue for void metal, green for crystal shards, gold for legendary essence. Step up to the forge and I'll guide you through the crafting process. Every item you create here provides real combat advantages in the Arena, strategic bonuses in Card Battles, and trade benefits in the Empire." },
+      { id: "central-forge", name: "Prismatic Forge", description: "The main crafting station — stone-and-brass furnace with the forge fire chamber glowing orange. Step up to the bellows to begin a craft.", x: 28, y: 22, width: 27, height: 50, type: "terminal", action: "/forge", elaraDialog: "The Prismatic Forge. Its flames change color based on the materials you feed it — blue for void metal, green for crystal shards, gold for legendary essence. Step up to the forge and I'll guide you through the crafting process. Every item you create here provides real combat advantages in the Arena, strategic bonuses in Card Battles, and trade benefits in the Empire.",
+        tiers: [
+          { id: "tier_eng_forge_t2", requiredVisitCount: 2, responseId: "hs_eng_forge_t2" },
+          { id: "tier_eng_forge_t3", requiredVisitCount: 3, responseId: "hs_eng_forge_t3" },
+          { id: "tier_eng_forge_t5", requiredVisitCount: 5, responseId: "hs_eng_forge_t5_stutter" },
+        ],
+      },
       { id: "material-vault", name: "Material Vault", description: "The far-left wall is a stacked storage system: a round rack of rolled scrolls + a dark cabinet behind. Secured storage for crafting materials, organised by source and rarity.", x: 0, y: 25, width: 18, height: 40, type: "examine", elaraDialog: "The Material Vault. Your crafting materials are stored here — battle shards from Arena victories, trade metals from the Empire, card essence from sacrificed cards, and ark fragments from exploration. The vault automatically sorts by rarity. I'd recommend stockpiling before attempting any epic-tier recipes." },
       { id: "recipe-archive", name: "Recipe Archive", description: "The tool wall right of the forge — hammers, tongs, and rolled schematic panels mounted in brass brackets. Every known crafting recipe is catalogued here.", x: 47, y: 38, width: 15, height: 22, type: "terminal", action: "/forge", elaraDialog: "The Recipe Archive. Every known crafting recipe is catalogued here — weapons, armor, potions, ship upgrades, and card enhancements. Some recipes are locked behind skill levels. The more you craft in a discipline, the more advanced recipes become available. Master all five disciplines and you'll unlock the legendary-tier recipes." },
       { id: "skill-totems", name: "Skill Totems", description: "The tall carved brass throne at the right wall — five totem-medallions worked into the headrest and arms, one for each crafting discipline. Touch one to see your progress.", x: 75, y: 22, width: 24, height: 68, type: "examine", elaraDialog: "The Skill Totems — one for each crafting discipline. Weaponsmithing, Armorsmithing, Enchanting, Alchemy, and Engineering. They glow brighter as your skill increases. Touch one to see your progress. The engineers who built this place believed that mastery of all five disciplines was the key to creating the ultimate weapon — one that could end the war between the Architect and the Source." },
@@ -1894,11 +1926,27 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // Verify with /ark?debug-hotspots=1 or /ark?author-hotspots=1.
 
       // ── FEATURE / CONTAINER HOTSPOTS ──
-      { id: "weapon-rack", name: "Weapon Rack", description: "A free-standing glass display case in the left-center holds high-grade weapons, with a wall-mounted rifle rack behind it. Most are locked behind security glass.", x: 15, y: 20, width: 35, height: 55, type: "examine", elaraDialog: "The weapon racks. Plasma swords, energy shields, cloaking devices... most are locked behind security glass. You'll need to prove yourself in combat before I can authorize access to the heavier ordnance." },
-      { id: "combat-arena", name: "Combat Arena", description: "The raised circular armor dais at chamber center, ringed by a purple-glow aura. A holographic combat simulation arena for training.", x: 50, y: 25, width: 22, height: 55, type: "terminal", action: "/fight", elaraDialog: "The combat arena. Step inside and I'll generate holographic opponents based on known entities from the Dischordian Saga. It's the safest way to test your abilities... relatively safe." },
+      { id: "weapon-rack", name: "Weapon Rack", description: "A free-standing glass display case in the left-center holds high-grade weapons, with a wall-mounted rifle rack behind it. Most are locked behind security glass.", x: 15, y: 20, width: 35, height: 55, type: "examine", elaraDialog: "The weapon racks. Plasma swords, energy shields, cloaking devices... most are locked behind security glass. You'll need to prove yourself in combat before I can authorize access to the heavier ordnance.",
+        tiers: [
+          { id: "tier_arm_weapons_t2", requiredVisitCount: 2, responseId: "hs_arm_weapons_t2" },
+          { id: "tier_arm_weapons_t3", requiredVisitCount: 3, responseId: "hs_arm_weapons_t3" },
+        ],
+      },
+      { id: "combat-arena", name: "Combat Arena", description: "The raised circular armor dais at chamber center, ringed by a purple-glow aura. A holographic combat simulation arena for training.", x: 50, y: 25, width: 22, height: 55, type: "terminal", action: "/fight", elaraDialog: "The combat arena. Step inside and I'll generate holographic opponents based on known entities from the Dischordian Saga. It's the safest way to test your abilities... relatively safe.",
+        tiers: [
+          { id: "tier_arm_arena_t2", requiredVisitCount: 2, responseId: "hs_arm_arena_t2" },
+          { id: "tier_arm_arena_t3", requiredVisitCount: 3, responseId: "hs_arm_arena_t3" },
+          { id: "tier_arm_arena_t5", requiredVisitCount: 5, responseId: "hs_arm_arena_t5_stutter" },
+        ],
+      },
       { id: "quiz-terminal", name: "Knowledge Terminal", description: "The far-left corkboard of pinned mission cards — a terminal disguised as a duty board that tests your knowledge of the Dischordian lore.", x: 0, y: 20, width: 15, height: 55, type: "terminal", action: "/quiz", elaraDialog: "The Knowledge Terminal. It tests your understanding of the Dischordian Saga. Answer correctly and you'll earn rewards. Get them wrong and... well, there are no penalties. But I'll be disappointed." },
       { id: "card-battle-station", name: "Card Battle Station", description: "The left half of the right-side tool workbench — a tactical display surface for card game warfare.", x: 74, y: 62, width: 13, height: 17, type: "terminal", action: "/battle", elaraDialog: "The card battle station. Here you can engage in strategic card warfare — deploying your deck against AI opponents or other Potentials. Every victory earns you rewards and moves you closer to understanding the true nature of the conflict." },
-      { id: "chess-table", name: "Strategy Table", description: "The right half of the right-side tool workbench — an ornate chess board with holographic pieces depicting Dischordian characters.", x: 87, y: 62, width: 11, height: 17, type: "terminal", action: "/chess", elaraDialog: "The Strategy Table. A chess variant using characters from the Dischordian Saga as pieces. Each character has unique abilities that modify the classic rules. It's not just a game — it's a test of tactical thinking. The AI opponent adapts to your skill level." },
+      { id: "chess-table", name: "Strategy Table", description: "The right half of the right-side tool workbench — an ornate chess board with holographic pieces depicting Dischordian characters.", x: 87, y: 62, width: 11, height: 17, type: "terminal", action: "/chess", elaraDialog: "The Strategy Table. A chess variant using characters from the Dischordian Saga as pieces. Each character has unique abilities that modify the classic rules. It's not just a game — it's a test of tactical thinking. The AI opponent adapts to your skill level.",
+        tiers: [
+          { id: "tier_arm_chess_t2", requiredVisitCount: 2, responseId: "hs_arm_chess_t2" },
+          { id: "tier_arm_chess_t3", requiredVisitCount: 3, responseId: "hs_arm_chess_t3" },
+        ],
+      },
       { id: "spectator-screen", name: "Spectator Screen", description: "The front edge of the right-side workbench — a wide screen showing live battles between other Potentials.", x: 74, y: 82, width: 24, height: 12, type: "terminal", action: "/spectate", elaraDialog: "The Spectator Screen. Watch live battles between other Potentials. Study their strategies, learn from their mistakes, and prepare for your own encounters." },
 
       // ── DOORS ──
@@ -1994,9 +2042,25 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "trade-terminal", name: "Trade Empire Terminal", description: "The raised central dais with a mannequin standing in the middle of a flag-ring — the main terminal for the interstellar trade simulation.", x: 40, y: 25, width: 22, height: 50, type: "terminal", action: "/trade-empire", elaraDialog: "Trade Empire. An interstellar trade simulation based on the actual trade routes of the Dischordian universe. Buy low, sell high, avoid pirates, and build your trading empire. The credits you earn here are real — they can be spent in the store." },
       { id: "store-counter", name: "Requisitions Counter", description: "The red-curtained trading alcove right-of-center — a trading post where you can buy items with Dream tokens and credits.", x: 60, y: 35, width: 18, height: 45, type: "terminal", action: "/store", elaraDialog: "The Requisitions Counter. You can spend your Dream tokens and credits here on upgrades, card packs, cosmetics, and more. Some items are only available through the store." },
       { id: "marketplace-board", name: "Marketplace Board", description: "The ring of small flags above the central dais — a bustling exchange board showing buy and sell orders from Potentials across the Ark.", x: 37, y: 22, width: 28, height: 8, type: "terminal", action: "/marketplace", elaraDialog: "The Marketplace. A peer-to-peer exchange where Potentials trade cards, materials, and equipment. Prices fluctuate based on supply and demand. A shrewd trader can make a fortune here." },
-      { id: "inventory-locker", name: "Personal Locker", description: "The left-wall recessed display cases — your secured locker containing collected items and equipment.", x: 0, y: 25, width: 14, height: 50, type: "terminal", action: "/inventory", elaraDialog: "Your personal inventory locker. Everything you've collected — weapons, armor, materials, consumables, and artifacts — is stored here. Organize your gear before heading into battle." },
-      { id: "fleet-dock", name: "Fleet Docking Bay", description: "The right-wall recessed display cases — a viewport showing the Ark's auxiliary fleet of smaller vessels.", x: 85, y: 25, width: 14, height: 50, type: "terminal", action: "/fleet", elaraDialog: "The Fleet Docking Bay. Your auxiliary vessels are moored here — scout ships, cargo haulers, and combat frigates. Manage your fleet to expand your reach across the trade routes and war zones of the Saga." },
-      { id: "mystery-crate", name: "Sealed Crate", description: "The stack of blue brass-cornered crates at left-center. The largest crate has claw marks on it — something was trying to get in... or out.", x: 15, y: 30, width: 28, height: 50, type: "examine", elaraDialog: "That crate... the claw marks are on the inside. Something was sealed in there and tried to get out. The manifest says it contained 'biological samples from Sector 7.' I've locked it down. Don't touch it." },
+      { id: "inventory-locker", name: "Personal Locker", description: "The left-wall recessed display cases — your secured locker containing collected items and equipment.", x: 0, y: 25, width: 14, height: 50, type: "terminal", action: "/inventory", elaraDialog: "Your personal inventory locker. Everything you've collected — weapons, armor, materials, consumables, and artifacts — is stored here. Organize your gear before heading into battle.",
+        tiers: [
+          { id: "tier_cargo_locker_t2", requiredVisitCount: 2, responseId: "hs_cargo_locker_t2" },
+          { id: "tier_cargo_locker_t3", requiredVisitCount: 3, responseId: "hs_cargo_locker_t3" },
+        ],
+      },
+      { id: "fleet-dock", name: "Fleet Docking Bay", description: "The right-wall recessed display cases — a viewport showing the Ark's auxiliary fleet of smaller vessels.", x: 85, y: 25, width: 14, height: 50, type: "terminal", action: "/fleet", elaraDialog: "The Fleet Docking Bay. Your auxiliary vessels are moored here — scout ships, cargo haulers, and combat frigates. Manage your fleet to expand your reach across the trade routes and war zones of the Saga.",
+        tiers: [
+          { id: "tier_cargo_fleet_t2", requiredVisitCount: 2, responseId: "hs_cargo_fleet_t2" },
+          { id: "tier_cargo_fleet_t3", requiredVisitCount: 3, responseId: "hs_cargo_fleet_t3" },
+        ],
+      },
+      { id: "mystery-crate", name: "Sealed Crate", description: "The stack of blue brass-cornered crates at left-center. The largest crate has claw marks on it — something was trying to get in... or out.", x: 15, y: 30, width: 28, height: 50, type: "examine", elaraDialog: "That crate... the claw marks are on the inside. Something was sealed in there and tried to get out. The manifest says it contained 'biological samples from Sector 7.' I've locked it down. Don't touch it.",
+        tiers: [
+          { id: "tier_cargo_crate_t2", requiredVisitCount: 2, responseId: "hs_cargo_crate_t2" },
+          { id: "tier_cargo_crate_t3", requiredVisitCount: 3, responseId: "hs_cargo_crate_t3" },
+          { id: "tier_cargo_crate_t5", requiredVisitCount: 5, responseId: "hs_cargo_crate_t5_stutter" },
+        ],
+      },
 
       // ── DOORS ──
       { id: "door-armory", name: "Armory Stairs", description: "Stairs leading up to the Armory.", x: 0, y: 78, width: 5, height: 18, type: "door", action: "armory" },
