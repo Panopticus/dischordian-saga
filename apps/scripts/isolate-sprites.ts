@@ -189,7 +189,7 @@ interface GeminiBbox {
 }
 
 const GEMINI_KEY = process.env.GEMINI_API_KEY ?? process.env.GOOGLE_API_KEY ?? "";
-const GEMINI_MODEL = process.env.GEMINI_MODEL ?? "gemini-2.0-flash";
+const GEMINI_MODEL = process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
 /** Min ms between Gemini requests. Free tier allows 15 RPM = 1 req / 4s.
  *  Default 4500 ms keeps a safety margin. Override via env. */
 const GEMINI_MIN_INTERVAL_MS = parseInt(process.env.GEMINI_MIN_INTERVAL_MS ?? "4500", 10);
