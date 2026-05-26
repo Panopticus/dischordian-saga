@@ -582,12 +582,12 @@ function EngineerEpisodeVotesPanel() {
             <button
               key={vote.id}
               onClick={() => setOpenVoteId(vote.id)}
-              className="w-full text-left p-3 rounded border border-emerald-500/30 bg-emerald-950/15 hover:border-emerald-400/60 hover:bg-emerald-900/30 transition-all"
+              className="w-full text-left p-3 rounded border void-border-success void-bg-success hover:opacity-90 transition-all"
             >
-              <div className="font-display text-[11px] font-bold tracking-wider text-emerald-100 mb-1">
+              <div className="font-display text-[11px] font-bold tracking-wider void-text-energy mb-1">
                 {vote.question}
               </div>
-              <div className="font-mono text-[8px] text-emerald-300/60">
+              <div className="font-mono text-[8px] void-text-energy opacity-60">
                 Proposed by {vote.proposedBy} · {vote.options.length} options
               </div>
             </button>
