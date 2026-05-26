@@ -1,4 +1,4 @@
-import { bigint, boolean, int, json, mysqlEnum, mysqlTable, text, timestamp, tinyint, varchar, uniqueIndex, index } from "drizzle-orm/mysql-core";
+import { bigint, boolean, foreignKey, int, json, mysqlEnum, mysqlTable, text, timestamp, tinyint, varchar, uniqueIndex, index } from "drizzle-orm/mysql-core";
 
 /**
  * Core user table backing auth flow.
@@ -2306,7 +2306,10 @@ export type ChessPuzzleProgress = typeof chessPuzzleProgress.$inferSelect;
  *  values to the client. */
 export const chessTournamentParticipants = mysqlTable("chess_tournament_participants", {
   id: int("id").autoincrement().primaryKey(),
-  tournamentId: int("tournamentId").notNull().references(() => chessTournaments.id, { onDelete: "cascade" }),
+  // FK declared explicitly below — drizzle's auto-generated name
+  // `chess_tournament_participants_tournamentId_chess_tournaments_id_fk`
+  // is 66 chars, exceeding MySQL's 64-char identifier limit.
+  tournamentId: int("tournamentId").notNull(),
   userId: int("userId").notNull().references(() => users.id, { onDelete: "restrict" }),
   userName: varchar("userName", { length: 128 }).notNull(),
   /** 2× actual score — divide by 2 for display. */
@@ -2316,6 +2319,11 @@ export const chessTournamentParticipants = mysqlTable("chess_tournament_particip
   active: boolean("active").notNull().default(true),
   joinedAt: timestamp("joinedAt").defaultNow().notNull(),
 }, (table) => ({
+  tournamentFk: foreignKey({
+    name: "fk_chess_tourney_part_tournament",
+    columns: [table.tournamentId],
+    foreignColumns: [chessTournaments.id],
+  }).onDelete("cascade"),
   tournamentUserUq: uniqueIndex("idx_chess_tournament_participants_tourney_user").on(table.tournamentId, table.userId),
   tournamentIdx: index("idx_chess_tournament_participants_tournament").on(table.tournamentId),
   userIdx: index("idx_chess_tournament_participants_user").on(table.userId),

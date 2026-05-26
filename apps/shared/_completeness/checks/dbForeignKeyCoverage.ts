@@ -39,13 +39,14 @@ function extractColumns(source: string): Column[] {
   const out: Column[] = [];
   // Match every `mysqlTable("<name>", { ... }` opening; capture the
   // table body up to the close `}` followed by either `,` (index
-  // callback) or `);` (no callback).
-  // Tolerates both single-line `mysqlTable("…", { … }` form and
-  // multi-line `mysqlTable(\n  "…",\n  {\n    …\n  }` form. The
-  // body-close lookbehind `\n\s*\}\s*(?:,|\))` allows the closing
-  // brace to be indented (e.g. 2 spaces in the multi-line form).
+  // callback) or `);` (no callback). Also capture the optional
+  // index/foreignKey callback body that follows, so we can detect
+  // FKs declared via the `foreignKey({ columns: [table.colName] })`
+  // builder form — used when drizzle's auto-generated FK name
+  // exceeds MySQL's 64-char identifier limit and can't be inlined
+  // via `.references()`.
   const tableRe =
-    /export\s+const\s+\w+\s*=\s*mysqlTable\(\s*["']([a-zA-Z0-9_]+)["']\s*,\s*\{([\s\S]*?)\n\s*\}\s*(?:,|\))/g;
+    /export\s+const\s+\w+\s*=\s*mysqlTable\(\s*["']([a-zA-Z0-9_]+)["']\s*,\s*\{([\s\S]*?)\n\s*\}\s*(?:,\s*\(\s*\w+\s*\)\s*=>\s*\(?\s*\{([\s\S]*?)\n\s*\}\s*\)?\s*\))?/g;
   for (const tableMatch of source.matchAll(tableRe)) {
     const tableName = tableMatch[1];
     // Comments between columns confuse the column-body lookahead
@@ -53,6 +54,22 @@ function extractColumns(source: string): Column[] {
     // comments first; the column matcher then sees clean column-
     // separated declarations.
     const body = stripComments(tableMatch[2]);
+    const configBody = tableMatch[3] ? stripComments(tableMatch[3]) : "";
+    // Extract column names referenced by foreignKey() builders in
+    // the table-config callback. Drizzle's API:
+    //   foreignKey({ columns: [table.<colName>, ...], ... })
+    // We collect every column referenced as a `columns: [...]` entry
+    // and treat those columns as having an FK declared.
+    const foreignKeyCols = new Set<string>();
+    if (configBody) {
+      const fkRe = /foreignKey\s*\(\s*\{[^}]*?columns:\s*\[([^\]]+)\]/g;
+      for (const fkMatch of configBody.matchAll(fkRe)) {
+        const colList = fkMatch[1];
+        for (const ref of colList.matchAll(/\.([a-zA-Z_][a-zA-Z0-9_]*)/g)) {
+          foreignKeyCols.add(ref[1]);
+        }
+      }
+    }
     // Column declarations: `<name>: int(...)` at any indentation
     // depth (2 spaces in single-line tables, 4 in multi-line).
     // Restrict to int(...) columns — varchar/text/bigint suffixes
@@ -65,7 +82,8 @@ function extractColumns(source: string): Column[] {
       const key = `${tableName}.${columnName}`;
       if (seen.has(key)) continue;
       seen.add(key);
-      const hasReferences = /\.references\s*\(/.test(definition);
+      const hasReferences =
+        /\.references\s*\(/.test(definition) || foreignKeyCols.has(columnName);
       out.push({ table: tableName, column: columnName, hasReferences });
     }
   }

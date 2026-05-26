@@ -97,8 +97,13 @@ describe("migration journal hygiene", () => {
   const baselineSet = new Set(baseline.driftedSqlFiles);
   const collisionBaseline = new Set(baseline.knownPrefixCollisions);
 
-  it("the journal has at least the historical 35 entries (regression floor)", () => {
-    expect(journal.entries.length).toBeGreaterThanOrEqual(35);
+  it("the journal contains the baseline (regression floor)", () => {
+    // Pre-cutover this was "≥ 35 historical entries". The 0071_baseline_v1
+    // cutover collapsed the journal into a single from-scratch baseline;
+    // the 39 historical .sql files are archived under apps/db/_archive/.
+    // The floor now asserts that the baseline survives.
+    expect(journal.entries.length).toBeGreaterThanOrEqual(1);
+    expect(journal.entries.some(e => e.tag === "0071_baseline_v1")).toBe(true);
   });
 
   it("every journal entry has a matching .sql file in apps/db/", () => {
