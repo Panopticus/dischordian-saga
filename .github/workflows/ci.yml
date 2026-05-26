@@ -98,14 +98,13 @@ jobs:
           fi
 
   # Fresh-DB smoke test.
-  # Spins a clean MySQL 8 service, runs the same migration + bootstrap
-  # path the production server runs on every Railway deploy, and asserts
-  # the bootstrap-targeted tables/columns landed. Catches regressions in:
-  #   - drizzle-kit-tracked migrations (anything in apps/db/_journal.json)
-  #   - the orphan-migration startup bootstraps for 0049/0054 (see
-  #     apps/db/README.md §"Startup bootstraps for critical orphan
-  #     migrations")
-  #   - new orphans added without a matching bootstrap
+  # Spins a clean MySQL 8 service, runs the journal-tracked
+  # 0071_baseline_v1 migration (provisions full schema), and runs the
+  # legacy bootstrap path to confirm it idempotently no-ops against
+  # an already-populated schema. Catches regressions in:
+  #   - drizzle-kit-tracked migrations (journal-tracked)
+  #   - bootstrap* IIFEs in apps/server/services/ (pending deletion
+  #     in a follow-up commit; idempotent today)
   # Independent of the `check` job because it needs a service container;
   # run it as a separate job so a unit-test failure doesn't mask a DB
   # regression and vice versa.
@@ -160,18 +159,14 @@ jobs:
           exit 1
 
       - name: Apply journal-tracked migrations (drizzle-kit migrate)
-        # continue-on-error: the journal-drift situation documented in
-        # apps/db/README.md means a fresh migrate can fail today on
-        # a journal-tracked migration that references a base table
-        # shipped by an orphan (e.g. 0045_arena_essences depends on
-        # base tables in orphans 0036-0044). Full reconciliation is
-        # explicitly scoped to a dedicated devops cleanup commit.
-        # The smoke test that follows is what we actually care about
-        # for THIS PR — it verifies the orphan bootstrap path. Once
-        # the reconciliation lands, this flag should come down so
-        # migrate failures fail the job again.
-        continue-on-error: true
-        run: pnpm db:migrate:prod
+        # Post-0071_baseline_v1 cutover the journal is a single
+        # from-scratch baseline that provisions the full schema on
+        # an empty DB. A fresh migrate must succeed; failures are
+        # real and should fail the job. (`db:migrate` is the same
+        # underlying drizzle-kit migrate as `db:migrate:prod` but
+        # without the NODE_ENV=production guard, which makes sense
+        # for a CI service container.)
+        run: pnpm db:migrate
 
       - name: Run fresh-DB smoke test (orphan bootstraps + DDL assertions)
         run: pnpm db:smoke
@@ -299,27 +294,10 @@ jobs:
           exit 1
 
       - name: Apply migrations
-        # Same continue-on-error gate as the db-smoke job — see the
-        # journal-drift discussion above. The seed/server steps still
-        # run; missing tables surface as a Playwright spec failure.
-        continue-on-error: true
-        run: pnpm db:migrate:prod
-
-      - name: Provision full schema (drizzle-kit push)
-        # The e2e job runs the REAL server (`pnpm start` below), which
-        # calls ensureCriticalSchemaOrExit() at boot and FATAL-exits if
-        # critical tables are missing. With db:migrate:prod running
-        # continue-on-error against the drifted journal, dozens of
-        # schema.ts tables (dream_balance, season_clock_state, the
-        # trade_* family) are uncreated; the server crashes on boot
-        # and Playwright then hits ERR_CONNECTION_REFUSED on every
-        # spec. db:push diffs schema.ts → DB and applies it
-        # idempotently (CLAUDE.md: "safe on out-of-sync DBs"). Unlike
-        # db-smoke, this job has no test harness that drops the DB,
-        # so the pushed schema actually survives to the server boot.
-        # The guard (scripts/guard-db-push.ts) still blocks
-        # prod/managed hosts; this CI DB is 127.0.0.1.
-        run: pnpm db:push
+        # Post-0071_baseline_v1 cutover: db:migrate provisions the
+        # full schema cleanly on a fresh DB. The drift-era `db:push`
+        # fallback is no longer needed.
+        run: pnpm db:migrate
 
       - name: Seed E2E test user
         run: pnpm seed:e2e-user
