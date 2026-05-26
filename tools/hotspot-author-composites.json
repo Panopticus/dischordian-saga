@@ -2852,5 +2852,443 @@
       "hellbox1_transit": "brightness(1.10) sepia(0.15)",
       "long_sleep_ending": "brightness(0.95)"
     }
+  },
+  "antiquarian-library": {
+    "bases": [
+      {
+        "id": "antiquarians_library_base_act6_locker_reveal",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/base/antiquarians_library_base_act6_locker_reveal.png"
+      },
+      {
+        "id": "antiquarians_library_base_act7_dimmed_absent",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/base/antiquarians_library_base_act7_dimmed_absent.png"
+      },
+      {
+        "id": "antiquarians_library_base_cycle_dawn",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/base/antiquarians_library_base_cycle_dawn.png"
+      },
+      {
+        "id": "antiquarians_library_base_cycle_long_night",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/base/antiquarians_library_base_cycle_long_night.png"
+      },
+      {
+        "id": "antiquarians_library_base_daniel_cross_disclosed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/base/antiquarians_library_base_daniel_cross_disclosed.png"
+      },
+      {
+        "id": "antiquarians_library_base_epoch_grand_edit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/base/antiquarians_library_base_epoch_grand_edit.png"
+      },
+      {
+        "id": "antiquarians_library_base_epoch_post_grand_edit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/base/antiquarians_library_base_epoch_post_grand_edit.png"
+      },
+      {
+        "id": "antiquarians_library_base_epoch_shadowtongue_inverted",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/base/antiquarians_library_base_epoch_shadowtongue_inverted.png"
+      },
+      {
+        "id": "antiquarians_library_base_first_entry_act3",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/base/antiquarians_library_base_first_entry_act3.png"
+      },
+      {
+        "id": "antiquarians_library_base_governance_lore_unlock",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/base/antiquarians_library_base_governance_lore_unlock.png"
+      },
+      {
+        "id": "antiquarians_library_base_initial",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/base/antiquarians_library_base_initial.png"
+      },
+      {
+        "id": "antiquarians_library_base_locked_vault_open",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/base/antiquarians_library_base_locked_vault_open.png"
+      },
+      {
+        "id": "antiquarians_library_base_morality_dark",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/base/antiquarians_library_base_morality_dark.png"
+      },
+      {
+        "id": "antiquarians_library_base_recursive_gallery_loop",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/base/antiquarians_library_base_recursive_gallery_loop.png"
+      },
+      {
+        "id": "antiquarians_library_base_season_interregnum",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/base/antiquarians_library_base_season_interregnum.png"
+      }
+    ],
+    "sprites": [
+      {
+        "id": "sp01_skylight_beam_warm_gold_dust_motes",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp01_skylight_beam_warm_gold_dust_motes.png"
+      },
+      {
+        "id": "sp02_skylight_beam_dawn_golden_pink",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp02_skylight_beam_dawn_golden_pink.png"
+      },
+      {
+        "id": "sp03_skylight_beam_dim_grey_suppressed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp03_skylight_beam_dim_grey_suppressed.png"
+      },
+      {
+        "id": "sp04_skylight_beam_cool_violet",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp04_skylight_beam_cool_violet.png"
+      },
+      {
+        "id": "sp05_corner_skylight_beam_amber_45deg",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp05_corner_skylight_beam_amber_45deg.png"
+      },
+      {
+        "id": "sp06_dust_motes_floating_warm_amber",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp06_dust_motes_floating_warm_amber.png"
+      },
+      {
+        "id": "sp07_chandelier_lit_full_warm_amber",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp07_chandelier_lit_full_warm_amber.png"
+      },
+      {
+        "id": "sp08_chandelier_intensified_max_amber",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp08_chandelier_intensified_max_amber.png"
+      },
+      {
+        "id": "sp09_chandelier_flickering_one_arm_dark",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp09_chandelier_flickering_one_arm_dark.png"
+      },
+      {
+        "id": "sp10_chandelier_extinguished_cold_brass",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp10_chandelier_extinguished_cold_brass.png"
+      },
+      {
+        "id": "sp11_reading_table_lamp_lit_warm_cream",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp11_reading_table_lamp_lit_warm_cream.png"
+      },
+      {
+        "id": "sp12_reading_table_lamp_doubled_flame_cyan_cream",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp12_reading_table_lamp_doubled_flame_cyan_cream.png"
+      },
+      {
+        "id": "sp13_reading_table_lamp_ember_barely_glowing",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp13_reading_table_lamp_ember_barely_glowing.png"
+      },
+      {
+        "id": "sp14_reading_table_lamp_extinguished",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp14_reading_table_lamp_extinguished.png"
+      },
+      {
+        "id": "sp15_reading_table_open_book_finger_rule",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp15_reading_table_open_book_finger_rule.png"
+      },
+      {
+        "id": "sp16_brass_finger_rule_on_open_book",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp16_brass_finger_rule_on_open_book.png"
+      },
+      {
+        "id": "sp17_open_book_marginalia_close_up",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp17_open_book_marginalia_close_up.png"
+      },
+      {
+        "id": "sp18_brass_inkwell_quill",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp18_brass_inkwell_quill.png"
+      },
+      {
+        "id": "sp19_oxblood_visitor_chair_empty",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp19_oxblood_visitor_chair_empty.png"
+      },
+      {
+        "id": "sp20_antiquarian_chair_empty_candles_lit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp20_antiquarian_chair_empty_candles_lit.png"
+      },
+      {
+        "id": "sp21_antiquarian_chair_empty_candles_unlit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp21_antiquarian_chair_empty_candles_unlit.png"
+      },
+      {
+        "id": "sp22_antiquarian_candle_array_both_lit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp22_antiquarian_candle_array_both_lit.png"
+      },
+      {
+        "id": "sp23_antiquarian_candle_array_both_unlit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp23_antiquarian_candle_array_both_unlit.png"
+      },
+      {
+        "id": "sp24_antiquarian_locker_closed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp24_antiquarian_locker_closed.png"
+      },
+      {
+        "id": "sp25_antiquarian_locker_open_personal_effects",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp25_antiquarian_locker_open_personal_effects.png"
+      },
+      {
+        "id": "sp26_antiquarian_locker_journal_open",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp26_antiquarian_locker_journal_open.png"
+      },
+      {
+        "id": "sp27_antiquarians_journal_brass_clasp_closed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp27_antiquarians_journal_brass_clasp_closed.png"
+      },
+      {
+        "id": "sp28_locker_warm_gold_glow_rim",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp28_locker_warm_gold_glow_rim.png"
+      },
+      {
+        "id": "sp29_locked_vault_door_closed_cyan_sigil",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp29_locked_vault_door_closed_cyan_sigil.png"
+      },
+      {
+        "id": "sp30_locked_vault_door_ajar_gold_light_spill",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp30_locked_vault_door_ajar_gold_light_spill.png"
+      },
+      {
+        "id": "sp31_vault_door_fully_open_interior_glow",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp31_vault_door_fully_open_interior_glow.png"
+      },
+      {
+        "id": "sp32_warm_gold_light_spill_vault_floor",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp32_warm_gold_light_spill_vault_floor.png"
+      },
+      {
+        "id": "sp33_vault_sigil_silent_no_glow",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp33_vault_sigil_silent_no_glow.png"
+      },
+      {
+        "id": "sp34_vault_sigil_cyan_low_pulse",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp34_vault_sigil_cyan_low_pulse.png"
+      },
+      {
+        "id": "sp35_vault_sigil_bright_cyan_alarm",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp35_vault_sigil_bright_cyan_alarm.png"
+      },
+      {
+        "id": "sp36_vault_sigil_indigo_pulse",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp36_vault_sigil_indigo_pulse.png"
+      },
+      {
+        "id": "sp37_vault_sigil_warm_gold_victory",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp37_vault_sigil_warm_gold_victory.png"
+      },
+      {
+        "id": "sp38_snowglobe_stopped_dark",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp38_snowglobe_stopped_dark.png"
+      },
+      {
+        "id": "sp39_snowglobe_pulsing_neutral",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp39_snowglobe_pulsing_neutral.png"
+      },
+      {
+        "id": "sp40_snowglobe_warm_gold_victory_pulse",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp40_snowglobe_warm_gold_victory_pulse.png"
+      },
+      {
+        "id": "sp41_card_catalogue_all_drawers_closed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp41_card_catalogue_all_drawers_closed.png"
+      },
+      {
+        "id": "sp42_card_catalogue_drawer_open_index_cards",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp42_card_catalogue_drawer_open_index_cards.png"
+      },
+      {
+        "id": "sp43_card_catalogue_multiple_drawers_open",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp43_card_catalogue_multiple_drawers_open.png"
+      },
+      {
+        "id": "sp44_chess_table_mid_game",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp44_chess_table_mid_game.png"
+      },
+      {
+        "id": "sp45_chess_pieces_rearranging_supernatural",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp45_chess_pieces_rearranging_supernatural.png"
+      },
+      {
+        "id": "sp46_chess_pieces_collecting_into_brass_tray",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp46_chess_pieces_collecting_into_brass_tray.png"
+      },
+      {
+        "id": "sp47_chess_brass_collection_tray",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp47_chess_brass_collection_tray.png"
+      },
+      {
+        "id": "sp48_north_wall_chess_relief_scholars",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp48_north_wall_chess_relief_scholars.png"
+      },
+      {
+        "id": "sp49_brass_celestial_globe",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp49_brass_celestial_globe.png"
+      },
+      {
+        "id": "sp50_brass_terrestrial_globe",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp50_brass_terrestrial_globe.png"
+      },
+      {
+        "id": "sp51_brass_globe_terrestrial_glowing",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp51_brass_globe_terrestrial_glowing.png"
+      },
+      {
+        "id": "sp52_bust_first_antiquarian_warm_bronze",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp52_bust_first_antiquarian_warm_bronze.png"
+      },
+      {
+        "id": "sp53_bust_first_programmer_cracked_smoked_glass",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp53_bust_first_programmer_cracked_smoked_glass.png"
+      },
+      {
+        "id": "sp54_bust_cracked_glass_face_glimpse",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp54_bust_cracked_glass_face_glimpse.png"
+      },
+      {
+        "id": "sp55_hierophant_marginalia_stack_top_closed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp55_hierophant_marginalia_stack_top_closed.png"
+      },
+      {
+        "id": "sp56_hierophant_marginalia_stack_top_open",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp56_hierophant_marginalia_stack_top_open.png"
+      },
+      {
+        "id": "sp57_velkraal_dossier_edges_visible",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp57_velkraal_dossier_edges_visible.png"
+      },
+      {
+        "id": "sp58_velkraal_folio_open_on_lectern",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp58_velkraal_folio_open_on_lectern.png"
+      },
+      {
+        "id": "sp59_recipe_archive_cabinet_closed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp59_recipe_archive_cabinet_closed.png"
+      },
+      {
+        "id": "sp60_recipe_archive_drawer_open",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp60_recipe_archive_drawer_open.png"
+      },
+      {
+        "id": "sp61_gallery_1_shelf_full_warm",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp61_gallery_1_shelf_full_warm.png"
+      },
+      {
+        "id": "sp62_gallery_2_shelf_full_warm",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp62_gallery_2_shelf_full_warm.png"
+      },
+      {
+        "id": "sp63_gallery_3_shelf_full_warm",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp63_gallery_3_shelf_full_warm.png"
+      },
+      {
+        "id": "sp64_gallery_4_shelf_full_warm",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp64_gallery_4_shelf_full_warm.png"
+      },
+      {
+        "id": "sp65_gallery_5_recursion_shelf_distorted",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp65_gallery_5_recursion_shelf_distorted.png"
+      },
+      {
+        "id": "sp66_gallery_strip_lights_warm_amber",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp66_gallery_strip_lights_warm_amber.png"
+      },
+      {
+        "id": "sp67_gallery_strip_lights_dim_cool",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp67_gallery_strip_lights_dim_cool.png"
+      },
+      {
+        "id": "sp68_book_spines_brass_edges_all_glowing",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp68_book_spines_brass_edges_all_glowing.png"
+      },
+      {
+        "id": "sp69_phosphorescent_books_cyan_violet_glow",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp69_phosphorescent_books_cyan_violet_glow.png"
+      },
+      {
+        "id": "sp70_phosphorescent_books_intensified_bright",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp70_phosphorescent_books_intensified_bright.png"
+      },
+      {
+        "id": "sp71_bronze_shelf_nameplates_glowing_gold",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp71_bronze_shelf_nameplates_glowing_gold.png"
+      },
+      {
+        "id": "sp72_brass_scroll_tubes_shelf_row",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp72_brass_scroll_tubes_shelf_row.png"
+      },
+      {
+        "id": "sp73_books_falling_upward_non_euclidean",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp73_books_falling_upward_non_euclidean.png"
+      },
+      {
+        "id": "sp74_recursion_boundary_books_floating",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp74_recursion_boundary_books_floating.png"
+      },
+      {
+        "id": "sp75_recursion_shimmer_distortion_overlay",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp75_recursion_shimmer_distortion_overlay.png"
+      },
+      {
+        "id": "sp76_herringbone_floor_brass_outer_band",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp76_herringbone_floor_brass_outer_band.png"
+      },
+      {
+        "id": "sp77_brass_compass_rose_floor_inlay",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp77_brass_compass_rose_floor_inlay.png"
+      },
+      {
+        "id": "sp78_floor_indigo_seam_corruption",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp78_floor_indigo_seam_corruption.png"
+      },
+      {
+        "id": "sp79_indigo_tendrils_floor_creeping",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp79_indigo_tendrils_floor_creeping.png"
+      },
+      {
+        "id": "sp80_shadow_tongue_void_overlay",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp80_shadow_tongue_void_overlay.png"
+      },
+      {
+        "id": "sp81_framed_portrait_deceased_woman_oxblood",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp81_framed_portrait_deceased_woman_oxblood.png"
+      },
+      {
+        "id": "sp82_polished_brass_coin_single",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp82_polished_brass_coin_single.png"
+      },
+      {
+        "id": "sp83_unfinished_letter_folded_cream_paper",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp83_unfinished_letter_folded_cream_paper.png"
+      },
+      {
+        "id": "sp84_brass_tea_tray_with_dust",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp84_brass_tea_tray_with_dust.png"
+      },
+      {
+        "id": "sp85_tea_service_full_steaming",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp85_tea_service_full_steaming.png"
+      },
+      {
+        "id": "sp86_south_archway_bronze_frame",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp86_south_archway_bronze_frame.png"
+      },
+      {
+        "id": "sp87_south_archway_cyan_transit_light_spill",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp87_south_archway_cyan_transit_light_spill.png"
+      },
+      {
+        "id": "sp88_spiral_staircase_bronze_ascending",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp88_spiral_staircase_bronze_ascending.png"
+      },
+      {
+        "id": "sp89_warm_gold_ambient_full_room_overlay",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp89_warm_gold_ambient_full_room_overlay.png"
+      },
+      {
+        "id": "sp90_interregnum_cool_grey_ambient_overlay",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/antiquarians_library/sprites/sp90_interregnum_cool_grey_ambient_overlay.png"
+      }
+    ],
+    "lightingFilters": {
+      "cycle_dawn": "brightness(1.05) sepia(0.10) hue-rotate(-4deg)",
+      "cycle_dimming": "brightness(0.85) hue-rotate(4deg)",
+      "cycle_long_night": "brightness(0.65) hue-rotate(220deg) saturate(0.85)",
+      "morality_dark": "brightness(0.90) hue-rotate(260deg) saturate(0.80)",
+      "season_interregnum": "brightness(0.55)",
+      "tv_corrupted": "brightness(0.70) saturate(0.60)",
+      "tv_quarantined": "brightness(0.85) saturate(1.10) hue-rotate(8deg)",
+      "epoch_grand_edit": "brightness(0.85) hue-rotate(240deg)",
+      "hellbox1_transit": "brightness(1.10) sepia(0.15)",
+      "long_sleep_ending": "brightness(0.95)"
+    }
   }
 }

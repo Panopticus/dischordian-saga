@@ -13,6 +13,7 @@ import { resolveEngineeringComposite, ENGINEERING_BASE_IDS, ENGINEERING_SPRITE_I
 import { resolveArchivesComposite, ARCHIVES_BASE_IDS, ARCHIVES_SPRITE_IDS } from "./archivesComposite";
 import { resolveCommsArrayComposite, COMMS_ARRAY_BASE_IDS, COMMS_ARRAY_SPRITE_IDS } from "./commsArrayComposite";
 import { resolveObservationDeckComposite, OBSERVATION_DECK_BASE_IDS, OBSERVATION_DECK_SPRITE_IDS } from "./observationDeckComposite";
+import { resolveAntiquarianLibraryComposite, ANTIQUARIAN_LIBRARY_BASE_IDS, ANTIQUARIAN_LIBRARY_SPRITE_IDS } from "./antiquarianLibraryComposite";
 import { compositeBaseUrl, compositeSpriteUrl } from "./types";
 import type {
   CompositeGameSlice,
@@ -44,6 +45,7 @@ export const COMPOSITE_ASSET_CATALOG: Readonly<
   archives: { bases: ARCHIVES_BASE_IDS, sprites: ARCHIVES_SPRITE_IDS },
   "comms-array": { bases: COMMS_ARRAY_BASE_IDS, sprites: COMMS_ARRAY_SPRITE_IDS },
   "observation-deck": { bases: OBSERVATION_DECK_BASE_IDS, sprites: OBSERVATION_DECK_SPRITE_IDS },
+  "antiquarian-library": { bases: ANTIQUARIAN_LIBRARY_BASE_IDS, sprites: ANTIQUARIAN_LIBRARY_SPRITE_IDS },
 };
 
 /** True when the room has a Phase J composite resolver wired. */
@@ -55,7 +57,8 @@ export function hasRoomComposite(roomId: string): roomId is CompositeRoomId {
     roomId === "engineering" ||
     roomId === "archives" ||
     roomId === "comms-array" ||
-    roomId === "observation-deck"
+    roomId === "observation-deck" ||
+    roomId === "antiquarian-library"
   );
 }
 
@@ -82,6 +85,8 @@ export function resolveRoomComposite(
       return resolveCommsArrayComposite(game);
     case "observation-deck":
       return resolveObservationDeckComposite(game);
+    case "antiquarian-library":
+      return resolveAntiquarianLibraryComposite(game);
   }
 }
 
@@ -109,3 +114,4 @@ export { resolveEngineeringComposite } from "./engineeringComposite";
 export { resolveArchivesComposite } from "./archivesComposite";
 export { resolveCommsArrayComposite } from "./commsArrayComposite";
 export { resolveObservationDeckComposite } from "./observationDeckComposite";
+export { resolveAntiquarianLibraryComposite } from "./antiquarianLibraryComposite";
