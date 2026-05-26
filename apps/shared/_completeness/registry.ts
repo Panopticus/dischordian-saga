@@ -49,6 +49,7 @@ import { checkCardFlavorQuality } from "./checks/cardFlavorQuality";
 import { checkGlobalAlignmentMeter } from "./checks/globalAlignmentMeter";
 import { checkMobileNarratorAdoption } from "./checks/mobileNarratorAdoption";
 import { checkShadowTongueRoomCoverage } from "./checks/shadowTongueRoomCoverage";
+import { checkCompositeSpriteHotspotCoverage } from "./checks/compositeSpriteHotspotCoverage";
 import { checkCutsceneComponents } from "./checks/cutsceneComponents";
 import { checkDeclaredSubsystemRuntime } from "./checks/declaredSubsystemRuntime";
 import { checkGovernanceRouterPresence } from "./checks/governanceRouterPresence";
@@ -489,6 +490,14 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "STREAMED_PRISM_MYSTERY_ENGINE.md §1 enumerates 26 universal + 6 species-exclusive rooms. Every room must (a) be registered in ROOM_MYSTERY_REGISTRY and (b) have a non-empty source module. Catches dead-click rooms.",
     check: () => checkShadowTongueRoomCoverage(),
+    ratchet: { target: 0 },
+  },
+  {
+    id: "hotspots.composite_sprite_coverage",
+    name: "Composite sprite ↔ hotspot coverage",
+    description:
+      "Phase J composite sprites paint discrete narrative beats (a coin on the pedestal, an indigo annotation, an evidence cart). Each NAMED sprite (i.e. not an atmospheric overlay) should have a matching click target gated to it via HotspotDef.compositeScopes — landed in PR #776. Atmospheric sprites (banners, viewport, chandelier, witness-glyph, faction haze, atmospheric layers) are excluded. Ratcheted at landing; target 0 — tightens as hotspot authoring lands across all 7 rooms. Live audit/planning tool: apps/scripts/audit-sprite-hotspot-coverage.ts.",
+    check: () => checkCompositeSpriteHotspotCoverage(),
     ratchet: { target: 0 },
   },
   {
