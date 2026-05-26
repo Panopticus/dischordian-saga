@@ -1414,31 +1414,37 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // ── LEFT-WALL WORKSTATION MYSTERY RECTS (wolf arc) ──
       // The left-wall multi-screen workstation hosts the medical-archive
       // and containment-systems consoles described in the wolf arc.
-      { id: "wolf-host-residue-files", name: "Healer's Host-Residue Research", description: "On engineering's medical-archive console (left workstation, top screen): the healer's preserved files. One draft entry on a Quarchon Potential, edited fourteen times across the week she disappeared.", cx: 5, cy: 39, width: 8, height: 8, type: "interact", action: "room-mystery:engineering:wolf-host-residue-files" },
-      { id: "wolf-anara-architecture-blind-spot", name: "Anara Architectural Schematic", description: "On the containment-systems console (left workstation, lower screen): Anara's schematics expose the single design assumption — outside is threat, inside is family. The family has eaten the chronicler.", cx: 5, cy: 50, width: 8, height: 8, type: "interact", action: "room-mystery:engineering:wolf-anara-architecture-blind-spot" },
+      { id: "wolf-host-residue-files", name: "Healer's Host-Residue Research", description: "On engineering's medical-archive console (left workstation, top screen): the healer's preserved files. One draft entry on a Quarchon Potential, edited fourteen times across the week she disappeared.", cx: 5, cy: 39, width: 8, height: 8, type: "interact", action: "room-mystery:engineering:wolf-host-residue-files",
+        compositeScopes: ["sp56_wolf_host_residue_active"] },
+      { id: "wolf-anara-architecture-blind-spot", name: "Anara Architectural Schematic", description: "On the containment-systems console (left workstation, lower screen): Anara's schematics expose the single design assumption — outside is threat, inside is family. The family has eaten the chronicler.", cx: 5, cy: 50, width: 8, height: 8, type: "interact", action: "room-mystery:engineering:wolf-anara-architecture-blind-spot",
+        compositeScopes: ["sp57_wolf_anara_architecture_active"] },
 
       // ── FORGE-AREA SUB-RECT (etched formula easter egg) ──
       // Authored AFTER reactor-core so it wins clicks on the specific
       // formula etched into the reactor housing.
-      { id: "egg-eng-formula", name: "Etched Formula", description: "A mathematical formula scratched into the reactor housing above the forge.", cx: 49, cy: 30, width: 4, height: 4, type: "examine", action: "room-mystery:engineering:egg-eng-formula", elaraDialog: "Someone etched a formula into the reactor housing. It's a dimensional resonance equation — the kind used to calculate jumps between parallel universes. But there's an extra variable I've never seen: Ψ-null. The null consciousness coefficient. This formula could theoretically open a door to... nowhere. The space between spaces. Where the Source dwells." },
+      { id: "egg-eng-formula", name: "Etched Formula", description: "A mathematical formula scratched into the reactor housing above the forge.", cx: 49, cy: 30, width: 4, height: 4, type: "examine", action: "room-mystery:engineering:egg-eng-formula", elaraDialog: "Someone etched a formula into the reactor housing. It's a dimensional resonance equation — the kind used to calculate jumps between parallel universes. But there's an extra variable I've never seen: Ψ-null. The null consciousness coefficient. This formula could theoretically open a door to... nowhere. The space between spaces. Where the Source dwells.",
+        compositeScopes: ["sp58_egg_psi_null_formula"] },
 
       // ── WORKBENCH SUB-RECTS (foreground bench items) ──
       // Authored AFTER crafting-bench + research-station so they win
       // clicks on specific items laid out across the benches.
       { id: "mystery-crafting-bench", name: "Bench Tool Layout", description: "The tools on the left workbench, set up for a fusion job that was never started. Worn to a left-handed engineer's thumb.", cx: 23, cy: 83, width: 6, height: 6, type: "interact", action: "room-mystery:engineering:crafting-bench" },
-      { id: "instruction-manual", name: "Ark Instruction Manual", description: "A thick paper manual on the left workbench. Cracked spine, hand-stamped dedications.", cx: 30.5, cy: 83, width: 5, height: 6, type: "examine", action: "room-mystery:engineering:instruction-manual", elaraDialog: "INCEPTION ARK 1047 — QUICK START GUIDE. Page 1: Step 1, Don't let it get stolen. The author had a sense of humour and a complete absence of optimism." },
+      { id: "instruction-manual", name: "Ark Instruction Manual", description: "A thick paper manual on the left workbench. Cracked spine, hand-stamped dedications.", cx: 30.5, cy: 83, width: 5, height: 6, type: "examine", action: "room-mystery:engineering:instruction-manual", elaraDialog: "INCEPTION ARK 1047 — QUICK START GUIDE. Page 1: Step 1, Don't let it get stolen. The author had a sense of humour and a complete absence of optimism.",
+        compositeScopes: ["sp45_manual_closed_baseline", "sp46_manual_open_page_47", "sp47_manual_page_47_overstamped_indigo"] },
       { id: "schematic-pad", name: "Reactor Schematic Pad", description: "An unrolled blueprint on the left workbench. The lines are double-registered — warm-gold underneath, indigo on top, with three connection points subtly redirected.", cx: 23, cy: 91.5, width: 12, height: 7, type: "interact", action: "room-mystery:engineering:schematic-pad" },
       // Mystery wiring — Ith'Rael arc: Marion Kell physical-residue bench
       // Anchored on the small side-bench between the right foreground
       // workbench and the right-wall workstation, where centuries-old
       // untouched grain would be visible.
-      { id: "kell-physical-residue-bench", name: "Kell's Residue Bench", description: "A side bench kept unmoved for centuries — Marion Kell's old workbench. The grain, the mug-rings, the undusted rectangle the Shadow Tongue never touched.", cx: 66.5, cy: 84, width: 7, height: 8, type: "interact", action: "room-mystery:engineering:kell-physical-residue-bench" },
+      { id: "kell-physical-residue-bench", name: "Kell's Residue Bench", description: "A side bench kept unmoved for centuries — Marion Kell's old workbench. The grain, the mug-rings, the undusted rectangle the Shadow Tongue never touched.", cx: 66.5, cy: 84, width: 7, height: 8, type: "interact", action: "room-mystery:engineering:kell-physical-residue-bench",
+        compositeScopes: ["sp60_kell_physical_residue_bench"] },
 
       // ── RIGHT-WALL BULKHEAD EGG ──
       // Anchored on the right-wall workstation's lower bulkhead area
       // where the Warlord's neural residue would register on the
       // bio-scanner panel.
-      { id: "egg-warlord-residue", name: "Bio-Scanner Anomaly", description: "The bio-scanner panel on the right-wall workstation flickers with an unidentified neural signature embedded in the bulkhead plating behind it.", cx: 90.5, cy: 63, width: 5, height: 6, type: "item", action: "warlord-residue", elaraDialog: "[SIGNAL DISTORTION] The bio-scanners are detecting... no. That can't be right. There's a neural signature embedded in the bulkhead plating itself. Not organic, not synthetic — something in between. The Warlord's consciousness was so powerful that it left an imprint on the ship's physical structure. Dr. Lyra Vox commanded this vessel while the Warlord used her as a host body. The walls literally remember their master. {playerName}, this ship has a darker history than I initially disclosed. The Warlord didn't just pass through here — this was a command vessel." },
+      { id: "egg-warlord-residue", name: "Bio-Scanner Anomaly", description: "The bio-scanner panel on the right-wall workstation flickers with an unidentified neural signature embedded in the bulkhead plating behind it.", cx: 90.5, cy: 63, width: 5, height: 6, type: "item", action: "warlord-residue", elaraDialog: "[SIGNAL DISTORTION] The bio-scanners are detecting... no. That can't be right. There's a neural signature embedded in the bulkhead plating itself. Not organic, not synthetic — something in between. The Warlord's consciousness was so powerful that it left an imprint on the ship's physical structure. Dr. Lyra Vox commanded this vessel while the Warlord used her as a host body. The walls literally remember their master. {playerName}, this ship has a darker history than I initially disclosed. The Warlord didn't just pass through here — this was a command vessel.",
+        compositeScopes: ["sp59_egg_warlord_residue_bio_scanner"] },
     ],
   },
   {
