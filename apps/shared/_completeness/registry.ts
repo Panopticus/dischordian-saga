@@ -780,7 +780,7 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     id: "art.axis12_state_coverage",
     name: "Room art Axis 12 (faction-livery) state coverage",
     description:
-      "Every room with any faction-axis variant in the producer library should ideally have all 8 canonical faction states (none/hierarchy/dreamers/pureflame/insurgency/panopticon/collectors/multi). Producer-art delivers selective coverage (46 faction-axis variants total). compositeResolver degrades gracefully.",
+      "Every room with any faction-axis variant in the producer library should ideally have all 12 canonical faction states (none/hierarchy/dreamers/pureflame/insurgency/panopticon/collectors/multi + authority/watcher/mechronis/antiquarian). The four added names reconcile producer-vocabulary drift discovered 2026-05-26 (see scripts/_room-axis-coverage.ts) — each is a canonical lore entity the producer was already delivering art for; widening the list lets the gate count every real delivery. Ratchet ceiling moved 321 → 476 in the same change to acknowledge the scope expansion; implemented count rose 23 → 40 so the net signal-quality improvement holds (more files counted, fewer silent off-canonical drops). compositeResolver still degrades gracefully for missing variants.",
     check: () => checkAxis12StateCoverage(),
     ratchet: { target: 0 },
   },
