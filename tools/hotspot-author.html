@@ -280,6 +280,23 @@ body.composite-room .sprite-panel { display: block; }
 .scope-list .scope-chip.group:first-child { width: 100%; }
 .scope-list .scope-chip.group { width: 100%; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
 
+/* Sprite-ref hover thumbnail — loads tools/sprite-refs/<room>/<sprite>.jpg
+   when the cursor dwells on a sprite scope chip. Shows the producer-
+   rendered composite of base + that one sprite so the author can see
+   exactly where the sprite paints before scoping a hotspot to it. */
+#spriteRefTip {
+  position: fixed; z-index: 9999;
+  display: none;
+  background: #0c0c10;
+  border: 1px solid var(--border);
+  padding: 4px;
+  border-radius: 4px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.6);
+  pointer-events: none;
+}
+#spriteRefTip img { display: block; width: 480px; height: auto; }
+#spriteRefTip .label { font: 10px/1.3 monospace; color: var(--muted); padding: 4px 6px 2px; }
+
 /* Type legend (header strip) */
 .type-legend {
   display: inline-flex; gap: 6px; align-items: center;
@@ -305,6 +322,7 @@ body.composite-room .sprite-panel { display: block; }
 <body>
 <header>
   <h1>Hotspot Author</h1>
+  <div id="spriteRefTip"><div class="label"></div><img alt="sprite reference" /></div>
   <label>Room:</label>
   <select id="roomSelect"></select>
   <label class="variant-only">Variant:</label>
@@ -14415,7 +14433,7 @@ function renderScopeField(h) {
   const chip = (id, kind) => {
     const on = selected.has(id);
     const activeTick = active.has(id) ? " ●" : "";
-    return `<span class="scope-chip${on ? " on" : ""}" data-scope-id="${id}" title="${kind}${active.has(id) ? " · currently active" : ""}">${id}${activeTick}</span>`;
+    return `<span class="scope-chip${on ? " on" : ""}" data-scope-id="${id}" data-scope-kind="${kind}" title="${kind}${active.has(id) ? " · currently active" : ""}">${id}${activeTick}</span>`;
   };
   const html = [
     `<span class="scope-chip group">Bases (${c.bases.length})</span>`,
@@ -14570,6 +14588,44 @@ fScopeList.addEventListener("click", (e) => {
   if (set.size === 0) delete h.compositeScopes;
   else h.compositeScopes = Array.from(set);
   render();
+});
+
+// ── Sprite-ref hover tooltip ──────────────────────────────────────
+// On chip hover (sprite kind only), load tools/sprite-refs/<room>/<id>.jpg
+// into a floating thumbnail so the author sees where that sprite paints
+// before scoping a hotspot to it. Bases don't have refs — skip those.
+const spriteRefTip = document.getElementById("spriteRefTip");
+const spriteRefImg = spriteRefTip ? spriteRefTip.querySelector("img") : null;
+const spriteRefLabel = spriteRefTip ? spriteRefTip.querySelector(".label") : null;
+function showSpriteRef(chip) {
+  if (!spriteRefTip || !spriteRefImg) return;
+  if (chip.dataset.scopeKind !== "sprite") return;
+  const id = chip.dataset.scopeId;
+  if (!id || !currentRoomId) return;
+  spriteRefImg.src = `sprite-refs/${currentRoomId}/${id}.jpg`;
+  if (spriteRefLabel) spriteRefLabel.textContent = `${currentRoomId} · ${id}`;
+  const r = chip.getBoundingClientRect();
+  const tipW = 488; // matches img width + padding
+  // Default: position to the right of the chip. If that overflows, flip left.
+  let x = r.right + 8;
+  if (x + tipW > window.innerWidth) x = Math.max(8, r.left - tipW - 8);
+  let y = r.top;
+  if (y + 320 > window.innerHeight) y = Math.max(8, window.innerHeight - 320);
+  spriteRefTip.style.left = x + "px";
+  spriteRefTip.style.top = y + "px";
+  spriteRefTip.style.display = "block";
+}
+function hideSpriteRef() {
+  if (spriteRefTip) spriteRefTip.style.display = "none";
+}
+fScopeList.addEventListener("mouseover", (e) => {
+  const chip = e.target.closest(".scope-chip");
+  if (chip) showSpriteRef(chip);
+});
+fScopeList.addEventListener("mouseout", (e) => {
+  if (!e.relatedTarget || !e.relatedTarget.closest || !e.relatedTarget.closest(".scope-chip")) {
+    hideSpriteRef();
+  }
 });
 modeSelect.addEventListener("change", () => {
   viewMode = modeSelect.value;
