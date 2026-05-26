@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { REP_BAND_BOUND } from "../../shared/factionReputationBands";
 import {
   REP_BOUND,
   MAX_TRADE_DISCOUNT,
@@ -25,6 +26,9 @@ import {
 describe("constants match the doc", () => {
   it("REP_BOUND is 1000 (matches TRADE_DIPLOMACY §2 'Bounded math')", () => {
     expect(REP_BOUND).toBe(1000);
+  });
+  it("REP_BOUND equals shared REP_BAND_BOUND (the band classifier must not drift)", () => {
+    expect(REP_BOUND).toBe(REP_BAND_BOUND);
   });
   it("MAX_TRADE_DISCOUNT is 15% (legacy ceiling)", () => {
     expect(MAX_TRADE_DISCOUNT).toBeCloseTo(0.15);
