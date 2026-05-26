@@ -232,16 +232,10 @@ describe("Replay verification — schema + migration + router wiring", () => {
     );
   });
 
-  it("baseline migration carries the matchId column", () => {
+  it("baseline migration carries the matchId column with its seek index", () => {
     const src = read("apps/db/0071_baseline_v1.sql");
     expect(src).toMatch(/CREATE TABLE\s+`game_replays`[\s\S]*?`matchId`\s+varchar\(64\)/i);
-    // Note: the orphan migration 0057 also added an
-    // idx_game_replays_match_id index, but schema.ts doesn't
-    // declare it (no .on(matchId) in the table-config callback),
-    // so it's not in the baseline either. Prod still has it from
-    // the historical apply. If a new query needs to seek on matchId,
-    // add the index declaration to schema.ts and regenerate the
-    // baseline.
+    expect(src).toMatch(/idx_game_replays_match_id/);
   });
 
   it("db-fresh-smoke asserts the matchId column lands", () => {

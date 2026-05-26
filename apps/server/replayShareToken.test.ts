@@ -119,17 +119,10 @@ describe("Replay share-token — schema + router wiring", () => {
     expect(src).toMatch(/shareToken:\s*varchar\(\s*"shareToken"\s*,\s*\{\s*length:\s*32\s*\}\s*\)/);
   });
 
-  it("baseline migration carries the shareToken column", () => {
+  it("baseline migration carries the shareToken column with a UNIQUE key", () => {
     const src = read("apps/db/0071_baseline_v1.sql");
     expect(src).toMatch(/CREATE TABLE\s+`game_replays`[\s\S]*?`shareToken`\s+varchar\(32\)/i);
-    // Note: the orphan migration 0056 also added a
-    // uq_game_replays_share_token unique key, but schema.ts doesn't
-    // declare it (no .unique() on shareToken and no uniqueIndex
-    // entry in the table-config callback), so it's not in the
-    // baseline either. Prod still has it from the historical apply.
-    // If the unique constraint is load-bearing for share-token
-    // collision avoidance, add it to schema.ts and regenerate the
-    // baseline.
+    expect(src).toMatch(/UNIQUE KEY\s+`uq_game_replays_share_token`/i);
   });
 
   it("router saveReplay generates a token and returns it", () => {

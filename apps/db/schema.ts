@@ -3059,7 +3059,7 @@ export const gameReplays = mysqlTable("game_replays", {
    *  primary `id` is autoincrement-int and therefore enumerable —
    *  share URLs use this column instead so a player posting their
    *  cool match can't have a curious viewer scrape neighbouring
-   *  replays. Added by migration 0056 + replaysBootstrap. */
+   *  replays. */
   shareToken: varchar("shareToken", { length: 32 }),
   /** Originating server matchId (#92). Required by the verification
    *  job — the tcg-core engine mints card-instance ids via
@@ -3067,13 +3067,20 @@ export const gameReplays = mysqlTable("game_replays", {
    *  reconstructed under a different matchId hashes differently from
    *  the stored finalStateHash even when every action replays
    *  identically. Nullable for backwards compatibility with rows
-   *  written before migration 0057. */
+   *  written before the column was added. */
   matchId: varchar("matchId", { length: 64 }),
   playedAt: timestamp("playedAt").defaultNow().notNull(),
 }, (table) => ({
   gameTypeIdx: index("idx_game_replays_game_type").on(table.gameType),
   player1Idx: index("idx_game_replays_player1").on(table.player1Id),
   featuredIdx: index("idx_game_replays_featured").on(table.featured),
+  // shareToken: unique so generateShareToken() collisions surface as
+  // INSERT failures the router can retry, not as silent overwrites.
+  shareTokenUq: uniqueIndex("uq_game_replays_share_token").on(table.shareToken),
+  // matchId: indexed because verifyReplay seeks game_replays by
+  // matchId to locate the row whose final-state hash to compare
+  // against the reconstructed engine output.
+  matchIdIdx: index("idx_game_replays_match_id").on(table.matchId),
 }));
 export type GameReplayRow = typeof gameReplays.$inferSelect;
 

@@ -2336,11 +2336,13 @@ CREATE TABLE `game_replays` (
   `matchId` varchar(64) DEFAULT NULL,
   `playedAt` timestamp NOT NULL DEFAULT (now()),
   PRIMARY KEY (`id`),
+  UNIQUE KEY `uq_game_replays_share_token` (`shareToken`),
   KEY `game_replays_player2Id_users_id_fk` (`player2Id`),
   KEY `game_replays_winnerId_users_id_fk` (`winnerId`),
   KEY `idx_game_replays_game_type` (`gameType`),
   KEY `idx_game_replays_player1` (`player1Id`),
   KEY `idx_game_replays_featured` (`featured`),
+  KEY `idx_game_replays_match_id` (`matchId`),
   CONSTRAINT `game_replays_player1Id_users_id_fk` FOREIGN KEY (`player1Id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   CONSTRAINT `game_replays_player2Id_users_id_fk` FOREIGN KEY (`player2Id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
   CONSTRAINT `game_replays_winnerId_users_id_fk` FOREIGN KEY (`winnerId`) REFERENCES `users` (`id`) ON DELETE CASCADE
