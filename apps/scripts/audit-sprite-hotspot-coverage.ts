@@ -71,6 +71,25 @@ function isAtmospheric(spriteId: string): boolean {
   return ATMOSPHERIC_PATTERNS.some((re) => re.test(spriteId));
 }
 
+/** Sprite ids deliberately deferred — tracked in docs/DEFERRED.md,
+ *  re-evaluated when the listed unblock condition fires. Reported as
+ *  DEFERRED in the audit so they don't pollute the UNSCOPED-NAMED list
+ *  the user is actively triaging. Both the audit and the ship:check
+ *  axis still count them as "declared but unscoped" so the gap doesn't
+ *  silently mask them — but the per-room output flags them apart. */
+const DEFERRED_SPRITES: ReadonlySet<string> = new Set<string>([
+  // Cogsworth — chief engineer placeholder, waiting on canon name
+  "sp69_cogsworth_absent",
+  "sp70_cogsworth_at_workstation",
+  "sp72_cogsworth_at_workbench",
+  "sp73_cogsworth_at_mezzanine_diagnostic",
+  "sp74_cogsworth_seated_finale",
+]);
+
+function isDeferred(spriteId: string): boolean {
+  return DEFERRED_SPRITES.has(spriteId);
+}
+
 // ───────────────────────────────────────────────────────────────────
 // Audit
 // ───────────────────────────────────────────────────────────────────
@@ -81,6 +100,7 @@ interface RoomReport {
   totalHotspots: number;
   scoped: string[];                 // sprite ids referenced by ≥1 hotspot
   unscopedNamed: string[];          // candidates for new hotspots
+  deferred: string[];               // explicitly deferred — see docs/DEFERRED.md
   atmospheric: string[];            // intentionally hotspot-less
   orphanScopes: Array<{ hotspot: string; spriteId: string }>;
   hotspotsWithScope: number;
@@ -108,10 +128,12 @@ function auditRoom(roomId: string): RoomReport | null {
 
   const scoped: string[] = [];
   const unscopedNamed: string[] = [];
+  const deferred: string[] = [];
   const atmospheric: string[] = [];
   for (const sid of catalog.sprites) {
     if (referenced.has(sid)) scoped.push(sid);
     else if (isAtmospheric(sid)) atmospheric.push(sid);
+    else if (isDeferred(sid)) deferred.push(sid);
     else unscopedNamed.push(sid);
   }
 
@@ -121,6 +143,7 @@ function auditRoom(roomId: string): RoomReport | null {
     totalHotspots: def.hotspots.length,
     scoped,
     unscopedNamed,
+    deferred,
     atmospheric,
     orphanScopes,
     hotspotsWithScope,
@@ -173,6 +196,14 @@ function printRoom(r: RoomReport): void {
     console.log("║");
   }
 
+  if (r.deferred.length > 0) {
+    console.log(`║  ⏸ DEFERRED (${r.deferred.length}, see docs/DEFERRED.md):`);
+    for (const s of r.deferred) {
+      console.log(`║    - ${s}`);
+    }
+    console.log("║");
+  }
+
   if (r.atmospheric.length > 0) {
     console.log(`║  ○ ATMOSPHERIC (${r.atmospheric.length}, hotspot intentionally skipped):`);
     for (const s of r.atmospheric) {
@@ -186,13 +217,13 @@ function summaryTable(reports: RoomReport[]): void {
   console.log();
   console.log("Summary");
   console.log("─".repeat(78));
-  const header = `${"room".padEnd(18)} ${"sprites".padStart(8)} ${"scoped".padStart(8)} ${"unscop".padStart(8)} ${"atmos".padStart(8)} ${"orphan".padStart(8)} ${"%scoped".padStart(10)}`;
+  const header = `${"room".padEnd(18)} ${"sprites".padStart(8)} ${"scoped".padStart(8)} ${"unscop".padStart(8)} ${"defer".padStart(7)} ${"atmos".padStart(8)} ${"orphan".padStart(8)} ${"%scoped".padStart(10)}`;
   console.log(header);
-  console.log("─".repeat(78));
+  console.log("─".repeat(86));
   for (const r of reports) {
     const pct = r.totalSprites > 0 ? (r.scoped.length / r.totalSprites) * 100 : 0;
     console.log(
-      `${r.room.padEnd(18)} ${r.totalSprites.toString().padStart(8)} ${r.scoped.length.toString().padStart(8)} ${r.unscopedNamed.length.toString().padStart(8)} ${r.atmospheric.length.toString().padStart(8)} ${r.orphanScopes.length.toString().padStart(8)} ${pct.toFixed(1).padStart(9)}%`,
+      `${r.room.padEnd(18)} ${r.totalSprites.toString().padStart(8)} ${r.scoped.length.toString().padStart(8)} ${r.unscopedNamed.length.toString().padStart(8)} ${r.deferred.length.toString().padStart(7)} ${r.atmospheric.length.toString().padStart(8)} ${r.orphanScopes.length.toString().padStart(8)} ${pct.toFixed(1).padStart(9)}%`,
     );
   }
   const tot = reports.reduce(
@@ -200,15 +231,16 @@ function summaryTable(reports: RoomReport[]): void {
       sprites: a.sprites + r.totalSprites,
       scoped: a.scoped + r.scoped.length,
       unscoped: a.unscoped + r.unscopedNamed.length,
+      deferred: a.deferred + r.deferred.length,
       atmos: a.atmos + r.atmospheric.length,
       orphan: a.orphan + r.orphanScopes.length,
     }),
-    { sprites: 0, scoped: 0, unscoped: 0, atmos: 0, orphan: 0 },
+    { sprites: 0, scoped: 0, unscoped: 0, deferred: 0, atmos: 0, orphan: 0 },
   );
-  console.log("─".repeat(78));
+  console.log("─".repeat(86));
   const totPct = tot.sprites > 0 ? (tot.scoped / tot.sprites) * 100 : 0;
   console.log(
-    `${"TOTAL".padEnd(18)} ${tot.sprites.toString().padStart(8)} ${tot.scoped.toString().padStart(8)} ${tot.unscoped.toString().padStart(8)} ${tot.atmos.toString().padStart(8)} ${tot.orphan.toString().padStart(8)} ${totPct.toFixed(1).padStart(9)}%`,
+    `${"TOTAL".padEnd(18)} ${tot.sprites.toString().padStart(8)} ${tot.scoped.toString().padStart(8)} ${tot.unscoped.toString().padStart(8)} ${tot.deferred.toString().padStart(7)} ${tot.atmos.toString().padStart(8)} ${tot.orphan.toString().padStart(8)} ${totPct.toFixed(1).padStart(9)}%`,
   );
 }
 
