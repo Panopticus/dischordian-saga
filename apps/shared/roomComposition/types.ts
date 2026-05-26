@@ -35,7 +35,8 @@ export type CompositeRoomId =
   | "engineering"
   | "archives"
   | "comms-array"
-  | "observation-deck";
+  | "observation-deck"
+  | "antiquarian-library";
 
 /** Map the public room id ("cryo-bay") to the S3 path segment ("cryo_bay"). */
 export const COMPOSITE_ROOM_S3_DIR: Readonly<Record<CompositeRoomId, string>> = {
@@ -46,6 +47,8 @@ export const COMPOSITE_ROOM_S3_DIR: Readonly<Record<CompositeRoomId, string>> = 
   archives: "archives",
   "comms-array": "comms_array",
   "observation-deck": "observation_deck",
+  // Producer files + roomArtManifest zipDir use the PLURAL spelling.
+  "antiquarian-library": "antiquarians_library",
 };
 
 /** A resolved composite: the single chosen base + ordered sprite list. */
