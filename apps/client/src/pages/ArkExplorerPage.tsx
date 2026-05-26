@@ -77,7 +77,7 @@ import ParallaxRoom from "@/components/ParallaxRoom";
 import HotspotAuthor from "@/components/HotspotAuthor";
 import CinematicGate from "@/components/CinematicGate";
 import { useRoomArt } from "@/game/useRoomArt";
-import { useRoomComposite } from "@/game/useRoomComposite";
+import { useRoomComposite, useRoomVisibleSprites } from "@/game/useRoomComposite";
 import {
   pickActiveRoomCutscene,
   type CutsceneDispatchSlice,
@@ -464,6 +464,18 @@ function RoomScene({
       gameStateForArt as { factionReputation?: Record<string, number> }
     ).factionReputation,
   });
+  // Phase J — set of composite sprite ids currently visible. Hotspots
+  // with `compositeScopes` are filtered against this set so a click
+  // target only renders when its visual cue is on screen.
+  const visibleSprites = useRoomVisibleSprites(room.id, {
+    narrativeFlags: gameStateForArt.narrativeFlags,
+    moralityScore: (gameStateForArt as { moralityScore?: number })
+      .moralityScore,
+    elaraTrust: gameStateForArt.elaraTrust,
+    factionReputation: (
+      gameStateForArt as { factionReputation?: Record<string, number> }
+    ).factionReputation,
+  });
   // Phase H — producer-art composite resolver. Maps room.id ("cryo-bay")
   // to producer zipDir ("cryo_bay"); when the manifest has the room,
   // returns the full layer stack (baseline + axis 9/11/12/13 overlays).
@@ -629,6 +641,18 @@ function RoomScene({
           const isOneShotConsumed = collectedHotspots.includes(hotspot.id);
 
           if (isCollected || isOneShotConsumed) return null;
+
+          // Phase J — compositeScopes gating. When the hotspot lists
+          // sprite ids, only render it if at least one of those sprites
+          // is in the current composite render. Hotspots without the
+          // field stay always-visible (back-compat).
+          if (
+            hotspot.compositeScopes &&
+            hotspot.compositeScopes.length > 0 &&
+            !hotspot.compositeScopes.some((s) => visibleSprites.has(s))
+          ) {
+            return null;
+          }
 
           // Smaller hotspots sit on top of larger ones. Several rooms
           // (notably the cryo-bay dead-pod cluster) have detail

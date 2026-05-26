@@ -447,6 +447,18 @@ export interface HotspotDef {
    *  full investigative branch. Sorted ascending by
    *  requiredVisitCount. */
   tiers?: readonly import("@shared/hotspotVisitTiers").HotspotVisitTier[];
+  /** When set, the hotspot is only rendered/clickable if at least one
+   *  of the listed Phase J composite sprite ids is in the room's
+   *  current render. Use this to gate a click target on the same
+   *  narrative condition that paints its visual cue — e.g. a
+   *  pedestal-trade-empire-coin hotspot scoped to
+   *  ["sp37_pedestal_trade_empire_coin"] only appears once
+   *  trade_empire_unlocked fires. Filtering is enforced in
+   *  ArkExplorerPage's RoomScene loop; the visible-sprite set comes
+   *  from useRoomVisibleSprites(roomId, game). Hotspots without
+   *  compositeScopes are always visible (back-compat with the 200+
+   *  hotspots authored before this field landed). */
+  compositeScopes?: readonly string[];
 }
 
 export const ROOM_DEFINITIONS: RoomDef[] = [
@@ -686,6 +698,32 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "darren-artifact-receptacle", name: "War-Table Stabilizer Slot", description: "A bare brass plate set into the diplomacy table's rim, polished smooth as if by repeated use. The plate is not connected to anything on a scanner.", cx: 52.5, cy: 75.5, width: 4, height: 5, type: "interact", action: "bridge-war-table-stabilize", elaraDialog: "Place it on the plate. The plate is one of the few surfaces on this ship I cannot reach into. That is the point.",
         elaraDialogVoId: "room.bridge.hotspot.darren-artifact-receptacle.elara",
       },
+
+      // ── L7 PEDESTAL ITEMS (commemorative band along front edge of central dais) ──
+      // Each sprite paints a small commemorative item on the dais front when its
+      // narrative condition fires (sp35-sp38 in bridgeComposite.ts). The
+      // compositeScopes field gates each hotspot's visibility on its sprite —
+      // so a click target appears in sync with its visual cue. Positions
+      // eyeballed off tools/sprite-refs/bridge/sp35..sp38; refine via
+      // /ark?author-hotspots=1 once items are on-screen during playtesting.
+      //
+      // These ship today as `examine` with a simple Elara dialog. Upgrading
+      // any of them to full room-mystery branches (with verb-coin verbs,
+      // banded narration, clue logging) is straightforward — add the entry
+      // to apps/shared/roomMysteries/bridge.ts then swap action to
+      // `room-mystery:bridge:<id>`.
+      { id: "pedestal-brass-plaque", name: "Brass Plaque", description: "A small brass plaque set into the dais front, commemorating an Act-IV milestone.", cx: 49, cy: 74, width: 2, height: 3, type: "examine",
+        elaraDialog: "A brass plaque. The inscription is short — your name, the act number, and a date that is roughly correct. The Ark records what you have done; not always why.",
+        compositeScopes: ["sp35_pedestal_brass_plaque"] },
+      { id: "pedestal-panopticon-glyph", name: "Panopticon-Eye Glyph", description: "A Panopticon-eye glyph etched into the dais face — appeared the moment you learned Elara's true identity.", cx: 50, cy: 81, width: 4, height: 4, type: "examine",
+        elaraDialog: "An etched eye. It was not on the dais yesterday. You know the symbol now — and you know whose face it watches from.",
+        compositeScopes: ["sp36_pedestal_panopticon_eye_glyph"] },
+      { id: "pedestal-trade-empire-coin", name: "Trade Empire Coin", description: "A coin minted by the Trade Empire, resting on the dais as proof of the Coda's unlocking.", cx: 52, cy: 75, width: 2, height: 2, type: "item", action: "trade-empire-coin",
+        elaraDialog: "The Trade Empire Coin. Currency of a faction you've now made contact with. Each coin is a contract; pocket it and the Coda's first mission opens.",
+        compositeScopes: ["sp37_pedestal_trade_empire_coin"] },
+      { id: "pedestal-antiquarian-leaf", name: "Antiquarian's Pressed Leaf", description: "A pressed leaf the Antiquarian left on the dais — left there for you, not as a token but as a citation.", cx: 54, cy: 75, width: 2.5, height: 2, type: "examine",
+        elaraDialog: "A pressed leaf, perfectly preserved. The Antiquarian leaves these the way you would leave a footnote — as proof that someone was here and reading carefully.",
+        compositeScopes: ["sp38_pedestal_antiquarian_leaf"] },
 
       // ── DOORS ──
       // door-cryo is the only visible doorway in the bridge art (left

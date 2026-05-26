@@ -14,6 +14,7 @@
 import { useMemo } from "react";
 import {
   hasRoomComposite,
+  resolveRoomComposite,
   resolveRoomCompositeUrls,
   type CompositeGameSlice,
 } from "@shared/roomComposition";
@@ -80,6 +81,46 @@ export function useRoomComposite(
       })),
     ];
     return { layers, spriteFilter: filter, composited: true };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    roomId,
+    game.narrativeFlags,
+    game.moralityScore,
+    game.elaraTrust,
+    game.factionReputation,
+    game.irlSeason,
+    game.now,
+    hourBucket,
+  ]);
+}
+
+const EMPTY_SET: ReadonlySet<string> = new Set();
+
+/**
+ * Set of Phase J composite-sprite ids currently visible in the room.
+ * Drives the `compositeScopes` gating on HotspotDef — RoomScene filters
+ * out hotspots whose scope contains no visible sprite. Returns an empty
+ * set for rooms without a composite resolver (every legacy hotspot
+ * stays visible because `compositeScopes` is optional). */
+export function useRoomVisibleSprites(
+  roomId: string,
+  game: UseRoomCompositeGameSlice,
+): ReadonlySet<string> {
+  const hourBucket = useMemo(() => {
+    const d = new Date();
+    d.setMinutes(0, 0, 0);
+    return d.getTime();
+  }, []);
+  return useMemo(() => {
+    if (!hasRoomComposite(roomId)) return EMPTY_SET;
+    const now = game.now ?? new Date(hourBucket);
+    const resolved = resolveRoomComposite(roomId, {
+      ...game,
+      now,
+      irlSeason: game.irlSeason ?? deriveIrlSeason(game, now),
+    });
+    if (!resolved) return EMPTY_SET;
+    return new Set(resolved.sprites);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     roomId,
