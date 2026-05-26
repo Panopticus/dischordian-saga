@@ -740,7 +740,8 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // covers the floating indigo marginalia at three Conspiracy
       // Board nodes per the bridge:annotations-visible art. Authored
       // AFTER tactical-display so it wins clicks on its sub-area.
-      { id: "shadow-tongue-annotations", name: "Indigo Marginalia", description: "Faint indigo annotations float at three of the Conspiracy Board's nodes — marginalia in someone else's hand, timestamped to your current shift.", cx: 92.5, cy: 29.5, width: 13, height: 15, type: "interact", action: "room-mystery:bridge:shadow-tongue-annotations" },
+      { id: "shadow-tongue-annotations", name: "Indigo Marginalia", description: "Faint indigo annotations float at three of the Conspiracy Board's nodes — marginalia in someone else's hand, timestamped to your current shift.", cx: 92.5, cy: 29.5, width: 13, height: 15, type: "interact", action: "room-mystery:bridge:shadow-tongue-annotations",
+        compositeScopes: ["sp22_board_shadow_tongue_44th_thread", "sp23_board_shadow_tongue_marginalia"] },
 
       // ── ARCHITECT-CHANNEL MYSTERY TERMINALS (17 small rectangles) ──
       // Distributed across visible terminal screens and corkboard
