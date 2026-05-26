@@ -52,6 +52,6 @@
     "narrative.cutscene_trigger_sites": 0,
     "client.trpc_procedure_reachability": 0,
     "assets.expansion_art_render_reachability": 0,
-    "hotspots.composite_sprite_coverage": 510
+    "hotspots.composite_sprite_coverage": 481
   }
 }
