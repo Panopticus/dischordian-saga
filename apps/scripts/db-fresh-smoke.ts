@@ -2,31 +2,26 @@
 /**
  * Fresh-DB smoke test.
  *
- * Exercises the same bootstrap path the production server runs on every
- * boot, against an empty MySQL instance, after `drizzle-kit migrate` has
- * applied the journal-tracked migrations. Designed to run in CI against
- * a service-container MySQL.
+ * Post-0071_baseline_v1 cutover this script verifies that
+ * `drizzle-kit migrate` against a clean MySQL 8 instance produces
+ * the schema shapes the server actually queries against. Designed
+ * to run in CI against a service-container MySQL, after the
+ * migrate step in .github/workflows/ci.yml.
  *
  * What this script verifies:
  *   1. `getDb()` returns a connected pool (DATABASE_URL is set + reachable).
- *   2. Both server-startup bootstraps for orphaned migrations succeed:
- *        - bootstrapAnnouncementsTables (mirrors orphan migration 0049)
- *        - bootstrapCitizenSchema       (mirrors orphan migration 0054)
- *   3. The bootstrap-targeted DDL actually landed:
- *        - `announcements` table exists
- *        - `announcement_views` table exists
- *        - `citizen_characters.foundation` column exists (only checked
- *          if the citizen_characters table itself exists; orphan
- *          migrations earlier in the chain may not have run)
- *   4. drizzle-kit migrate left rows in `__drizzle_migrations`
- *      (i.e. the journal-tracked migrations were applied).
+ *   2. `__drizzle_migrations` has a row tagged for the baseline —
+ *      proof that drizzle-kit migrate actually ran end-to-end.
+ *   3. The full set of critical tables exists (sampled below).
+ *   4. The query-critical columns the server relies on exist.
  *
- * Why this matters: orphaned migrations (see apps/db/README.md) are
- * invisible to drizzle-kit. The server boots them on startup but there
- * has been no automated guard catching the case where a clean deploy
- * fails because (a) a journal-tracked migration breaks, (b) a bootstrap
- * function regresses, or (c) a new orphan is added without a matching
- * bootstrap. This script is that guard.
+ * Why this matters: it catches the case where db:migrate exits 0
+ * but the resulting schema doesn't match schema.ts — a corrupted
+ * baseline, a partially-applied migration, or a wrong DATABASE_URL
+ * pointed at an un-migrated environment. Pre-cutover, this script
+ * also exercised ~30 fire-and-forget bootstrap* IIFEs that
+ * compensated for journal drift; those are gone now (see
+ * apps/db/migrations/README.md).
  *
  * Usage:
  *   DATABASE_URL=mysql://... pnpm tsx apps/scripts/db-fresh-smoke.ts
@@ -38,13 +33,6 @@
 
 import { sql } from "drizzle-orm";
 import { getDb } from "../server/db";
-import { bootstrapAnnouncementsTables } from "../server/services/announcementsBootstrap";
-import { bootstrapCitizenSchema } from "../server/services/citizenSchemaBootstrap";
-import { bootstrapWebhookEventsTable } from "../server/services/webhookEventsBootstrap";
-import { bootstrapReplayShareToken, bootstrapReplayMatchId } from "../server/services/replaysBootstrap";
-import { bootstrapPvpRatingsTable } from "../server/services/pvpRatingsBootstrap";
-import { bootstrapCohortColumns } from "../server/services/cohortColumnsBootstrap";
-import { bootstrapAgeVerificationColumns } from "../server/services/ageVerificationColumnsBootstrap";
 
 interface CheckResult {
   name: string;
@@ -55,9 +43,6 @@ interface CheckResult {
 type Db = NonNullable<Awaited<ReturnType<typeof getDb>>>;
 type CountRow = { c: number | string };
 
-// Match the canonical pattern in apps/server/services/citizenSchemaBootstrap.ts:
-// drizzle's mysql2 db.execute() may surface [rows, fields] or just rows
-// depending on the call shape; this narrowing handles both.
 async function countQuery(db: Db, query: string): Promise<number> {
   const result = (await db.execute(sql.raw(query))) as unknown as
     | [Array<CountRow>, unknown]
@@ -89,14 +74,48 @@ async function columnExists(db: Db, table: string, column: string): Promise<bool
   return c > 0;
 }
 
-async function migrationsTableHasRows(db: Db): Promise<boolean> {
-  try {
-    const c = await countQuery(db, "SELECT COUNT(*) AS c FROM `__drizzle_migrations`");
-    return c > 0;
-  } catch {
-    return false;
-  }
-}
+/**
+ * Sample of query-critical tables and columns. Not an exhaustive
+ * list — schema.ts has 322 tables. These are the ones whose
+ * absence 500s a hot path: auth, citizen state, billing
+ * idempotency, replays, ranked PvP, daily-cap ledgers.
+ */
+const REQUIRED_TABLES = [
+  "users",
+  "user_sessions",
+  "user_blocks",
+  "user_two_factor",
+  "user_agreements",
+  "announcements",
+  "announcement_views",
+  "citizen_characters",
+  "processed_webhook_events",
+  "purchase_grants",
+  "battle_pass_progress",
+  "casino_state",
+  "game_replays",
+  "pvp_ratings",
+  "chat_reports",
+  "support_impersonation_grants",
+  "dreamer_awareness",
+  "nemesis_state",
+  "npc_memory",
+  "shadow_tongue_redactions",
+  "tick_events",
+] as const;
+
+const REQUIRED_COLUMNS: ReadonlyArray<readonly [string, string]> = [
+  ["users", "signupWeek"],
+  ["users", "dateOfBirth"],
+  ["users", "ageVerificationCountry"],
+  ["users", "ageVerifiedAt"],
+  ["citizen_characters", "foundation"],
+  ["game_replays", "shareToken"],
+  ["game_replays", "matchId"],
+  ["battle_pass_progress", "dailyXpLedger"],
+  ["casino_state", "dailyLost"],
+  ["casino_state", "dailyVoidCasesOpened"],
+];
 
 async function main(): Promise<void> {
   const checks: CheckResult[] = [];
@@ -107,7 +126,6 @@ async function main(): Promise<void> {
     return;
   }
 
-  // 1. Pool reachability
   const db = await getDb();
   if (!db) {
     console.error("[db-fresh-smoke] FAIL: getDb() returned null — pool did not connect");
@@ -116,159 +134,42 @@ async function main(): Promise<void> {
   }
   checks.push({ name: "getDb() returns connected pool", ok: true });
 
-  // 2. drizzle-kit migrate applied something — WARNING ONLY.
-  //
-  // The journal-drift situation documented in apps/db/README.md means
-  // a fresh `drizzle-kit migrate` run can fail today without it being
-  // a regression in this PR's scope: orphans 0036-0048 are not in
-  // _journal.json, so a journal-tracked migration that depends on
-  // their tables (e.g. 0045_arena_essences) hits a missing-base-table
-  // error. Full reconciliation is the dedicated devops cleanup the
-  // README warns against bundling into feature PRs.
-  //
-  // The smoke test's PRIMARY purpose is verifying the orphan
-  // BOOTSTRAP path (steps 3 and 4 below); migrate completion is
-  // secondary and is downgraded to a non-fatal info line. The CI
-  // workflow makes the migrate step `continue-on-error` so this
-  // script always runs even when migrate exits non-zero.
-  const migrationsApplied = await migrationsTableHasRows(db);
-  if (!migrationsApplied) {
-    console.log(
-      "[db-fresh-smoke] INFO: __drizzle_migrations table missing or empty — " +
-        "drizzle-kit migrate did not complete (expected today under journal-drift; " +
-        "see apps/db/README.md). Continuing — bootstraps are the subject under test.",
+  // drizzle-kit migrate must have left at least the baseline row
+  // in __drizzle_migrations. Post-cutover this is required: if
+  // the row is missing, db:migrate either didn't run or didn't
+  // see this DB.
+  try {
+    const migCount = await countQuery(
+      db,
+      "SELECT COUNT(*) AS c FROM `__drizzle_migrations`",
     );
-  } else {
-    checks.push({ name: "__drizzle_migrations has rows", ok: true });
-  }
-
-  // 3. Run the orphan-migration bootstraps the server runs on boot
-  try {
-    await bootstrapAnnouncementsTables();
-    checks.push({ name: "bootstrapAnnouncementsTables() succeeded", ok: true });
-  } catch (e) {
+    if (migCount > 0) {
+      checks.push({ name: "__drizzle_migrations has rows", ok: true });
+    } else {
+      checks.push({
+        name: "__drizzle_migrations has rows",
+        ok: false,
+        detail: "table exists but is empty — did db:migrate run?",
+      });
+    }
+  } catch (err) {
     checks.push({
-      name: "bootstrapAnnouncementsTables() succeeded",
+      name: "__drizzle_migrations has rows",
       ok: false,
-      detail: e instanceof Error ? e.message : String(e),
-    });
-  }
-  try {
-    await bootstrapCitizenSchema();
-    checks.push({ name: "bootstrapCitizenSchema() succeeded", ok: true });
-  } catch (e) {
-    checks.push({
-      name: "bootstrapCitizenSchema() succeeded",
-      ok: false,
-      detail: e instanceof Error ? e.message : String(e),
-    });
-  }
-  // users cohort (0070 orphan) + age-verification (audit/15.R4,
-  // schema-only) columns. Without these the integration tests'
-  // user inserts fail with `Unknown column 'dateOfBirth'` — the
-  // db-smoke-job failure this covers, mirroring the server boot path.
-  try {
-    await bootstrapCohortColumns();
-    checks.push({ name: "bootstrapCohortColumns() succeeded", ok: true });
-  } catch (e) {
-    checks.push({
-      name: "bootstrapCohortColumns() succeeded",
-      ok: false,
-      detail: e instanceof Error ? e.message : String(e),
-    });
-  }
-  try {
-    await bootstrapAgeVerificationColumns();
-    checks.push({
-      name: "bootstrapAgeVerificationColumns() succeeded",
-      ok: true,
-    });
-  } catch (e) {
-    checks.push({
-      name: "bootstrapAgeVerificationColumns() succeeded",
-      ok: false,
-      detail: e instanceof Error ? e.message : String(e),
-    });
-  }
-  try {
-    await bootstrapWebhookEventsTable();
-    checks.push({ name: "bootstrapWebhookEventsTable() succeeded", ok: true });
-  } catch (e) {
-    checks.push({
-      name: "bootstrapWebhookEventsTable() succeeded",
-      ok: false,
-      detail: e instanceof Error ? e.message : String(e),
-    });
-  }
-  try {
-    await bootstrapReplayShareToken();
-    checks.push({ name: "bootstrapReplayShareToken() succeeded", ok: true });
-  } catch (e) {
-    checks.push({
-      name: "bootstrapReplayShareToken() succeeded",
-      ok: false,
-      detail: e instanceof Error ? e.message : String(e),
-    });
-  }
-  try {
-    await bootstrapReplayMatchId();
-    checks.push({ name: "bootstrapReplayMatchId() succeeded", ok: true });
-  } catch (e) {
-    checks.push({
-      name: "bootstrapReplayMatchId() succeeded",
-      ok: false,
-      detail: e instanceof Error ? e.message : String(e),
-    });
-  }
-  try {
-    await bootstrapPvpRatingsTable();
-    checks.push({ name: "bootstrapPvpRatingsTable() succeeded", ok: true });
-  } catch (e) {
-    checks.push({
-      name: "bootstrapPvpRatingsTable() succeeded",
-      ok: false,
-      detail: e instanceof Error ? e.message : String(e),
+      detail:
+        "__drizzle_migrations table does not exist — db:migrate did not run: " +
+        (err instanceof Error ? err.message : String(err)),
     });
   }
 
-  // 4. Verify the bootstrap-targeted DDL landed
-  for (const tableName of ["announcements", "announcement_views", "processed_webhook_events", "pvp_ratings"]) {
+  for (const tableName of REQUIRED_TABLES) {
     const ok = await tableExists(db, tableName);
     checks.push({ name: `${tableName} table exists`, ok });
   }
-  // The replay share-token bootstrap targets a column on game_replays
-  // (which is created by the journal-tracked migration chain). Only
-  // check the column when the table is present so the smoke test
-  // stays robust against journal drift.
-  const replaysTableExists = await tableExists(db, "game_replays");
-  if (replaysTableExists) {
-    const tokenOk = await columnExists(db, "game_replays", "shareToken");
-    checks.push({ name: "game_replays.shareToken column exists", ok: tokenOk });
-    const matchIdOk = await columnExists(db, "game_replays", "matchId");
-    checks.push({ name: "game_replays.matchId column exists", ok: matchIdOk });
-  } else {
-    checks.push({
-      name: "game_replays.shareToken column (skipped — table not in fresh DB)",
-      ok: true,
-      detail: "game_replays ships in journal-tracked migrations; bootstrap is no-op without it",
-    });
-  }
 
-  // citizen_characters itself ships in an orphan migration earlier in the
-  // chain; only check the bootstrap-added column if the table is present.
-  const citizenTableExists = await tableExists(db, "citizen_characters");
-  if (citizenTableExists) {
-    const foundationOk = await columnExists(db, "citizen_characters", "foundation");
-    checks.push({
-      name: "citizen_characters.foundation column exists",
-      ok: foundationOk,
-    });
-  } else {
-    checks.push({
-      name: "citizen_characters table present (skipped — table not in fresh DB)",
-      ok: true,
-      detail: "table ships in an earlier orphan migration; bootstrap is no-op without it",
-    });
+  for (const [tableName, columnName] of REQUIRED_COLUMNS) {
+    const ok = await columnExists(db, tableName, columnName);
+    checks.push({ name: `${tableName}.${columnName} column exists`, ok });
   }
 
   const failed = checks.filter((c) => !c.ok);

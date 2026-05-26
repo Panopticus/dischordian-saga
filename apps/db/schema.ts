@@ -3083,7 +3083,7 @@ export type GameReplayRow = typeof gameReplays.$inferSelect;
  *  - `seasonRank` is the visible cosmetic rank for the current season.
  *  - `peakMmr` is the highest MMR the player has ever held — a
  *    persistent badge that informs reward tiers.
- *  See migration 0058 + apps/server/services/pvpRatingsBootstrap.ts. */
+ *  Created by the 0071_baseline_v1 migration. */
 export const pvpRatings = mysqlTable("pvp_ratings", {
   id: int("id").primaryKey().autoincrement(),
   userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
@@ -6889,7 +6889,6 @@ export type PvpModerationReport = typeof pvpModerationReports.$inferSelect;
    string is the dedupe set). Re-firing the same tag is a no-op,
    so callers don't have to guard against double-trigger races.
 
-   Bootstrap: apps/server/services/dreamerAwarenessBootstrap.ts.
    Tag catalog: apps/shared/dreamerAwarenessTags.ts.
    Service: apps/server/services/dreamerAwareness.ts.
    ═══════════════════════════════════════════════════════ */
@@ -8570,9 +8569,7 @@ export type InsertCommunityDiscoveryEvent = typeof communityDiscoveryEvents.$inf
    doctrine / audit / forge / memory / cohort / mission
    system shipped in apps/shared/apprentice*.ts.
 
-   Migration journal is drifted (per CLAUDE.md), so all six
-   tables are bootstrapped at server cold-boot via
-   apps/server/services/apprenticePedagogyBootstrap.ts.
+   All six tables ship in the 0071_baseline_v1 migration.
    ═══════════════════════════════════════════════════════ */
 
 /** One row per (user × apprentice) — the doctrine the player picked
