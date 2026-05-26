@@ -59,6 +59,12 @@ import type {
 import { selectNpcLine } from "../../shared/npcs/selector";
 import { getBank } from "../../shared/npcs/banks";
 import { magnitudeOf } from "../../shared/playerProfile";
+import { getDialogTree } from "../../shared/npcs/dialogTrees";
+import {
+  applyDialogChoiceOutcomes,
+  dispatchOutcomeBundle,
+} from "../../shared/campaign";
+import { buildOutcomeDispatchContext } from "../services/buildOutcomeDispatchContext";
 
 // --- Validation -----------------------------------------------------------
 
@@ -199,7 +205,7 @@ async function readPublicFlagsForNpc(
   }
 }
 
-async function writePublicFlag(
+export async function writePublicFlag(
   userId: number,
   flag: string,
   setBy?: NpcKey,
@@ -219,7 +225,7 @@ async function writePublicFlag(
 
 // --- Trust mutations ------------------------------------------------------
 
-async function applyTrustDelta(
+export async function applyTrustDelta(
   userId: number,
   npcKey: NpcKey,
   delta: number,
@@ -365,6 +371,72 @@ export const npcRouter = router({
         trust: trustState
           ? { ...trustState, flags: Array.from(trustState.flags) }
           : undefined,
+      };
+    }),
+
+  /**
+   * Commit a BioWare-style dialog choice and dispatch every authored
+   * outcome (flag writes, trust + axis deltas, faction-reputation
+   * shifts, card-unlock / stakes / encounter-deck-mutation intents).
+   *
+   * Server-authoritative: the client only signals "I chose choice
+   * <choiceIndex> in node <nodeId> of tree <treeId>"; the server
+   * looks up the authored choice from `ALL_NPC_DIALOG_TREES` and
+   * applies the OUTCOME FIELDS THE TREE DECLARES. A malicious client
+   * cannot fabricate factionRepDelta / unlockCard / etc.
+   *
+   * Wired via `dispatchOutcomeBundle()` (apps/shared/campaign) and
+   * `buildOutcomeDispatchContext()` (apps/server/services). The
+   * `recordLinePlayed` procedure above keeps owning legacy
+   * trustDelta + publicFlag writes for surfaces that have not yet
+   * migrated to authored trees.
+   */
+  recordDialogChoiceOutcome: protectedProcedure
+    .input(
+      z.object({
+        npcKey: npcKeySchema,
+        treeId: z.string().min(1).max(128),
+        nodeId: z.string().min(1).max(128),
+        choiceIndex: z.number().int().min(0).max(31),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const userId = ctx.user.id;
+      const npcKey = input.npcKey as NpcKey;
+
+      const tree = getDialogTree(npcKey, input.treeId);
+      if (!tree) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: `dialog tree "${input.treeId}" not found for npc "${npcKey}"`,
+        });
+      }
+      const node = tree.nodes[input.nodeId];
+      if (!node) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: `node "${input.nodeId}" not in tree "${input.treeId}"`,
+        });
+      }
+      const choice = node.choices?.[input.choiceIndex];
+      if (!choice) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: `choice index ${input.choiceIndex} out of range for node "${input.nodeId}"`,
+        });
+      }
+
+      const outcomeId = `${input.treeId}.${input.nodeId}.${input.choiceIndex}`;
+      const bundle = applyDialogChoiceOutcomes(choice, outcomeId);
+      const dispatchCtx = buildOutcomeDispatchContext({ userId, npcKey });
+      const result = await dispatchOutcomeBundle(bundle, dispatchCtx);
+
+      return {
+        ok: true,
+        outcomeId: result.outcomeId,
+        attempted: result.attempted,
+        skipped: result.skipped.map((s) => ({ kind: s.kind, reason: s.reason })),
+        errors: result.errors.length,
       };
     }),
 
