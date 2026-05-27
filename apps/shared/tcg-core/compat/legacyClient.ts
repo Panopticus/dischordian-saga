@@ -125,6 +125,32 @@ export function translateClientAction(
       };
     }
 
+    case "apply_dialog_stakes": {
+      // In-match dialog stakes commit. The client overlay
+      // (InMatchDialogChoice) produces this via
+      // `outcomeBundleToEngineActions` after each player pick; the
+      // reducer's stakesReducer applies the deltas within each
+      // encounter axis's declared clip range.
+      const outcomeId = m.outcomeId;
+      const deltas = m.deltas;
+      if (typeof outcomeId !== "string") {
+        return { ok: false, error: "apply_dialog_stakes: outcomeId required" };
+      }
+      if (!Array.isArray(deltas)) {
+        return { ok: false, error: "apply_dialog_stakes: deltas must be an array" };
+      }
+      return {
+        ok: true,
+        action: {
+          kind: "apply_dialog_stakes",
+          actor,
+          outcomeId,
+          deltas: deltas as ReadonlyArray<{ axisId: string; delta: number }>,
+          seq,
+        },
+      };
+    }
+
     default:
       return { ok: false, error: `unknown action type: ${type}` };
   }
