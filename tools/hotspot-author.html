@@ -573,10 +573,20 @@ function populateCompositePicker() {
   baseSelect.innerHTML = c.bases
     .map((b) => `<option value="${b.id}">${b.id}</option>`)
     .join("");
-  // Default base: prefer "*_initial" / "*_t0_*" / "*_baseline*" then first.
+  // Default base. Preference order (most → least specific):
+  //   1. *_initial             (canonical "default" naming used by most rooms)
+  //   2. *_t2_activated         (bridge — t2 is the "operating" state; t0 is dormant/off)
+  //   3. *_activated            (alternate spelling)
+  //   4. *_baseline             (legacy)
+  //   5. first base in list     (fallback)
+  // We deliberately do NOT prefer *_t0_dormant — the dormant state is the
+  // chamber powered down, which is rarely what an author wants to calibrate
+  // hotspots against.
   const defaultBase =
-    c.bases.find((b) => /_(initial|baseline)$/.test(b.id)) ??
-    c.bases.find((b) => /_t0[_-]/.test(b.id)) ??
+    c.bases.find((b) => /_initial$/.test(b.id)) ??
+    c.bases.find((b) => /_t2_activated$/.test(b.id)) ??
+    c.bases.find((b) => /_activated$/.test(b.id)) ??
+    c.bases.find((b) => /_baseline$/.test(b.id)) ??
     c.bases[0];
   currentBaseId = defaultBase?.id ?? null;
   if (currentBaseId) baseSelect.value = currentBaseId;
