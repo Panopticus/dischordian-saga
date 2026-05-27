@@ -42,6 +42,10 @@ import {
   ANTIQUARIAN_LIBRARY_SPRITE_IDS,
 } from "../shared/roomComposition/antiquarianLibraryComposite";
 import {
+  CARGO_HOLD_BASE_IDS,
+  CARGO_HOLD_SPRITE_IDS,
+} from "../shared/roomComposition/cargoHoldComposite";
+import {
   compositeBaseUrl,
   compositeSpriteUrl,
   LIGHTING_FILTERS,
@@ -68,6 +72,7 @@ const ROOMS: Record<CompositeRoomId, { bases: readonly string[]; sprites: readon
   "comms-array": { bases: COMMS_ARRAY_BASE_IDS, sprites: COMMS_ARRAY_SPRITE_IDS },
   "observation-deck": { bases: OBSERVATION_DECK_BASE_IDS, sprites: OBSERVATION_DECK_SPRITE_IDS },
   "antiquarian-library": { bases: ANTIQUARIAN_LIBRARY_BASE_IDS, sprites: ANTIQUARIAN_LIBRARY_SPRITE_IDS },
+  "cargo-hold": { bases: CARGO_HOLD_BASE_IDS, sprites: CARGO_HOLD_SPRITE_IDS },
 };
 
 const out: Record<string, RoomComposite> = {};

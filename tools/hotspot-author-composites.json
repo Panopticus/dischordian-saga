@@ -3290,5 +3290,343 @@
       "hellbox1_transit": "brightness(1.10) sepia(0.15)",
       "long_sleep_ending": "brightness(0.95)"
     }
+  },
+  "cargo-hold": {
+    "bases": [
+      {
+        "id": "cargo_hold_base_act7_rich_trader_ending",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/base/cargo_hold_base_act7_rich_trader_ending.png"
+      },
+      {
+        "id": "cargo_hold_base_act7_spartan_ending",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/base/cargo_hold_base_act7_spartan_ending.png"
+      },
+      {
+        "id": "cargo_hold_base_crane_lift_active",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/base/cargo_hold_base_crane_lift_active.png"
+      },
+      {
+        "id": "cargo_hold_base_cycle_dawn",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/base/cargo_hold_base_cycle_dawn.png"
+      },
+      {
+        "id": "cargo_hold_base_cycle_long_night",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/base/cargo_hold_base_cycle_long_night.png"
+      },
+      {
+        "id": "cargo_hold_base_elevator_active_motion",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/base/cargo_hold_base_elevator_active_motion.png"
+      },
+      {
+        "id": "cargo_hold_base_epoch_grand_edit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/base/cargo_hold_base_epoch_grand_edit.png"
+      },
+      {
+        "id": "cargo_hold_base_epoch_post_grand_edit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/base/cargo_hold_base_epoch_post_grand_edit.png"
+      },
+      {
+        "id": "cargo_hold_base_initial",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/base/cargo_hold_base_initial.png"
+      },
+      {
+        "id": "cargo_hold_base_morality_dark",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/base/cargo_hold_base_morality_dark.png"
+      },
+      {
+        "id": "cargo_hold_base_oracle_clone_revealed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/base/cargo_hold_base_oracle_clone_revealed.png"
+      },
+      {
+        "id": "cargo_hold_base_season_interregnum",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/base/cargo_hold_base_season_interregnum.png"
+      },
+      {
+        "id": "cargo_hold_base_tv_corrupted",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/base/cargo_hold_base_tv_corrupted.png"
+      },
+      {
+        "id": "cargo_hold_base_tv_exposed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/base/cargo_hold_base_tv_exposed.png"
+      },
+      {
+        "id": "cargo_hold_base_tv_spreading",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/base/cargo_hold_base_tv_spreading.png"
+      }
+    ],
+    "sprites": [
+      {
+        "id": "sp01_high_bay_pendants_full_cool_white",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp01_high_bay_pendants_full_cool_white.png"
+      },
+      {
+        "id": "sp02_high_bay_pendants_flickering_violet",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp02_high_bay_pendants_flickering_violet.png"
+      },
+      {
+        "id": "sp03_ambient_dawn_warm_overlay",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp03_ambient_dawn_warm_overlay.png"
+      },
+      {
+        "id": "sp04_ambient_long_night_cool_overlay",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp04_ambient_long_night_cool_overlay.png"
+      },
+      {
+        "id": "sp05_substrate_vapour_overlay",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp05_substrate_vapour_overlay.png"
+      },
+      {
+        "id": "sp06_warning_strobe_dark_inactive",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp06_warning_strobe_dark_inactive.png"
+      },
+      {
+        "id": "sp07_warning_strobe_flashing_amber",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp07_warning_strobe_flashing_amber.png"
+      },
+      {
+        "id": "sp08_wall_amber_warning_stripe_band",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp08_wall_amber_warning_stripe_band.png"
+      },
+      {
+        "id": "sp09_tv_mycelium_floor_threads",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp09_tv_mycelium_floor_threads.png"
+      },
+      {
+        "id": "sp10_tv_mycelium_heavy_fan",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp10_tv_mycelium_heavy_fan.png"
+      },
+      {
+        "id": "sp11_tv_voidblack_ichor_floor",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp11_tv_voidblack_ichor_floor.png"
+      },
+      {
+        "id": "sp12_compass_rose_floor_inlay_baseline",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp12_compass_rose_floor_inlay_baseline.png"
+      },
+      {
+        "id": "sp13_compass_rose_gold_victory",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp13_compass_rose_gold_victory.png"
+      },
+      {
+        "id": "sp14_indigo_scar_floor_healed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp14_indigo_scar_floor_healed.png"
+      },
+      {
+        "id": "sp15_forklift_path_bronze_inlay_clean",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp15_forklift_path_bronze_inlay_clean.png"
+      },
+      {
+        "id": "sp16_forklift_path_oil_stained",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp16_forklift_path_oil_stained.png"
+      },
+      {
+        "id": "sp17_crane_gantry_idle_no_load",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp17_crane_gantry_idle_no_load.png"
+      },
+      {
+        "id": "sp18_crane_gantry_active_crate_lifted",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp18_crane_gantry_active_crate_lifted.png"
+      },
+      {
+        "id": "sp19_crane_gantry_tv_corrupted",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp19_crane_gantry_tv_corrupted.png"
+      },
+      {
+        "id": "sp20_crane_control_panel_idle",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp20_crane_control_panel_idle.png"
+      },
+      {
+        "id": "sp21_crane_control_panel_active_cyan",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp21_crane_control_panel_active_cyan.png"
+      },
+      {
+        "id": "sp22_heavy_load_sign",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp22_heavy_load_sign.png"
+      },
+      {
+        "id": "sp23_crate_stack_empty_grid",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp23_crate_stack_empty_grid.png"
+      },
+      {
+        "id": "sp24_crate_stack_partial_3_high",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp24_crate_stack_partial_3_high.png"
+      },
+      {
+        "id": "sp25_crate_stack_full_5_high",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp25_crate_stack_full_5_high.png"
+      },
+      {
+        "id": "sp26_crate_stack_tv_corrupted",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp26_crate_stack_tv_corrupted.png"
+      },
+      {
+        "id": "sp27_crate_anchor_grid_full",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp27_crate_anchor_grid_full.png"
+      },
+      {
+        "id": "sp28_sealed_crate_intact_claw_marks",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp28_sealed_crate_intact_claw_marks.png"
+      },
+      {
+        "id": "sp29_sealed_crate_indigo_bleed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp29_sealed_crate_indigo_bleed.png"
+      },
+      {
+        "id": "sp30_sealed_crate_burst_open",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp30_sealed_crate_burst_open.png"
+      },
+      {
+        "id": "sp31_sealed_crate_welded_repair",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp31_sealed_crate_welded_repair.png"
+      },
+      {
+        "id": "sp32_oracle_crate_7_omega_glow",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp32_oracle_crate_7_omega_glow.png"
+      },
+      {
+        "id": "sp33_freight_elevator_closed_brass_doors",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp33_freight_elevator_closed_brass_doors.png"
+      },
+      {
+        "id": "sp34_freight_elevator_open_mid_transit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp34_freight_elevator_open_mid_transit.png"
+      },
+      {
+        "id": "sp35_elevator_status_display_idle",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp35_elevator_status_display_idle.png"
+      },
+      {
+        "id": "sp36_forklift_parked_yellow_brass",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp36_forklift_parked_yellow_brass.png"
+      },
+      {
+        "id": "sp37_manifest_terminal_idle_globe_rotating",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp37_manifest_terminal_idle_globe_rotating.png"
+      },
+      {
+        "id": "sp38_manifest_terminal_warning_glyph",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp38_manifest_terminal_warning_glyph.png"
+      },
+      {
+        "id": "sp39_manifest_terminal_tv_corrupted",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp39_manifest_terminal_tv_corrupted.png"
+      },
+      {
+        "id": "sp40_cargo_handler_npc_at_manifest",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp40_cargo_handler_npc_at_manifest.png"
+      },
+      {
+        "id": "sp41_armory_stairs_door_closed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp41_armory_stairs_door_closed.png"
+      },
+      {
+        "id": "sp42_captains_quarters_door_restricted",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp42_captains_quarters_door_restricted.png"
+      },
+      {
+        "id": "sp43_forge_workshop_door_closed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp43_forge_workshop_door_closed.png"
+      },
+      {
+        "id": "sp44_forge_workshop_door_open",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp44_forge_workshop_door_open.png"
+      },
+      {
+        "id": "sp45_maintenance_door_closed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp45_maintenance_door_closed.png"
+      },
+      {
+        "id": "sp46_trade_corridor_door_closed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp46_trade_corridor_door_closed.png"
+      },
+      {
+        "id": "sp47_trade_empire_dais_baseline",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp47_trade_empire_dais_baseline.png"
+      },
+      {
+        "id": "sp48_trade_empire_dais_bare_platform",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp48_trade_empire_dais_bare_platform.png"
+      },
+      {
+        "id": "sp49_trade_empire_dais_opulent",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp49_trade_empire_dais_opulent.png"
+      },
+      {
+        "id": "sp50_personal_locker_wall_all_lit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp50_personal_locker_wall_all_lit.png"
+      },
+      {
+        "id": "sp51_personal_locker_wall_one_lit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp51_personal_locker_wall_one_lit.png"
+      },
+      {
+        "id": "sp52_requisitions_counter_closed_curtain",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp52_requisitions_counter_closed_curtain.png"
+      },
+      {
+        "id": "sp53_requisitions_counter_open_curtain",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp53_requisitions_counter_open_curtain.png"
+      },
+      {
+        "id": "sp54_marketplace_board_active",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp54_marketplace_board_active.png"
+      },
+      {
+        "id": "sp55_cosmetic_mannequin_default_uniform",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp55_cosmetic_mannequin_default_uniform.png"
+      },
+      {
+        "id": "sp56_cosmetic_mannequin_ceremonial_gold",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp56_cosmetic_mannequin_ceremonial_gold.png"
+      },
+      {
+        "id": "sp57_mezzanine_walkway_steel_grating",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp57_mezzanine_walkway_steel_grating.png"
+      },
+      {
+        "id": "sp58_industrial_staircase_left",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp58_industrial_staircase_left.png"
+      },
+      {
+        "id": "sp59_brass_weighing_scales",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp59_brass_weighing_scales.png"
+      },
+      {
+        "id": "sp60_blue_orb_side_table",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp60_blue_orb_side_table.png"
+      },
+      {
+        "id": "sp61_creed_plaque_what_we_carry",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp61_creed_plaque_what_we_carry.png"
+      },
+      {
+        "id": "sp62_torn_manifest_page_compass_star",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp62_torn_manifest_page_compass_star.png"
+      },
+      {
+        "id": "sp63_rubber_chicken_hidden_pulley_concealed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp63_rubber_chicken_hidden_pulley_concealed.png"
+      },
+      {
+        "id": "sp64_fleet_docking_bay_ships_moored",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp64_fleet_docking_bay_ships_moored.png"
+      },
+      {
+        "id": "sp65_fleet_docking_bay_all_dark",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/cargo_hold/sprites/sp65_fleet_docking_bay_all_dark.png"
+      }
+    ],
+    "lightingFilters": {
+      "cycle_dawn": "brightness(1.05) sepia(0.10) hue-rotate(-4deg)",
+      "cycle_dimming": "brightness(0.85) hue-rotate(4deg)",
+      "cycle_long_night": "brightness(0.65) hue-rotate(220deg) saturate(0.85)",
+      "morality_dark": "brightness(0.90) hue-rotate(260deg) saturate(0.80)",
+      "season_interregnum": "brightness(0.55)",
+      "tv_corrupted": "brightness(0.70) saturate(0.60)",
+      "tv_quarantined": "brightness(0.85) saturate(1.10) hue-rotate(8deg)",
+      "epoch_grand_edit": "brightness(0.85) hue-rotate(240deg)",
+      "hellbox1_transit": "brightness(1.10) sepia(0.15)",
+      "long_sleep_ending": "brightness(0.95)"
+    }
   }
 }
