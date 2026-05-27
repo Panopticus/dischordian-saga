@@ -43,6 +43,10 @@ import {
   ACT_4_PRISONER_CHAPTERS,
   type Act4PrisonerChapter,
 } from "@shared/actsFourFiveShells";
+// Phase A10 — thin manifest binding. Header copy + completion-flag
+// metadata come from the canonical manifest so the campaign-atlas /
+// telemetry / completion-gate layers all read the same source.
+import { ACT_4_PRISONER_MANIFEST } from "@shared/campaign/manifests/act4Prisoner";
 import {
   DEFAULT_STORY_PROGRESS,
   loadStoryProgress,
@@ -270,10 +274,10 @@ export default function Act4PrisonerStoryPage() {
         </Link>
         <div className="text-center">
           <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-violet-300/70">
-            §9 · The Prisoner
+            {ACT_4_PRISONER_MANIFEST.title}
           </p>
           <p className="mt-1 font-serif text-lg italic text-violet-50">
-            Four memories. Four extractions.
+            {ACT_4_PRISONER_MANIFEST.subtitle}
           </p>
         </div>
         <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-violet-300/80">
