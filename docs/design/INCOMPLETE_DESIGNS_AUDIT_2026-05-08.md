@@ -1,5 +1,31 @@
 # Dischordian Saga — Incomplete-Designs Audit (2026-05-08)
 
+> ## ⚠️ SUPERSEDED — historical snapshot from 2026-05-08
+>
+> This audit is a point-in-time snapshot from 2026-05-08. Nineteen days of
+> adoption work has shipped since; most claims below are stale.
+>
+> **For current state, see [`docs/ADOPTION_AUDIT_2026-05.md`](../ADOPTION_AUDIT_2026-05.md)** (2026-05-27).
+>
+> Specific stale claims (cross-verified against `pnpm ship:check` on 2026-05-27):
+>
+> - **TL;DR §1** — "16 PASS / 0 RATCHET / 0 FAIL" is now **137 PASS / 5 RATCHET / 0 FAIL** (5 RATCHETs are all producer-art rows).
+> - **TL;DR §2 / §5** — Trade Empire mission loop (Coda Agency) shipped 2026-05-27: `codaFactionStanding` table + `vexCodaTrust` column + `generateCodaMission` + `completeCodaMission` tRPC + `CodaAgencyBoard`. All five symbols in production.
+> - **TL;DR §2** — Living Character Sheet + Pet/Specimen Breeding now register as PASS in `design.declared_subsystem_runtime` per `apps/shared/_completeness/declaredDesignSystems.ts`. All declared symbols shipped.
+> - **TL;DR §5 / §69-71** — Global Light/Dark meter SHIPPED — `globalAlignment` table at `apps/db/schema.ts:7552`, `recomputeGlobalAlignment` in `apps/server/services/globalAlignmentService.ts`, `trpc.globalAlignment.get`, `GlobalAlignmentMeter.tsx` mounted on `PlayerProfilePage.tsx` + `BridgeConsole.tsx`. Ship:check `narrative.global_alignment_meter` is at hard PASS (4/4 artifacts).
+> - **§69-71** — Shadow Tongue room coverage at hard PASS (32/32 rooms — `apps/shared/roomMysteries/index.ts` + species-exclusive set). Mobile narrator at hard PASS (5/5 pages, not just ArkExplorerPage).
+> - **§70 (Vex/Coda)** — fixed in-line below.
+>
+> Items still real per the audit (as of 2026-05-27):
+>
+> - Governance Hub: `GovernanceHubPage.tsx` MOCK_ACTIVE_VOTE status not re-verified in 2026-05-27 audit; treat as still open.
+> - "Animated Cutscenes" individual components: not re-verified; treat as still open.
+> - The 5 RATCHET rows in producer-art coverage (composite sprite hotspots; room art axis 9/11/12; room asset coverage) are the only mechanical gate gaps today.
+>
+> The rest of this doc is preserved as a historical record of what the audit found on 2026-05-08; do not consume it as a description of current state.
+
+---
+
 > Compiled from four parallel sweeps of the canonical ship-check gate, the
 > design-doc corpus (`docs/design/`, `docs/production/`), in-source
 > TODO/FIXME/stub markers, and the live DB schema. Companion to
@@ -9,7 +35,7 @@
 
 ---
 
-## TL;DR
+## TL;DR (2026-05-08 — see superseded notice above)
 
 1. **The mechanical gate is green.** `pnpm ship:check` reports **16 PASS / 0 RATCHET / 0 FAIL** — every declared engine surface (effect ops, triggers, keywords, FK coverage, economic transactions, observability, mobile, asset prefetch, lore drift, etc.) has a matching runtime. The CLAUDE.md sample table is documentation prose; it predates the trial-category and `drain` keyword backfills.
 2. **The unfinished work has migrated to the design layer.** Three large designs (Soul Stones, Trade Empire mission loop, Governance Hub votes) are documented and partially scaffolded but not playable. Two production briefs (Living Character Sheet, Pet/Specimen Breeding) describe systems with **zero runtime presence** in `apps/`.
@@ -67,7 +93,7 @@ Classification: SHIPPED (runtime + DB + tests) / PARTIAL / SCAFFOLDED (data-only
 ### PARTIAL — design's reach exceeds its runtime
 
 - **Streamed Prism Mystery Engine** (`docs/design/STREAMED_PRISM_MYSTERY_ENGINE.md`). Shadow Tongue uncorruption loop ships — DB column `activeEdits` at `apps/db/schema.ts:3989`, `shadowTongueEdits.ts` + tests, `roomMysteries/shadowVault.ts`. **17 of 26 rooms have no mystery module; only 4 have multi-stage art.** Phases B–E unbuilt.
-- **Canon Rev 7 — Vex/Engineer Zero Reveal** (`docs/design/CANON_REV_7_ORACLE_VEX_EXPANSION.md`). Reveal cadence framework ships (`apps/shared/vexRevealStage.ts`, `vexSoleneCommissions.ts`, `engagement.ts` router); card defs live for Oracle/Iron Lion expansions. **No `vex_coda_trust` column or `coda_faction_standing` enum.** Trade Empire Coda mission loop that delivers the reveals is not wired.
+- **Canon Rev 7 — Vex/Engineer Zero Reveal** (`docs/design/CANON_REV_7_ORACLE_VEX_EXPANSION.md`). Reveal cadence framework ships (`apps/shared/vexRevealStage.ts`, `vexSoleneCommissions.ts`, `engagement.ts` router); card defs live for Oracle/Iron Lion expansions. **UPDATE 2026-05-27 (ADOPTION_AUDIT_2026-05):** Full Trade Empire Coda mission loop now wired — `codaFactionStanding` schema table + per-player `vexCodaTrust` column + `generateCodaMission` shared export + `completeCodaMission` tRPC procedure (`apps/server/routers/tradeMissions.ts:456`) + `CodaAgencyBoard` client component all in production. This entry now PASSES at hard parity in the ship:check gate.
 - **Mobile Narrator + Witnessing Layer** (`docs/design/NARRATIVE_ARCHITECTURE.md`, `WITNESSING_NARRATIVE_PROPOSAL.md`). Yin/Yang Elara+Human runtime exists — `apps/shared/mobileNarratorDialog.ts` (495 lines), `MobileNarratorSlot.tsx` (303 lines), `witnessingIntegrations.ts` + tests + `witnessingYearOne.test.ts`. **Only `ArkExplorerPage.tsx` consumes it.** The global Light/Dark meter from §0 of the doc has no `globalAlignment` / `lightDarkMeter` table — morality is per-player only.
 - **Year-One Events Calendar** (`docs/design/YEAR_ONE_EVENTS_CALENDAR_V2.md`). Architect-Triggered Events backend ships in full (`apps/server/routers/architectConsole.ts`, 2244 lines, admin/moderator procedures) and `ArchitectConsolePage.tsx` exists. **Player-facing `GovernanceHubPage.tsx` is still on `MOCK_ACTIVE_VOTE`** with no router wiring (matches `FULL-PROJECT-AUDIT.md` 2E). Community-driven lore is one-way.
 - **Architecture Proposal — progressive room unlock** (`docs/design/ARCHITECTURE_PROPOSAL.md`). Rooms + unlocks exist (`preludeRoomGate.ts`, `awakeningProtocol.ts`, `characterCreationImpact.ts`), but the strict Cryo Bay → Bridge → War Room gating tree from the proposal is not the shipped flow.

@@ -362,19 +362,21 @@ export const DECLARED_DESIGN_SYSTEMS: ReadonlyArray<DeclaredDesignSystem> = [
   },
 
   // ─── Trade Empire — Coda mission loop ──────────────────────
-  // INCOMPLETE_DESIGNS_AUDIT §2: the Vex reveal cadence framework
-  // ships but the Coda Agency mission loop that delivers the
-  // reveals never landed (no `coda_faction_standing` table, no
-  // `vex_coda_trust` column, no mission generator).
-  //
-  // schema.ts:7482 has a doc-comment placeholder for the
-  // `coda_faction_standing` tier table but no implementation.
+  // Trade Empire Coda — full runtime shipped: the Vex reveal cadence
+  // framework AND the Coda Agency mission loop that delivers the
+  // reveals are both in production. `codaFactionStanding` table
+  // (apps/db/schema.ts) + per-player `vexCodaTrust` column +
+  // `generateCodaMission` generator (apps/shared/codaMissionGenerator.ts)
+  // + `completeCodaMission` tRPC procedure (apps/server/routers/
+  // tradeMissions.ts:456) + `CodaAgencyBoard` client component
+  // (apps/client/src/components/CodaAgencyBoard.tsx) are all wired.
+  // Status flipped from "tracked" → "shipped" 2026-05-27 (ADOPTION_AUDIT_2026-05).
   {
     id: "trade_empire_coda",
     docPath: "docs/design/EXPANSION_BIBLE.md",
-    status: "tracked",
+    status: "shipped",
     note:
-      "Coda Agency mission loop that carries the Vex reveal cadence — schema placeholder only.",
+      "Coda Agency mission loop that carries the Vex reveal cadence — full runtime shipped (schema table + per-player trust column + mission generator + tRPC completion procedure + client board).",
     expectedRuntimeSymbols: [
       {
         kind: "schema_table",

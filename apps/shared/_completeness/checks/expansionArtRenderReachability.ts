@@ -28,11 +28,14 @@
  * (LoginMemeBroadcast → loginMemeSequence) and one-hop transitive
  * paths (LoginMemeBroadcast → songSlideshows → album1Slideshows).
  *
- * Ratcheted at landing: the two manifests with zero consumers
- * (`signatureCardManifest`, `newArtManifest`) are real gaps the
- * gate now tracks. Closing them means wiring a render site for
- * each manifest's exported assets — the same shape of fix used
- * for the saga ledger + winback modal in #762.
+ * History: this gate originally landed ratcheted because two
+ * manifests (`signatureCardManifest`, `newArtManifest`) shipped
+ * without render sites. Both have since been wired —
+ * SignatureSlotSpec.tsx consumes signatureCardManifest;
+ * ChapterCardGallery.tsx consumes newArtManifest via the
+ * `newArtChapterCardUrl` resolver — and the gate is at hard PASS.
+ * The same shape of fix was used for the saga ledger + winback
+ * modal in #762.
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
@@ -104,12 +107,12 @@ const RENDER_MANIFESTS: ReadonlyArray<RenderManifest> = [
   {
     module: "signatureCardManifest",
     reason:
-      "Apprentice signature-card art slot registry (motif × doctrine) — declared but no client/shared consumer asks for slots",
+      "Apprentice signature-card art slot registry (motif × doctrine) — consumed by SignatureSlotSpec.tsx",
   },
   {
     module: "newArtManifest",
     reason:
-      "1,838-asset 2026-05-12 producer drop (newArtUrl/newArtSignatureCardUrl/newArtChapterCardUrl) — URL coverage passes but no client/shared consumer resolves any URL",
+      "1,838-asset 2026-05-12 producer drop (newArtUrl/newArtSignatureCardUrl/newArtChapterCardUrl) — consumed by ChapterCardGallery.tsx (newArtChapterCardUrl resolver)",
   },
 ];
 

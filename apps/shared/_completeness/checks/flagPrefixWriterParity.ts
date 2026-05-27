@@ -48,7 +48,7 @@ const FLAG_PREFIX_BINDINGS: readonly FlagPrefixBinding[] = [
   },
   {
     prefix: "dlc_chapter_<id>_complete",
-    readerLocation: "apps/shared/tcg-core/rewards/expansionUnlockService.ts:225",
+    readerLocation: "apps/shared/tcg-core/rewards/expansionUnlockService.ts (derivePlayerExpansionStateFromFlags)",
     writerLocation: "apps/shared/dlc/chapters/* (per-chapter completion gates) + DLC quest-completion engine",
     canonNote: "Written by the DLC completion engine when a chapter's terminal beat closes.",
   },

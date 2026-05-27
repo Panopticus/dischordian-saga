@@ -307,7 +307,10 @@ export type CardUnlockCondition =
   | {
       /** Crew-Bene-Gesserit gate. Mirrors the DlcPrerequisite of
        *  the same kind — Wave-6 cards (e.g. ADVOCATE-bloodline
-       *  unique units) gate behind generation thresholds. */
+       *  unique units) gate behind generation thresholds. The
+       *  evaluator path is verified by a fixture card in
+       *  expansionUnlockService.test.ts; production cards
+       *  consuming this gate land with the Wave-6 card drop. */
       kind: "bloodline_threshold";
       classification: string;
       minGenerations: number;
