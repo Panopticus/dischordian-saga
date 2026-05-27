@@ -521,7 +521,7 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     id: "design.declared_subsystem_runtime",
     name: "Declared subsystem runtime",
     description:
-      "Designs documented in docs/design/ and docs/production/ tracked through their expected runtime symbols (see apps/shared/_completeness/declaredDesignSystems.ts). Originally 11 artifacts across Soul Stones / Pet Breeding / Living Character Sheet — all shipped now (gap 0). Ceiling deliberately re-seeded 0→5 to surface the Trade Empire Coda mission loop (INCOMPLETE_DESIGNS_AUDIT §2: schema-placeholder only; no codaFactionStanding table, no vexCodaTrust column, no mission generator, no client board) as mechanical, non-regressing rows — the same documented seeding pattern used by db.economic_transaction_coverage. Target 0; closes as the Coda loop lands.",
+      "Designs documented in docs/design/ and docs/production/ tracked through their expected runtime symbols (see apps/shared/_completeness/declaredDesignSystems.ts). Originally 11 artifacts across Soul Stones / Pet Breeding / Living Character Sheet — all shipped (gap 0). Trade Empire Coda mission loop seeded 0→5 to track the runtime symbols (codaFactionStanding table, vexCodaTrust column, generateCodaMission export, completeCodaMission tRPC procedure, CodaAgencyBoard client component); all 5 symbols are now in production and the design was reclassified `shipped` 2026-05-27 (ADOPTION_AUDIT_2026-05). Target 0; closes as further design subsystems land.",
     check: () => checkDeclaredSubsystemRuntime(),
     ratchet: { target: 0 },
   },
@@ -1028,7 +1028,7 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     id: "tcg.zod_schema_union_parity",
     name: "Zod schema ↔ TypeScript union parity",
     description:
-      "Hard parity: every kind in CardUnlockCondition (apps/shared/tcg-core/types/Card.ts) MUST be present as a z.literal in cardUnlockConditionSchema (apps/shared/tcg-core/cards/schema.ts). PR-4 found 3 missing kinds (arc_episode_complete, dlc_chapter_completion, bloodline_threshold); this gate is the regression guard.",
+      "Hard parity: every kind in CardUnlockCondition (apps/shared/tcg-core/types/Card.ts) MUST be present as a z.literal in cardUnlockConditionSchema (apps/shared/tcg-core/cards/schema.ts). PR-4 originally caught the drift; this gate is the regression guard. The unlock-kind set is the SOURCE OF TRUTH for what player-facing gates the engine knows how to evaluate — adding a kind here without a matching Zod literal would silently break loader validation.",
     check: () => checkZodSchemaUnionParity(),
   },
   {

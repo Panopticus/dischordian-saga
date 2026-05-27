@@ -2,14 +2,12 @@
  * Zod schema ↔ TypeScript union parity check.
  *
  * PR-4 discovered that `cardUnlockConditionSchema` in
- * `apps/shared/tcg-core/cards/schema.ts` was missing three
+ * `apps/shared/tcg-core/cards/schema.ts` was missing
  * `kind` discriminator literals from the TypeScript union
  * in `apps/shared/tcg-core/types/Card.ts:CardUnlockCondition`.
- * Three `arc_episode_complete`, `dlc_chapter_completion`, and
- * `bloodline_threshold` had been added to the TS union but
- * never mirrored in the Zod schema. The drift would have
- * caused any card declaring those kinds to fail loader
- * validation at registry build.
+ * Variants had been added to the TS union but never mirrored
+ * in the Zod schema; the drift caused any card declaring those
+ * kinds to fail loader validation at registry build.
  *
  * This check is the regression guard. It walks the
  * `CardUnlockCondition` TS union and confirms the Zod
@@ -47,6 +45,7 @@ const TS_KIND_REGISTRY = [
   "bloodline_threshold",
   "arc_episode_complete",
   "perspective_learned",
+  "dialog_choice",
 ] as const satisfies readonly CardUnlockCondition["kind"][];
 
 export function checkZodSchemaUnionParity(): RawParityCount {

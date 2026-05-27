@@ -48,7 +48,9 @@ export interface PlayerExpansionState {
    *  per blood classification. Wave-6 gate: 5+ PURE generations
    *  unlocks the Season-2 Advocate-body coordinate hook. Sourced
    *  from `gameData.bloodlineGenerations`. Missing classifications
-   *  default to 0. */
+   *  default to 0. Also consumed by
+   *  `apps/shared/dlc/dlcChapterCompletionGate.ts` for DLC chapter
+   *  prerequisite evaluation. */
   readonly bloodlineGenerations: Readonly<Record<string, number>>;
   /** Mystery Engine arc episodes the player has closed. Keys are
    *  `<arcId>:<episodeId>` (e.g. `"arc.the_watcher:watcher.e5"`).

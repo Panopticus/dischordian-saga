@@ -7,6 +7,16 @@ This audit answers one question: **after the Phase A narrative-spine adoption wo
 
 The headline finding is the smallest possible answer the user might have hoped for and the largest possible answer they might have feared, with the catch that the smallest answer is right: **the codebase is in much better shape than the Phase A planning notes assumed.** Most assumed gaps have been closed by the ratchet mechanism. The remaining work falls into three concrete buckets — and one of those buckets is the audit gate's own stale exemption notes.
 
+> **Status update — 2026-05-27 follow-on PR**
+>
+> The "real adoption gaps" section of this audit originally listed FOUR gaps. After follow-on investigation:
+>
+> - **Gap C.1 + C.2 (stale gate doc-comments)** — ✅ **FIXED** in the same session. `expansionArtRenderReachability.ts` exemption strings and leading paragraph now name the actual consumer files; `declaredDesignSystems.ts` Trade Empire Coda flipped `status: "tracked"` → `"shipped"` with refreshed note.
+> - **Gap A + B (orphan unlock kinds)** — ❌ **MISDIAGNOSIS, RETRACTED.** The "zero card consumers" finding checked card-authoring level only. Both `bloodline_threshold` and `dlc_chapter_completion` are adopted at the **system** level: `bloodline_threshold` is referenced by the real DLC chapter `apps/shared/dlc/chapters/breeding/advocate_body_coordinates.ts:28` (as a chapter prerequisite, not a card unlock) AND by `apps/shared/dlc/dlcChapterCompletionGate.ts:62` (the prereq evaluator); `dlc_chapter_completion` has a shipped contract test at `apps/shared/dlc/chapters/dlc_advocate_01_sacrum_echo/dlc_advocate_01_sacrum_echo.test.ts:123` that exercises the full chapter-complete → flag-write → card-unlock chain. The CardUnlockCondition variants are NOT orphan scaffolding — they are tested, integrated, feature-ready. The absence of production cards using them is a **content authoring backlog** (waiting on Wave-6 / DLC card drops), not a scaffolding gap. Leaving the variants in place; reverted the attempted removal.
+> - **Bonus fix discovered during reverification** — `dialog_choice` was missing from `TS_KIND_REGISTRY` in `apps/shared/_completeness/checks/zodSchemaUnionParity.ts` (a Phase A omission that would have allowed Zod-schema drift on the dialog_choice variant to escape the gate). Added.
+>
+> The "Two patterns observed" section now has a third instance: **agents AND auditors miss multi-level adoption.** The first pass of this audit grepped for card consumers and concluded "orphan." The verification pass found the DLC chapter prereq + the contract test. **System-level adoption ≠ content-level adoption.** This audit's framing of "scaffolding without adoption" needs the corollary: "adoption can mean test fixture, integration test, OR production card — they're not interchangeable." Verifying the closure of an audit finding requires looking for ALL three.
+
 ---
 
 ## Methodology
@@ -163,34 +173,35 @@ Code is the contract that runs. Doc-comments are a contract a human wrote, that 
 
 ## Recommended next slices (ranked)
 
-The three Real Gaps above are small. Doing all three in one PR is feasible. Ranked by user-visible impact:
+After the follow-on PR refreshed Gap C.1 + C.2 and retracted Gap A + B as misdiagnosis, what remains:
 
 | Rank | Slice | Effort | Why |
 |---:|---|---|---|
-| 1 | **Refresh stale gate notes** (Gap C.1 + C.2) — delete the two exemptions, flip Trade Empire Coda to `status: "shipped"` | 15 min | Two file edits. The gate becomes honest about itself. Zero behavior change. |
-| 2 | **Decide on `bloodline_threshold` + `dlc_chapter_completion`** (Gap A + B) — either author one card per unlock kind, OR remove the variants if Wave-6 / DLC cards aren't in roadmap | 1-3 hr if authoring; 15 min if removing | Closes the two "dead branch" unlocks. Author-side decision, not engineering. |
-| 3 | **Close `art.room_asset_coverage`** — register the 7 known apprentice/pedagogy/commons sub-zone manifests | 1 PR | Drops the row from RATCHET to PASS. Zero engineering risk; manifest registrations only. |
+| ~~1~~ | ~~**Refresh stale gate notes** (Gap C.1 + C.2)~~ | ✅ **DONE** | Refreshed in the same session. The gate now honestly describes its own state. |
+| 1 | **Close `art.room_asset_coverage`** — register the 7 known apprentice/pedagogy/commons sub-zone manifests | 1 PR | Drops the row from RATCHET to PASS. Zero engineering risk; manifest registrations only. **Highest-leverage closing slice in the codebase.** |
+| 2 | **Optional: author cards using `bloodline_threshold` and `dlc_chapter_completion`** unlock kinds when Wave-6 / DLC card drops materialize | content authoring decision | NOT a scaffolding gap (system-level adoption is real); a content backlog item. Wait for the right card drop rather than authoring placeholder cards. |
 | (note) | The 4 art-axis RATCHET rows (Axis 9 / 11 / 12 / hotspot 411) are producer-art work. Engineering side already accepts every variant gracefully (`compositeResolver` degrades on missing variants). Not closeable from the engineering side. | — | — |
 
 ---
 
-## Conclusion
+## Conclusion (post-fix state, 2026-05-27)
 
 The "scaffolding without adoption" framing the user named as a project flaw is REAL as a value to hold against the codebase — but the ratchet mechanism + parity tests have done their job. The current state is:
 
-- 137 subsystems PASS hard parity
+- 137 subsystems PASS hard parity (unchanged)
 - 5 RATCHET rows, all producer-art content gaps locked at ceiling, none regressing
-- 2 dead-branch card-unlock kinds awaiting either content or removal
-- 2 stale doc-comment exemptions in the gate's own files
+- 0 stale doc-comment exemptions in the gate's own files (the 2 originally identified were refreshed in the same session)
+- `bloodline_threshold` and `dlc_chapter_completion` confirmed as feature-ready unlock kinds, system-level adopted (DLC chapter prereqs + integration tests), production-card-authoring deferred to content roadmap
 
-The Game Master mid-Trial Intercession (shipped this session) is now the canonical example of "what `shipped` means" — declared, runtime, consumer, parity test, RULES_VERSION unchanged. Every entry in `apps/shared/_completeness/registry.ts` is held to the same shape.
+The Game Master mid-Trial Intercession (shipped this session) is the canonical example of "what `shipped` means" — declared, runtime, consumer, parity test, RULES_VERSION unchanged. Every entry in `apps/shared/_completeness/registry.ts` is held to the same shape.
 
-The smallest honest follow-on from this audit is a single PR that:
-1. Refreshes the two stale gate notes (Gap C)
-2. Resolves Gaps A and B by either authoring one card per unlock kind or removing the variants
-3. Optionally registers the 7 sub-zone manifests to close `art.room_asset_coverage` to PASS
+The smallest honest follow-on from this audit is **one optional PR** that registers the 7 sub-zone manifests to close `art.room_asset_coverage` from RATCHET to PASS — engineering-driven, ~1 hour.
 
-Estimated effort: half a day if authoring; one hour if removing the dead branches. **No subsystem audit findings warrant deferring beyond a single small follow-on PR.**
+The three Real Gaps from this audit (originally listed as A / B / C) resolved as:
+- Gap A + B — retracted as misdiagnosis (system-level adoption was overlooked in the first pass)
+- Gap C.1 + C.2 — fixed in the same session
+
+**This audit shipped the first instance of itself catching a false positive.** The "Pattern 1: agents grep-with-narrow-scope" finding turned out to apply to the auditor (me) as much as the subordinate agents. The corrective shape — verify against multi-level adoption (test fixture / integration test / production consumer) before naming a gap — is now part of the methodology.
 
 ---
 
