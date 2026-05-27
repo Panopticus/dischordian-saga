@@ -84,13 +84,16 @@ export interface ActSurfaceSingle {
 export interface ActSurfaceBranching {
   mode: "branching";
   /** Each branch declares the flag it activates on. The unified page
-   *  picks the first branch whose `requires` flag is set; if none match,
-   *  it falls back to `defaultBranch`. */
+   *  picks the first branch whose `requires` flag is set; if none match
+   *  and `defaultBranch` is set, it falls back there; otherwise the
+   *  surface renders a "path not yet resolved" state (Act 4 ships
+   *  with no defaultBranch — the player must complete an upstream
+   *  choice before any branch unlocks). */
   branches: ReadonlyArray<{
     requires: string;
     encounter: ActOpponent;
   }>;
-  defaultBranch: ActOpponent;
+  defaultBranch?: ActOpponent;
 }
 
 export interface ActSurfaceInterlude {
@@ -140,7 +143,9 @@ export function listManifestOpponents(
       out.push(manifest.surface.encounter);
       break;
     case "branching":
-      out.push(manifest.surface.defaultBranch);
+      if (manifest.surface.defaultBranch) {
+        out.push(manifest.surface.defaultBranch);
+      }
       out.push(...manifest.surface.branches.map((b) => b.encounter));
       break;
     case "interlude":

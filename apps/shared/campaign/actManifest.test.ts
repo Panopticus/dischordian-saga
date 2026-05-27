@@ -118,6 +118,29 @@ describe("listManifestOpponents", () => {
     );
   });
 
+  it("returns only branch encounters when defaultBranch is omitted (Act 4 shape)", () => {
+    const noDefault: ActManifest = {
+      ...branchingManifest,
+      surface: {
+        mode: "branching",
+        branches: [
+          {
+            requires: "some_flag",
+            encounter: {
+              encounterId: "branch_only",
+              name: "Branch Only",
+              faction: "neutral",
+            },
+          },
+        ],
+        // defaultBranch intentionally omitted — verifies the optional
+        // shape that ACT_4_MANIFEST relies on.
+      },
+    };
+    const opps = listManifestOpponents(noDefault);
+    expect(opps.map((o) => o.encounterId)).toEqual(["branch_only"]);
+  });
+
   it("returns empty for interlude-only acts", () => {
     expect(listManifestOpponents(interludeManifest)).toHaveLength(0);
   });
