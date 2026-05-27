@@ -146,6 +146,16 @@ export interface LegacyDuelystGameState {
     }[];
   };
   /**
+   * Phase A7 — Stakes Stream live axes, mirrored from tcg-core
+   * GameState.stakes. Absent on encounters that don't declare
+   * stakesMode. Today only `public_witness` is exercised on
+   * chAuthorityTrial; future axes (doctrine_purity, bond_resonance,
+   * etc.) land here as encounters opt in.
+   */
+  stakes?: {
+    axes: Partial<Record<string, number>>;
+  };
+  /**
    * §4.9 Seer prophecy state, mirrored from tcg-core GameState.
    * Absent on matches that aren't §4.9. DuelystGameUI reads the
    * playsPerformed counter at match end to derive the canonical
@@ -220,6 +230,13 @@ export function adaptTcgStateToLegacyView(
             privateDelta: e.privateDelta,
             cardDefId: e.cardDefId,
           })),
+        }
+      : undefined,
+    stakes: state.stakes
+      ? {
+          // Spread the per-axis numbers; config stays inside the
+          // engine (UI doesn't need clip ranges, only values).
+          axes: { ...state.stakes.axes } as Partial<Record<string, number>>,
         }
       : undefined,
     seerProphecy: state.seerProphecy

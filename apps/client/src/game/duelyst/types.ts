@@ -236,6 +236,17 @@ export interface DuelystGameState {
     }[];
   };
   /**
+   * Phase A7 — Stakes Stream live axes, projected from tcg-core
+   * GameState.stakes. Absent on encounters that don't declare
+   * stakesMode (today only chAuthorityTrial opts in, with the
+   * public_witness axis). PublicWitnessColumn reads
+   * `axes.public_witness` when present to render the dialog-
+   * influence row.
+   */
+  stakes?: {
+    axes: Partial<Record<string, number>>;
+  };
+  /**
    * §4.9 Seer prophecy state, projected from tcg-core GameState.
    * Absent on matches that aren't §4.9. DuelystGameUI reads
    * playsPerformed at match end to derive the outcome flag.

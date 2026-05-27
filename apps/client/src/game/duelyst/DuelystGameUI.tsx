@@ -1707,6 +1707,9 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
         <PublicWitnessColumn
           balance={gameState.publicWitness.balance}
           entries={gameState.publicWitness.entries}
+          stakesPublicWitness={
+            gameState.stakes?.axes?.public_witness as number | undefined
+          }
         />
       )}
       {showSeerPlayOverlay && (
