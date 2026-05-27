@@ -45,8 +45,17 @@ describe.skipIf(skipIf)("openDemonPack — integration", () => {
   // schema applied first via `pnpm db:push`. The CI workflow will
   // run that step before invoking `pnpm test:integration`.
   it("dream_balance conditional UPDATE is fail-closed under contention", async () => {
-    const { dreamBalance } = await import("../../db/schema");
+    const { dreamBalance, users } = await import("../../db/schema");
     const userId = 9_999_001;
+    // Seed the parent users row first. Post-0071_baseline_v1 the
+    // dream_balance.userId FK to users(id) is enforced (was missing
+    // in the pre-baseline drifted schema), so this test must own
+    // both the parent + child rows. Openid is required + unique.
+    await h!.db.insert(users).values({
+      id: userId,
+      openId: `integration-test-${userId}`,
+      name: "openDemonPack integration test",
+    });
     // Seed: row with 50 tokens.
     await h!.db.insert(dreamBalance).values({
       userId,
@@ -77,8 +86,11 @@ describe.skipIf(skipIf)("openDemonPack — integration", () => {
     expect(
       (r2 as unknown as Array<{ affectedRows?: number }>)[0]?.affectedRows ?? 0,
     ).toBe(0);
-    // Cleanup
+    // Cleanup. ON DELETE CASCADE on dream_balance.userId means
+    // deleting the users row also drops the dream_balance row, but
+    // explicit is clearer.
     await h!.db.delete(dreamBalance).where(eq(dreamBalance.userId, userId));
+    await h!.db.delete(users).where(eq(users.id, userId));
   });
 
   it("schema is reset between describe blocks (dream_balance row absent at start)", async () => {

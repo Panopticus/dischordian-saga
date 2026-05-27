@@ -74,7 +74,7 @@ describe("Task 6.1 — store_purchases unique index + webhook idempotency", () =
     "utf-8",
   );
   const migrationSrc = fs.readFileSync(
-    path.resolve(__dirname, "../db/0035_store_purchase_stripe_idempotency.sql"),
+    path.resolve(__dirname, "../db/_archive/0035_store_purchase_stripe_idempotency.sql"),
     "utf-8",
   );
 
