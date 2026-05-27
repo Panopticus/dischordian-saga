@@ -5,9 +5,10 @@
    needing a fully-built GameState.
    ═══════════════════════════════════════════════════════ */
 import { describe, expect, it } from "vitest";
-import { produce } from "immer";
+import { produce, type Draft } from "immer";
 import {
   applyCardPlayToStakes,
+  applyDialogStakes,
   initStakesState,
 } from "./stakesReducer";
 import type { GameState } from "../types/GameState";
@@ -46,10 +47,11 @@ function stateWith(
 function card(
   fields: Partial<
     Pick<CardDefinition, "stakes_deltas" | "verdict_delta" | "public_delta">
-  >,
+  > & { id?: string } = {},
 ): CardDefinition {
+  const { id, ...rest } = fields;
   return {
-    id: "test_card" as CardDefinition["id"],
+    id: (id ?? "test_card") as CardDefinition["id"],
     name: "Test Card",
     faction: "neutral",
     cardType: "spell",
@@ -60,7 +62,7 @@ function card(
     art: "art/cards/_placeholder.png",
     flavorText: "test card.",
     rulesVersion: "1.1.0",
-    ...fields,
+    ...rest,
   } as unknown as CardDefinition;
 }
 
@@ -71,7 +73,7 @@ function applyPlay(
 ): { state: Pick<GameState, "stakes">; events: GameEvent[] } {
   const events: GameEvent[] = [];
   const next = produce(state, (draft) => {
-    applyCardPlayToStakes(draft as unknown as GameState, c, actor, events);
+    applyCardPlayToStakes(draft as unknown as Draft<GameState>, c, actor, events);
   });
   return { state: next, events };
 }
@@ -240,7 +242,7 @@ describe("applyCardPlayToStakes — clipping", () => {
 describe("applyCardPlayToStakes — event payload", () => {
   it("carries the actor + cardDefId + axis + newValue", () => {
     const s0 = stateWith(STAKES_CONFIG_VERDICT_ONLY);
-    const c = card({ verdict_delta: 2, id: "abc" as CardDefinition["id"] });
+    const c = card({ verdict_delta: 2, id: "abc" });
     const { events } = applyPlay(s0, c, 1);
     expect(events[0]).toMatchObject({
       type: "stakes_changed",
@@ -249,5 +251,155 @@ describe("applyCardPlayToStakes — event payload", () => {
       cardDefId: "abc",
       newValue: 2,
     });
+  });
+});
+
+/* ─── applyDialogStakes ─── */
+
+function applyDialog(
+  state: Pick<GameState, "stakes">,
+  deltas: ReadonlyArray<{ axisId: string; delta: number }>,
+  actor: 0 | 1 = 0,
+  outcomeId = "test_tree.node.choice0",
+): { state: Pick<GameState, "stakes">; events: GameEvent[] } {
+  const events: GameEvent[] = [];
+  const next = produce(state, (draft) => {
+    applyDialogStakes(
+      draft as unknown as Draft<GameState>,
+      actor,
+      outcomeId,
+      deltas,
+      events,
+    );
+  });
+  return { state: next, events };
+}
+
+describe("applyDialogStakes — no-op cases", () => {
+  it("is a no-op when state.stakes is undefined", () => {
+    const s0 = stateWith(null);
+    const { events } = applyDialog(s0, [{ axisId: "verdict", delta: 2 }]);
+    expect(events).toEqual([]);
+  });
+
+  it("is a no-op when the deltas array is empty", () => {
+    const s0 = stateWith(STAKES_CONFIG_BOTH_AXES);
+    const { events, state } = applyDialog(s0, []);
+    expect(events).toEqual([]);
+    expect(state.stakes?.axes.verdict).toBe(0);
+  });
+
+  it("silently drops deltas for axes the encounter did NOT declare", () => {
+    const s0 = stateWith(STAKES_CONFIG_VERDICT_ONLY);
+    const { events, state } = applyDialog(s0, [
+      { axisId: "public_witness", delta: 3 },
+    ]);
+    expect(events).toEqual([]);
+    expect(state.stakes?.axes.verdict).toBe(0);
+  });
+
+  it("silently drops unknown axis ids (typo defense)", () => {
+    const s0 = stateWith(STAKES_CONFIG_BOTH_AXES);
+    const { events } = applyDialog(s0, [
+      { axisId: "verdcit", delta: 5 }, // typo
+    ]);
+    expect(events).toEqual([]);
+  });
+});
+
+describe("applyDialogStakes — movement + clipping", () => {
+  it("moves a single declared axis and emits a stakes_changed_by_dialog event", () => {
+    const s0 = stateWith(STAKES_CONFIG_VERDICT_ONLY);
+    const { state, events } = applyDialog(s0, [
+      { axisId: "verdict", delta: 2 },
+    ]);
+    expect(state.stakes?.axes.verdict).toBe(2);
+    expect(events).toHaveLength(1);
+    expect(events[0]).toMatchObject({
+      type: "stakes_changed_by_dialog",
+      axis: "verdict",
+      delta: 2,
+      newValue: 2,
+      clipped: false,
+    });
+  });
+
+  it("propagates outcomeId into the event so the trace ties back to the originating choice", () => {
+    const s0 = stateWith(STAKES_CONFIG_VERDICT_ONLY);
+    const { events } = applyDialog(
+      s0,
+      [{ axisId: "verdict", delta: 1 }],
+      0,
+      "the_seer.first_meeting.choice1",
+    );
+    expect(events[0]).toMatchObject({
+      outcomeId: "the_seer.first_meeting.choice1",
+    });
+  });
+
+  it("moves multiple axes when the deltas array covers both — emits in canonical STAKES_AXES order", () => {
+    const s0 = stateWith(STAKES_CONFIG_BOTH_AXES);
+    // Author in reverse order — reducer must still emit verdict first.
+    const { events } = applyDialog(s0, [
+      { axisId: "public_witness", delta: 1 },
+      { axisId: "verdict", delta: 1 },
+    ]);
+    expect(events.map((e) => (e as { axis: string }).axis)).toEqual([
+      "verdict",
+      "public_witness",
+    ]);
+  });
+
+  it("clips and reports the bounded delta with `clipped: true`", () => {
+    let s = stateWith(STAKES_CONFIG_VERDICT_ONLY);
+    // Push verdict to 9 first via three +3 dialog deltas.
+    for (let i = 0; i < 3; i++) {
+      ({ state: s } = applyDialog(s, [{ axisId: "verdict", delta: 3 }]));
+    }
+    expect(s.stakes?.axes.verdict).toBe(9);
+    const { state, events } = applyDialog(s, [
+      { axisId: "verdict", delta: 3 },
+    ]);
+    expect(state.stakes?.axes.verdict).toBe(10);
+    expect(events[0]).toMatchObject({ delta: 1, clipped: true });
+  });
+
+  it("emits no event when the player is already at the clip boundary in the authored direction", () => {
+    let s = stateWith(STAKES_CONFIG_VERDICT_ONLY);
+    for (let i = 0; i < 4; i++) {
+      ({ state: s } = applyDialog(s, [{ axisId: "verdict", delta: 3 }]));
+    }
+    expect(s.stakes?.axes.verdict).toBe(10);
+    const { events } = applyDialog(s, [{ axisId: "verdict", delta: 2 }]);
+    expect(events).toEqual([]);
+  });
+
+  it("emits no event for zero / undefined / missing deltas", () => {
+    const s0 = stateWith(STAKES_CONFIG_VERDICT_ONLY);
+    const { events } = applyDialog(s0, [{ axisId: "verdict", delta: 0 }]);
+    expect(events).toEqual([]);
+  });
+});
+
+describe("applyDialogStakes vs applyCardPlayToStakes — same clip/apply primitive", () => {
+  it("produces identical state mutations for equivalent inputs (events differ only in type + source)", () => {
+    const c = card({ stakes_deltas: { verdict: 2, public_witness: -1 } });
+    const dialogDeltas = [
+      { axisId: "verdict", delta: 2 },
+      { axisId: "public_witness", delta: -1 },
+    ];
+
+    const fromCard = applyPlay(stateWith(STAKES_CONFIG_BOTH_AXES), c);
+    const fromDialog = applyDialog(stateWith(STAKES_CONFIG_BOTH_AXES), dialogDeltas);
+
+    expect(fromCard.state.stakes?.axes).toEqual(fromDialog.state.stakes?.axes);
+    expect(fromCard.events.map((e) => (e as { axis: string }).axis)).toEqual(
+      fromDialog.events.map((e) => (e as { axis: string }).axis),
+    );
+    // Event types differ (one is card-driven, one dialog-driven).
+    expect((fromCard.events[0] as { type: string }).type).toBe("stakes_changed");
+    expect((fromDialog.events[0] as { type: string }).type).toBe(
+      "stakes_changed_by_dialog",
+    );
   });
 });

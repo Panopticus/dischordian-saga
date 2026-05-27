@@ -174,4 +174,17 @@ export type GameEvent =
       delta: number;
       newValue: number;
       clipped: boolean;
+    }
+  | {
+      /** Stakes Stream axis moved by an in-encounter dialog choice.
+       *  Distinct from `stakes_changed` (card-driven) so the UI
+       *  can render dialog-driven movements with a different
+       *  glyph / pacing without sniffing the source. */
+      type: "stakes_changed_by_dialog";
+      axis: string;
+      player: Side;
+      outcomeId: string;
+      delta: number;
+      newValue: number;
+      clipped: boolean;
     };
