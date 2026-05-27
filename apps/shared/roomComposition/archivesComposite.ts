@@ -156,15 +156,19 @@ function pickSprites(g: CompositeGameSlice, _base: ArchivesBaseId): string[] {
   // Antiquarian presence (mutex). Each position has a matching hotspot
   // in ROOM_DEFINITIONS["archives"] gated via compositeScopes — so the
   // sprite the resolver picks determines which NPC click target is
-  // reachable. Default = at the reading desk (sp75).
+  // reachable. Default = sp74 (neutral_present) so npc-antiquarian
+  // catches the no-flag case; sp75/76/77 fire on specific position
+  // flags.
   if (f.archives_antiquarian_absent) {
     out.push("sp73_antiquarian_absent");
+  } else if (f.archives_antiquarian_at_reading) {
+    out.push("sp75_antiquarian_fresh_page");
   } else if (f.archives_antiquarian_at_ladder) {
     out.push("sp76_antiquarian_at_ladder");
   } else if (f.archives_antiquarian_at_shelf) {
     out.push("sp77_antiquarian_shelf_mate");
   } else {
-    out.push("sp75_antiquarian_fresh_page");
+    out.push("sp74_antiquarian_neutral_present");
   }
 
   return out;
