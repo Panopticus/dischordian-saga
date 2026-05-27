@@ -3628,5 +3628,419 @@
       "hellbox1_transit": "brightness(1.10) sepia(0.15)",
       "long_sleep_ending": "brightness(0.95)"
     }
+  },
+  "captains-quarters": {
+    "bases": [
+      {
+        "id": "captains_quarters_base_act5_degen_alcove_active",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/base/captains_quarters_base_act5_degen_alcove_active.png"
+      },
+      {
+        "id": "captains_quarters_base_act7_legacy_wall_full",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/base/captains_quarters_base_act7_legacy_wall_full.png"
+      },
+      {
+        "id": "captains_quarters_base_antiquarian_archway_open",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/base/captains_quarters_base_antiquarian_archway_open.png"
+      },
+      {
+        "id": "captains_quarters_base_cycle_dawn",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/base/captains_quarters_base_cycle_dawn.png"
+      },
+      {
+        "id": "captains_quarters_base_cycle_long_night",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/base/captains_quarters_base_cycle_long_night.png"
+      },
+      {
+        "id": "captains_quarters_base_epoch_grand_edit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/base/captains_quarters_base_epoch_grand_edit.png"
+      },
+      {
+        "id": "captains_quarters_base_first_entry_master_key",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/base/captains_quarters_base_first_entry_master_key.png"
+      },
+      {
+        "id": "captains_quarters_base_hb7_coin_lifted",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/base/captains_quarters_base_hb7_coin_lifted.png"
+      },
+      {
+        "id": "captains_quarters_base_initial",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/base/captains_quarters_base_initial.png"
+      },
+      {
+        "id": "captains_quarters_base_morality_dark",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/base/captains_quarters_base_morality_dark.png"
+      },
+      {
+        "id": "captains_quarters_base_season_interregnum",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/base/captains_quarters_base_season_interregnum.png"
+      },
+      {
+        "id": "captains_quarters_base_tv_corrupted",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/base/captains_quarters_base_tv_corrupted.png"
+      },
+      {
+        "id": "captains_quarters_base_tv_exposed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/base/captains_quarters_base_tv_exposed.png"
+      },
+      {
+        "id": "captains_quarters_base_tv_quarantined",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/base/captains_quarters_base_tv_quarantined.png"
+      },
+      {
+        "id": "captains_quarters_base_tv_spreading",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/base/captains_quarters_base_tv_spreading.png"
+      }
+    ],
+    "sprites": [
+      {
+        "id": "sp01_perimeter_strip_lights_dim_violet",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp01_perimeter_strip_lights_dim_violet.png"
+      },
+      {
+        "id": "sp02_antiquarian_library_warm_gold_spill_floor",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp02_antiquarian_library_warm_gold_spill_floor.png"
+      },
+      {
+        "id": "sp03_chandelier_unlit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp03_chandelier_unlit.png"
+      },
+      {
+        "id": "sp04_chandelier_half_lit_warm_crystal",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp04_chandelier_half_lit_warm_crystal.png"
+      },
+      {
+        "id": "sp05_bedside_lamps_both_unlit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp05_bedside_lamps_both_unlit.png"
+      },
+      {
+        "id": "sp06_bedside_lamps_both_lit_warm",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp06_bedside_lamps_both_lit_warm.png"
+      },
+      {
+        "id": "sp07_bedside_lamp_knocked_over",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp07_bedside_lamp_knocked_over.png"
+      },
+      {
+        "id": "sp08_desk_lamp_unlit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp08_desk_lamp_unlit.png"
+      },
+      {
+        "id": "sp09_desk_lamp_lit_warm_gold",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp09_desk_lamp_lit_warm_gold.png"
+      },
+      {
+        "id": "sp10_fireplace_unlit_cold",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp10_fireplace_unlit_cold.png"
+      },
+      {
+        "id": "sp11_fireplace_lit_warm_amber",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp11_fireplace_lit_warm_amber.png"
+      },
+      {
+        "id": "sp12_viewport_east_deep_space_cold",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp12_viewport_east_deep_space_cold.png"
+      },
+      {
+        "id": "sp13_viewport_east_dawn_amber",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp13_viewport_east_dawn_amber.png"
+      },
+      {
+        "id": "sp14_bed_neatly_made_wear_trail",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp14_bed_neatly_made_wear_trail.png"
+      },
+      {
+        "id": "sp15_bed_unmade_disturbed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp15_bed_unmade_disturbed.png"
+      },
+      {
+        "id": "sp16_companion_cot_empty_oxblood",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp16_companion_cot_empty_oxblood.png"
+      },
+      {
+        "id": "sp17_bookshelf_volume_half_out_subtle",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp17_bookshelf_volume_half_out_subtle.png"
+      },
+      {
+        "id": "sp18_bookshelf_volume_fully_pulled_visible",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp18_bookshelf_volume_fully_pulled_visible.png"
+      },
+      {
+        "id": "sp19_bookshelf_archway_open_warm_gold",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp19_bookshelf_archway_open_warm_gold.png"
+      },
+      {
+        "id": "sp20_bookshelf_portal_traversal_purple_warp",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp20_bookshelf_portal_traversal_purple_warp.png"
+      },
+      {
+        "id": "sp21_mycelium_bookshelf_overgrowth_right",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp21_mycelium_bookshelf_overgrowth_right.png"
+      },
+      {
+        "id": "sp22_chess_board_kael_opening",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp22_chess_board_kael_opening.png"
+      },
+      {
+        "id": "sp23_chess_board_black_king_toppled",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp23_chess_board_black_king_toppled.png"
+      },
+      {
+        "id": "sp24_chess_pieces_toppled_bleeding_black",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp24_chess_pieces_toppled_bleeding_black.png"
+      },
+      {
+        "id": "sp25_chess_board_pieces_rearranging_grand_edit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp25_chess_board_pieces_rearranging_grand_edit.png"
+      },
+      {
+        "id": "sp26_cracked_mirror_baseline_spider_web",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp26_cracked_mirror_baseline_spider_web.png"
+      },
+      {
+        "id": "sp27_cracked_mirror_kael_reflection_glimpsed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp27_cracked_mirror_kael_reflection_glimpsed.png"
+      },
+      {
+        "id": "sp28_cracked_mirror_source_static_overlay",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp28_cracked_mirror_source_static_overlay.png"
+      },
+      {
+        "id": "sp29_degen_corner_curtain_full_opacity",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp29_degen_corner_curtain_full_opacity.png"
+      },
+      {
+        "id": "sp30_degen_corner_curtain_ghosted_20pct",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp30_degen_corner_curtain_ghosted_20pct.png"
+      },
+      {
+        "id": "sp31_degen_corner_alcove_fully_revealed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp31_degen_corner_alcove_fully_revealed.png"
+      },
+      {
+        "id": "sp32_degen_corner_coin_hovering_hb7",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp32_degen_corner_coin_hovering_hb7.png"
+      },
+      {
+        "id": "sp33_cargo_door_closed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp33_cargo_door_closed.png"
+      },
+      {
+        "id": "sp34_cargo_door_open_corridor_beyond",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp34_cargo_door_open_corridor_beyond.png"
+      },
+      {
+        "id": "sp35_private_bath_door_closed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp35_private_bath_door_closed.png"
+      },
+      {
+        "id": "sp36_private_bath_door_ajar_tile_glimpse",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp36_private_bath_door_ajar_tile_glimpse.png"
+      },
+      {
+        "id": "sp37_escape_hatch_concealed_behind_bed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp37_escape_hatch_concealed_behind_bed.png"
+      },
+      {
+        "id": "sp38_escape_hatch_forced_open_tool_marks",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp38_escape_hatch_forced_open_tool_marks.png"
+      },
+      {
+        "id": "sp39_charcoal_couch_gathering_hub",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp39_charcoal_couch_gathering_hub.png"
+      },
+      {
+        "id": "sp40_gathering_chairs_rotated_inward",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp40_gathering_chairs_rotated_inward.png"
+      },
+      {
+        "id": "sp41_rug_wool_clean",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp41_rug_wool_clean.png"
+      },
+      {
+        "id": "sp42_rug_wool_voidblack_stained",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp42_rug_wool_voidblack_stained.png"
+      },
+      {
+        "id": "sp43_poetry_book_closed_coffee_table",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp43_poetry_book_closed_coffee_table.png"
+      },
+      {
+        "id": "sp44_kael_portrait_neutral",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp44_kael_portrait_neutral.png"
+      },
+      {
+        "id": "sp45_kael_portrait_eyes_track_acts5",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp45_kael_portrait_eyes_track_acts5.png"
+      },
+      {
+        "id": "sp46_kael_portrait_eyes_indigo_scrubbed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp46_kael_portrait_eyes_indigo_scrubbed.png"
+      },
+      {
+        "id": "sp47_kael_portrait_frame_black_bleeding_corners",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp47_kael_portrait_frame_black_bleeding_corners.png"
+      },
+      {
+        "id": "sp48_kael_portrait_thumbprint_burn_lore",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp48_kael_portrait_thumbprint_burn_lore.png"
+      },
+      {
+        "id": "sp49_legacy_wall_1_plate_lit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp49_legacy_wall_1_plate_lit.png"
+      },
+      {
+        "id": "sp50_legacy_wall_3_plates_lit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp50_legacy_wall_3_plates_lit.png"
+      },
+      {
+        "id": "sp51_legacy_wall_5_plates_lit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp51_legacy_wall_5_plates_lit.png"
+      },
+      {
+        "id": "sp52_legacy_wall_7_plates_lit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp52_legacy_wall_7_plates_lit.png"
+      },
+      {
+        "id": "sp53_legacy_wall_10_plates_full",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp53_legacy_wall_10_plates_full.png"
+      },
+      {
+        "id": "sp54_legacy_wall_indigo_overlay_all_plates",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp54_legacy_wall_indigo_overlay_all_plates.png"
+      },
+      {
+        "id": "sp55_locker_kvoss_closed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp55_locker_kvoss_closed.png"
+      },
+      {
+        "id": "sp56_locker_kvoss_open_uniform_visible",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp56_locker_kvoss_open_uniform_visible.png"
+      },
+      {
+        "id": "sp57_indigo_overstrike_nameplate_kvoss",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp57_indigo_overstrike_nameplate_kvoss.png"
+      },
+      {
+        "id": "sp58_mantle_clock_ticking_frozen_3_47",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp58_mantle_clock_ticking_frozen_3_47.png"
+      },
+      {
+        "id": "sp59_mantle_clock_stopped_act7",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp59_mantle_clock_stopped_act7.png"
+      },
+      {
+        "id": "sp60_mantle_clock_blood_time_grand_edit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp60_mantle_clock_blood_time_grand_edit.png"
+      },
+      {
+        "id": "sp61_morality_mirror_cyan_pulse_baseline",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp61_morality_mirror_cyan_pulse_baseline.png"
+      },
+      {
+        "id": "sp62_morality_mirror_indigo_bleed_tv_corrupted",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp62_morality_mirror_indigo_bleed_tv_corrupted.png"
+      },
+      {
+        "id": "sp63_morality_mirror_lavender_dark",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp63_morality_mirror_lavender_dark.png"
+      },
+      {
+        "id": "sp64_morality_compass_cyan_pulse",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp64_morality_compass_cyan_pulse.png"
+      },
+      {
+        "id": "sp65_morality_compass_lavender_dark_alignment",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp65_morality_compass_lavender_dark_alignment.png"
+      },
+      {
+        "id": "sp66_mr_whiskers_cat_photo_normal",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp66_mr_whiskers_cat_photo_normal.png"
+      },
+      {
+        "id": "sp67_mr_whiskers_cat_photo_indigo_bars",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp67_mr_whiskers_cat_photo_indigo_bars.png"
+      },
+      {
+        "id": "sp68_obsidian_ring_desk_cradle",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp68_obsidian_ring_desk_cradle.png"
+      },
+      {
+        "id": "sp69_bound_chronicle_desk_brass_clasp",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp69_bound_chronicle_desk_brass_clasp.png"
+      },
+      {
+        "id": "sp70_whiskey_decanter_full_sealed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp70_whiskey_decanter_full_sealed.png"
+      },
+      {
+        "id": "sp71_whiskey_decanter_half_poured",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp71_whiskey_decanter_half_poured.png"
+      },
+      {
+        "id": "sp72_personal_log_terminal_desk_cursor_only",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp72_personal_log_terminal_desk_cursor_only.png"
+      },
+      {
+        "id": "sp73_personal_log_terminal_desk_indigo_scrub",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp73_personal_log_terminal_desk_indigo_scrub.png"
+      },
+      {
+        "id": "sp74_personal_log_terminal_accessible_screen",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp74_personal_log_terminal_accessible_screen.png"
+      },
+      {
+        "id": "sp75_personal_log_terminal_hidden_behind_bookshelf",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp75_personal_log_terminal_hidden_behind_bookshelf.png"
+      },
+      {
+        "id": "sp76_personal_log_terminal_lyras_warning_text",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp76_personal_log_terminal_lyras_warning_text.png"
+      },
+      {
+        "id": "sp77_tv_mycelium_thread_desk_early",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp77_tv_mycelium_thread_desk_early.png"
+      },
+      {
+        "id": "sp78_tv_mycelium_fan_legacy_wall",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp78_tv_mycelium_fan_legacy_wall.png"
+      },
+      {
+        "id": "sp79_tv_substrate_cloud_chest_height",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp79_tv_substrate_cloud_chest_height.png"
+      },
+      {
+        "id": "sp80_tv_voidblack_ichor_desk_base",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp80_tv_voidblack_ichor_desk_base.png"
+      },
+      {
+        "id": "sp81_substrate_vapour_legacy_wall_wisps",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp81_substrate_vapour_legacy_wall_wisps.png"
+      },
+      {
+        "id": "sp82_biohazard_tape_x_crosses_room",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp82_biohazard_tape_x_crosses_room.png"
+      },
+      {
+        "id": "sp83_biohazard_edge_tape_rug_perimeter",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp83_biohazard_edge_tape_rug_perimeter.png"
+      },
+      {
+        "id": "sp84_biohazard_tape_cargo_door_band",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/sprites/sp84_biohazard_tape_cargo_door_band.png"
+      }
+    ],
+    "lightingFilters": {
+      "cycle_dawn": "brightness(1.05) sepia(0.10) hue-rotate(-4deg)",
+      "cycle_dimming": "brightness(0.85) hue-rotate(4deg)",
+      "cycle_long_night": "brightness(0.65) hue-rotate(220deg) saturate(0.85)",
+      "morality_dark": "brightness(0.90) hue-rotate(260deg) saturate(0.80)",
+      "season_interregnum": "brightness(0.55)",
+      "tv_corrupted": "brightness(0.70) saturate(0.60)",
+      "tv_quarantined": "brightness(0.85) saturate(1.10) hue-rotate(8deg)",
+      "epoch_grand_edit": "brightness(0.85) hue-rotate(240deg)",
+      "hellbox1_transit": "brightness(1.10) sepia(0.15)",
+      "long_sleep_ending": "brightness(0.95)"
+    }
   }
 }
