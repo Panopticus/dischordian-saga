@@ -64,6 +64,13 @@ export interface PlayerExpansionState {
    *  prefix; tcg.flag_prefix_writer_parity is untouched). Used
    *  by the `perspective_learned` CardUnlockCondition kind. */
   readonly learnedPerspectives: ReadonlySet<string>;
+  /** Phase A8 — narrative flags the player carries. Sourced from
+   *  `gameData.narrativeFlags` (server: userProgress; client:
+   *  GameContext). Used by the `dialog_choice` CardUnlockCondition
+   *  kind to unlock cards behind specific BioWare-style choices
+   *  authored on NpcDialogChoice.sets. Missing flags default to
+   *  false. */
+  readonly committedDialogFlags: ReadonlySet<string>;
 }
 
 /** Default snapshot — nothing unlocked. Useful for tests + unauth flows. */
@@ -77,6 +84,7 @@ export const NULL_PLAYER_EXPANSION_STATE: PlayerExpansionState = Object.freeze({
   bloodlineGenerations: Object.freeze({}),
   completedMysteryEpisodes: new Set<string>(),
   learnedPerspectives: new Set<string>(),
+  committedDialogFlags: new Set<string>(),
 });
 
 /**
@@ -111,6 +119,8 @@ export function evaluateUnlockCondition(
       );
     case "perspective_learned":
       return state.learnedPerspectives.has(cond.perspectiveId);
+    case "dialog_choice":
+      return state.committedDialogFlags.has(cond.flag);
   }
 }
 
@@ -165,6 +175,7 @@ export function makePlayerExpansionState(
     completedDlcChapters: ReadonlyArray<string>;
     bloodlineGenerations: Readonly<Record<string, number>>;
     completedMysteryEpisodes: ReadonlyArray<string>;
+    committedDialogFlags: ReadonlyArray<string>;
   }>,
 ): PlayerExpansionState {
   return {
@@ -179,6 +190,7 @@ export function makePlayerExpansionState(
     learnedPerspectives: deriveLearnedPerspectives(
       partial.completedMysteryEpisodes ?? [],
     ),
+    committedDialogFlags: new Set(partial.committedDialogFlags ?? []),
   };
 }
 
@@ -260,6 +272,20 @@ export function derivePlayerExpansionStateFromFlags(
   const learnedPerspectives = deriveLearnedPerspectives(
     completedMysteryEpisodes,
   );
+  /* Phase A8 — dialog-choice flag stream. Every flag set by an
+   * NpcDialogChoice.sets call (typically prefixed by NPC slug, e.g.
+   * `gm_voiced_the_case`) lands in the player's narrative flag bag.
+   * Cards authored with `unlockCondition: { kind: "dialog_choice",
+   * flag: "..." }` unlock when the matching flag is true. We accept
+   * every truthy flag as a candidate so the unlock service stays
+   * decoupled from a registry of "valid choice ids" — flags are
+   * already enumerable via `narrativeFlagRegistry` if a parity
+   * check needs them. Missing prefix discipline is intentional —
+   * each dialog tree author picks their own canonical flag name. */
+  const committedDialogFlags: string[] = [];
+  for (const key of Object.keys(flags)) {
+    if (flags[key]) committedDialogFlags.push(key);
+  }
   return {
     completedActs: new Set(completedActs),
     secretActsRevealed: new Set(secretActsRevealed),
@@ -270,5 +296,6 @@ export function derivePlayerExpansionStateFromFlags(
     bloodlineGenerations: { ...(entitlements.bloodlineGenerations ?? {}) },
     completedMysteryEpisodes: new Set(completedMysteryEpisodes),
     learnedPerspectives,
+    committedDialogFlags: new Set(committedDialogFlags),
   };
 }

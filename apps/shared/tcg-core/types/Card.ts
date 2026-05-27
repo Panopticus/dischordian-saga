@@ -338,6 +338,22 @@ export type CardUnlockCondition =
        *  canonical (apps/shared/perspectiveCanon.ts). */
       kind: "perspective_learned";
       perspectiveId: string;
+    }
+  | {
+      /** BioWare-style dialog-choice gate. The card unlocks when the
+       *  named narrative flag is set — typically the `sets` field on
+       *  an `NpcDialogChoice`. Example: a card authored as
+       *  `unlockCondition: { kind: "dialog_choice", flag:
+       *  "gm_voiced_the_case" }` unlocks when the player picks
+       *  "Voice the case." in the Game Master mid-Trial Intercession
+       *  tree (slice A6). evaluated against the player's narrativeFlag
+       *  set by `expansionUnlockService.evaluateUnlockCondition`.
+       *
+       *  Symmetric with `NpcDialogChoice.unlockCard.via: "dialog_choice"`
+       *  (the authoring side that mints the flag); together they
+       *  close the loop on the choice → flag → card-unlock chain. */
+      kind: "dialog_choice";
+      flag: string;
     };
 
 /** Forward-declared. Full shape lives in types/Trigger.ts. */

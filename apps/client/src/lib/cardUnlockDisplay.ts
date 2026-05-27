@@ -90,6 +90,12 @@ export function getUnlockConditionDisplay(
         chip: "Learn perspective",
         description: `Becomes legible once you have learned the "${cond.perspectiveId}" perspective — close its storyline to read the imprint.`,
       };
+    case "dialog_choice":
+      return {
+        kind: "dialog_choice",
+        chip: "Choice unlock",
+        description: `Unlocks when you commit a specific dialog choice (flag: ${cond.flag}). BioWare-style — the card is your decision made tangible.`,
+      };
   }
 }
 
@@ -109,4 +115,5 @@ export const ALL_UNLOCK_KINDS: ReadonlyArray<CardUnlockCondition["kind"]> = [
   "bloodline_threshold",
   "arc_episode_complete",
   "perspective_learned",
+  "dialog_choice",
 ];

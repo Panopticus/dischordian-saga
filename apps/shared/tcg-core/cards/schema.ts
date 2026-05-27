@@ -798,6 +798,15 @@ export const cardUnlockConditionSchema = z.discriminatedUnion("kind", [
       perspectiveId: z.string().min(1),
     })
     .strict(),
+  z
+    .object({
+      kind: z.literal("dialog_choice"),
+      /** Canonical narrative flag minted by an `NpcDialogChoice.sets`.
+       *  See the corresponding type-side doc in
+       *  apps/shared/tcg-core/types/Card.ts. */
+      flag: z.string().min(1),
+    })
+    .strict(),
 ]);
 
 /* ─── Top-level card definition ─── */

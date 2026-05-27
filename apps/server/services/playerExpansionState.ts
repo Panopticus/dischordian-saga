@@ -115,6 +115,14 @@ export async function getPlayerExpansionState(
     }
   }
 
+  // Phase A8 — every truthy narrative flag is a candidate
+  // `dialog_choice` unlock key. The unlock service decides which
+  // cards reference which flags; this layer just exposes the set.
+  const committedDialogFlags = new Set<string>();
+  for (const key of Object.keys(flags)) {
+    if (toBool(flags[key])) committedDialogFlags.add(key);
+  }
+
   return {
     completedActs,
     secretActsRevealed,
@@ -125,6 +133,7 @@ export async function getPlayerExpansionState(
     bloodlineGenerations,
     completedMysteryEpisodes,
     learnedPerspectives: deriveLearnedPerspectives(completedMysteryEpisodes),
+    committedDialogFlags,
   };
 }
 
