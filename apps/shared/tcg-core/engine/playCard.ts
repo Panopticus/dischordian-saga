@@ -50,6 +50,7 @@ import {
   isCardLocked,
 } from "./lockout";
 import { applyPublicWitnessPlay } from "./publicWitness";
+import { resolveCardStakeDelta } from "./stakesResolver";
 import {
   applyTrialPlay,
   checkPhaseAdmissibility,
@@ -206,7 +207,7 @@ export function handlePlayCard(
         draft,
         def,
         action.actor,
-        Number.isFinite(def.verdict_delta) ? (def.verdict_delta as number) : 0,
+        resolveCardStakeDelta(def, "verdict") ?? 0,
         ctx,
       );
       return undefined;
@@ -263,7 +264,7 @@ export function handlePlayCard(
         draft,
         def,
         action.actor,
-        Number.isFinite(def.verdict_delta) ? (def.verdict_delta as number) : 0,
+        resolveCardStakeDelta(def, "verdict") ?? 0,
         ctx,
       );
       return undefined;
@@ -327,7 +328,7 @@ export function handlePlayCard(
         draft,
         def,
         action.actor,
-        Number.isFinite(def.verdict_delta) ? (def.verdict_delta as number) : 0,
+        resolveCardStakeDelta(def, "verdict") ?? 0,
         ctx,
       );
       return undefined;

@@ -29,6 +29,7 @@ import type { TrialModeConfig } from "../types/TrialPhase";
 import type { GiftModeConfig } from "../types/ProgrammerGift";
 import type { WitnessModeConfig } from "../types/PublicWitness";
 import type { ProphecyModeConfig } from "../types/SeerProphecy";
+import type { StakesModeConfig } from "../types/StakesMode";
 import { resolveDialog, type DialogScene } from "./dialogBank";
 
 /* ─── Types ─── */
@@ -106,6 +107,21 @@ export interface StoryEncounter {
    * user is `chSeerVisit`. See docs/production/act1/seer-prophecy-mechanic.md.
    */
   prophecyMode?: ProphecyModeConfig;
+  /**
+   * Optional multi-axis Stakes Stream config — declares which
+   * `StakesAxis` values this encounter tracks (e.g., `verdict`,
+   * `public_witness`, future `doctrine_purity`), each with its
+   * initial value + clip range + UI label. See
+   * apps/shared/tcg-core/types/StakesMode.ts.
+   *
+   * The Stakes Stream engine generalization lands the type +
+   * card-level `stakes_deltas` reader first; the reducer that
+   * walks card-play events + dialog `stakesAxisDelta` outcomes
+   * through this config ships in a follow-up slice. Encounters
+   * authoring `stakesMode` today register intent; the live
+   * `state.stakes` map arrives with the reducer.
+   */
+  stakesMode?: StakesModeConfig;
 }
 
 export type WinCondition =

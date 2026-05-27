@@ -14,6 +14,7 @@
 import type { AbilityId, CardDefId, EntityId, Side } from "./Ids";
 import type { z } from "zod";
 import type { factionSchema } from "../cards/schema";
+import type { StakesAxis } from "../engine/stakesResolver";
 
 /**
  * Faction is derived from the Zod schema so the runtime validator and
@@ -175,6 +176,26 @@ export interface CardDefinition {
    * engine/publicWitness.ts applyPublicWitnessPlay.
    */
   public_delta?: number;
+  /**
+   * Multi-axis stakes deltas — the generalization of
+   * `verdict_delta` / `public_delta`. Each key is a canonical
+   * `StakesAxis` (see engine/stakesResolver.ts STAKES_AXES); each
+   * value is the signed integer delta this card applies to that
+   * axis when played in an encounter whose `stakesMode` declares
+   * the axis.
+   *
+   * Same [-3, +3] integer range as the legacy fields. New cards
+   * authoring multi-axis stakes use this field; existing cards
+   * continue to author `verdict_delta` (and optionally
+   * `public_delta`) — the engine reads either via
+   * `engine/stakesResolver.ts` so replay determinism is preserved.
+   *
+   * Authoring constraint: a card MUST NOT set both
+   * `verdict_delta` and `stakes_deltas.verdict`, nor both
+   * `public_delta` and `stakes_deltas.public_witness`. The Zod
+   * schema rejects the dual-source case at registry build.
+   */
+  stakes_deltas?: Partial<Record<StakesAxis, number>>;
   /**
    * Optional: marks a card as reserved-from-pools — not available via
    * normal pack openings, deck-builder UIs, or reward drops. Reserved

@@ -23,6 +23,7 @@ import type { Draft } from "immer";
 import type { GameState } from "../types/GameState";
 import type { CardDefinition, TrialCategory } from "../types/Card";
 import type { ReduceCtx } from "./reducer";
+import { resolvePublicWitnessDelta } from "./stakesResolver";
 
 /** Clamp a balance value into the §4 clip range. Non-finite → 0. */
 export function clipWitnessBalance(value: number): number {
@@ -164,15 +165,17 @@ export function applyPublicWitnessPlay(
 ): void {
   if (!draft.publicWitness) return;
   if (actor !== 1) return;
-  // Spec §3: public delta overrides the private reading when the
-  // author has set public_delta. This is what drives the §3 divergence
-  // warning border on the TranscriptColumn row. Absent public_delta →
-  // fall back to verdict_delta (public and private agree; no warning).
-  const publicDelta = Number.isFinite(def.public_delta)
-    ? (def.public_delta as number)
-    : Number.isFinite(def.verdict_delta)
-      ? (def.verdict_delta as number)
-      : PLACEHOLDER_PUBLIC_DELTA;
+  // Spec §3 divergence override — preserved verbatim by the Stakes
+  // Stream resolver. Priority chain:
+  //   1. stakes_deltas.public_witness (multi-axis authoring)
+  //   2. public_delta                  (legacy override field)
+  //   3. verdict_delta                 (public agrees with private)
+  //   4. PLACEHOLDER_PUBLIC_DELTA      (no card-authored delta)
+  // See engine/stakesResolver.ts::resolvePublicWitnessDelta — same
+  // fallback chain, single source of truth.
+  const resolved = resolvePublicWitnessDelta(def);
+  const publicDelta =
+    typeof resolved === "number" ? resolved : PLACEHOLDER_PUBLIC_DELTA;
   const entry: PublicWitnessEntry = {
     id: `pw_${draft.actionSeq}`,
     turnNumber: draft.turnNumber,
