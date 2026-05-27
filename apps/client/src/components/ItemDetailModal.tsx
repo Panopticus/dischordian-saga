@@ -458,6 +458,16 @@ const ITEM_DATABASE: Record<string, ItemMeta> = {
     relatedEntities: ["Darren", "Professor Vyre", "The Host", "The Chronicle", "Marguerite Fessler"],
     loreExcerpt: "BLUE FOLDER — CONTENTS LIST\n\n• Eight Loredex entries, marked CORRUPTED in red\n• Vyre's Episode 6 red-ink corrections, photocopied\n• Darren's marginal annotations, block caps, slightly uneven\n• One Polaroid: Marguerite Fessler, Celebration sector cemetery, 14 years pre-Fall\n• Note on back of Polaroid (her hand): \"Don't forget to eat, D.\"\n\nDarren's marginalia, last page:\n\n\"They told me on the show I was wrong about the entries. Vyre told me, off air, that I wasn't. He gave me his red-ink corrections. He told me to keep them somewhere the Host couldn't find them.\n\nI kept them in this folder. I kept the folder on the desk. I did not hide it. I want the next person who finds this to find it easily.\n\nIf you are reading this, you are the next person. The eight entries are real. The corruption is real. The Chronicle is wrong, and Vyre and I are right, and Vyre is dead now and I am not coming back to this desk.\n\nFinish it.\n\n— D.\n\nP.S. It is Marguerite's birthday on Thursday. Tell someone.\"",
   },
+  /* ─── BRIDGE PEDESTAL — TRADE EMPIRE ─── */
+  "trade-empire-coin": {
+    name: "Trade Empire Coin",
+    description: "A coin minted by the Trade Empire, resting on the bridge dais as proof of the Coda's unlocking. The face shows a stylised trade route knotted around the Coda glyph; the obverse is blank, struck in the moment of accord.",
+    elaraAnalysis: "The Trade Empire only mints coins for events they intend the future to remember. This one commemorates the moment the Coda opened to you. Carry it — the houses that signed the Coda will recognise it on sight, and a few of them recognise it as debt.",
+    category: "artifact",
+    dangerLevel: "low",
+    relatedEntities: ["Trade Empire", "The Coda", "Bridge"],
+    loreExcerpt: "TRADE EMPIRE COIN — STRIKE LEDGER\n\nDIE-PAIR: Coda accord (obverse blank, struck-once)\nMINTAGE: 1 (commemorative, non-circulating)\nDELIVERED: Bridge dais, at the moment of unlocking\n\nElara's note:\n\n\"The Empire's archivists will know you have this before you walk back to the bridge a second time. Some houses will treat it as an invitation. Others will treat it as a receipt for something you haven't paid yet. Be careful which conversations you start by laying it on the table.\"",
+  },
 };
 
 const CATEGORY_CONFIG: Record<string, { icon: typeof Star; label: string; color: string }> = {

@@ -181,7 +181,7 @@ describe("Living Universe Schema", () => {
 /* ─── MIGRATION ─── */
 describe("Living Universe Migration (0034)", () => {
   const migrationSrc = fs.readFileSync(
-    path.resolve(__dirname, "../db/0034_living_universe_expiry_history.sql"),
+    path.resolve(__dirname, "../db/_archive/0034_living_universe_expiry_history.sql"),
     "utf-8"
   );
 

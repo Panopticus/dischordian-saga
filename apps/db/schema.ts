@@ -1,4 +1,4 @@
-import { bigint, boolean, int, json, mysqlEnum, mysqlTable, text, timestamp, tinyint, varchar, uniqueIndex, index } from "drizzle-orm/mysql-core";
+import { bigint, boolean, foreignKey, int, json, mysqlEnum, mysqlTable, text, timestamp, tinyint, varchar, uniqueIndex, index } from "drizzle-orm/mysql-core";
 
 /**
  * Core user table backing auth flow.
@@ -2306,7 +2306,10 @@ export type ChessPuzzleProgress = typeof chessPuzzleProgress.$inferSelect;
  *  values to the client. */
 export const chessTournamentParticipants = mysqlTable("chess_tournament_participants", {
   id: int("id").autoincrement().primaryKey(),
-  tournamentId: int("tournamentId").notNull().references(() => chessTournaments.id, { onDelete: "cascade" }),
+  // FK declared explicitly below — drizzle's auto-generated name
+  // `chess_tournament_participants_tournamentId_chess_tournaments_id_fk`
+  // is 66 chars, exceeding MySQL's 64-char identifier limit.
+  tournamentId: int("tournamentId").notNull(),
   userId: int("userId").notNull().references(() => users.id, { onDelete: "restrict" }),
   userName: varchar("userName", { length: 128 }).notNull(),
   /** 2× actual score — divide by 2 for display. */
@@ -2316,6 +2319,11 @@ export const chessTournamentParticipants = mysqlTable("chess_tournament_particip
   active: boolean("active").notNull().default(true),
   joinedAt: timestamp("joinedAt").defaultNow().notNull(),
 }, (table) => ({
+  tournamentFk: foreignKey({
+    name: "fk_chess_tourney_part_tournament",
+    columns: [table.tournamentId],
+    foreignColumns: [chessTournaments.id],
+  }).onDelete("cascade"),
   tournamentUserUq: uniqueIndex("idx_chess_tournament_participants_tourney_user").on(table.tournamentId, table.userId),
   tournamentIdx: index("idx_chess_tournament_participants_tournament").on(table.tournamentId),
   userIdx: index("idx_chess_tournament_participants_user").on(table.userId),
@@ -3051,7 +3059,7 @@ export const gameReplays = mysqlTable("game_replays", {
    *  primary `id` is autoincrement-int and therefore enumerable —
    *  share URLs use this column instead so a player posting their
    *  cool match can't have a curious viewer scrape neighbouring
-   *  replays. Added by migration 0056 + replaysBootstrap. */
+   *  replays. */
   shareToken: varchar("shareToken", { length: 32 }),
   /** Originating server matchId (#92). Required by the verification
    *  job — the tcg-core engine mints card-instance ids via
@@ -3059,13 +3067,20 @@ export const gameReplays = mysqlTable("game_replays", {
    *  reconstructed under a different matchId hashes differently from
    *  the stored finalStateHash even when every action replays
    *  identically. Nullable for backwards compatibility with rows
-   *  written before migration 0057. */
+   *  written before the column was added. */
   matchId: varchar("matchId", { length: 64 }),
   playedAt: timestamp("playedAt").defaultNow().notNull(),
 }, (table) => ({
   gameTypeIdx: index("idx_game_replays_game_type").on(table.gameType),
   player1Idx: index("idx_game_replays_player1").on(table.player1Id),
   featuredIdx: index("idx_game_replays_featured").on(table.featured),
+  // shareToken: unique so generateShareToken() collisions surface as
+  // INSERT failures the router can retry, not as silent overwrites.
+  shareTokenUq: uniqueIndex("uq_game_replays_share_token").on(table.shareToken),
+  // matchId: indexed because verifyReplay seeks game_replays by
+  // matchId to locate the row whose final-state hash to compare
+  // against the reconstructed engine output.
+  matchIdIdx: index("idx_game_replays_match_id").on(table.matchId),
 }));
 export type GameReplayRow = typeof gameReplays.$inferSelect;
 
@@ -3075,7 +3090,7 @@ export type GameReplayRow = typeof gameReplays.$inferSelect;
  *  - `seasonRank` is the visible cosmetic rank for the current season.
  *  - `peakMmr` is the highest MMR the player has ever held — a
  *    persistent badge that informs reward tiers.
- *  See migration 0058 + apps/server/services/pvpRatingsBootstrap.ts. */
+ *  Created by the 0071_baseline_v1 migration. */
 export const pvpRatings = mysqlTable("pvp_ratings", {
   id: int("id").primaryKey().autoincrement(),
   userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
@@ -6881,7 +6896,6 @@ export type PvpModerationReport = typeof pvpModerationReports.$inferSelect;
    string is the dedupe set). Re-firing the same tag is a no-op,
    so callers don't have to guard against double-trigger races.
 
-   Bootstrap: apps/server/services/dreamerAwarenessBootstrap.ts.
    Tag catalog: apps/shared/dreamerAwarenessTags.ts.
    Service: apps/server/services/dreamerAwareness.ts.
    ═══════════════════════════════════════════════════════ */
@@ -8562,9 +8576,7 @@ export type InsertCommunityDiscoveryEvent = typeof communityDiscoveryEvents.$inf
    doctrine / audit / forge / memory / cohort / mission
    system shipped in apps/shared/apprentice*.ts.
 
-   Migration journal is drifted (per CLAUDE.md), so all six
-   tables are bootstrapped at server cold-boot via
-   apps/server/services/apprenticePedagogyBootstrap.ts.
+   All six tables ship in the 0071_baseline_v1 migration.
    ═══════════════════════════════════════════════════════ */
 
 /** One row per (user × apprentice) — the doctrine the player picked

@@ -26,8 +26,14 @@ import {
 
 const T0 = 1_700_000_000_000;
 
-function setState(partial: Partial<SeasonClockState>) {
-  seasonClockService.setState({
+async function setState(partial: Partial<SeasonClockState>) {
+  // Must await: seasonClockService.setState writes through to the DB
+  // and runSeasonTick re-reads via hydrate(). A fire-and-forget call
+  // races with hydrate on slower MySQL (notably the CI service
+  // container), which then loads the stale row and the test reads
+  // the wrong phase. Awaiting the persist makes the test
+  // deterministic across local + CI runtimes.
+  await seasonClockService.setState({
     seasonNumber: 1,
     phase: "running",
     phaseStartedAt: T0,
@@ -51,7 +57,7 @@ afterEach(() => {
 
 describe("runSeasonTick — integration", () => {
   it("is a no-op when nothing has elapsed", async () => {
-    setState({});
+    await setState({});
     const out = await runSeasonTick(T0);
     expect(out.changed).toBe(false);
     expect(out.phasesEntered).toEqual([]);
@@ -59,7 +65,7 @@ describe("runSeasonTick — integration", () => {
   });
 
   it("fires an agenda tick once SEASON_TICK_INTERVAL_MS has elapsed", async () => {
-    setState({});
+    await setState({});
     const out = await runSeasonTick(T0 + SEASON_TICK_INTERVAL_MS + 1);
     expect(out.changed).toBe(true);
     // No DB → no active users → agenda fan-out yields zero results,
@@ -68,7 +74,7 @@ describe("runSeasonTick — integration", () => {
   });
 
   it("transitions through prologue → running and posts a declaration", async () => {
-    setState({
+    await setState({
       phase: "prologue",
       phaseStartedAt: T0,
       phaseEndsAt: T0 + SEASON_PHASE_DURATION_MS.prologue,
@@ -85,7 +91,7 @@ describe("runSeasonTick — integration", () => {
   });
 
   it("entering prologue (new season) posts a season_declaration event", async () => {
-    setState({
+    await setState({
       phase: "interregnum",
       phaseStartedAt: T0,
       phaseEndsAt: T0 + SEASON_PHASE_DURATION_MS.interregnum,
@@ -105,7 +111,7 @@ describe("runSeasonTick — integration", () => {
   });
 
   it("cascades multiple phases when many durations have elapsed", async () => {
-    setState({
+    await setState({
       phase: "closing",
       phaseStartedAt: T0,
       phaseEndsAt: T0 + SEASON_PHASE_DURATION_MS.closing,
@@ -123,7 +129,7 @@ describe("runSeasonTick — integration", () => {
   });
 
   it("is idempotent — running twice at the same now is a no-op the second time", async () => {
-    setState({});
+    await setState({});
     const t1 = T0 + SEASON_TICK_INTERVAL_MS + 1;
     await runSeasonTick(t1);
     const after1 = seasonClockService.getState();
@@ -137,7 +143,7 @@ describe("runSeasonTick — integration", () => {
 
 describe("Season clock — phase predicates after transitions", () => {
   it("agendas only tick during running", async () => {
-    setState({
+    await setState({
       phase: "closing",
       phaseStartedAt: T0,
       phaseEndsAt: T0 + 60_000,

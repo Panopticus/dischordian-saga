@@ -11,25 +11,9 @@ import {
 } from "../../shared/starterLoadout";
 import type { ClassKey, ElementKey } from "../../shared/earnedLoadouts";
 import { BASE_LOCKED_SLOTS } from "../../shared/suitEquipSlots";
-import { bootstrapCitizenSchema } from "../services/citizenSchemaBootstrap";
 
-/**
- * Resolves the DB handle and waits for citizen_characters' runtime
- * schema bootstrap to finish before any handler issues a query.
- *
- * Migration 0054 (foundation column) is orphaned from drizzle's
- * journal; the bootstrap runs an idempotent ADD COLUMN on startup,
- * but it was previously fire-and-forget — a request that landed
- * before the ALTER finished would crash citizen.getCharacter with
- * "Unknown column 'foundation'" and brick the Awakening handoff.
- *
- * The bootstrap promise is memoized in citizenSchemaBootstrap.ts,
- * so this await only blocks until the first invocation completes.
- */
 async function citizenDb() {
-  const handle = await getDb();
-  if (handle) await bootstrapCitizenSchema();
-  return handle;
+  return getDb();
 }
 
 /* ═══════════════════════════════════════════════════

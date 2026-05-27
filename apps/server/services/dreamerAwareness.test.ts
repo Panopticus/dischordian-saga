@@ -7,7 +7,6 @@
  *     documented degenerate shape (no-op result).
  *   - getDreamerAwareness no-DB-safe — returns null without throwing.
  *   - markVisionReceived no-DB-safe — completes without throwing.
- *   - bootstrap no-DB-safe + idempotent.
  *
  * The full counter increment / threshold-crossing path requires a
  * real MySQL fixture; that lands in a follow-up integration test
@@ -20,7 +19,6 @@ import {
   getDreamerAwareness,
   markVisionReceived,
 } from "./dreamerAwareness";
-import { bootstrapDreamerAwarenessTable } from "./dreamerAwarenessBootstrap";
 import {
   BURNT_CARD_WITNESSED,
   DECLINE_WINNING_DRAW,
@@ -59,16 +57,5 @@ describe("getDreamerAwareness — no-DB safety", () => {
 describe("markVisionReceived — no-DB safety", () => {
   it("returns void without throwing when DB is unavailable", async () => {
     await expect(markVisionReceived(42, "vision_first_notice")).resolves.toBeUndefined();
-  });
-});
-
-describe("bootstrapDreamerAwarenessTable — no-DB safety", () => {
-  it("returns void without throwing when DB pool is unavailable", async () => {
-    await expect(bootstrapDreamerAwarenessTable()).resolves.toBeUndefined();
-  });
-
-  it("is idempotent under repeat invocation", async () => {
-    await expect(bootstrapDreamerAwarenessTable()).resolves.toBeUndefined();
-    await expect(bootstrapDreamerAwarenessTable()).resolves.toBeUndefined();
   });
 });

@@ -8,13 +8,12 @@
  *      Token shape, charset, entropy, and rejector behavior are
  *      validated without any DB or HTTP surface.
  *
- *   2. Static-analysis on the schema, bootstrap, and router source
- *      so the wiring can't silently regress: schema declares the
- *      shareToken column, bootstrap is exported and wired into
- *      `_core/index.ts` startup, the router populates the column on
- *      saveReplay and exposes a `getReplayByToken` public query.
+ *   2. Static-analysis on the schema + router source so the wiring
+ *      can't silently regress: schema declares the shareToken
+ *      column, the router populates the column on saveReplay and
+ *      exposes a `getReplayByToken` public query.
  *
- * Behavioral coverage of the migration / bootstrap idempotency lives
+ * Behavioral coverage that the column exists post-migration lives
  * in apps/scripts/db-fresh-smoke.ts (CI fresh-DB smoke test).
  */
 import { describe, it, expect } from "vitest";
@@ -114,40 +113,16 @@ describe("isValidShareToken — rejector", () => {
   });
 });
 
-describe("Replay share-token — schema + bootstrap + router wiring", () => {
+describe("Replay share-token — schema + router wiring", () => {
   it("schema declares the shareToken column on gameReplays", () => {
     const src = read("apps/db/schema.ts");
     expect(src).toMatch(/shareToken:\s*varchar\(\s*"shareToken"\s*,\s*\{\s*length:\s*32\s*\}\s*\)/);
   });
 
-  it("migration 0056 adds the column with a UNIQUE key", () => {
-    const src = read("apps/db/0056_game_replays_share_token.sql");
-    expect(src).toMatch(/ALTER TABLE\s+`game_replays`/i);
-    expect(src).toMatch(/ADD COLUMN\s+`shareToken`\s+VARCHAR\(32\)/i);
+  it("baseline migration carries the shareToken column with a UNIQUE key", () => {
+    const src = read("apps/db/0071_baseline_v1.sql");
+    expect(src).toMatch(/CREATE TABLE\s+`game_replays`[\s\S]*?`shareToken`\s+varchar\(32\)/i);
     expect(src).toMatch(/UNIQUE KEY\s+`uq_game_replays_share_token`/i);
-  });
-
-  it("bootstrap exports bootstrapReplayShareToken and uses idempotent column probe", () => {
-    const src = read("apps/server/services/replaysBootstrap.ts");
-    expect(src).toMatch(/export function bootstrapReplayShareToken/);
-    expect(src).toMatch(/information_schema\.columns/);
-    // Refactored to share the column-existence check across the
-    // shareToken + matchId bootstraps (#92 follow-up). The probe SQL
-    // is now templated; check for the column-name interpolation +
-    // the shareToken bootstrap binding to it.
-    expect(src).toMatch(/column_name\s*=\s*'\$\{opts\.column\}'/);
-    expect(src).toMatch(/column:\s*["']shareToken["']/);
-    // Source uses template-literal escaped backticks (\`shareToken\`)
-    // for MySQL identifier quoting — match without anchoring the
-    // surrounding backtick chars.
-    expect(src).toMatch(/ADD COLUMN\s+[^A-Za-z]*shareToken/i);
-  });
-
-  it("server _core/index.ts wires the bootstrap into startup", () => {
-    const src = read("apps/server/_core/index.ts");
-    expect(src).toMatch(/bootstrapReplayShareToken/);
-    // Must run alongside the other startup bootstraps.
-    expect(src).toMatch(/bootstrapWebhookEventsTable[\s\S]*bootstrapReplayShareToken/);
   });
 
   it("router saveReplay generates a token and returns it", () => {

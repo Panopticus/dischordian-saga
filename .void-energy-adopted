@@ -6,6 +6,7 @@
 # This keeps textual git merges trivial during parallel work (both sides
 # add their own entries and git takes the union). Do not add section
 # headers or "slice" groupings — they cause merge conflicts.
+apps/client/src/App.tsx
 apps/client/src/components/AIChatBox.tsx
 apps/client/src/components/AchievementTraitsPanel.tsx
 apps/client/src/components/Act1ClosingChoicePanel.tsx
@@ -203,6 +204,7 @@ apps/client/src/components/match/TrialPhaseIndicator.tsx
 apps/client/src/components/match/TrialTranscriptColumn.tsx
 apps/client/src/components/match/WarlordCountdownIndicator.tsx
 apps/client/src/components/mechronis/EngineerJournalModal.tsx
+apps/client/src/components/nexusTrial/CinematicPlayer.tsx
 apps/client/src/components/prelude/BeatCCrewRoleChoice.tsx
 apps/client/src/components/prelude/BeatDMissionBoard.tsx
 apps/client/src/components/prelude/BeatEFlashback.tsx
@@ -243,7 +245,6 @@ apps/client/src/components/prelude/vfx/ui/ChoicePillarLightDark.tsx
 apps/client/src/components/prelude/vfx/ui/InboxEnvelopeUnfold.tsx
 apps/client/src/components/prelude/vfx/ui/InboxSentenceBloom.tsx
 apps/client/src/components/prelude/witnessingTarotHotspot.ts
-apps/client/src/components/nexusTrial/CinematicPlayer.tsx
 apps/client/src/components/threeClocks/NecromancerClock.tsx
 apps/client/src/components/threeClocks/PoliticianClock.tsx
 apps/client/src/components/threeClocks/ThreeClocksPanel.tsx

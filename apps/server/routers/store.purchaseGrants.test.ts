@@ -8,7 +8,6 @@
  *     ids that round-trip through the unique-key check at a glance.
  *   - fulfillPurchase no-DB-safe — never throws, returns the
  *     documented degenerate shape.
- *   - bootstrap no-DB-safe + idempotent.
  *
  * The transactional + idempotent paths require a real MySQL fixture
  * to exercise meaningfully; those land in a follow-up integration
@@ -20,7 +19,6 @@ import {
   fulfillPurchase,
   synthesiseFulfillmentId,
 } from "./store";
-import { bootstrapPurchaseGrantsTable } from "../services/purchaseGrantsBootstrap";
 
 describe("synthesiseFulfillmentId", () => {
   it("produces a credits-prefixed id for credits flows", () => {
@@ -69,16 +67,5 @@ describe("fulfillPurchase — no-DB safety", () => {
     // DB pool, it short-circuits at the getDb() guard and returns.
     const result = await fulfillPurchase(2, "any_key", 1, "test:2:any:2");
     expect(result.alreadyFulfilled).toBe(false);
-  });
-});
-
-describe("bootstrapPurchaseGrantsTable — no-DB safety", () => {
-  it("returns void without throwing when DB pool is unavailable", async () => {
-    await expect(bootstrapPurchaseGrantsTable()).resolves.toBeUndefined();
-  });
-
-  it("is idempotent under repeat invocation", async () => {
-    await expect(bootstrapPurchaseGrantsTable()).resolves.toBeUndefined();
-    await expect(bootstrapPurchaseGrantsTable()).resolves.toBeUndefined();
   });
 });

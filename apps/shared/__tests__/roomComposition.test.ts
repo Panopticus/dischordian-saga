@@ -29,17 +29,19 @@ const game = (overrides: Partial<CompositeGameSlice>): CompositeGameSlice => ({
 });
 
 describe("roomComposition / facade", () => {
-  it("identifies the four composite rooms", () => {
+  it("identifies the seven composite rooms", () => {
     expect(hasRoomComposite("bridge")).toBe(true);
     expect(hasRoomComposite("cryo-bay")).toBe(true);
     expect(hasRoomComposite("medical-bay")).toBe(true);
     expect(hasRoomComposite("engineering")).toBe(true);
-    expect(hasRoomComposite("observation-deck")).toBe(false);
+    expect(hasRoomComposite("archives")).toBe(true);
+    expect(hasRoomComposite("comms-array")).toBe(true);
+    expect(hasRoomComposite("observation-deck")).toBe(true);
   });
 
   it("returns null for unsupported rooms", () => {
-    expect(resolveRoomComposite("archives", emptyGame)).toBeNull();
-    expect(resolveRoomComposite("observation-deck", emptyGame)).toBeNull();
+    expect(resolveRoomComposite("crew-quarters", emptyGame)).toBeNull();
+    expect(resolveRoomComposite("not-a-real-room", emptyGame)).toBeNull();
   });
 
   it("emits CDN absolute URLs for base + every sprite", () => {

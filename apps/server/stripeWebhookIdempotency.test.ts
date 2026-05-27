@@ -3,14 +3,12 @@
  * idempotency check before any fulfillment work.
  *
  * Behavioral coverage of the table itself lives in the fresh-DB
- * smoke test (`apps/scripts/db-fresh-smoke.ts`), which spins a clean
- * MySQL service container in CI, runs the bootstrap, and asserts the
- * `processed_webhook_events` table exists post-bootstrap. This test
+ * smoke test (`apps/scripts/db-fresh-smoke.ts`), which asserts the
+ * `processed_webhook_events` table exists after db:migrate. This test
  * asserts the wiring:
  *
  *   1. `processedWebhookEvents` is exported from the schema.
- *   2. `bootstrapWebhookEventsTable` is exported from the service.
- *   3. The Stripe webhook handler in `_core/index.ts`:
+ *   2. The Stripe webhook handler in `_core/index.ts`:
  *      - Imports `processedWebhookEvents` and inserts a row keyed
  *        by the Stripe `event.id`.
  *      - Returns a 200 with `duplicate: true` on a unique-violation,
@@ -37,27 +35,6 @@ describe("Stripe webhook event-level idempotency", () => {
     const src = fs.readFileSync(path.resolve(ROOT, "apps/db/schema.ts"), "utf-8");
     expect(src).toMatch(/export const processedWebhookEvents = mysqlTable\(\s*"processed_webhook_events"/);
     expect(src).toMatch(/uq_processed_webhook_events_event_id/);
-  });
-
-  it("bootstrap service exports bootstrapWebhookEventsTable", () => {
-    const src = fs.readFileSync(
-      path.resolve(ROOT, "apps/server/services/webhookEventsBootstrap.ts"),
-      "utf-8",
-    );
-    expect(src).toMatch(/export function bootstrapWebhookEventsTable/);
-    // Source has template-literal escape `\` for MySQL identifier quoting,
-    // so we match the table name without the surrounding escape backticks.
-    expect(src).toMatch(/CREATE TABLE IF NOT EXISTS .*processed_webhook_events/);
-  });
-
-  it("server _core/index.ts wires the bootstrap into startup", () => {
-    const src = fs.readFileSync(
-      path.resolve(ROOT, "apps/server/_core/index.ts"),
-      "utf-8",
-    );
-    expect(src).toMatch(/bootstrapWebhookEventsTable/);
-    // Bootstrap must live alongside the other two startup bootstraps.
-    expect(src).toMatch(/bootstrapAnnouncementsTables[\s\S]*bootstrapWebhookEventsTable/);
   });
 
   it("Stripe handler inserts into processed_webhook_events before fulfillment", () => {

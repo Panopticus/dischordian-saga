@@ -224,7 +224,7 @@ describe("verifyReplay — happy-path against deterministic engine", () => {
   );
 });
 
-describe("Replay verification — schema + migration + bootstrap + router wiring", () => {
+describe("Replay verification — schema + migration + router wiring", () => {
   it("schema declares the matchId column on gameReplays", () => {
     const src = read("apps/db/schema.ts");
     expect(src).toMatch(
@@ -232,30 +232,15 @@ describe("Replay verification — schema + migration + bootstrap + router wiring
     );
   });
 
-  it("migration 0057 adds the column with an index", () => {
-    const src = read("apps/db/0057_game_replays_match_id.sql");
-    expect(src).toMatch(/ALTER TABLE\s+`game_replays`/i);
-    expect(src).toMatch(/ADD COLUMN\s+`matchId`\s+VARCHAR\(64\)/i);
+  it("baseline migration carries the matchId column with its seek index", () => {
+    const src = read("apps/db/0071_baseline_v1.sql");
+    expect(src).toMatch(/CREATE TABLE\s+`game_replays`[\s\S]*?`matchId`\s+varchar\(64\)/i);
     expect(src).toMatch(/idx_game_replays_match_id/);
-  });
-
-  it("bootstrap exports bootstrapReplayMatchId with idempotent column probe", () => {
-    const src = read("apps/server/services/replaysBootstrap.ts");
-    expect(src).toMatch(/export function bootstrapReplayMatchId/);
-    expect(src).toMatch(/column_name\s*=\s*'\$\{opts\.column\}'/);
-    expect(src).toMatch(/column:\s*["']matchId["']/);
-  });
-
-  it("server _core/index.ts wires bootstrapReplayMatchId into startup", () => {
-    const src = read("apps/server/_core/index.ts");
-    expect(src).toMatch(/bootstrapReplayMatchId/);
-    expect(src).toMatch(/bootstrapReplayShareToken[\s\S]*bootstrapReplayMatchId/);
   });
 
   it("db-fresh-smoke asserts the matchId column lands", () => {
     const src = read("apps/scripts/db-fresh-smoke.ts");
-    expect(src).toMatch(/bootstrapReplayMatchId/);
-    expect(src).toMatch(/columnExists\(db,\s*"game_replays",\s*"matchId"\)/);
+    expect(src).toMatch(/\["game_replays",\s*"matchId"\]/);
   });
 
   it("router exposes verifyReplay as an admin-only query", () => {

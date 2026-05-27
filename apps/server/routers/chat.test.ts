@@ -5,7 +5,6 @@
  *
  *   - listReports returns [] (not throw, not null) when DB is down,
  *     so the moderator console gracefully degrades.
- *   - The bootstrap is a no-op without a DB and never throws.
  *   - Filter is verified directly in profanityFilter.test.ts; here we
  *     just smoke-test that importing the router doesn't break the
  *     module graph.
@@ -17,7 +16,6 @@
 import { describe, it, expect } from "vitest";
 
 import { chatRouter } from "./chat";
-import { bootstrapChatReportsTable } from "../services/chatReportsBootstrap";
 
 describe("chat router — wiring", () => {
   it("module imports cleanly", () => {
@@ -32,16 +30,5 @@ describe("chat router — wiring", () => {
     // tree of children.
     const keys = Object.keys((chatRouter as unknown as { _def: { procedures: Record<string, unknown> } })._def.procedures);
     expect(keys).toEqual(expect.arrayContaining(["report", "listReports", "resolveReport"]));
-  });
-});
-
-describe("chatReportsBootstrap — no-DB safety", () => {
-  it("returns void without throwing when DB pool is unavailable", async () => {
-    await expect(bootstrapChatReportsTable()).resolves.toBeUndefined();
-  });
-
-  it("is idempotent under repeat invocation", async () => {
-    await expect(bootstrapChatReportsTable()).resolves.toBeUndefined();
-    await expect(bootstrapChatReportsTable()).resolves.toBeUndefined();
   });
 });
