@@ -639,11 +639,76 @@ const chAuthorityTrial: StoryEncounter = {
       condition: { kind: "always" },
       action: { kind: "boss_taunt", text: "What do you say to the charges?" },
     },
+    /* ─── Game Master mid-Trial Intercession hooks ─────────────────
+       Three once-fire hooks select which band of the GM
+       mid-Trial Intercession tree mounts. Resolution semantics:
+         - WINNING fires when trialBalance crosses >= +3
+         - LOSING  fires when trialBalance crosses <= -3
+         - NEUTRAL fires at turn 5 if neither has already fired
+           (the firedHooks set blocks duplicate band entries).
+       The Two are canonically inevitable mid-Trial (bible §3.4);
+       these hooks let the saga's most predestination-cadenced
+       voice appear at the QUALITY of the player's play. */
+    {
+      id: "gm_mid_trial_winning",
+      once: true,
+      condition: {
+        kind: "trial_balance_crosses",
+        threshold: 3,
+        direction: "above",
+      },
+      action: {
+        kind: "branching_dialog",
+        treeId: "game-master-mid-trial-intercession",
+        entryNodeId: "winning_band_entry",
+      },
+    },
+    {
+      id: "gm_mid_trial_losing",
+      once: true,
+      condition: {
+        kind: "trial_balance_crosses",
+        threshold: -3,
+        direction: "below",
+      },
+      action: {
+        kind: "branching_dialog",
+        treeId: "game-master-mid-trial-intercession",
+        entryNodeId: "losing_band_entry",
+      },
+    },
+    {
+      id: "gm_mid_trial_neutral",
+      once: true,
+      condition: { kind: "turn_reached", turn: 5 },
+      action: {
+        kind: "branching_dialog",
+        treeId: "game-master-mid-trial-intercession",
+        entryNodeId: "neutral_band_entry",
+      },
+    },
   ],
   preMatchDialog: "dialog_authority_trial_pre",
   postMatchWinDialog: "dialog_authority_trial_win",
   postMatchLossDialog: "dialog_authority_trial_loss",
   trialMode: { openingVerdictBalance: 0 },
+  /* Phase A4 — Stakes Stream adoption on the canonical reference
+     encounter. Declares ONLY the public_witness axis: the verdict
+     axis is owned by trialMode (state.trial.balance) and would
+     double-count if also declared here. The trialMode→stakesMode
+     migration with a back-compat shim is the follow-on slice; this
+     declaration lets the GM mid-Trial Intercession choices move
+     a real state.stakes axis today. */
+  stakesMode: {
+    axes: {
+      public_witness: {
+        initial: 0,
+        min: -10,
+        max: 10,
+        label: "Public Witness",
+      },
+    },
+  },
 };
 
 /* ═══════════════════════════════════════════════════════
