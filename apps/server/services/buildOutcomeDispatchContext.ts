@@ -90,11 +90,33 @@ export function buildOutcomeDispatchContext(
       await applyFactionReputationDelta(userId, factionKey, delta);
     },
 
-    recordStakesIntent: (axisId, delta) => {
+    recordStakesIntent: async (axisId, delta) => {
+      // Phase A9 — Stakes-intent ledger writer. Previously a
+      // logger-only stub; now persists to the canonical
+      // narrativeFlag bag under a stable key so:
+      //   1. Downstream consumers (expansionUnlockService's
+      //      committedDialogFlags set; cross-NPC reactivity) can
+      //      read it the same way every other narrative flag is
+      //      read — no new storage layer.
+      //   2. The in-match path (apply_dialog_stakes engine action)
+      //      stays in-engine; this is the OUT-OF-MATCH durable
+      //      writer (called via the server tRPC procedure when a
+      //      dialog choice commits server-side).
+      //
+      // Key shape: `stakes_<axisId>_<sign>_committed`. Sign
+      // captures direction so `stakes_verdict_pos_committed` is a
+      // legible flag that can gate "you swung the verdict toward
+      // overturn" cards. Multiple commits in the same direction
+      // are idempotent; the writer's no-write-when-equal short-
+      // circuit handles repeats.
+      if (!Number.isFinite(delta) || delta === 0) return;
+      const sign = delta > 0 ? "pos" : "neg";
+      const flag = `stakes_${axisId}_${sign}_committed`;
+      await setUserNarrativeFlag(userId, flag, true);
       logger?.debug?.(
         "outcomeDispatch.stakesIntent",
         "buildOutcomeDispatchContext",
-        { userId, npcKey, axisId, delta },
+        { userId, npcKey, axisId, delta, flag },
       );
     },
 
