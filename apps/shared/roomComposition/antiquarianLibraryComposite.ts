@@ -11,10 +11,17 @@
    `antiquarian-library` (see COMPOSITE_ROOM_S3_DIR in
    types.ts).
 
-   pickSprites returns [] for now — sprite-by-sprite narrative
-   wiring lands per-beat as the relevant quests ship. The base
-   picker covers the common axes (cycle, TV-infection, morality,
-   season, epoch, act tier) plus room-specific narrative bases:
+   pickSprites emits ~14 sprites in the default render (skylight,
+   chandelier, lamp, vault door + sigil, locker, chair, bust, card
+   catalogue, Hierophant stack, Velkraal folio) and adds beat-
+   specific overlays (recursion gallery, shadow tongue, ambient
+   season/epoch finishers) under specific narrative flags. The
+   high-confidence feature hotspots are gated to these sprites via
+   compositeScopes — see ROOM_DEFINITIONS in GameContext.tsx.
+
+   The base picker covers the common axes (cycle, TV-infection,
+   morality, season, epoch, act tier) plus room-specific narrative
+   bases:
 
      - first_entry_act3            (first arrival)
      - act6_locker_reveal          (locker contents disclosed)
@@ -181,9 +188,139 @@ function pickBase(g: CompositeGameSlice): AntiquarianLibraryBaseId {
   return "antiquarians_library_base_initial";
 }
 
-function pickSprites(_g: CompositeGameSlice, _base: AntiquarianLibraryBaseId): string[] {
-  // Per-beat sprite picking deferred — see file header.
-  return [];
+function pickSprites(g: CompositeGameSlice, base: AntiquarianLibraryBaseId): string[] {
+  const out: string[] = [];
+  const f = g.narrativeFlags;
+  const cycle = deriveCyclePhase(g);
+
+  // L1 — skylight beam (mutex by cycle / shadow tongue)
+  if (f.shadow_tongue_active || base === "antiquarians_library_base_epoch_shadowtongue_inverted") {
+    out.push("sp04_skylight_beam_cool_violet");
+  } else if (cycle === "dawn") {
+    out.push("sp02_skylight_beam_dawn_golden_pink");
+  } else if (cycle === "longNight") {
+    out.push("sp03_skylight_beam_dim_grey_suppressed");
+  } else {
+    out.push("sp01_skylight_beam_warm_gold_dust_motes");
+  }
+
+  // L2 — chandelier state (mutex)
+  if (base === "antiquarians_library_base_act7_dimmed_absent") {
+    out.push("sp10_chandelier_extinguished_cold_brass");
+  } else if (base === "antiquarians_library_base_epoch_grand_edit") {
+    out.push("sp08_chandelier_intensified_max_amber");
+  } else if (f.shadow_tongue_active) {
+    out.push("sp09_chandelier_flickering_one_arm_dark");
+  } else {
+    out.push("sp07_chandelier_lit_full_warm_amber");
+  }
+
+  // L3 — reading-table lamp / Orb of Worlds (mutex)
+  if (f.daniel_cross_disclosed || base === "antiquarians_library_base_daniel_cross_disclosed") {
+    out.push("sp12_reading_table_lamp_doubled_flame_cyan_cream");
+  } else if (cycle === "longNight" || base === "antiquarians_library_base_act7_dimmed_absent") {
+    out.push("sp13_reading_table_lamp_ember_barely_glowing");
+  } else {
+    out.push("sp11_reading_table_lamp_lit_warm_cream");
+  }
+
+  // L4 — vault door (mutex; gates the locked-vault hotspot)
+  if (f.antiquarian_library_vault_opened || base === "antiquarians_library_base_locked_vault_open") {
+    out.push("sp31_vault_door_fully_open_interior_glow", "sp32_warm_gold_light_spill_vault_floor");
+  } else if (f.antiquarian_library_vault_ajar) {
+    out.push("sp30_locked_vault_door_ajar_gold_light_spill");
+  } else {
+    out.push("sp29_locked_vault_door_closed_cyan_sigil");
+  }
+
+  // L5 — vault sigil (mutex; pairs with door)
+  if (f.antiquarian_library_vault_opened || base === "antiquarians_library_base_locked_vault_open") {
+    out.push("sp37_vault_sigil_warm_gold_victory");
+  } else if (f.antiquarian_library_vault_ajar) {
+    out.push("sp35_vault_sigil_bright_cyan_alarm");
+  } else if (f.shadow_tongue_active) {
+    out.push("sp36_vault_sigil_indigo_pulse");
+  } else if (f.antiquarian_library_vault_pulse) {
+    out.push("sp34_vault_sigil_cyan_low_pulse");
+  } else {
+    out.push("sp33_vault_sigil_silent_no_glow");
+  }
+
+  // L6 — locker state (mutex; gates the antiquarian-desk hotspot)
+  if (f.antiquarian_library_locker_journal_open) {
+    out.push("sp26_antiquarian_locker_journal_open", "sp28_locker_warm_gold_glow_rim");
+  } else if (f.antiquarian_library_locker_revealed || base === "antiquarians_library_base_act6_locker_reveal") {
+    out.push("sp25_antiquarian_locker_open_personal_effects", "sp28_locker_warm_gold_glow_rim");
+  } else {
+    out.push("sp24_antiquarian_locker_closed");
+  }
+
+  // L7 — antiquarian chair (mutex)
+  if (base === "antiquarians_library_base_act7_dimmed_absent" || f.antiquarian_absent) {
+    out.push("sp21_antiquarian_chair_empty_candles_unlit");
+  } else {
+    out.push("sp20_antiquarian_chair_empty_candles_lit");
+  }
+
+  // L8 — bust (mutex; gates the programmer-infiltration-dossier reveal)
+  if (f.daniel_cross_disclosed || base === "antiquarians_library_base_daniel_cross_disclosed") {
+    out.push("sp53_bust_first_programmer_cracked_smoked_glass");
+  } else if (f.antiquarian_bust_glimpsed) {
+    out.push("sp54_bust_cracked_glass_face_glimpse");
+  } else {
+    out.push("sp52_bust_first_antiquarian_warm_bronze");
+  }
+
+  // L9 — card catalogue (mutex)
+  if (f.antiquarian_library_card_catalogue_searched) {
+    out.push("sp43_card_catalogue_multiple_drawers_open");
+  } else if (f.antiquarian_library_card_drawer_open) {
+    out.push("sp42_card_catalogue_drawer_open_index_cards");
+  } else {
+    out.push("sp41_card_catalogue_all_drawers_closed");
+  }
+
+  // L10 — Hierophant marginalia stack (mutex)
+  if (f.hierophant_marginalia_consulted) {
+    out.push("sp56_hierophant_marginalia_stack_top_open");
+  } else {
+    out.push("sp55_hierophant_marginalia_stack_top_closed");
+  }
+
+  // L11 — Velkraal folio (mutex)
+  if (f.velkraal_folio_opened) {
+    out.push("sp58_velkraal_folio_open_on_lectern");
+  } else {
+    out.push("sp57_velkraal_dossier_edges_visible");
+  }
+
+  // L12 — recursion gallery (only on the recursive base or explicit flag)
+  if (base === "antiquarians_library_base_recursive_gallery_loop" || f.gallery_recursion_active) {
+    out.push(
+      "sp65_gallery_5_recursion_shelf_distorted",
+      "sp73_books_falling_upward_non_euclidean",
+      "sp74_recursion_boundary_books_floating",
+      "sp75_recursion_shimmer_distortion_overlay",
+    );
+  }
+
+  // L13 — shadow tongue overlays
+  if (f.shadow_tongue_active || base === "antiquarians_library_base_epoch_shadowtongue_inverted") {
+    out.push(
+      "sp80_shadow_tongue_void_overlay",
+      "sp78_floor_indigo_seam_corruption",
+      "sp79_indigo_tendrils_floor_creeping",
+    );
+  }
+
+  // L14 — ambient overlays (mutex)
+  if (base === "antiquarians_library_base_season_interregnum") {
+    out.push("sp90_interregnum_cool_grey_ambient_overlay");
+  } else if (base === "antiquarians_library_base_epoch_post_grand_edit") {
+    out.push("sp89_warm_gold_ambient_full_room_overlay");
+  }
+
+  return out;
 }
 
 function pickFilter(base: AntiquarianLibraryBaseId): string | undefined {
