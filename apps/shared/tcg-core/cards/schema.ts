@@ -798,6 +798,15 @@ export const cardUnlockConditionSchema = z.discriminatedUnion("kind", [
       perspectiveId: z.string().min(1),
     })
     .strict(),
+  z
+    .object({
+      kind: z.literal("dialog_choice"),
+      /** Canonical narrative flag minted by an `NpcDialogChoice.sets`.
+       *  See the corresponding type-side doc in
+       *  apps/shared/tcg-core/types/Card.ts. */
+      flag: z.string().min(1),
+    })
+    .strict(),
 ]);
 
 /* ─── Top-level card definition ─── */
@@ -851,6 +860,20 @@ export const cardDefinitionSchema = z
      *  orange warning border on the §5.7 TranscriptColumn row.
      *  See engine/publicWitness.ts applyPublicWitnessPlay. */
     public_delta: z.number().int().min(-3).max(3).optional(),
+    /** Multi-axis stakes deltas — generalization of
+     *  `verdict_delta` / `public_delta`. Same [-3, +3] per-axis
+     *  integer range. Keys are the canonical `StakesAxis` values
+     *  (engine/stakesResolver.ts STAKES_AXES). Authoring rule
+     *  enforced by .superRefine below: a card may set
+     *  `verdict_delta` OR `stakes_deltas.verdict`, never both
+     *  (same for public_delta / stakes_deltas.public_witness). */
+    stakes_deltas: z
+      .object({
+        verdict: z.number().int().min(-3).max(3).optional(),
+        public_witness: z.number().int().min(-3).max(3).optional(),
+      })
+      .strict()
+      .optional(),
     /** Optional: marks a card as reserved-from-pools (see Card.ts
      *  `reserved` doc). Only `true` is meaningful; absence ≡ false. */
     reserved: z.literal(true).optional(),
@@ -936,6 +959,35 @@ export const cardDefinitionSchema = z
     // schema doesn't enforce. Mentioned here so future schema
     // refactors don't accidentally reintroduce a strict check that
     // breaks the existing rally_buff cards.
+
+    // Stakes Stream widening — dual-source rejection. A card MUST
+    // NOT author both the legacy single-axis field AND the
+    // corresponding stakes_deltas entry — the two would silently
+    // disagree at runtime (the resolver in engine/stakesResolver.ts
+    // prefers stakes_deltas, so authors who set both would have
+    // their verdict_delta ignored without any signal).
+    if (
+      card.verdict_delta !== undefined &&
+      card.stakes_deltas?.verdict !== undefined
+    ) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message:
+          "card sets both `verdict_delta` and `stakes_deltas.verdict` — pick one",
+        path: ["stakes_deltas", "verdict"],
+      });
+    }
+    if (
+      card.public_delta !== undefined &&
+      card.stakes_deltas?.public_witness !== undefined
+    ) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message:
+          "card sets both `public_delta` and `stakes_deltas.public_witness` — pick one",
+        path: ["stakes_deltas", "public_witness"],
+      });
+    }
   });
 
 export type ValidatedCardDefinition = z.infer<typeof cardDefinitionSchema>;

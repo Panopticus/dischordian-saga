@@ -81,7 +81,16 @@ import {
   appendMatchHistoryEntry,
   type MatchHistoryEntry,
 } from "@shared/clientMatchHistory";
-import type { StoryEncounter } from "@shared/tcg-core/story/encounter";
+import {
+  checkNarrativeHooks,
+  type StoryEncounter,
+} from "@shared/tcg-core/story/encounter";
+import { ALL_NPC_DIALOG_TREES } from "@shared/npcs/dialogTrees";
+import type { NpcDialogTree } from "@shared/npcs/dialogTrees/types";
+import { outcomeBundleToEngineActions } from "@shared/campaign/outcomeBundleToActions";
+import type { OutcomeBundle } from "@shared/campaign";
+import type { GameState as TcgGameState } from "@shared/tcg-core/types/GameState";
+import { InMatchDialogChoice } from "../../components/match/InMatchDialogChoice";
 import {
   deriveSeerOutcome,
   playerDeckUnlocksWinnablePath,
@@ -394,6 +403,19 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   // of the entire game" (authority-trial-phase-mechanic.md §5).
   const [showLightDarkPillar, setShowLightDarkPillar] = useState(false);
   const prevTrialOutcomeRef = useRef<"overturn" | "sentence_passed" | undefined>(undefined);
+
+  /* ─── In-match dialog overlay (Phase A3 narrative-spine adoption) ──
+     Tracks the active branching dialog when a NarrativeHook fires
+     `branching_dialog`. The hook evaluator runs after each gameState
+     change and sets this state; the pick handler dispatches the
+     resolved OutcomeBundle through tcgClient and clears state on
+     close. `firedHooksRef` is the per-match `Set<hookId>` the
+     evaluator mutates for `once: true` hooks. */
+  const firedHooksRef = useRef<Set<string>>(new Set());
+  const [inMatchDialog, setInMatchDialog] = useState<{
+    tree: NpcDialogTree;
+    entryNodeId: string;
+  } | null>(null);
 
   // §5.6 Programmer gift pillar. Mounted when
   // gameState.programmerGift?.status transitions to "offered" (the
@@ -1083,6 +1105,68 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     [addLog],
   );
 
+  /* ─── In-match dialog: evaluator + pick handler (Phase A3) ────────
+     After each gameState transition, walk the encounter's
+     narrativeHooks; for every fired `branching_dialog` action, look
+     up the tree and mount the overlay. Skips when an overlay is
+     already mounted so hooks don't stack. */
+  useEffect(() => {
+    if (!gameState || !encounter) return;
+    if (inMatchDialog) return; // already mounted — let the player resolve
+    const actions = checkNarrativeHooks(
+      encounter,
+      gameState as unknown as TcgGameState,
+      firedHooksRef.current,
+    );
+    for (const action of actions) {
+      if (action.kind !== "branching_dialog") continue;
+      const tree = ALL_NPC_DIALOG_TREES.find((t) => t.id === action.treeId);
+      if (!tree) {
+        // Authoring drift: hook references a tree id that isn't
+        // registered. Log + skip so the match keeps going.
+        if (typeof console !== "undefined") {
+          console.warn(
+            `[DuelystGameUI] branching_dialog references unknown treeId: ${action.treeId}`,
+          );
+        }
+        continue;
+      }
+      setInMatchDialog({ tree, entryNodeId: action.entryNodeId });
+      break; // mount at most one per evaluator pass
+    }
+  }, [gameState, encounter, inMatchDialog]);
+
+  const handleInMatchDialogChoiceCommitted = useCallback(
+    (_choice: unknown, bundle: OutcomeBundle) => {
+      const client = tcgClientRef.current;
+      if (!client) return;
+      // The bridge produces zero-or-one apply_dialog_stakes actions
+      // per bundle today; future bundle write categories that need
+      // engine actions plug in via the same bridge.
+      // localSide for the in-match player is always side 0.
+      const engineActions = outcomeBundleToEngineActions(
+        bundle,
+        0,
+        () => 0, // seq is auto-minted by tcgClient.dispatch; this
+                  // placeholder is ignored by the translator path.
+      );
+      for (const a of engineActions) {
+        if (a.kind === "apply_dialog_stakes") {
+          client.dispatch({
+            type: "apply_dialog_stakes",
+            outcomeId: a.outcomeId,
+            deltas: a.deltas,
+          });
+        }
+      }
+    },
+    [],
+  );
+
+  const handleInMatchDialogClose = useCallback(() => {
+    setInMatchDialog(null);
+  }, []);
+
   // §5.6 gift pick handler: dispatch the reducer action (transitions
   // GameState.programmerGift to accepted|declined and ends the match
   // on accept), write the persistent campaign flag, and add a log
@@ -1611,10 +1695,21 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
         gameState?.programmerGift?.status === "offered" && (
           <ChoicePillarProgrammerGift onPick={handleProgrammerGiftPick} />
         )}
+      {inMatchDialog && (
+        <InMatchDialogChoice
+          tree={inMatchDialog.tree}
+          entryNodeId={inMatchDialog.entryNodeId}
+          onChoiceCommitted={handleInMatchDialogChoiceCommitted}
+          onClose={handleInMatchDialogClose}
+        />
+      )}
       {gameState?.publicWitness && (
         <PublicWitnessColumn
           balance={gameState.publicWitness.balance}
           entries={gameState.publicWitness.entries}
+          stakesPublicWitness={
+            gameState.stakes?.axes?.public_witness as number | undefined
+          }
         />
       )}
       {showSeerPlayOverlay && (

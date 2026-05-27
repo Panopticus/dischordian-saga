@@ -34,6 +34,7 @@ import { RULES_VERSION } from "./version";
 import { runStateBasedActions, SBA_SAFETY_CAP } from "./stateBasedActions";
 import { drainTriggerQueue, type TriggerEffectRunner } from "./triggerQueue";
 import { handleMulligan, handleFinishMulligan } from "./mulligan";
+import { applyDialogStakes } from "./stakesReducer";
 import { refreshTurnForPlayer, enqueueTurnEndTriggers } from "./turn";
 import { tickLockout } from "./lockout";
 import { drainScriptedActions } from "./scriptedActions";
@@ -155,6 +156,9 @@ export function reduce(
           break;
         case "programmer_gift_choice":
           error = handleProgrammerGiftChoice(draft, action, ctx);
+          break;
+        case "apply_dialog_stakes":
+          error = handleApplyDialogStakes(draft, action, ctx);
           break;
         case "concede":
           error = handleConcede(draft, action, ctx);
@@ -563,6 +567,29 @@ function handleProgrammerGiftChoice(
     // Match continues under standard rules. No state change beyond
     // the gift transition itself.
   }
+  return undefined;
+}
+
+/**
+ * Apply an in-encounter dialog choice's stakes deltas to the
+ * match's stakes state. Tolerant pass-through when the match has
+ * no `stakes` state (encounter didn't declare a stakesMode) — the
+ * action is a no-op rather than an error so the client-side
+ * dialog runner can dispatch the action universally without
+ * sniffing match state.
+ */
+function handleApplyDialogStakes(
+  draft: Draft<GameState>,
+  action: Extract<Action, { kind: "apply_dialog_stakes" }>,
+  ctx: ReduceCtx,
+): ReduceError | undefined {
+  applyDialogStakes(
+    draft,
+    action.actor,
+    action.outcomeId,
+    action.deltas,
+    ctx.events,
+  );
   return undefined;
 }
 

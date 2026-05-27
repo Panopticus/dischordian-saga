@@ -19,6 +19,7 @@ import { checkKeywordBehaviorCoverage } from "./checks/keywordBehaviorCoverage";
 import { checkUnlockConditionUICoverage } from "./checks/unlockConditionUICoverage";
 import { checkCardStatBudgetCoverage } from "./checks/cardStatBudgetCoverage";
 import { checkNarrativeFlagBridgeCoverage } from "./checks/narrativeFlagBridgeCoverage";
+import { checkChoiceOutcomeConsumerParity } from "./checks/choiceOutcomeConsumerParity";
 import { checkTrialCategoryCoverage } from "./checks/trialCategoryCoverage";
 import { checkLoreBibleDrift } from "./checks/loreBibleDrift";
 import { checkObservabilityWiring } from "./checks/observabilityWiring";
@@ -232,6 +233,13 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     // has no writers yet. Ratcheted; closes when secret-reveal hooks
     // land.
     ratchet: { target: 0 },
+  },
+  {
+    id: "narrative.choice_outcome_consumer_parity",
+    name: "Choice outcome consumers",
+    description:
+      "Every entry in apps/shared/campaign/choiceOutcomeRegistry.ts has a downstream consumer: set_flag entries reference a registered narrative flag with a producer; unlock_card entries reference a real card def; faction_rep entries reference a canonical FACTION; mutate_encounter_deck entries reference a real StoryEncounter id. Hard parity — the registry is small and entries land alongside their consumers.",
+    check: () => checkChoiceOutcomeConsumerParity(),
   },
   {
     id: "tcg.trial_category_coverage",

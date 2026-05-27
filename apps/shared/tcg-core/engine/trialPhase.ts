@@ -30,6 +30,7 @@ import type { Draft } from "immer";
 import type { GameState } from "../types/GameState";
 import type { CardDefinition, TrialCategory } from "../types/Card";
 import type { GameEvent } from "../types/Event";
+import { resolveCardStakeDelta } from "./stakesResolver";
 import type {
   TrialPhaseNumber,
   TrialOutcome,
@@ -265,7 +266,8 @@ export function applyTrialPlay(
   const rule = PHASE_RULES[phase];
 
   const player = draft.currentPlayer;
-  const delta = card.verdict_delta ?? PLACEHOLDER_PLAY_DELTA;
+  const resolved = resolveCardStakeDelta(card, "verdict");
+  const delta = typeof resolved === "number" ? resolved : PLACEHOLDER_PLAY_DELTA;
   draft.trial.trialBalance += delta;
   events.push({
     type: "trial_balance_changed",

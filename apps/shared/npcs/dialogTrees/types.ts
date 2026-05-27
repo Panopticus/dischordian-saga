@@ -13,6 +13,7 @@
 // and are aggregated via apps/shared/npcs/dialogTrees/index.ts.
 
 import type { NpcKey } from "../types";
+import type { Faction } from "../../tcg-core/types/Card";
 
 /** Free-composition narrative flag (kept as string per dialogTree.ts convention). */
 export type NarrativeFlag = string;
@@ -35,6 +36,41 @@ export interface NpcDialogChoice {
     axis: string;
     delta: number;
   }>;
+
+  /* ─── BioWare-style outcomes (Phase 1 — Plan §"Dialog Design") ───
+     All four fields are optional and additive: existing trees that
+     do not author them render and resolve identically. The resolver
+     `applyDialogChoiceOutcomes()` in
+     apps/shared/campaign/applyDialogChoice.ts folds these into a
+     single OutcomeBundle the dialog runner forwards to the right
+     subsystems (server faction-rep service, narrative flag setter,
+     card-unlock pipeline, encounter deck mutator). */
+
+  /** Adjusts faction reputation when the choice is committed. Keyed
+   *  by the canonical TCG `Faction` so authors cannot typo a key.
+   *  Forwarded server-side to `applyFactionReputationDelta()`. */
+  factionRepDelta?: Partial<Record<Faction, number>>;
+  /** Shifts an active StoryEncounter's stakes axis (verdict, bond,
+   *  doctrine-purity, etc.). Resolved against the
+   *  StoryEncounter.stakesMode config when that lands; until then
+   *  the resolver records the intent for the Campaign Ledger. */
+  stakesAxisDelta?: Record<string, number>;
+  /** Unlocks a card in the player's collection. `via` names which
+   *  unlock-condition family the card resolves through; the
+   *  `dialog_choice` family is the new one this PR introduces and
+   *  expansionUnlockService will start honoring in a follow-up. */
+  unlockCard?: {
+    cardDefId: string;
+    via: "act_completion" | "secret" | "dialog_choice";
+  };
+  /** Adds a card to a *future* encounter's boss deck. The deck
+   *  resolver (Plan §2.2 #15) consumes this at encounter init. The
+   *  Phase 1 resolver records the intent only; the resolver landing
+   *  is sequenced after StoryEncounter.bossDeckResolver. */
+  mutateNextEncounterDeck?: {
+    encounterId: string;
+    addCardDefId: string;
+  };
 }
 
 export interface NpcDialogNode {

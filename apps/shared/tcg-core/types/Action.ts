@@ -68,6 +68,31 @@ export type Action =
    * the UI writes the canonical campaign flag alongside.
    */
   | { kind: "programmer_gift_choice"; actor: Side; choice: "accept" | "decline"; seq: number }
+  /**
+   * Apply a dialog-choice's stakes deltas to the in-match stakes
+   * state. Dispatched by the client-side dialog runner when an
+   * in-encounter dialog choice fires during a match whose
+   * `state.stakes` is initialized (encounter declared a stakesMode).
+   *
+   * Out-of-encounter dialog choices route through the server-
+   * authoritative `npc.recordDialogChoiceOutcome` procedure
+   * instead — this action exists solely for the in-match path.
+   *
+   * `deltas` is `Partial<Record<StakesAxis, number>>` at the
+   * authoring layer; serialized as `{ axisId: string; delta: number }`
+   * entries so the action stays JSON-portable for replay /
+   * server-validation. `outcomeId` is the OutcomeBundle's stable
+   * identifier (`<treeId>.<nodeId>.<choiceSlug>`) — surfaces in
+   * the `stakes_changed_by_dialog` event so the trace ties back
+   * to the originating choice.
+   */
+  | {
+      kind: "apply_dialog_stakes";
+      actor: Side;
+      outcomeId: string;
+      deltas: ReadonlyArray<{ axisId: string; delta: number }>;
+      seq: number;
+    }
   /** Concede the match. Always legal. */
   | { kind: "concede"; actor: Side; seq: number };
 

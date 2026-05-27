@@ -20,6 +20,7 @@ import type { TrialState } from "./TrialPhase";
 import type { ProgrammerGiftState } from "./ProgrammerGift";
 import type { PublicWitnessState } from "./PublicWitness";
 import type { SeerProphecyState } from "./SeerProphecy";
+import type { StakesState } from "./StakesMode";
 
 /** 9-wide, 5-tall board. Coordinates are (row 0..4, col 0..8). */
 export const BOARD_WIDTH = 9;
@@ -175,6 +176,20 @@ export interface GameState {
    * but not write. See docs/production/act1/seer-prophecy-mechanic.md.
    */
   seerProphecy?: SeerProphecyState;
+  /**
+   * Optional: multi-axis Stakes Stream state. Present only on
+   * encounters that opt in via `StoryEncounter.stakesMode` →
+   * forwarded into MatchConfig.stakesMode. Initialized in
+   * engine/init.ts; mutated by engine/stakesReducer.ts on each
+   * authored card play whose `stakes_deltas` (or legacy
+   * `verdict_delta` fallback) touches a declared axis.
+   *
+   * Coexists with `trial` / `publicWitness` rather than
+   * subsuming them — the legacy specialized streams keep their
+   * own state. Encounter authors generally pick ONE mode for any
+   * given axis; the engine does not enforce mutual exclusion.
+   */
+  stakes?: StakesState;
   /**
    * Heat modifier ids active for this match (#1 from the AAA review
    * roadmap). Always present (defaulted to []) so the canonical hash

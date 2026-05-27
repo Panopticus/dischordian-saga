@@ -25,6 +25,8 @@ import { LYCOS_LOYALTY_INTRO } from "./lycos/loyalty_intro";
 import { THE_SEER_FIRST_MEETING } from "./the_seer/first_meeting";
 import { THE_ORACLE_FIRST_MEETING } from "./the_oracle/first_meeting";
 import { THE_GAME_MASTER_FIRST_MEETING } from "./the_game_master/first_meeting";
+import { THE_GAME_MASTER_SECOND_MEETING_PRE_TRIAL } from "./the_game_master/second_meeting_pre_trial";
+import { THE_GAME_MASTER_MID_TRIAL_INTERCESSION } from "./the_game_master/mid_trial_intercession";
 import { THE_MEME_FIRST_MEETING } from "./the_meme/first_meeting";
 import { THE_DEGEN_FIRST_GAME } from "./the_degen/first_meeting";
 import { DMC_CLONE_COMPANION_AWAKENING_ARRIVAL } from "./dmc_clone_companion/first_meeting";
@@ -48,6 +50,8 @@ const PER_NPC_TREES: ReadonlyArray<NpcDialogTree> = [
   THE_SEER_FIRST_MEETING,                     // Phase 6e.1b ✅ (Mechronis bench)
   THE_ORACLE_FIRST_MEETING,                   // Phase 6e.1b ✅ (Ch5 dream-sequence)
   THE_GAME_MASTER_FIRST_MEETING,              // Phase 6e.1b ✅ (witness-mode)
+  THE_GAME_MASTER_SECOND_MEETING_PRE_TRIAL,   // Phase 1 BioWare ✅ (Act 2 Interlude, the Two co-speak)
+  THE_GAME_MASTER_MID_TRIAL_INTERCESSION,     // Phase A6 ✅ (in-match, three verdict bands)
   THE_MEME_FIRST_MEETING,                     // Phase 6e.1b ✅ (Ch12 fusion-reveal)
   THE_DEGEN_FIRST_GAME,                       // Phase 6e.1c ✅ (Casino first-game)
   DMC_CLONE_COMPANION_AWAKENING_ARRIVAL,      // Phase 6e.1c ✅ (Severance Prize arrival)

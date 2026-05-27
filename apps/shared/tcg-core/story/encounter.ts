@@ -29,6 +29,7 @@ import type { TrialModeConfig } from "../types/TrialPhase";
 import type { GiftModeConfig } from "../types/ProgrammerGift";
 import type { WitnessModeConfig } from "../types/PublicWitness";
 import type { ProphecyModeConfig } from "../types/SeerProphecy";
+import type { StakesModeConfig } from "../types/StakesMode";
 import { resolveDialog, type DialogScene } from "./dialogBank";
 
 /* ─── Types ─── */
@@ -106,6 +107,21 @@ export interface StoryEncounter {
    * user is `chSeerVisit`. See docs/production/act1/seer-prophecy-mechanic.md.
    */
   prophecyMode?: ProphecyModeConfig;
+  /**
+   * Optional multi-axis Stakes Stream config — declares which
+   * `StakesAxis` values this encounter tracks (e.g., `verdict`,
+   * `public_witness`, future `doctrine_purity`), each with its
+   * initial value + clip range + UI label. See
+   * apps/shared/tcg-core/types/StakesMode.ts.
+   *
+   * The Stakes Stream engine generalization lands the type +
+   * card-level `stakes_deltas` reader first; the reducer that
+   * walks card-play events + dialog `stakesAxisDelta` outcomes
+   * through this config ships in a follow-up slice. Encounters
+   * authoring `stakesMode` today register intent; the live
+   * `state.stakes` map arrives with the reducer.
+   */
+  stakesMode?: StakesModeConfig;
 }
 
 export type WinCondition =
@@ -132,12 +148,39 @@ export type NarrativeCondition =
   | { kind: "boss_hp_below"; percent: number }
   | { kind: "player_hp_below"; percent: number }
   | { kind: "unit_killed"; defId: string }
+  /**
+   * Fires when `state.trial.balance` crosses `threshold` in the
+   * specified direction. The Stakes Stream / Authority Trial
+   * generalization uses this so the Game Masters' mid-Trial
+   * intercession surfaces at the *quality* of the player's play
+   * (canonically, the Two "read the moves before you make them"),
+   * not at a fixed turn counter.
+   *
+   *   direction: "above" → fires when balance >= threshold
+   *   direction: "below" → fires when balance <= threshold
+   *
+   * No-op on encounters whose `state.trial` is undefined.
+   */
+  | {
+      kind: "trial_balance_crosses";
+      threshold: number;
+      direction: "above" | "below";
+    }
   | { kind: "always" }; // fires on every state check
 
 export type NarrativeAction =
   | { kind: "play_dialog"; dialogId: string }
   | { kind: "show_cinematic"; cinematicId: string }
-  | { kind: "boss_taunt"; text: string };
+  | { kind: "boss_taunt"; text: string }
+  /**
+   * Mount the in-match `InMatchDialogChoice` overlay with the named
+   * NpcDialogTree, starting at `entryNodeId`. Player picks resolve
+   * via `applyDialogChoiceOutcomes` and dispatch through
+   * `outcomeBundleToEngineActions` → `tcgClient.dispatch` (the
+   * canonical in-match action path). The tree lookup walks
+   * `ALL_NPC_DIALOG_TREES` (apps/shared/npcs/dialogTrees).
+   */
+  | { kind: "branching_dialog"; treeId: string; entryNodeId: string };
 
 /* ─── Encounter runner ─── */
 
@@ -247,6 +290,7 @@ export function initEncounter(input: EncounterInit): EncounterState {
     giftMode: encounter.giftMode,
     witnessMode: encounter.witnessMode,
     prophecyMode: encounter.prophecyMode,
+    stakesMode: encounter.stakesMode,
   });
   return { gameState, firedHooks: new Set() };
 }
@@ -301,6 +345,19 @@ function evaluateNarrativeCondition(
       return state.players[1].graveyard.some(
         (c) => c.defId === cond.defId
       );
+    }
+    case "trial_balance_crosses": {
+      // No-op on non-trial encounters — the condition reads the
+      // legacy state.trial.balance (the Stakes Stream verdict axis
+      // adoption on shipped encounters is deferred to the trialMode→
+      // stakesMode migration; this condition shipping now lets the
+      // GM mid-Trial intercession fire correctly today against the
+      // existing trialMode shape).
+      if (!state.trial) return false;
+      const bal = state.trial.trialBalance;
+      return cond.direction === "above"
+        ? bal >= cond.threshold
+        : bal <= cond.threshold;
     }
     case "always":
       return true;
@@ -399,7 +456,13 @@ export function resolvePostMatchDialog(
 export type ResolvedNarrativeAction =
   | { kind: "play_dialog"; dialogId: string; scene: DialogScene | null }
   | { kind: "show_cinematic"; cinematicId: string; scene: DialogScene | null }
-  | { kind: "boss_taunt"; text: string };
+  | { kind: "boss_taunt"; text: string }
+  /** Mount the in-match `InMatchDialogChoice` overlay with the
+   *  named NpcDialogTree at `entryNodeId`. The host loop
+   *  (DuelystGameUI) looks up the tree at action-handling time
+   *  rather than at hook-resolution time so the resolver stays a
+   *  pure transform of the authored action. */
+  | { kind: "branching_dialog"; treeId: string; entryNodeId: string };
 
 /**
  * Resolve the dialog/cinematic references on any narrative
@@ -433,6 +496,12 @@ export function resolveNarrativeActions(
         };
       case "boss_taunt":
         return { kind: "boss_taunt", text: action.text };
+      case "branching_dialog":
+        return {
+          kind: "branching_dialog",
+          treeId: action.treeId,
+          entryNodeId: action.entryNodeId,
+        };
       default: {
         // Exhaustiveness guard — new NarrativeAction variants will
         // surface here at build time.

@@ -50,6 +50,8 @@ import {
   isCardLocked,
 } from "./lockout";
 import { applyPublicWitnessPlay } from "./publicWitness";
+import { resolveCardStakeDelta } from "./stakesResolver";
+import { applyCardPlayToStakes } from "./stakesReducer";
 import {
   applyTrialPlay,
   checkPhaseAdmissibility,
@@ -206,9 +208,12 @@ export function handlePlayCard(
         draft,
         def,
         action.actor,
-        Number.isFinite(def.verdict_delta) ? (def.verdict_delta as number) : 0,
+        resolveCardStakeDelta(def, "verdict") ?? 0,
         ctx,
       );
+      // Stakes Stream: multi-axis post-play hook. No-op when the
+      // match was not initialized with a stakesMode config.
+      applyCardPlayToStakes(draft, def, action.actor, ctx.events);
       return undefined;
     }
 
@@ -263,9 +268,12 @@ export function handlePlayCard(
         draft,
         def,
         action.actor,
-        Number.isFinite(def.verdict_delta) ? (def.verdict_delta as number) : 0,
+        resolveCardStakeDelta(def, "verdict") ?? 0,
         ctx,
       );
+      // Stakes Stream: multi-axis post-play hook. No-op when the
+      // match was not initialized with a stakesMode config.
+      applyCardPlayToStakes(draft, def, action.actor, ctx.events);
       return undefined;
     }
 
@@ -327,9 +335,12 @@ export function handlePlayCard(
         draft,
         def,
         action.actor,
-        Number.isFinite(def.verdict_delta) ? (def.verdict_delta as number) : 0,
+        resolveCardStakeDelta(def, "verdict") ?? 0,
         ctx,
       );
+      // Stakes Stream: multi-axis post-play hook. No-op when the
+      // match was not initialized with a stakesMode config.
+      applyCardPlayToStakes(draft, def, action.actor, ctx.events);
       return undefined;
     }
 
