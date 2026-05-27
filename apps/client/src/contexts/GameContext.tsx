@@ -1095,9 +1095,13 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // ── NPC PRESENCE (Phase C) ──
       // The Antiquarian — primaryRoom in factionNPCs.ts. A temporal echo
       // beside the celestial orb at center-back. Talk routes to NPCDialog.
-      { id: "npc-antiquarian", name: "The Antiquarian", description: "A figure half-out-of-time stands beside the orb, removing his goggles to look at you.", cx: 46.9, cy: 67.5, width: 6.1, height: 17.8, type: "npc", action: "npc:the_antiquarian", npcId: "the_antiquarian",
+      { id: "antiquarian_reading", name: "The Antiquarian", description: "A figure half-out-of-time stands beside the orb, removing his goggles to look at you.", cx: 28, cy: 67.1, width: 6.1, height: 17.8, type: "npc", action: "npc:the_antiquarian", npcId: "the_antiquarian",
         elaraDialog: "The Antiquarian. He arrives when the Library has decided you are ready to be cited. The arrival is not a courtesy; the arrival is an evaluation. Stand still. He will be brief. He always is, except when he is not.",
-        compositeScopes: ["sp74_antiquarian_neutral_present", "sp75_antiquarian_fresh_page", "sp76_antiquarian_at_ladder", "sp77_antiquarian_shelf_mate"] },
+        compositeScopes: ["sp75_antiquarian_fresh_page"] },
+      { id: "antiquarian_ladder", name: "The Antiquarian", description: "A figure half-out-of-time stands beside the orb, removing his goggles to look at you.", cx: 71.6, cy: 59.5, width: 4.6, height: 19, type: "npc", action: "npc:the_antiquarian", npcId: "the_antiquarian",
+        compositeScopes: ["sp76_antiquarian_at_ladder"] },
+      { id: "antiquarian_table", name: "The Antiquarian", description: "A figure half-out-of-time stands beside the orb, removing his goggles to look at you.", cx: 25.4, cy: 71.3, width: 6.1, height: 17.8, type: "npc", action: "npc:the_antiquarian", npcId: "the_antiquarian",
+        compositeScopes: ["sp77_antiquarian_shelf_mate"] },
       // Shadow Tongue — secondaryRoom = archives. Manifests as a possessed
       // system; visible at the orb pedestal when he's currently logged in.
       // Authored AFTER indigo-glow-lectern so the NPC wins clicks on the

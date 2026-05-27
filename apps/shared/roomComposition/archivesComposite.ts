@@ -149,9 +149,25 @@ if (f.archives_archway_open) return "archives_base_archway_open_to_library";
   return "archives_base_initial";
 }
 
-function pickSprites(_g: CompositeGameSlice, _base: ArchivesBaseId): string[] {
-  // Per-beat sprite picking deferred — see file header.
-  return [];
+function pickSprites(g: CompositeGameSlice, _base: ArchivesBaseId): string[] {
+  const out: string[] = [];
+  const f = g.narrativeFlags;
+
+  // Antiquarian presence (mutex). Each position has a matching hotspot
+  // in ROOM_DEFINITIONS["archives"] gated via compositeScopes — so the
+  // sprite the resolver picks determines which NPC click target is
+  // reachable. Default = at the reading desk (sp75).
+  if (f.archives_antiquarian_absent) {
+    out.push("sp73_antiquarian_absent");
+  } else if (f.archives_antiquarian_at_ladder) {
+    out.push("sp76_antiquarian_at_ladder");
+  } else if (f.archives_antiquarian_at_shelf) {
+    out.push("sp77_antiquarian_shelf_mate");
+  } else {
+    out.push("sp75_antiquarian_fresh_page");
+  }
+
+  return out;
 }
 
 function pickFilter(base: ArchivesBaseId): string | undefined {
