@@ -15,6 +15,7 @@ import { resolveCommsArrayComposite, COMMS_ARRAY_BASE_IDS, COMMS_ARRAY_SPRITE_ID
 import { resolveObservationDeckComposite, OBSERVATION_DECK_BASE_IDS, OBSERVATION_DECK_SPRITE_IDS } from "./observationDeckComposite";
 import { resolveAntiquarianLibraryComposite, ANTIQUARIAN_LIBRARY_BASE_IDS, ANTIQUARIAN_LIBRARY_SPRITE_IDS } from "./antiquarianLibraryComposite";
 import { resolveCargoHoldComposite, CARGO_HOLD_BASE_IDS, CARGO_HOLD_SPRITE_IDS } from "./cargoHoldComposite";
+import { resolveCaptainsQuartersComposite, CAPTAINS_QUARTERS_BASE_IDS, CAPTAINS_QUARTERS_SPRITE_IDS } from "./captainsQuartersComposite";
 import { compositeBaseUrl, compositeSpriteUrl } from "./types";
 import type {
   CompositeGameSlice,
@@ -48,6 +49,7 @@ export const COMPOSITE_ASSET_CATALOG: Readonly<
   "observation-deck": { bases: OBSERVATION_DECK_BASE_IDS, sprites: OBSERVATION_DECK_SPRITE_IDS },
   "antiquarian-library": { bases: ANTIQUARIAN_LIBRARY_BASE_IDS, sprites: ANTIQUARIAN_LIBRARY_SPRITE_IDS },
   "cargo-hold": { bases: CARGO_HOLD_BASE_IDS, sprites: CARGO_HOLD_SPRITE_IDS },
+  "captains-quarters": { bases: CAPTAINS_QUARTERS_BASE_IDS, sprites: CAPTAINS_QUARTERS_SPRITE_IDS },
 };
 
 /** True when the room has a Phase J composite resolver wired. */
@@ -61,7 +63,8 @@ export function hasRoomComposite(roomId: string): roomId is CompositeRoomId {
     roomId === "comms-array" ||
     roomId === "observation-deck" ||
     roomId === "antiquarian-library" ||
-    roomId === "cargo-hold"
+    roomId === "cargo-hold" ||
+    roomId === "captains-quarters"
   );
 }
 
@@ -92,6 +95,8 @@ export function resolveRoomComposite(
       return resolveAntiquarianLibraryComposite(game);
     case "cargo-hold":
       return resolveCargoHoldComposite(game);
+    case "captains-quarters":
+      return resolveCaptainsQuartersComposite(game);
   }
 }
 
@@ -121,3 +126,4 @@ export { resolveCommsArrayComposite } from "./commsArrayComposite";
 export { resolveObservationDeckComposite } from "./observationDeckComposite";
 export { resolveAntiquarianLibraryComposite } from "./antiquarianLibraryComposite";
 export { resolveCargoHoldComposite } from "./cargoHoldComposite";
+export { resolveCaptainsQuartersComposite } from "./captainsQuartersComposite";

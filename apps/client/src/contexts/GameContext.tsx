@@ -1968,7 +1968,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     elaraIntroVoUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara-captains-quarters_b76f5371.mp3",
     description: "A luxurious but abandoned room. Achievement trophies float in holographic displays. Bookshelves hold ancient tomes. The captain's personal terminal shows encrypted files.",
     elaraIntro: "The Captain's Quarters. This was Dr. Lyra Vox's private sanctuary — the creator of the neural nanobot network that powers every Inception Ark. A neuropsychologist who designed the operating system running beneath every bulkhead and conduit. The Trophy Room displays your achievements and collected artifacts. This room was the last to be abandoned... and it holds the most secrets. I can still feel her presence in these walls.",
-    imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_captains_quarters-BWMWKmvU7KomMEe2RxdxTV.webp",
+    imageUrl: assetUrl("art/rooms/captains_quarters/base/captains_quarters_base_initial.png"),
     features: ["Achievements", "Trophy Room", "Deck Builder", "Companions", "Battle Pass", "Morality Census"],
     featureRoutes: ["/trophy", "/deck-builder", "/companions", "/battle-pass", "/morality-census"],
     unlockRequirement: { type: "specific_item", value: "captains-master-key" },

@@ -9,7 +9,7 @@
  * PR #776 for the runtime gating mechanism.
  *
  * This check counts:
- *   declared    = total non-atmospheric sprites across all 9 Phase J rooms
+ *   declared    = total non-atmospheric sprites across all 10 Phase J rooms
  *                 (the "should be scoped" universe)
  *   implemented = sprites referenced by ≥ 1 hotspot's compositeScopes
  *   missing     = list of unscoped sprite ids as `<room>:<sprite_id>`

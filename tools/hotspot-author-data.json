@@ -3460,7 +3460,7 @@
   {
     "id": "captains-quarters",
     "name": "Captain's Quarters",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_captains_quarters-BWMWKmvU7KomMEe2RxdxTV.webp",
+    "imageUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/captains_quarters/base/captains_quarters_base_initial.png",
     "hotspots": [
       {
         "id": "trophy-wall",
