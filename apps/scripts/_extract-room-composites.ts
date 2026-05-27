@@ -1,9 +1,10 @@
 /* Extract Phase J composite-room metadata for the standalone hotspot
    author tool. Reads every composite module (bridge, cryo-bay,
-   medical-bay, engineering, archives, comms-array, observation-deck),
-   resolves every base + sprite to its full CDN URL via the runtime
-   helpers, and writes tools/hotspot-author-composites.json in a shape
-   the tool can directly stack as <img> layers.
+   medical-bay, engineering, archives, comms-array, observation-deck,
+   antiquarian-library), resolves every base + sprite to its full CDN
+   URL via the runtime helpers, and writes
+   tools/hotspot-author-composites.json in a shape the tool can directly
+   stack as <img> layers.
 */
 
 import * as fs from "fs";
@@ -37,6 +38,10 @@ import {
   OBSERVATION_DECK_SPRITE_IDS,
 } from "../shared/roomComposition/observationDeckComposite";
 import {
+  ANTIQUARIAN_LIBRARY_BASE_IDS,
+  ANTIQUARIAN_LIBRARY_SPRITE_IDS,
+} from "../shared/roomComposition/antiquarianLibraryComposite";
+import {
   compositeBaseUrl,
   compositeSpriteUrl,
   LIGHTING_FILTERS,
@@ -62,6 +67,7 @@ const ROOMS: Record<CompositeRoomId, { bases: readonly string[]; sprites: readon
   archives: { bases: ARCHIVES_BASE_IDS, sprites: ARCHIVES_SPRITE_IDS },
   "comms-array": { bases: COMMS_ARRAY_BASE_IDS, sprites: COMMS_ARRAY_SPRITE_IDS },
   "observation-deck": { bases: OBSERVATION_DECK_BASE_IDS, sprites: OBSERVATION_DECK_SPRITE_IDS },
+  "antiquarian-library": { bases: ANTIQUARIAN_LIBRARY_BASE_IDS, sprites: ANTIQUARIAN_LIBRARY_SPRITE_IDS },
 };
 
 const out: Record<string, RoomComposite> = {};
