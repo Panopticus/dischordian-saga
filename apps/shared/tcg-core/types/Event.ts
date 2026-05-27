@@ -161,4 +161,17 @@ export type GameEvent =
       outcome: "overturn" | "sentence_passed";
       trialBalance: number;
       threshold: number;
+    }
+  | {
+      /** Stakes Stream axis moved by an authored card play. Emitted
+       *  per axis (so a card with multi-axis stakes_deltas emits
+       *  multiple `stakes_changed` events in declaration order).
+       *  `clipped` is true when the clip range bounded the delta. */
+      type: "stakes_changed";
+      axis: string;
+      player: Side;
+      cardDefId: string;
+      delta: number;
+      newValue: number;
+      clipped: boolean;
     };

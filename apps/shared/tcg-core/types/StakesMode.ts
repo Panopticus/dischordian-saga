@@ -51,3 +51,26 @@ export interface StakesAxisConfig {
 export interface StakesModeConfig {
   axes: Partial<Record<StakesAxis, StakesAxisConfig>>;
 }
+
+/**
+ * Live per-encounter stakes state, initialized from
+ * `StakesModeConfig.axes` at match start (engine/init.ts) and
+ * mutated by the reducer (engine/stakesReducer.ts) on each
+ * authored card play.
+ *
+ * Only contains the axes the encounter's `stakesMode` declared —
+ * deltas for axes not declared here are dropped on the floor.
+ * Values are always clipped to the declaring `StakesAxisConfig`'s
+ * [min, max] range, so consumers can read them without re-bounds-
+ * checking.
+ */
+export interface StakesState {
+  /** Live per-axis values, clipped to each declaring config's
+   *  [min, max] range. */
+  axes: Partial<Record<StakesAxis, number>>;
+  /** Per-axis configs, copied from `StakesModeConfig` at match
+   *  init. Carried inside the state so the reducer is pure-state
+   *  (no need to thread the original `MatchConfig.stakesMode`
+   *  through every call site). */
+  config: Partial<Record<StakesAxis, StakesAxisConfig>>;
+}

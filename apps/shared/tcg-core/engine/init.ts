@@ -45,6 +45,7 @@ import type { EntityId, PlayerId, Side } from "../types/Ids";
 import { createRng, rngShuffle } from "./rng";
 import { RULES_VERSION } from "./version";
 import { validateHeatConfig } from "../heat/registry";
+import { initStakesState } from "./stakesReducer";
 
 /** Optional match-start bonuses applied before the first action.
  *  Engine-agnostic: callers translate any upstream buff source
@@ -138,6 +139,15 @@ export interface CreateMatchOptionsExtras {
    * engine/seerProphecy.ts.
    */
   prophecyMode?: import("../types/SeerProphecy").ProphecyModeConfig;
+  /**
+   * Optional multi-axis Stakes Stream config. Setting this puts
+   * the resulting match into stakes mode: state.stakes is
+   * initialized from the declared axes' `initial` values
+   * (engine/stakesReducer.ts initStakesState), and each card play
+   * dispatches through `applyCardPlayToStakes`. See
+   * apps/shared/tcg-core/types/StakesMode.ts.
+   */
+  stakesMode?: import("../types/StakesMode").StakesModeConfig;
   /**
    * Optional Heat modifier ids (#1 from the AAA review roadmap —
    * Hades-style per-run modifiers). Validated against
@@ -342,6 +352,7 @@ export function createMatchState(opts: CreateMatchOptions): GameState {
         }
       : undefined,
     programmerGift: opts.giftMode ? { status: "not_offered" } : undefined,
+    stakes: opts.stakesMode ? initStakesState(opts.stakesMode) : undefined,
     publicWitness: opts.witnessMode
       ? {
           balance:
