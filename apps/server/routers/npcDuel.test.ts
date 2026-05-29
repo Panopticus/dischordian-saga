@@ -49,11 +49,16 @@ describe("npcDuel router — registration", () => {
   });
 });
 
+// NPCs that have NOT been authored into NPC_DECK_REGISTRY yet — used
+// as canary inputs to verify the router refuses non-challengeable
+// NPCs. Update this list as more NPCs land via AUTHORING.md.
+const UNAUTHORED_NPCS = ["the_meme", "vex_solene", "the_oracle"] as const;
+
 describe("npcDuel.getChallengeInfo — input validation", () => {
   it("refuses npcKeys not in NPC_DECK_REGISTRY", async () => {
     const caller = appRouter.createCaller(createAuthContext(1));
     await expect(
-      caller.npcDuel.getChallengeInfo({ npcKey: "the_meme" }),
+      caller.npcDuel.getChallengeInfo({ npcKey: UNAUTHORED_NPCS[0] }),
     ).rejects.toThrow();
   });
 
@@ -69,7 +74,7 @@ describe("npcDuel.recordVictory — input validation", () => {
   it("refuses npcKeys not in NPC_DECK_REGISTRY", async () => {
     const caller = appRouter.createCaller(createAuthContext(1));
     await expect(
-      caller.npcDuel.recordVictory({ npcKey: "vex_solene" }),
+      caller.npcDuel.recordVictory({ npcKey: UNAUTHORED_NPCS[1] }),
     ).rejects.toThrow();
   });
 });
@@ -83,7 +88,7 @@ describe("npcDuel.recordLoss — input validation", () => {
   it("refuses npcKeys not in NPC_DECK_REGISTRY", async () => {
     const caller = appRouter.createCaller(createAuthContext(1));
     await expect(
-      caller.npcDuel.recordLoss({ npcKey: "wraith_calder" }),
+      caller.npcDuel.recordLoss({ npcKey: UNAUTHORED_NPCS[2] }),
     ).rejects.toThrow();
   });
 });

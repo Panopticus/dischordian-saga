@@ -122,16 +122,35 @@ export default function DeckBuilderPage() {
   const deleteDeckMut = trpc.cardGame.deleteDeck.useMutation();
   const utils = trpc.useUtils();
 
-  // Build a map of owned cards for quick lookup
+  // Build a map of owned cards for quick lookup. memorialOf is set
+  // when any copy was granted via npc_duel_memorial:<npcKey> — drives
+  // the "Memory of <NPC>" provenance badge so the Highlander chain
+  // shows up in the deckbuilder instead of landing silently.
   const ownedMap = useMemo(() => {
-    const map = new Map<string, { quantity: number; card: any }>();
+    const map = new Map<
+      string,
+      { quantity: number; card: any; memorialOf: string | null }
+    >();
     if (collectionData?.cards) {
       for (const c of collectionData.cards) {
+        const obtainedVia: string = c.userCard?.obtainedVia ?? "";
+        const memorialMatch = /^npc_duel_memorial:(.+)$/.exec(obtainedVia);
+        const memorialOf = memorialMatch ? memorialMatch[1] : null;
         const existing = map.get(c.cardId);
         if (existing) {
           existing.quantity += (c.userCard?.quantity || 1);
+          // Memorial provenance is sticky — once any copy came from
+          // a duel memorial, we keep the badge even if other copies
+          // came from starters / packs.
+          if (!existing.memorialOf && memorialOf) {
+            existing.memorialOf = memorialOf;
+          }
         } else {
-          map.set(c.cardId, { quantity: c.userCard?.quantity || 1, card: c });
+          map.set(c.cardId, {
+            quantity: c.userCard?.quantity || 1,
+            card: c,
+            memorialOf,
+          });
         }
       }
     }
@@ -693,6 +712,20 @@ export default function DeckBuilderPage() {
                           {owned && (
                             <div className="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-background/80 text-[9px] font-mono void-text-energy z-10">
                               x{owned.quantity}
+                            </div>
+                          )}
+                          {/* Memorial provenance — set on cards
+                              granted via the NPC duel reward path
+                              (apps/server/services/dispatchNpcDuelVictory.ts).
+                              "Memory of the_degen" turns the
+                              Highlander chain visible in the
+                              deckbuilder. */}
+                          {owned?.memorialOf && (
+                            <div
+                              className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-cyan-950/80 text-[8px] font-mono void-text-accent z-10"
+                              title={`Won from ${owned.memorialOf} in an NPC duel`}
+                            >
+                              Memory of {owned.memorialOf.replace(/^the_/, "")}
                             </div>
                           )}
                           {/* Hover overlay */}
