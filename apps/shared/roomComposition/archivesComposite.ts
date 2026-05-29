@@ -3,16 +3,22 @@
 
    14 base renders + 90 sprite overlays.
 
-   pickSprites returns [] for now — sprite-by-sprite narrative wiring
-   lands per-beat as the relevant quests ship. The base picker covers
-   the common axes (cycle, TV-infection, morality, season, epoch, act
-   tier) plus the room-specific narrative bases listed at the top of
-   pickBase. The standalone hotspot author tool reads BASE_IDS +
-   SPRITE_IDS via _extract-room-composites.ts and can preview every
-   asset directly.
+   pickSprites emits a 24-layer default stack: skylight + timeline +
+   loredex + reading table + card vault + shelf + archway + chair +
+   floor + door + clue glows (8 architect-channel) + shadow-tongue
+   overlays + mantle clock + painting + relief + tea cart + coat
+   stand + clipboard + atmospherics + faction overlays + unnameable
+   hue cabinet + dossier cabinet + antiquarian NPC + shadow-tongue
+   character overlays + human-thread bloom + eidolon + lore eggs +
+   IRL season + bond pulse afterimage.
+
+   17 hotspots in ROOM_DEFINITIONS["archives"] have compositeScopes
+   that match this sprite catalog (clue glows sp39-46, antiquarian
+   NPC sp74-77, unnameable hue cabinet sp68/69, shadow tongue
+   sp78-80, etc.).
    ═══════════════════════════════════════════════════════ */
 
-import { LIGHTING_FILTERS, deriveActTier, deriveCyclePhase, deriveTVInfection, moralityBand } from "./types";
+import { LIGHTING_FILTERS, deriveActTier, deriveCyclePhase, deriveIrlSeason, deriveTVInfection, factionHigh, moralityBand, trustBand } from "./types";
 import type { CompositeGameSlice, CompositeResult } from "./types";
 
 export const ARCHIVES_BASE_IDS = [
@@ -149,16 +155,175 @@ if (f.archives_archway_open) return "archives_base_archway_open_to_library";
   return "archives_base_initial";
 }
 
-function pickSprites(g: CompositeGameSlice, _base: ArchivesBaseId): string[] {
+function pickSprites(g: CompositeGameSlice, base: ArchivesBaseId): string[] {
   const out: string[] = [];
   const f = g.narrativeFlags;
+  const tier = deriveActTier(g);
+  const cycle = deriveCyclePhase(g);
+  const tv = deriveTVInfection(g, "archives");
+  const trust = trustBand(g.elaraTrust);
+  const season = deriveIrlSeason(g);
 
-  // Antiquarian presence (mutex). Each position has a matching hotspot
-  // in ROOM_DEFINITIONS["archives"] gated via compositeScopes — so the
-  // sprite the resolver picks determines which NPC click target is
-  // reachable. Default = sp74 (neutral_present) so npc-antiquarian
-  // catches the no-flag case; sp75/76/77 fire on specific position
-  // flags.
+  // L1 — skylight (mutex)
+  if (f.shadow_tongue_active || base === "archives_base_shadow_tongue_witnessed") {
+    out.push("sp03_skylight_shadow_tongue_indigo_taint");
+  } else if (cycle === "longNight" || tv === "corrupted") {
+    out.push("sp02_skylight_dim_clouded");
+  } else {
+    out.push("sp01_skylight_dust_mote_storm");
+  }
+
+  // L2 — timeline (mutex by act tier + corruption state)
+  if (tier >= 7) {
+    out.push("sp06_timeline_complete_act7_sealed");
+  } else if (tv === "corrupted" || f.shadow_tongue_active) {
+    out.push("sp05_timeline_indigo_edit");
+  } else if (tier >= 5) {
+    out.push("sp04_timeline_act5_fresh_ink");
+  }
+  if (f.archives_timeline_marginalia) out.push("sp07_timeline_marginalia_stubs");
+
+  // L3 — loredex (mutex by act tier; sealed when fully consolidated)
+  if (f.loredex_consolidated || tier >= 7) {
+    out.push("sp11_loredex_sealed_book_inside");
+  } else if (f.loredex_inner_glyphs_active || tier >= 5) {
+    out.push("sp10_loredex_inner_glyphs_active");
+  } else if (tier >= 3) {
+    out.push("sp09_loredex_two_rings_act3");
+  } else if (tier >= 2) {
+    out.push("sp08_loredex_one_ring_act2");
+  }
+
+  // L4 — reading table (additive: book + candle + crystal)
+  if (f.archives_book_open) out.push("sp12_reading_table_book_open");
+  if (tv === "corrupted" || f.shadow_tongue_active) {
+    out.push("sp14_reading_table_candle_steel_blue");
+  } else {
+    out.push("sp13_reading_table_candle_warm");
+  }
+  if (f.archives_crystal_pulsing) out.push("sp15_reading_table_crystal_pulsing");
+
+  // L5 — pendant lamp (always-on)
+  out.push("sp16_pendant_lamp_lit");
+
+  // L6 — card vault (mutex)
+  if (f.archives_card_vault_wraith_smear) {
+    out.push("sp21_card_vault_wraith_smear");
+  } else if (f.archives_card_vault_glass_missing) {
+    out.push("sp20_card_vault_glass_missing");
+  } else if (tv === "corrupted" || tv === "quarantined") {
+    out.push("sp19_card_vault_red_lattice_audit");
+  } else if (f.archives_card_vault_pulsing) {
+    out.push("sp18_card_vault_slot_pulsing");
+  } else {
+    out.push("sp17_card_vault_slot_warm_gold_blink");
+  }
+
+  // L7 — shelf (ladder + tome-out + corner mark + gold thread)
+  if (f.archives_shelf_ladder_active) out.push("sp22_shelf_ladder_chest_height");
+  if (f.archives_tome_pulled) out.push("sp23_shelf_tome_spine_out");
+  if (f.archives_corner_mark_visible) out.push("sp24_shelf_corner_mark_glowing");
+  if (f.archives_gold_thread_active) out.push("sp25_shelf_gold_thread_to_table");
+
+  // L8 — archway (mutex: seam / open / portal)
+  if (f.archives_archway_portal_active) {
+    out.push("sp28_archway_portal_warp");
+  } else if (f.archives_archway_open || base === "archives_base_archway_open_to_library") {
+    out.push("sp27_archway_open_warm_gold");
+  } else {
+    out.push("sp26_archway_seam_visible");
+  }
+
+  // L9 — chair (additive: coat / pulled-out / pazaak card)
+  if (f.archives_antiquarian_coat_visible || f.archives_antiquarian_at_ladder || f.archives_antiquarian_at_shelf) {
+    out.push("sp29_chair_antiquarian_coat");
+  }
+  if (f.archives_chair_pulled_out) out.push("sp30_chair_pulled_out");
+  if (f.archives_pazaak_card) out.push("sp31_chair_pazaak_card");
+
+  // L10 — floor (compass always-on; investigation tape additive)
+  out.push("sp32_floor_compass_rose_glow");
+  if (f.archives_investigation_active) {
+    out.push("sp33_floor_yellow_tape");
+    if (f.archives_evidence_cart) out.push("sp34_floor_cyan_tape_evidence_cart");
+    if (f.archives_closure_codex) out.push("sp35_floor_closure_codex");
+  }
+  if (tv === "quarantined") out.push("sp36_floor_quarantine_band");
+
+  // L11 — door (mutex: open / audit-tape)
+  if (tv === "quarantined" || f.archives_door_audit_tape) {
+    out.push("sp38_door_audit_tape");
+  } else {
+    out.push("sp37_door_bridge_open");
+  }
+
+  // L12 — clue glows (8 architect-channel mystery rects — match existing hotspots)
+  if (f.archives_clue_charter_silt_visible) out.push("sp39_clue_glow_charter_silt");
+  if (f.archives_clue_preservation_visible) out.push("sp40_clue_glow_preservation");
+  if (f.archives_clue_severance_visible) out.push("sp41_clue_glow_severance");
+  if (f.archives_clue_storm_calm_visible) out.push("sp42_clue_glow_storm_calm");
+  if (f.archives_clue_chained_failure_visible) out.push("sp43_clue_glow_chained_failure");
+  if (f.archives_clue_resurrectionist_visible) out.push("sp44_clue_glow_resurrectionist");
+  if (f.archives_clue_tarn_binder_visible) out.push("sp45_clue_glow_tarn_binder");
+  if (f.archives_clue_akai_necromancer_visible) out.push("sp46_clue_glow_akai_necromancer");
+
+  // L13 — shadow tongue overlays (4 layers — additive when active)
+  if (f.shadow_tongue_active || base === "archives_base_shadow_tongue_witnessed") {
+    out.push("sp47_st_indigo_overlay_lectern");
+    out.push("sp48_st_floating_text_fragments");
+    out.push("sp49_st_records_rewriting");
+    out.push("sp50_st_indigo_marginalia_spines");
+    out.push("sp51_st_reflection_mismatch");
+  }
+
+  // L14 — mantle clock (mutex)
+  if (base === "archives_base_epoch_grand_edit" || f.grand_edit_active) {
+    out.push("sp54_mantle_clock_blood_time");
+  } else if (tier >= 7) {
+    out.push("sp53_mantle_clock_stopped");
+  } else {
+    out.push("sp52_mantle_clock_ticking");
+  }
+
+  // L15 — painting (mutex by progression)
+  if (tier >= 5 || f.archives_painting_evolved) {
+    out.push("sp56_painting_discovery_evolved");
+  } else {
+    out.push("sp55_painting_scholars_vigil");
+  }
+  // Relief carving (always-on)
+  out.push("sp57_relief_scholar_motto");
+
+  // L16 — tea cart + coat stand + clipboard (additive room-dressings)
+  if (cycle === "balanced" || cycle === "dawn") out.push("sp58_tea_cart_steaming");
+  out.push("sp59_coat_stand");
+  if (f.archives_clipboard_indexed) out.push("sp60_clipboard_indexed");
+
+  // L17 — atmosphere (additive blend)
+  if (cycle === "balanced" || cycle === "dawn") out.push("sp61_atmospheric_dust_motes_beam");
+  out.push("sp62_atmospheric_candle_smoke");
+  if (f.eidolon_visible || f.eidolon_first_manifestation) out.push("sp63_atmospheric_eidolon_shimmer");
+
+  // L18 — faction overlays (additive when championed)
+  if (factionHigh(g, "dreamers")) out.push("sp64_faction_dreamer_iris");
+  if (factionHigh(g, "hierarchy")) out.push("sp65_faction_hierarchy_seal");
+  if (factionHigh(g, "antiquarian")) out.push("sp66_faction_antiquarian_codex");
+  if (factionHigh(g, "insurgency")) out.push("sp67_faction_insurgency_sigil");
+
+  // L19 — unnameable hue cabinet (mutex; matches user compositeScopes)
+  if (f.archives_unnameable_cabinet_open) {
+    out.push("sp69_unnameable_hue_cabinet_open");
+  } else {
+    out.push("sp68_unnameable_hue_cabinet_closed");
+  }
+
+  // L20 — dossier cabinet (additive; pulled + drawer partially open)
+  if (f.archives_dossier_pulled) out.push("sp70_dossier_cabinet_pulled");
+  if (f.archives_dossier_drawer_open) out.push("sp71_dossier_drawer_partially_open");
+  if (f.archives_dreamer_dossier_seam) out.push("sp72_dreamer_dossier_alcove_seam");
+
+  // L21 — Antiquarian NPC presence (mutex; gates npc-antiquarian + 3
+  // position variants from PR #807)
   if (f.archives_antiquarian_absent) {
     out.push("sp73_antiquarian_absent");
   } else if (f.archives_antiquarian_at_reading) {
@@ -170,6 +335,28 @@ function pickSprites(g: CompositeGameSlice, _base: ArchivesBaseId): string[] {
   } else {
     out.push("sp74_antiquarian_neutral_present");
   }
+
+  // L22 — Shadow Tongue character overlays (mutex by intensity)
+  if (f.shadow_tongue_active || base === "archives_base_shadow_tongue_witnessed") {
+    out.push("sp79_shadow_tongue_halo_active");
+    out.push("sp80_shadow_tongue_reflection");
+  } else if (f.shadow_tongue_evidence) {
+    out.push("sp78_shadow_tongue_halo_subtle");
+  }
+
+  // L23 — Human signal + eidolon (event-gated)
+  if (f.first_human_contact || f.human_signal_thread_bloom) out.push("sp81_human_signal_thread_bloom");
+  if (f.eidolon_anchor_resonance || trust === "luminous") out.push("sp82_eidolon_anchor_resonance");
+  if (f.eidolon_first_manifestation) out.push("sp83_eidolon_first_manifestation");
+
+  // L24 — lore eggs + IRL season + bond afterimage
+  if (f.archives_egg_panopticon_face_unlocked) out.push("sp84_lore_egg_panopticon_face");
+  if (f.archives_egg_warlord_node_unlocked) out.push("sp85_lore_egg_warlord_node");
+  if (f.archives_egg_engineer_holo_unlocked) out.push("sp86_lore_egg_engineer_holo");
+  if (season === "spring") out.push("sp87_irl_spring_petals");
+  else if (season === "summer") out.push("sp88_irl_summer_brass_sun");
+  else if (season === "autumn") out.push("sp89_irl_autumn_oak_leaf");
+  if (f.archives_bond_pulse_recent) out.push("sp90_bond_pulse_afterimage");
 
   return out;
 }
