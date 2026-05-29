@@ -308,6 +308,9 @@ export function NpcDuelOverlay({
   /* ─── Phase: result ─── */
   if (!duelResult) return null;
   const won = duelResult.outcome === "player_won";
+  const takenCard = duelResult.takenCardDefId
+    ? lookupCard(duelResult.takenCardDefId)
+    : undefined;
   return (
     <OverlayShell label={won ? "The tray is yours" : "The arithmetic settled"}>
       <p className="font-serif text-[13px] void-text leading-relaxed">
@@ -316,14 +319,66 @@ export function NpcDuelOverlay({
               duelResult.grantCount === 1 ? "memory" : "memories"
             } folded into your collection — tier ${TIER_LABELS[duelResult.rewardTier]}.`
           : duelResult.takenCardDefId
-            ? `You lost the hand. They took ${duelResult.takenCardDefId} from your collection — recoverable on rematch win.`
+            ? "You lost the hand. They took the card below from your collection — recoverable on rematch win."
             : "You lost the hand. Nothing they wanted was in your deck — they kept the file open."}
       </p>
 
+      {/* Taken-card portrait — surfaces what was actually lost.
+       *  Uses the card's existing art via the shipped registry
+       *  (no new assets). Falls back to a typeset card name if
+       *  the def isn't in the local registry snapshot. */}
+      {!won && duelResult.takenCardDefId && (
+        <div className="mt-4 flex items-center gap-3 rounded border void-border bg-stone-900/60 p-3">
+          {takenCard?.art && (
+            <img
+              src={takenCard.art}
+              alt={takenCard.name ?? duelResult.takenCardDefId}
+              className="h-16 w-12 rounded object-cover void-border border"
+            />
+          )}
+          <div className="min-w-0 flex-1">
+            <p className="font-display text-[13px] void-text">
+              {takenCard?.name ?? duelResult.takenCardDefId}
+            </p>
+            <p className="mt-1 font-mono text-[9px] uppercase tracking-wider void-text-dim">
+              Held by {npcKey}. Win the rematch to recover.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Recovered-cards strip — surfaces the Highlander
+       *  recovery on rematch win. Multiple cards land as a tile
+       *  row; each tile uses the card's own art. */}
       {won && duelResult.restoredCardDefIds.length > 0 && (
-        <p className="mt-3 font-serif text-[12px] italic void-text-dim">
-          Recovered from the ledger: {duelResult.restoredCardDefIds.join(", ")}.
-        </p>
+        <div className="mt-4">
+          <p className="font-mono text-[9px] uppercase tracking-wider void-text-accent mb-2">
+            Recovered from the ledger
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {duelResult.restoredCardDefIds.map((cardDefId) => {
+              const c = lookupCard(cardDefId);
+              return (
+                <div
+                  key={cardDefId}
+                  className="flex flex-col items-center gap-1 rounded border void-border bg-stone-900/60 p-2"
+                  title={c?.name ?? cardDefId}
+                >
+                  {c?.art && (
+                    <img
+                      src={c.art}
+                      alt={c.name ?? cardDefId}
+                      className="h-14 w-10 rounded object-cover"
+                    />
+                  )}
+                  <p className="font-mono text-[8px] uppercase tracking-wider void-text-dim max-w-[80px] truncate">
+                    {c?.name ?? cardDefId}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       )}
 
       <CloseButton onClick={onClose} label={won ? "Take the tray." : "Step away."} />
