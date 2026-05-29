@@ -304,6 +304,7 @@ export const SURFACE_REGISTRY: readonly SurfaceEntry[] = [
   open("/favorites"),
   open("/quiz"),
   open("/codex"),
+  open("/codex/challenge"),
   open("/civilopedia"),
   open("/store"),
   feat("/battle", "dischordia", { sagaPhase: 1 }),
