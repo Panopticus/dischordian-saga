@@ -75,9 +75,35 @@ export const NARRATIVE_FLAG_REGISTRY: ReadonlyArray<NarrativeFlagEntry> = [
   { flag: "act1_closing_choice_made", category: "act_branch", owner: "act_1", notes: "Player has committed an Act 1 closing choice." },
   { flag: "act1_path_a", category: "act_branch", owner: "act_1", notes: "Act 1 disclosure fork: player took the willing-disclosure path (told Elara the truth). Producer: narrativeActs.ts setFlag step. Gates the Act 4 'The Bridge' (Path A) opponent and the Path-A epilogue/inscription variants." },
 
+  /* ─── Act 1 disclosure fork (tell vs. conceal) ─── */
+  { flag: "act1_told_elara", category: "act_branch", owner: "act_1", notes: "Act 1 disclosure fork: player told Elara the truth (act1-s2-loyal / -soldier). Producer: narrativeActs.ts setFlag. Gates the Act 1 s3a Elara-reaction beats (requireFlag in narrativeActs.ts)." },
+  { flag: "act1_kept_secret", category: "act_branch", owner: "act_1", notes: "Act 1 disclosure fork: player concealed the truth (act1-s2-gather / -intrigued / -spy). Producer: narrativeActs.ts setFlag. Gates the Act 1 s3b concealment beats (requireFlag in narrativeActs.ts)." },
+  { flag: "act1_path_secret", category: "act_branch", owner: "act_1", notes: "Act 1 secret-path marker (concealment route). Producer: narrativeActs.ts setFlag. Gates later Act 1 secret-path beats (requireFlag in narrativeActs.ts)." },
+
+  /* ─── Act 2 disclosure fork (the five s1 responses) ─── */
+  { flag: "act2_full_truth", category: "act_branch", owner: "act_2", notes: "Act 2 fork: player gave the full truth (act2-s1-full-truth). Producer: narrativeActs.ts setFlag. Read by companionComments.ts (narrator reactions) + companionAskTopics.ts (ask-topic gates)." },
+  { flag: "act2_partial_reveal", category: "act_branch", owner: "act_2", notes: "Act 2 fork: player partially confessed (act2-s1-almost-confess). Producer: narrativeActs.ts setFlag. Read by companionComments.ts + companionAskTopics.ts." },
+  { flag: "act2_lied", category: "act_branch", owner: "act_2", notes: "Act 2 fork: player lied (act2-s1-lie). Producer: narrativeActs.ts setFlag. Read by companionComments.ts (narrator reactions) + companionAskTopics.ts (ask-topic gates)." },
+  { flag: "act2_oracle_deflect_chosen", category: "act_branch", owner: "act_2", notes: "Act 2 fork: player deflected via the Oracle framing (act2-s1-oracle-deflect). Producer: narrativeActs.ts setFlag. Read by companionComments.ts + companionAskTopics.ts." },
+  { flag: "act2_spy_misdirect_chosen", category: "act_branch", owner: "act_2", notes: "Act 2 fork: player ran the spy misdirection (act2-s1-spy-misdirect). Producer: narrativeActs.ts setFlag. Read by companionComments.ts + companionAskTopics.ts." },
+
   /* ─── Act 3 disclosure fork ─── */
   { flag: "act3_partial_share", category: "act_branch", owner: "act_3", notes: "Act 3 fork: player shared part of the secret (pragmatic path). Producer: narrativeActs.ts setFlag step. Gates the Act 4 'Discovery' (Path B) opponent." },
   { flag: "act3_full_secret", category: "act_branch", owner: "act_3", notes: "Act 3 fork: player kept the full secret (betrayal path). Producer: narrativeActs.ts setFlag step. Gates the Act 4 'Betrayal' (Path C) opponent." },
+  { flag: "act3_transparent", category: "act_branch", owner: "act_3", notes: "Act 3 fork: player chose full transparency. Producer: narrativeActs.ts setFlag. Read by moralityTrustActVariants.ts (trust-variant selection)." },
+
+  /* ─── Act 4 reconciliation fork (Path B / Path C outcomes) ─── */
+  { flag: "act4_reconciled", category: "act_branch", owner: "act_4", notes: "Act 4 Path-B outcome: relationship reconciled (act4-pB-honest / -explain). Producer: narrativeActs.ts setFlag. Read by companionComments.ts + companionAskTopics.ts." },
+  { flag: "act4_strained", category: "act_branch", owner: "act_4", notes: "Act 4 Path-B outcome: relationship strained (act4-pB-defiant). Producer: narrativeActs.ts setFlag. Read by companionComments.ts." },
+  { flag: "act4_fragile_trust", category: "act_branch", owner: "act_4", notes: "Act 4 Path-C outcome: fragile-trust salvage (act4-pC-grovel / -soldier-own). Producer: narrativeActs.ts setFlag. Read by companionComments.ts + companionAskTopics.ts." },
+  { flag: "act4_broken_trust", category: "act_branch", owner: "act_4", notes: "Act 4 Path-C outcome: trust broken (act4-pC-cold / -assassin). Producer: narrativeActs.ts setFlag. Read by companionComments.ts + companionAskTopics.ts (the most widely-referenced Act-4 branch)." },
+
+  /* ─── Act 5 strategic-path fork (the five s1 doctrines) ─── */
+  { flag: "act5_path_humanity_first", category: "act_branch", owner: "act_5", notes: "Act 5 doctrine fork: humanity-first path (act5-s1-humanity-first). Producer: narrativeActs.ts setFlag. Read by companionComments.ts + companionAskTopics.ts." },
+  { flag: "act5_path_strength_first", category: "act_branch", owner: "act_5", notes: "Act 5 doctrine fork: strength-first path (act5-s1-power). Producer: narrativeActs.ts setFlag. Read by companionComments.ts + companionAskTopics.ts." },
+  { flag: "act5_strategic_chosen", category: "act_branch", owner: "act_5", notes: "Act 5 doctrine fork: strategic path (act5-s1-strategic). Producer: narrativeActs.ts setFlag. Read by companionComments.ts + companionAskTopics.ts." },
+  { flag: "act5_engineer_tech_chosen", category: "act_branch", owner: "act_5", notes: "Act 5 doctrine fork: engineer/tech path (act5-s1-engineer-tech). Producer: narrativeActs.ts setFlag. Read by companionComments.ts." },
+  { flag: "act5_balanced_chosen", category: "act_branch", owner: "act_5", notes: "Act 5 doctrine fork: balanced path (act5-s1-balanced). Producer: narrativeActs.ts setFlag. Read by companionComments.ts." },
 
   /* ─── Morality high-water marks ─── */
   { flag: "vortex_endgame_light_variant", category: "morality", owner: "act_7", notes: "Endgame committed to light path." },
