@@ -18,6 +18,7 @@ import { VEX_SOLENE_FIRST_MEETING } from "./vex_solene/first_meeting";
 import { WRAITH_CALDER_FIRST_MEETING } from "./wraith_calder/first_meeting";
 import { WRAITH_CALDER_POST_RECRUIT_VISIT } from "./wraith_calder/post_recruit_visit";
 import { WRAITH_CALDER_LOYALTY_INTRO } from "./wraith_calder/loyalty_intro";
+import { WRAITH_CALDER_PERSPECTIVE_GATHERING } from "./wraith_calder/perspective_gathering";
 import { AKAI_SHI_FIRST_MEETING } from "./akai_shi/first_meeting";
 import { AKAI_SHI_LOYALTY_INTRO } from "./akai_shi/loyalty_intro";
 import { LYCOS_FIRST_MEETING } from "./lycos/first_meeting";
@@ -44,6 +45,7 @@ const PER_NPC_TREES: ReadonlyArray<NpcDialogTree> = [
   WRAITH_CALDER_FIRST_MEETING,                // Phase 6e.1a ✅ (Long Mourning chamber)
   WRAITH_CALDER_POST_RECRUIT_VISIT,           // Section D5 ✅ (ledger-vault first-visit)
   WRAITH_CALDER_LOYALTY_INTRO,                // Section D5 ✅ (Seventh Sanctuary opening)
+  WRAITH_CALDER_PERSPECTIVE_GATHERING,        // NPC duel ✅ (perspective + challenge)
   AKAI_SHI_FIRST_MEETING,                     // Section D5 ✅ (blade-shrine first-visit)
   AKAI_SHI_LOYALTY_INTRO,                     // Section D5 ✅ (Red Death Pattern opening)
   LYCOS_FIRST_MEETING,                        // Section D5 ✅ (containment-atrium first-visit)

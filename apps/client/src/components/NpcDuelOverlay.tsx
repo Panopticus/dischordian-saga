@@ -233,12 +233,23 @@ export function NpcDuelOverlay({
       deck: info.deck,
       seed: `npc_duel_${npcKey}_${Date.now()}`,
     });
+    // Replay-pin metadata — recorded on GameState.npcDuelMeta so a
+    // historical replay can render "tier 2 — you'd learned 2/3
+    // aspects." Reducers ignore this field; it's pure observability.
+    const npcDuelMeta = {
+      npcKey,
+      rewardTier: info.rewardTier,
+      learnedAspectCount: info.learnedAspectCount,
+      totalAspectCount: info.totalAspectCount,
+      appliedAspects: info.appliedAspects,
+    };
     return (
       <div className="fixed inset-0 z-[80] bg-black">
         <DuelystGameUI
           playerFaction={playerFaction}
           opponentFaction={bossFaction}
           encounter={encounter}
+          npcDuelMeta={npcDuelMeta}
           onGameEnd={async (winner) => {
             if (winner === "player") {
               try {

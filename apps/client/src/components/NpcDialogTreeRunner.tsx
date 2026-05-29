@@ -33,8 +33,9 @@
  * goes around it (frame, backdrop, ambient audio); the runner
  * stays presentation-minimal.
  */
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNpcDialogTree, type ChoiceCommitResult } from "@/hooks/useNpcDialogTree";
+import { useDialogTreeVo } from "@/hooks/useDialogTreeVo";
 import { NpcDuelOverlay } from "./NpcDuelOverlay";
 import type { NpcDialogTree } from "@shared/npcs/dialogTrees/types";
 import type { Faction as DuelystFaction } from "@/game/duelyst/types";
@@ -72,6 +73,12 @@ export function NpcDialogTreeRunner({
 }: NpcDialogTreeRunnerProps) {
   const [activeChallenge, setActiveChallenge] = useState<string | null>(null);
 
+  // VO playback — per-NPC manifest lookup. Silent no-op when the
+  // manifest hasn't loaded yet or the voLineId isn't in it (e.g.
+  // before pnpm vo:npc-first-meet has generated the MP3s).
+  const vo = useDialogTreeVo(tree.npcKey);
+  const lastSpokenRef = useRef<string | null>(null);
+
   const view = useNpcDialogTree({
     tree,
     entryNodeId,
@@ -99,6 +106,19 @@ export function NpcDialogTreeRunner({
 
   /* ─── Dialog body ─── */
   const node = view.currentNode;
+
+  // Speak the node's VO clip once per node-entry. Suppressed while
+  // the duel overlay is mounted on top so the Degen's table-side
+  // voice doesn't talk over the duel UI.
+  useEffect(() => {
+    if (!node) return;
+    if (duelMounted) return;
+    const id = node.voLineId;
+    if (!id) return;
+    if (lastSpokenRef.current === id) return;
+    lastSpokenRef.current = id;
+    vo.speak(id);
+  }, [node, duelMounted, vo]);
 
   if (!node) {
     // Defensive — useNpcDialogTree's startTreeRun would have thrown

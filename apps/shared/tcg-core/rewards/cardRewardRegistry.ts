@@ -289,6 +289,59 @@ export const CARD_REWARD_REGISTRY: readonly CardRewardSource[] = Object.freeze([
     description:
       "The Degen's own card — the full Highlander memorial, plus the rest of his deck granted by the duel dispatcher.",
   },
+
+  /* ── NPC duel rewards — wraith_calder / the Hierophant ── */
+  {
+    id: "defeated_npc_wraith_calder_tier_0",
+    sourceSystem: "npc_duel",
+    triggerCondition: "Defeat wraith_calder with 0 perspective aspects learned",
+    rewardType: "fixed" as const,
+    fixedCardDefId: "s1_curve_009", // Trench Sergeant — a workmanlike trace
+    rarity: "common",
+    description: "A single workmanlike trace — the Hierophant barely registered.",
+  },
+  {
+    id: "defeated_npc_wraith_calder_tier_1",
+    sourceSystem: "npc_duel",
+    triggerCondition: "Defeat wraith_calder with some perspective aspects learned",
+    rewardType: "random_pool" as const,
+    pool: [
+      { cardDefId: "s1_curve_004", weight: 35 }, // Cell Decoy
+      { cardDefId: "s1_curve_009", weight: 30 }, // Trench Sergeant
+      { cardDefId: "s1_char_107", weight: 20 }, // Signal Operative
+      { cardDefId: "s1_pack_005", weight: 15 }, // Cell Runner
+    ],
+    rarity: "rare",
+    description: "A handful of names from the lectern's bottom drawer.",
+  },
+  {
+    id: "defeated_npc_wraith_calder_tier_2",
+    sourceSystem: "npc_duel",
+    triggerCondition: "Defeat wraith_calder with most perspective aspects learned",
+    rewardType: "random_pool" as const,
+    pool: [
+      { cardDefId: "s1_char_002", weight: 18 }, // Agent Zero
+      { cardDefId: "s1_char_010", weight: 15 }, // Iron Lion
+      { cardDefId: "s1_char_026", weight: 12 }, // The Engineer
+      { cardDefId: "s1_char_028", weight: 12 }, // The Eyes
+      { cardDefId: "s1_pack_008", weight: 13 }, // Dead Signal Burst
+      { cardDefId: "s1_pack_011", weight: 15 }, // Insurgent Commander
+      { cardDefId: "s1_pack_014", weight: 15 }, // Agent Zero Reborn
+    ],
+    rarity: "epic",
+    description:
+      "Names from higher up the count — Wraith does not part with these casually.",
+  },
+  {
+    id: "defeated_npc_wraith_calder_tier_3",
+    sourceSystem: "npc_duel",
+    triggerCondition: "Defeat wraith_calder with all perspective aspects learned",
+    rewardType: "fixed" as const,
+    fixedCardDefId: "s1_char_031", // The Hierophant (his post-rite signature)
+    rarity: "legendary",
+    description:
+      "The Hierophant's own card — the full Highlander memorial, plus the rest of the cell's roster granted by the duel dispatcher.",
+  },
 ]);
 
 /* ─── Quick-lookup map ─── */
