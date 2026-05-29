@@ -65,7 +65,7 @@ function renderResolvingPanel(args: {
     return (
       <div className="rounded-md border border-amber-500/40 bg-amber-950/20 p-4">
         <p className="mt-2 font-serif italic text-[12px] text-amber-100/80">
-          Act 4 requires one of act1_path_A, act3_partial_share, or
+          Act 4 requires one of act1_path_a, act3_partial_share, or
           act3_full_secret on your flag set. Complete the Act 3 Offer
           choice first, then return.
         </p>

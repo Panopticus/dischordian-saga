@@ -73,6 +73,7 @@ export const NARRATIVE_FLAG_REGISTRY: ReadonlyArray<NarrativeFlagEntry> = [
 
   /* ─── Act 1 closing branch ─── */
   { flag: "act1_closing_choice_made", category: "act_branch", owner: "act_1", notes: "Player has committed an Act 1 closing choice." },
+  { flag: "act1_path_a", category: "act_branch", owner: "act_1", notes: "Act 1 disclosure fork: player took the willing-disclosure path (told Elara the truth). Producer: narrativeActs.ts setFlag step. Gates the Act 4 'The Bridge' (Path A) opponent and the Path-A epilogue/inscription variants." },
 
   /* ─── Act 3 disclosure fork ─── */
   { flag: "act3_partial_share", category: "act_branch", owner: "act_3", notes: "Act 3 fork: player shared part of the secret (pragmatic path). Producer: narrativeActs.ts setFlag step. Gates the Act 4 'Discovery' (Path B) opponent." },

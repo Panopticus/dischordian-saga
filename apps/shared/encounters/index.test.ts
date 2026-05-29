@@ -154,7 +154,7 @@ describe("Act 7 epilogue VO scripts", () => {
     for (const stance of stances) {
       const lines = ACT7_EPILOGUE_VO_SCRIPTS[stance];
       const flags = lines.map((l) => l.requiresFlag);
-      expect(flags).toContain("act1_path_A");
+      expect(flags).toContain("act1_path_a");
       expect(flags).toContain("act3_partial_share");
       expect(flags).toContain("act3_full_secret");
     }

@@ -122,6 +122,15 @@ export const CHOICE_OUTCOME_REGISTRY: ReadonlyArray<ChoiceOutcomeEntry> = [
     flag: "act1_closing_choice_made",
   },
   {
+    id: "act1.path_a_willing_disclosure",
+    kind: "set_flag",
+    authoredAt: "act1.disclosure.tell_truth",
+    owner: "act_1",
+    notes:
+      "Act 1 disclosure fork: player took the willing-disclosure path (told Elara the truth); routes Act 4 to 'The Bridge' (Path A) and seeds the Path-A epilogue/inscription variants.",
+    flag: "act1_path_a",
+  },
+  {
     id: "act3.partial_share",
     kind: "set_flag",
     authoredAt: "act3.offer.share_partial",

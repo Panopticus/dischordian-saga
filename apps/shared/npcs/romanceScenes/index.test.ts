@@ -69,7 +69,7 @@ describe("romance scene banks coverage", () => {
   it("Locke stage-3 includes path-aware variants for Disclosure and Betrayal", () => {
     const locke = ROMANCE_SCENE_BANKS.locke;
     const disclosure = locke.find(
-      (l) => l.reactsToPublicFlag === "act1_path_A",
+      (l) => l.reactsToPublicFlag === "act1_path_a",
     );
     const betrayal = locke.find(
       (l) => l.reactsToPublicFlag === "act3_full_secret",

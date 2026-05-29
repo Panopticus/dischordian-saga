@@ -222,7 +222,7 @@ trial and the §5.8.1 Light/Dark alignment choice.
 - §5.8 Authority trial machine (engine + UI shipped)
 - §5.8.1 Light/Dark alignment choice (shipped)
 
-**Flags written:** `act1_path_A/secret`,
+**Flags written:** `act1_path_a/secret`,
 `architect_reality_edit_witnessed`, `act1_authority_outcome`,
 `lightDarkAlignment`, `act_1_cycle_a_complete`,
 `act_1_cycle_b_complete`, `act_1_complete`.
@@ -325,7 +325,7 @@ The Eyes' full biography is surfaced.
 `act3_empire_committed` / `act3_hierarchy_committed`, infiltration
 milestone + ending flags, Eyes roster unlock, `act_3_starting`.
 
-**Flags read:** `act1_path_A/secret`, `chess_depth`.
+**Flags read:** `act1_path_a/secret`, `chess_depth`.
 
 **Completeness:** **M** — data shells authored; Trade Empire partial;
 Eyes voice layer §10 not implemented.
@@ -367,7 +367,7 @@ extraction from Kael. Army recruitment unlocks.
 `act4_prisoner_oracle_complete`, trust state (bond rises to 70–75),
 recruitment unlock.
 
-**Flags read:** `act1_path_A/secret/partial_share`, infiltration
+**Flags read:** `act1_path_a/secret/partial_share`, infiltration
 flags from Act 3.
 
 **Completeness:** **M** — narrative authored; Collector's Arena

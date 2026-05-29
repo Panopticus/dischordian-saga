@@ -1037,7 +1037,7 @@ const SPINE_ACT_PANELS: Record<
     completeFlag: "act_4_complete",
     checks: [
       { flag: "slideshow_act_4_revelation_intro_complete", label: "Opener seen" },
-      { flag: "act1_path_A", label: "Willing path (any §3.1 commit)" },
+      { flag: "act1_path_a", label: "Willing path (any §3.1 commit)" },
       { flag: "act4_prisoner_cell_complete", label: "Prisoner chapter cleared" },
     ],
     ctas: [

@@ -12,7 +12,7 @@
    (matches `resolveAct4Dialog()` in
    apps/shared/act4OpponentDialog.ts):
 
-     1. act1_path_A         → The Bridge        (Willing Disclosure)
+     1. act1_path_a         → The Bridge        (Willing Disclosure)
      2. act3_full_secret    → Elara, Betrayed   (Betrayal)
      3. act3_partial_share  → Elara, Learning   (Discovery)
 
@@ -41,7 +41,7 @@ export const ACT_4_MANIFEST: ActManifest = {
       {
         // Path A — Willing Disclosure: the player declared
         // their hand in Act 1. Elara + the Human co-deal.
-        requires: "act1_path_A",
+        requires: "act1_path_a",
         encounter: {
           encounterId: "act4_the_bridge",
           name: "The Bridge",

@@ -90,11 +90,11 @@ describe("lockeInboxBridges", () => {
       expect(body).toContain("You picked Dark");
     });
 
-    it("picks the path-A variant for the Act 3 bridge when act1_path_A is set", () => {
+    it("picks the path-A variant for the Act 3 bridge when act1_path_a is set", () => {
       const entry = getLockeInboxBridge("locke_bridge_post_act_3")!;
       const body = resolveLockeInboxBridgeBody(
         entry,
-        new Set(["act1_path_A"]),
+        new Set(["act1_path_a"]),
       );
       expect(body).toContain("disclosed everything");
     });

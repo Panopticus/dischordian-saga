@@ -113,13 +113,13 @@ describe("act4OpponentDialog", () => {
       expect(resolveAct4Dialog(new Set())).toBeNull();
     });
 
-    it("returns The Bridge for Path A (act1_path_A)", () => {
-      const dialog = resolveAct4Dialog(new Set(["act1_path_A"]));
+    it("returns The Bridge for Path A (act1_path_a)", () => {
+      const dialog = resolveAct4Dialog(new Set(["act1_path_a"]));
       expect(dialog?.opponentId).toBe("act4_the_bridge");
     });
 
     it("prefers Path A even if later path flags are also set", () => {
-      const flags = new Set(["act1_path_A", "act3_partial_share", "act3_full_secret"]);
+      const flags = new Set(["act1_path_a", "act3_partial_share", "act3_full_secret"]);
       expect(resolveAct4Dialog(flags)?.opponentId).toBe("act4_the_bridge");
     });
 

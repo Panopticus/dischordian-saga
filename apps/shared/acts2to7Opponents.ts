@@ -121,7 +121,7 @@ export const ACT_4_OPPONENTS: readonly ActNOpponent[] = [
       "Elara nods. The Human nods. Neither of them knew the other was going to nod. They both are relieved in the same frame. That is the closest they have ever come to meeting.",
     postMatchLoss:
       "You lose. Both of them apologize — not for the match, for the fact that both of them were playing at once. They will not do this to you again.",
-    requiredFlag: "act1_path_A",
+    requiredFlag: "act1_path_a",
   },
   {
     id: "act4_the_discovery",
@@ -138,7 +138,7 @@ export const ACT_4_OPPONENTS: readonly ActNOpponent[] = [
     postMatchLoss:
       "She wins the match and loses the argument with herself. She says 'Congratulations.' She means it. She is still angry. Both things are true.",
     requiredFlag: "act3_partial_share",
-    excludeFlag: "act1_path_A",
+    excludeFlag: "act1_path_a",
   },
   {
     id: "act4_the_betrayal",
@@ -155,7 +155,7 @@ export const ACT_4_OPPONENTS: readonly ActNOpponent[] = [
     postMatchLoss:
       "She beats you and it does not help. She says: 'I thought it would.' The lights stop flickering. She asks if you are alright. She means it, and it costs her.",
     requiredFlag: "act3_full_secret",
-    excludeFlag: "act1_path_A",
+    excludeFlag: "act1_path_a",
   },
 ];
 

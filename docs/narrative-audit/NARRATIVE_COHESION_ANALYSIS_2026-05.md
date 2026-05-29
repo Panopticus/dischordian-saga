@@ -259,7 +259,7 @@ wiring." Each landed with its parity entry/test (CLAUDE.md rule 2) and kept
   `act6_elara_confession_heard`, `act6_human_confession_heard` (+ a `stakes_axis`
   entry, see P2). Producer recognition in `choiceOutcomeConsumerParity` +
   `narrativeFlagRegistry.test` extended to the `setFlag: "…"` data form so the
-  NpcDialogTree/act-step producers count. `act1_path_A` deferred (uppercase `A`
+  NpcDialogTree/act-step producers count. `act1_path_a` deferred (uppercase `A`
   violates the registry snake_case invariant — a separate rename refactor).
 
 ### P2 — finish partially-deferred mechanisms — ✅ DONE
