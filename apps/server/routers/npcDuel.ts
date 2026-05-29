@@ -1,4 +1,4 @@
-// audit-allow-proc: listChallengeable, recordLoss
+// audit-allow-proc: recordLoss
 /* ═══════════════════════════════════════════════════════
    NPC DUEL ROUTER — system entry for the dialog → duel → harvest loop
 
