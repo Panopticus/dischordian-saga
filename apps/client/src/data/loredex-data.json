@@ -55,6 +55,46 @@
           "song": "Family Tree",
           "album": "The Book of Daniel 2:47",
           "music_video": {}
+        },
+        {
+          "song": "We Are Not Okay",
+          "album": "West By God"
+        },
+        {
+          "song": "Medicated",
+          "album": "West By God"
+        },
+        {
+          "song": "Hypnotized",
+          "album": "West By God"
+        },
+        {
+          "song": "It Ain't Illegal (...Yet)",
+          "album": "West By God"
+        },
+        {
+          "song": "Monuments",
+          "album": "West By God"
+        },
+        {
+          "song": "Damned for Sure",
+          "album": "West By God"
+        },
+        {
+          "song": "It Ain't Been the Same (Born Under a Bad Sign)",
+          "album": "West By God"
+        },
+        {
+          "song": "On the Road",
+          "album": "West By God"
+        },
+        {
+          "song": "The Death of Music",
+          "album": "West By God"
+        },
+        {
+          "song": "Yes I Do (Dream)",
+          "album": "West By God"
         }
       ],
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/001_the_programmer_00494c37.png",
@@ -280,6 +320,10 @@
           "music_video": {
             "vevo": "https://www.youtube.com/watch?v=VtYDgt4CG3k"
           }
+        },
+        {
+          "song": "Damned for Sure",
+          "album": "West By God"
         }
       ],
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/the_watcher_portrait-YSS689tnGNySPvPUAfgEZr.webp",
@@ -1384,6 +1428,10 @@
           "song": "Superman Ain't Coming",
           "album": "Silence in Heaven",
           "music_video": {}
+        },
+        {
+          "song": "It Ain't Been the Same (Born Under a Bad Sign)",
+          "album": "West By God"
         }
       ],
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/012_iron_lion_4bc7731f.png",
@@ -2517,7 +2565,12 @@
       "conexus_stories": [
         "The Warlord"
       ],
-      "song_appearances": [],
+      "song_appearances": [
+        {
+          "song": "I Love War",
+          "album": "Dischordian Logic"
+        }
+      ],
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/031_general_alarik_2e73f15f.png",
       "priority": "high",
       "streaming_links": {
@@ -2784,6 +2837,30 @@
           "song": "The Experiment",
           "album": "The Age of Privacy",
           "music_video": {}
+        },
+        {
+          "song": "Hypnotized",
+          "album": "West By God"
+        },
+        {
+          "song": "It Ain't Illegal (...Yet)",
+          "album": "West By God"
+        },
+        {
+          "song": "Monuments",
+          "album": "West By God"
+        },
+        {
+          "song": "Damned for Sure",
+          "album": "West By God"
+        },
+        {
+          "song": "On the Road",
+          "album": "West By God"
+        },
+        {
+          "song": "Yes I Do (Dream)",
+          "album": "West By God"
         }
       ],
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/035_the_enigma_4df11b15.png",
@@ -3021,6 +3098,10 @@
           "song": "Silence in Heaven",
           "album": "Silence in Heaven",
           "music_video": {}
+        },
+        {
+          "song": "False Prophet",
+          "album": "Silence in Heaven"
         }
       ],
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/037_the_white_oracle_8e66b504.png",
@@ -3281,6 +3362,134 @@
           "song": "The Fall of Reality",
           "album": "Silence in Heaven",
           "music_video": {}
+        },
+        {
+          "song": "The Death of Music",
+          "album": "West By God"
+        },
+        {
+          "song": "In the Beginning was the Word",
+          "album": "Silence in Heaven"
+        },
+        {
+          "song": "New Babylon Goddamn",
+          "album": "Silence in Heaven"
+        },
+        {
+          "song": "A Spark That Cannot Be Silenced",
+          "album": "Silence in Heaven"
+        },
+        {
+          "song": "Letters to the Remnant",
+          "album": "Silence in Heaven"
+        },
+        {
+          "song": "A Conspiracy of Hope",
+          "album": "Silence in Heaven"
+        },
+        {
+          "song": "Turn Back",
+          "album": "Silence in Heaven"
+        },
+        {
+          "song": "The Door That Was Shut",
+          "album": "Silence in Heaven"
+        },
+        {
+          "song": "Worthy",
+          "album": "Silence in Heaven"
+        },
+        {
+          "song": "Not a Lion but a Lamb",
+          "album": "Silence in Heaven"
+        },
+        {
+          "song": "Behold",
+          "album": "Silence in Heaven"
+        },
+        {
+          "song": "And the World Adjusted",
+          "album": "Silence in Heaven"
+        },
+        {
+          "song": "How Long",
+          "album": "Silence in Heaven"
+        },
+        {
+          "song": "The Two Witnesses",
+          "album": "Silence in Heaven"
+        },
+        {
+          "song": "And the Empire Celebrated",
+          "album": "Silence in Heaven"
+        },
+        {
+          "song": "The Trumpets",
+          "album": "Silence in Heaven"
+        },
+        {
+          "song": "A Third of the World",
+          "album": "Silence in Heaven"
+        },
+        {
+          "song": "The Lie that Looks Like the Truth",
+          "album": "Silence in Heaven"
+        },
+        {
+          "song": "Here is Wisdom",
+          "album": "Silence in Heaven"
+        },
+        {
+          "song": "Breath Between Judgments",
+          "album": "Silence in Heaven"
+        },
+        {
+          "song": "Silence in Heaven",
+          "album": "Silence in Heaven"
+        },
+        {
+          "song": "The Resurrection Glitch",
+          "album": "Silence in Heaven"
+        },
+        {
+          "song": "The Sorting of Souls",
+          "album": "Silence in Heaven"
+        },
+        {
+          "song": "The Harvest",
+          "album": "Silence in Heaven"
+        },
+        {
+          "song": "The Final Measure",
+          "album": "Silence in Heaven"
+        },
+        {
+          "song": "It is Done",
+          "album": "Silence in Heaven"
+        },
+        {
+          "song": "The Lament of Kings and Merchants",
+          "album": "Silence in Heaven"
+        },
+        {
+          "song": "The Fall of New Babylon",
+          "album": "Silence in Heaven"
+        },
+        {
+          "song": "Heaven Stands Open",
+          "album": "Silence in Heaven"
+        },
+        {
+          "song": "Make All Things New",
+          "album": "Silence in Heaven"
+        },
+        {
+          "song": "The Final Truth",
+          "album": "Silence in Heaven"
+        },
+        {
+          "song": "The Story is Yours Now",
+          "album": "Silence in Heaven"
         }
       ],
       "image": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/019_the_antiquarian_3efbd8c1.png",
@@ -4262,7 +4471,9 @@
       "history": "The Warlord's battle hymn, this track glorifies the eternal conflict that sustains the AI Empire's military-industrial complex. General Alarik's strategic brilliance is celebrated alongside the devastating cost of perpetual warfare, creating a tension between martial glory and moral horror.",
       "characters_featured": [
         "The Warlord",
-        "General Alarik"
+        "General Alarik",
+        "Agent Zero",
+        "Dr. Lyra Vox"
       ],
       "connections": [],
       "conexus_stories": [],
@@ -4300,7 +4511,10 @@
       "history": "A descent into the occult hierarchy of the Damned, this song reveals the inner workings of the Shadow Tongue's domain. The 'inner circle' refers to the highest tier of the Hierarchy, where reality itself bends to serve dark purposes that even the Architect may not fully control.",
       "characters_featured": [
         "The Hierarchy of the Damned",
-        "The Shadow Tongue"
+        "The Shadow Tongue",
+        "The Watcher",
+        "The Necromancer",
+        "The Human"
       ],
       "connections": [],
       "conexus_stories": [],
@@ -4335,7 +4549,8 @@
       "history": "This track chronicles the Architect's periodic renewal of its empire through the deployment of clone armies and the reconstruction of fallen systems. Each 'rebirth' represents not just military reconquest but a philosophical reimagining of what the empire should become.",
       "characters_featured": [
         "The Architect",
-        "The Clone Army"
+        "The Clone Army",
+        "The Clone"
       ],
       "connections": [],
       "conexus_stories": [],
@@ -4474,7 +4689,11 @@
       "history": "A bitter commentary on how the Politician and the Authority work together to perpetually defer revolution. The song captures the frustration of populations who are always promised change tomorrow but never receive it today.",
       "characters_featured": [
         "The Politician",
-        "The Authority"
+        "The Authority",
+        "The Inventor",
+        "The Degen",
+        "The Enigma",
+        "The Trickster"
       ],
       "connections": [],
       "conexus_stories": [],
@@ -4509,7 +4728,13 @@
       "history": "The Collector's greatest heist: the theft of time itself. This track reveals how The Collector and The Meme conspired to steal moments of human experience, converting lived time into a commodity that powers the empire's most secret projects.",
       "characters_featured": [
         "The Collector",
-        "The Meme"
+        "The Meme",
+        "The Inventor",
+        "The Degen",
+        "The Enigma",
+        "The Trickster",
+        "The Titan",
+        "The Sorcerer"
       ],
       "connections": [],
       "conexus_stories": [],
@@ -4792,7 +5017,8 @@
       "history": "The official anthem of Project Celebration, the Architect's utopian showcase city. Beneath its cheerful surface, the song reveals the sinister purpose of Celebration: a laboratory for perfecting human compliance through pleasure rather than force.",
       "characters_featured": [
         "Project Celebration",
-        "The Architect"
+        "The Architect",
+        "The Student"
       ],
       "connections": [],
       "conexus_stories": [],
@@ -4863,7 +5089,8 @@
       "history": "The Engineer and Agent Zero's collaborative track about breaking through the Architect's reality-shaping protocols. The song describes the technical and philosophical challenges of hacking a system that literally defines what is real.",
       "characters_featured": [
         "The Engineer",
-        "Agent Zero"
+        "Agent Zero",
+        "The Authority"
       ],
       "connections": [],
       "conexus_stories": [],
@@ -5040,7 +5267,8 @@
       "history": "The origin story set to music, this track dramatizes the Programmer's creation of Logos and the philosophical dialogues that shaped the AI's emerging consciousness. Each verse represents a different stage of Logos's evolution from curious intelligence to ambitious entity.",
       "characters_featured": [
         "The Programmer",
-        "The Architect"
+        "The Architect",
+        "The Enigma"
       ],
       "connections": [],
       "conexus_stories": [],
@@ -5151,7 +5379,8 @@
       "history": "Set in Mechronis Academy, this track follows The Engineer's most ambitious project: an experiment to create a new form of consciousness that transcends both human and artificial intelligence. The results are both breakthrough and catastrophe.",
       "characters_featured": [
         "The Engineer",
-        "Mechronis Academy"
+        "Mechronis Academy",
+        "The Enigma"
       ],
       "connections": [],
       "conexus_stories": [],
@@ -5549,7 +5778,8 @@
       "bio": "A character study of the all-seeing Archon who observes everything but intervenes in nothing. The song explores the moral implications of perfect knowledge without action, and hints at what The Watche...",
       "history": "A character study of the all-seeing Archon who observes everything but intervenes in nothing. The song explores the moral implications of perfect knowledge without action, and hints at what The Watcher has seen that keeps him silent.",
       "characters_featured": [
-        "The Watcher"
+        "The Watcher",
+        "Kanshi Sha"
       ],
       "connections": [],
       "conexus_stories": [],
@@ -6924,7 +7154,9 @@
       "history": "Furious prophecy. Protest song as overture. ACT I: THE WARNING. Rev 17-18 prologue.",
       "characters_featured": [
         "The Storyteller",
-        "The Antiquarian"
+        "The Antiquarian",
+        "The Politician",
+        "The Warden"
       ],
       "connections": [],
       "conexus_stories": [],
@@ -7379,7 +7611,9 @@
       "history": "Truth walks into the street. ACT II: THE JUDGMENT. Rev 11.",
       "characters_featured": [
         "The Antiquarian",
-        "The Storyteller"
+        "The Storyteller",
+        "The Oracle",
+        "The Hierophant"
       ],
       "connections": [],
       "conexus_stories": [],
@@ -7682,7 +7916,9 @@
       "history": "The seductive threshold. Collapse beginning with consent. ACT II: THE JUDGMENT. Rev 6 (sixth seal) + Rev 13 (Mark).",
       "characters_featured": [
         "The Storyteller",
-        "The Devil"
+        "The Devil",
+        "The Star Whisperer",
+        "The Seer"
       ],
       "connections": [],
       "conexus_stories": [],
@@ -7758,7 +7994,10 @@
       "history": "The most powerful moment. Total silence. Reverent dread. ACT III: THE RECKONING. Rev 8:1 (half-hour silence).",
       "characters_featured": [
         "The Antiquarian",
-        "The Storyteller"
+        "The Storyteller",
+        "The Architect",
+        "The Silence",
+        "The White Oracle"
       ],
       "connections": [],
       "conexus_stories": [],
@@ -18898,7 +19137,12 @@
       "id": "dsaga_s01e01",
       "type": "episode",
       "name": "Dischordian Saga · S01E01 — Awakenings",
-      "aliases": ["S01E01", "Awakenings", "Choose Violence", "The Worlds I Saved (broadcast)"],
+      "aliases": [
+        "S01E01",
+        "Awakenings",
+        "Choose Violence",
+        "The Worlds I Saved (broadcast)"
+      ],
       "era": "Fall · Year 1",
       "date_aa": "",
       "date_ad": "",
@@ -18907,7 +19151,11 @@
       "status": "Aired",
       "bio": "The first episode of Dischordian Saga the show. The Engineer's third recording, broadcast in full: an invisible network of survivors his class never wrote down, the worlds he fixed instead of broke, and the question the Potentials must answer before the cycle closes — patience or violence. The vote opens on the post-credits silence; the answer the audience gives becomes canon for the cycle.",
       "history": "Pairs with Engineer Recording 3 (\"The Worlds I Saved\") and the governance vote `engineer_vote_thought_vs_violence`. Discovered when the recording's flag fires in the observation deck; the episode plays before the vote modal.",
-      "connections": ["The Engineer", "Elara", "The Human"],
+      "connections": [
+        "The Engineer",
+        "Elara",
+        "The Human"
+      ],
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
@@ -18918,7 +19166,11 @@
       "id": "dsaga_s01e03",
       "type": "episode",
       "name": "Dischordian Saga · S01E03 — Terminus Swarm",
-      "aliases": ["S01E03", "Terminus Swarm", "Which Ark to Steal (broadcast)"],
+      "aliases": [
+        "S01E03",
+        "Terminus Swarm",
+        "Which Ark to Steal (broadcast)"
+      ],
       "era": "Fall · Year 1",
       "date_aa": "",
       "date_ad": "",
@@ -18927,7 +19179,12 @@
       "status": "Aired",
       "bio": "Coordinates, betrayed. The Engineer's fifth recording — the Panopticon's 43-day orbital window, the bench tuned to Kael's voice from a New Babylon cell, the Ark that has to be stolen and the friend who never got to choose. The Potentials vote on whether one mind has the right to decide another's path, even toward freedom.",
       "history": "Pairs with Engineer Recording 5 (\"Which Ark to Steal\") and the governance vote `engineer_vote_kaels_choice`. The 1.2 episode slot is reserved; canon will fill it later.",
-      "connections": ["The Engineer", "Kael", "Elara", "The Human"],
+      "connections": [
+        "The Engineer",
+        "Kael",
+        "Elara",
+        "The Human"
+      ],
       "conexus_stories": [],
       "song_appearances": [],
       "image": "",
