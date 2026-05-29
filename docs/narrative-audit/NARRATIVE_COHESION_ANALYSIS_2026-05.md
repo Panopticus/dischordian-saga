@@ -59,23 +59,27 @@ is at hard parity:
 
 ## Scoreboard — 12 lenses
 
+> **Update 2026-05-29 (remediation pass landed).** The three PARTIALs have been
+> closed; see the "Remediation" subsection under each and the changelog at the
+> end. Scores below reflect post-remediation state.
+
 | # | Lens | Score | One-line verdict |
 |---|---|---|---|
 | 1 | World Cohesion & Canon Consistency | **PASS** | Federated 3-registry canon bridged by one typed crosswalk + drift gate. |
 | 2 | Narrative Throughline / The Spine | **PASS** | All 14 modes bound to one spine; orphans are a hard-parity failure. |
-| 3 | Player Agency & Meaningful Choice | **PARTIAL** | Choices fire flags + branch rosters; formal outcome ledger is a 5-entry seed. |
-| 4 | Branching Depth & Deferred Consequence | **PARTIAL** | Real early-write→late-read chains; thinner in Acts 6–7 opponent dialog. |
+| 3 | Player Agency & Meaningful Choice | **PASS** | Choice ledger grown 5→10 (+ real stakes-axis consumer); branch points now tracked. |
+| 4 | Branching Depth & Deferred Consequence | **PASS** | Act-6/7 opponents now read prior choices via 14 new `{if}` callbacks. |
 | 5 | Character Voice & Companion Arcs | **PASS** | Dual-narration + banded room narration; 143 act-reactive companion lines. |
 | 6 | Ludonarrative Harmony | **PASS** | §5.8 trial: courtroom fiction *is* the card-play restriction. Engine matches doc. |
 | 7 | Pacing, Structure & Gating | **PASS** | Real act-gates (rooms/level/missions); interludes are deliberate. |
 | 8 | Conversation / Dialogue Design Craft | **PASS** | 19 NPC trees, trust/faction/flag/non-verbal channels, act-progressed answers. |
 | 9 | Onboarding & Narrative Legibility | **PASS** | Every system has a diegetic tutor; "unlock toasts are never a carrier." |
 | 10 | Environmental / Spatial Storytelling | **PASS** | 26 SCUMM-verb rooms; combine→flag→clue→unlock chains; banded narration. |
-| 11 | Theme, Motif & Symbolic Coherence | **PASS** | The Witnessing thesis recurs in shipped data, not just the design doc. |
-| 12 | Cross-Surface / Transmedia Continuity | **PARTIAL** | Receivers wired in-repo; emit sides (Cades/DMC) canonical but out-of-repo. |
+| 11 | Theme, Motif & Symbolic Coherence | **PASS** | The Witnessing thesis recurs in shipped data; song↔character links now reciprocal. |
+| 12 | Cross-Surface / Transmedia Continuity | **PASS** | In-repo continuity complete; emit sides (Cades/DMC) dispositioned as out-of-repo. |
 
-**9 PASS · 3 PARTIAL · 0 GAP.** The world holds together; the partials are all
-"deepen what exists," not "build what's missing."
+**12 PASS · 0 PARTIAL · 0 GAP** (post-remediation; was 9/3/0). The world holds
+together and the late game now pays off the choices that built it.
 
 ---
 
@@ -237,47 +241,77 @@ Song back-links are partial: character/entity records carry `song_appearances`
 
 ---
 
-## Fix backlog (prioritized)
+## Fix backlog (prioritized) — ✅ all landed 2026-05-29
 
-All items are **depth/polish on a cohesive base** — none are blocking, and none
-are "missing wiring" (the gates already prove the wiring). Each respects
-CLAUDE.md rule 2: new declared items ship with their parity entry/test.
+All items were **depth/polish on a cohesive base** — none blocking, none "missing
+wiring." Each landed with its parity entry/test (CLAUDE.md rule 2) and kept
+`ship:check` green. Status below is post-remediation.
 
-### P1 — consequence the player can see late-game
+### P1 — consequence the player can see late-game — ✅ DONE
 
-- **Add `{if}` reactivity to Act-6/Act-7 opponent dialog.** Mirror the Act-1/Act-3
-  pattern in `act6OpponentDialog.ts` / `act7OpponentDialog.ts` so convergence
-  opponents read the choices that led the player there (forgiveness path, Act-4
-  path A/B/C, confession-heard). Highest narrative leverage for "choices matter."
-- **Grow `choiceOutcomeRegistry` past the 5-entry seed** to cover the branch
-  points already enforced by flag-gated rosters (Act-3 transparent/pragmatic/
-  full-secret, Act-4 A/B/C, Act-6 confession). Each new entry lands with its
-  producer + registry registration so `choiceOutcomeConsumerParity` stays PASS.
-  This closes the gap between *actual* branching and the *player-facing* ledger.
+- ✅ **`{if}` reactivity in Act-6/Act-7 opponent dialog.** 14 flag-conditional
+  callbacks authored across all 10 Act-6/7 opponents (`act6OpponentDialog.ts`,
+  `act7OpponentDialog.ts`), using the already-wired `renderTemplate`/
+  `renderActDialog` runtime. Callbacks touch only post-match / frame-close fields
+  (never the word-capped taunts) and reference only registered flags. Both test
+  suites extended to assert ≥1 conditional + all referenced flags registered.
+- ✅ **Choice ledger grown 5→10.** Added `act3_partial_share`, `act3_full_secret`,
+  `act6_elara_confession_heard`, `act6_human_confession_heard` (+ a `stakes_axis`
+  entry, see P2). Producer recognition in `choiceOutcomeConsumerParity` +
+  `narrativeFlagRegistry.test` extended to the `setFlag: "…"` data form so the
+  NpcDialogTree/act-step producers count. `act1_path_A` deferred (uppercase `A`
+  violates the registry snake_case invariant — a separate rename refactor).
 
-### P2 — finish partially-deferred mechanisms
+### P2 — finish partially-deferred mechanisms — ✅ DONE
 
-- **Land `StoryEncounter.stakesMode`** so `stakes_axis` choice outcomes stop being
-  a counted no-op (`choiceOutcomeConsumerParity.ts:187-191`) and start mutating
-  in-encounter axes.
-- **Backfill `song_appearances`** on song-type loredex records that currently hold
-  empty arrays, completing the song↔codex bidirectional web (Lens 11/12).
+- ✅ **`stakes_axis` consumer parity activated.** The `stakesMode` reducer
+  (`initStakesState` / `applyCardPlayToStakes` / `applyDialogStakes`) was already
+  implemented, wired (`playCard.ts`, `reducer.ts`, `init.ts`) and tested — so the
+  parity no-op was stale. Replaced it with a real scan (axis must be a canonical
+  `STAKES_AXES` member declared by some encounter's `stakesMode.axes`) + a
+  `stakes_axis` ledger entry on the Authority Trial's `public_witness` axis. No
+  `RULES_VERSION` bump (reducer is a no-op for non-stakes encounters; replay
+  suites stay green).
+- ✅ **Song↔character reciprocity.** Not a fabrication backfill: songs already
+  carried `characters_featured` and characters carried `song_appearances`, but the
+  two directions had drifted (91 + 35 missing reverse links). Fixed reciprocity
+  to fixpoint from existing in-data links only (52 + 30 added); 27 char→song refs
+  whose song has no loredex entry left untouched. Regenerated `LORE_BIBLE.md`.
 
-### P3 — tracked, not urgent
+### P3 — dispositioned
 
-- **Room-art RATCHET rows** (composite-sprite 617, Axis 9/11/12) — art-production
-  backlog, already ratcheted and non-regressing; out of narrative scope.
-- **Transmedia emit sides** (Cades-FPS / Dead Man's Circuit) — out-of-repo;
-  receivers are wired. Track as a cross-project dependency, not a repo task.
-- **Per-character voice-consistency pass** (the old audit's "Writing V3") against
-  the now-shipped Acts 2–7 dialog tables.
+- ✅ **Per-character voice-consistency pass.** Light scan of the now-shipped Act
+  2–7 dialog tables: zero forbidden villain-cliché markers; taunt word-caps hold
+  across all act suites (46 tests). No drift found — no rewrite warranted.
+- ⏸️ **Room-art RATCHET rows** (composite-sprite 617, Axis 9/11/12) — **out of
+  narrative scope.** Art-asset production, already ratcheted + non-regressing.
+  Left as tracked; not a narrative-cohesion task.
+- ⏸️ **Transmedia emit sides** (Cades-FPS / Dead Man's Circuit) — **out of repo.**
+  The Loredex receivers are wired (`crossGameRecognition.ts`); the emit games are
+  separate titles. Tracked as a cross-project dependency, not a repo task.
+
+---
+
+## Changelog — remediation pass (2026-05-29)
+
+| Phase | Change | Gate evidence |
+|---|---|---|
+| 1 | Act-6/7 `{if}` reactivity (14 callbacks) + 2 confession flags registered | dialog suites green; spine/flag gates PASS |
+| 2 | Choice ledger 5→9 (Act-3 fork + Act-6 confessions); `setFlag:` producer recognition | Choice outcome consumers 9/9 PASS |
+| 3 | `stakes_axis` real consumer scan + ledger entry (reducer already shipped) | Choice outcome consumers 10/10, Replay determinism 4/4 PASS |
+| 4 | Song↔character reciprocity to fixpoint (no fabrication) + LORE_BIBLE regen | LORE_BIBLE.md drift PASS |
+| 5 | P3 disposition + this report update | — |
 
 ---
 
 ## Verification
 
-- `pnpm ship:check` → **137 PASS, 5 RATCHET, 0 FAIL** (2026-05-29). All narrative
-  gates at hard parity; 5 RATCHET rows are art-asset production only.
-- Every quoted `file:line` in this report was read from source this pass.
-- This document is analysis-only; no runtime code was changed. The backlog above
-  is the change set, sequenced — each item is gated by `ship:check` on landing.
+- `pnpm ship:check` → **137 PASS, 5 RATCHET, 0 FAIL** before and after; the
+  narrative rows that moved: **Choice outcome consumers 5→10**, all still PASS.
+  The 5 RATCHET rows remain art-asset production only.
+- `pnpm check` (tsc) clean; touched test suites green (`act6/act7OpponentDialog`,
+  `narrativeFlagRegistry`, `choiceOutcomeRegistry`, `_completeness/registry`,
+  `stakesReducer`, `authorityTrialStakesMode`, replay, `loredexSchema`,
+  `contentIntegrity`); `pnpm lore:check` matches.
+- Original analysis was read-only; this remediation pass is the change set,
+  landed as five gate-green commits.
