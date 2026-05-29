@@ -19,7 +19,6 @@ const WCAG_AA_TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"];
 test.describe("axe-core WCAG AA audit — public pages", () => {
   test("landing page has no WCAG AA violations", async ({ page }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
 
     const results = await new AxeBuilder({ page })
       .withTags(WCAG_AA_TAGS)
@@ -40,7 +39,6 @@ test.describe("axe-core WCAG AA audit — public pages", () => {
 
   test("terms page has no WCAG AA violations", async ({ page }) => {
     await page.goto("/terms");
-    await page.waitForLoadState("networkidle");
 
     const results = await new AxeBuilder({ page })
       .withTags(WCAG_AA_TAGS)
@@ -51,7 +49,6 @@ test.describe("axe-core WCAG AA audit — public pages", () => {
 
   test("privacy page has no WCAG AA violations", async ({ page }) => {
     await page.goto("/privacy");
-    await page.waitForLoadState("networkidle");
 
     const results = await new AxeBuilder({ page })
       .withTags(WCAG_AA_TAGS)
@@ -66,7 +63,6 @@ test.describe("axe-core WCAG AA audit — auth-gated pages", () => {
 
   test("settings page has no WCAG AA violations", async ({ page }) => {
     await page.goto("/settings");
-    await page.waitForLoadState("networkidle");
 
     const results = await new AxeBuilder({ page })
       .withTags(WCAG_AA_TAGS)
@@ -77,7 +73,6 @@ test.describe("axe-core WCAG AA audit — auth-gated pages", () => {
 
   test("games page has no WCAG AA violations", async ({ page }) => {
     await page.goto("/games");
-    await page.waitForLoadState("networkidle");
 
     const results = await new AxeBuilder({ page })
       .withTags(WCAG_AA_TAGS)
@@ -88,7 +83,6 @@ test.describe("axe-core WCAG AA audit — auth-gated pages", () => {
 
   test("loredex page has no WCAG AA violations", async ({ page }) => {
     await page.goto("/loredex");
-    await page.waitForLoadState("networkidle");
 
     const results = await new AxeBuilder({ page })
       .withTags(WCAG_AA_TAGS)
@@ -99,7 +93,6 @@ test.describe("axe-core WCAG AA audit — auth-gated pages", () => {
 
   test("character sheet has no WCAG AA violations", async ({ page }) => {
     await page.goto("/character");
-    await page.waitForLoadState("networkidle");
 
     const results = await new AxeBuilder({ page })
       .withTags(WCAG_AA_TAGS)
@@ -118,7 +111,6 @@ test.describe("Keyboard navigation — public", () => {
     page,
   }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
 
     // Press Tab repeatedly and collect focused element tags
     const focusedTags: string[] = [];
@@ -139,7 +131,6 @@ test.describe("Keyboard navigation — public", () => {
 
   test("Enter activates focused button on landing page", async ({ page }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
 
     // Tab until we find a button
     for (let i = 0; i < 15; i++) {
@@ -165,7 +156,6 @@ test.describe("Keyboard navigation — auth-gated", () => {
 
   test("Tab through main nav elements", async ({ page }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
 
     const nav = page.locator('nav[aria-label="Main navigation"]');
     await expect(nav).toBeVisible();
@@ -201,7 +191,6 @@ test.describe("Keyboard navigation — auth-gated", () => {
 
   test("Enter activates nav links", async ({ page }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
 
     const nav = page.locator('nav[aria-label="Main navigation"]');
     const firstLink = nav.locator("a").first();
@@ -217,7 +206,6 @@ test.describe("Keyboard navigation — auth-gated", () => {
 
   test("Escape closes open modals", async ({ page }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
 
     // Look for any dialog trigger button
     const dialogTrigger = page.locator('[data-state="closed"]').first();
@@ -250,7 +238,6 @@ test.describe("Focus trap in dialogs — auth-gated", () => {
 
   test("Tab stays within open dialog", async ({ page }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
 
     // Open a dialog (look for a trigger)
     const dialogTrigger = page
@@ -299,7 +286,6 @@ test.describe("Skip-to-content link — auth-gated", () => {
     page,
   }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
 
     const skipLink = page.locator('a[href="#main-content"]');
     await expect(skipLink).toBeAttached();
@@ -326,7 +312,6 @@ test.describe("Screen reader aria-live regions — public", () => {
     page,
   }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
 
     // Check for static aria-live regions
     const staticLiveRegions = page.locator("[aria-live]");
@@ -363,7 +348,6 @@ test.describe("Screen reader aria-live regions — auth-gated", () => {
     page,
   }) => {
     await page.goto("/");
-    await page.waitForLoadState("networkidle");
 
     const liveRegions = page.locator("[aria-live]");
     const count = await liveRegions.count();
@@ -381,7 +365,6 @@ test.describe("Screen reader aria-live regions — auth-gated", () => {
     page,
   }) => {
     await page.goto("/games");
-    await page.waitForLoadState("networkidle");
 
     // Before action — note current live region content
     const liveRegion = page.locator('[aria-live="polite"]').first();
