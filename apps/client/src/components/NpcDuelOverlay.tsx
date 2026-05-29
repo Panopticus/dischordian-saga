@@ -1,0 +1,342 @@
+/**
+ * NpcDuelOverlay — client mount surface for the NPC duel loop.
+ *
+ * The dialog tree's `challenge: { npcKey }` outcome fires from
+ * `useNpcDialogTree` as the `challenge` field on the
+ * `ChoiceCommitResult`. The host mounts this overlay, which then
+ * runs the loop end-to-end:
+ *
+ *   1. preview  — fetch trpc.npcDuel.getChallengeInfo. Render the
+ *      composed-deck preview, learned-aspect count, projected reward
+ *      tier, and any cross-NPC carried-memory echoes. Player picks
+ *      "Sit. Deal." or "Not yet."
+ *
+ *   2. in-duel  — mount DuelystGameUI with a synthesized
+ *      StoryEncounter built from the preview (deck + general/faction
+ *      from the registry). The match runs in the existing engine /
+ *      renderer; we only pass the deck override + outcome callback.
+ *
+ *   3. result   — on player win, call trpc.npcDuel.recordVictory and
+ *      render the granted memorial summary. On loss, render a
+ *      consolation card (the "Pokémon stake" loss-path lives in a
+ *      follow-up; for now we just close out).
+ *
+ * The overlay is presentation-only — it consumes the npc-duel router
+ * surface and the existing DuelystGameUI; it does not synthesize
+ * dialog flow. The dialog renderer that surfaced the challenge stays
+ * mounted alongside (e.g. closed when its own terminal node is hit).
+ */
+import { useMemo, useState } from "react";
+import { trpc } from "@/lib/trpc";
+import DuelystGameUI from "@/game/duelyst/DuelystGameUI";
+import { ALL_CARD_DEFINITIONS } from "@shared/tcg-core/cards";
+import type { CardDefinition } from "@shared/tcg-core/types/Card";
+import type { Faction as DuelystFaction } from "@/game/duelyst/types";
+import type { StoryEncounter } from "@shared/tcg-core/story/encounter";
+
+/** Factions DuelystGameUI accepts. Engine card-definitions support
+ *  a broader set (panopticon / hierarchy_of_damned); we narrow at
+ *  the overlay boundary so the underlying renderer's invariants
+ *  hold. NPCs whose authored general resolves outside this set fall
+ *  back to "neutral" — the duel still runs cleanly. */
+const DUELYST_FACTION_SET = new Set<DuelystFaction>([
+  "architect",
+  "dreamer",
+  "insurgency",
+  "new_babylon",
+  "antiquarian",
+  "thought_virus",
+  "neutral",
+]);
+
+function toDuelystFaction(value: string | undefined): DuelystFaction {
+  if (value && DUELYST_FACTION_SET.has(value as DuelystFaction)) {
+    return value as DuelystFaction;
+  }
+  return "neutral";
+}
+
+export interface NpcDuelOverlayProps {
+  /** Which NPC the player is challenging — matches the
+   *  `challenge.npcKey` surfaced by useNpcDialogTree. */
+  npcKey: string;
+  /** Required: the player's chosen faction at duel time. Comes from
+   *  the host's GameContext / character-creation; falling back to
+   *  neutral is acceptable for surfaces that haven't authored a
+   *  player faction (e.g. tutorial). */
+  playerFaction: DuelystFaction;
+  /** Fires when the overlay closes — either because the player
+   *  declined the duel at preview, finished the result step, or
+   *  hit Back. The host unmounts. */
+  onClose: () => void;
+  /** Optional: fires after recordVictory resolves successfully, so
+   *  the host can refresh collection caches / fire a toast. */
+  onVictoryRecorded?: (grantCount: number, rewardTier: 0 | 1 | 2 | 3) => void;
+}
+
+type Phase = "preview" | "duel" | "result";
+
+interface DuelResult {
+  outcome: "player_won" | "opponent_won";
+  rewardTier: 0 | 1 | 2 | 3;
+  grantCount: number;
+}
+
+function lookupCard(cardDefId: string): CardDefinition | undefined {
+  return ALL_CARD_DEFINITIONS.find((c) => c.id === cardDefId);
+}
+
+/** Synthesize a minimal StoryEncounter from the npc-duel preview so
+ *  DuelystGameUI's existing encounter path runs the match. The
+ *  encounter only fills the fields the renderer reads — every
+ *  per-act narrative-hook field is left empty. */
+function buildEncounterFromPreview(args: {
+  npcKey: string;
+  general: string;
+  bossFaction: DuelystFaction;
+  deck: ReadonlyArray<string>;
+  seed: string;
+}): StoryEncounter {
+  return {
+    id: `npc_duel_${args.npcKey}`,
+    chapterId: "npc_duel",
+    name: `Challenge: ${args.npcKey}`,
+    description: "An NPC duel.",
+    bossFaction: args.bossFaction,
+    bossGeneralDefId: args.general,
+    bossDeckCardDefIds: args.deck,
+    seed: args.seed,
+    winConditions: [{ kind: "general_killed" }],
+    loseConditions: [{ kind: "general_killed" }],
+    narrativeHooks: [],
+  };
+}
+
+export function NpcDuelOverlay({
+  npcKey,
+  playerFaction,
+  onClose,
+  onVictoryRecorded,
+}: NpcDuelOverlayProps) {
+  const [phase, setPhase] = useState<Phase>("preview");
+  const [duelResult, setDuelResult] = useState<DuelResult | null>(null);
+
+  const challengeInfoQuery = trpc.npcDuel.getChallengeInfo.useQuery(
+    { npcKey },
+    { staleTime: 60_000 },
+  );
+  const recordVictory = trpc.npcDuel.recordVictory.useMutation();
+
+  const info = challengeInfoQuery.data;
+  const bossFaction = useMemo<DuelystFaction>(() => {
+    if (!info || !info.challengeable) return "neutral";
+    const general = lookupCard(info.general);
+    return toDuelystFaction(general?.faction);
+  }, [info]);
+
+  /* ─── Phase: preview ─── */
+  if (phase === "preview") {
+    if (challengeInfoQuery.isLoading) {
+      return (
+        <OverlayShell label="Loading challenge">
+          <p className="font-mono text-[10px] uppercase tracking-[0.3em] void-text-dim">
+            The arithmetic is waiting…
+          </p>
+        </OverlayShell>
+      );
+    }
+    if (!info || !info.challengeable) {
+      return (
+        <OverlayShell label="Challenge unavailable">
+          <p className="font-serif text-[13px] void-text">
+            No deck has been authored for this NPC yet.
+          </p>
+          <CloseButton onClick={onClose} label="Continue" />
+        </OverlayShell>
+      );
+    }
+    const tierLabel = TIER_LABELS[info.rewardTier];
+    return (
+      <OverlayShell label={`Challenge: ${npcKey}`}>
+        <p className="font-serif text-[13px] void-text leading-relaxed">
+          {info.alreadyDefeated
+            ? "You have defeated them before. Step back to the table?"
+            : "Step to the table. The arithmetic is waiting."}
+        </p>
+
+        <dl className="mt-6 grid grid-cols-2 gap-x-6 gap-y-2 font-mono text-[10px] uppercase tracking-wider void-text-dim">
+          <dt>Aspects learned</dt>
+          <dd className="void-text">
+            {info.learnedAspectCount} / {info.totalAspectCount}
+          </dd>
+          <dt>Reward tier</dt>
+          <dd className="void-text">{tierLabel}</dd>
+          <dt>Deck size</dt>
+          <dd className="void-text">{info.deckSize} cards</dd>
+        </dl>
+
+        {info.perspectiveAspects.length > 0 && (
+          <ul className="mt-4 space-y-1 font-mono text-[10px] uppercase tracking-wider">
+            {info.perspectiveAspects.map((aspect) => (
+              <li
+                key={aspect.id}
+                className={aspect.learned ? "void-text" : "void-text-dim"}
+              >
+                {aspect.learned ? "✓" : "·"} {aspect.label}
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {info.carriedMemories.length > 0 && (
+          <p className="mt-4 font-serif text-[12px] italic void-text-dim">
+            You carry the memory of: {info.carriedMemories.join(", ")}.
+          </p>
+        )}
+
+        <div className="mt-6 flex flex-col gap-2">
+          <button
+            type="button"
+            onClick={() => setPhase("duel")}
+            className="rounded border void-border bg-cyan-950/40 px-4 py-2 font-mono text-[10px] uppercase tracking-wider void-text hover:bg-cyan-900/60"
+          >
+            Sit. Deal.
+          </button>
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded border void-border bg-stone-900/60 px-4 py-2 font-mono text-[10px] uppercase tracking-wider void-text-dim hover:bg-stone-800/80"
+          >
+            Not yet.
+          </button>
+        </div>
+      </OverlayShell>
+    );
+  }
+
+  /* ─── Phase: duel ─── */
+  if (phase === "duel") {
+    if (!info || !info.challengeable) {
+      setPhase("preview");
+      return null;
+    }
+    const encounter = buildEncounterFromPreview({
+      npcKey,
+      general: info.general,
+      bossFaction,
+      deck: info.deck,
+      seed: `npc_duel_${npcKey}_${Date.now()}`,
+    });
+    return (
+      <div className="fixed inset-0 z-[80] bg-black">
+        <DuelystGameUI
+          playerFaction={playerFaction}
+          opponentFaction={bossFaction}
+          encounter={encounter}
+          onGameEnd={async (winner) => {
+            if (winner === "player") {
+              try {
+                const res = await recordVictory.mutateAsync({ npcKey });
+                if (res.ok) {
+                  setDuelResult({
+                    outcome: "player_won",
+                    rewardTier: res.rewardTier,
+                    grantCount: res.grantCount,
+                  });
+                  onVictoryRecorded?.(res.grantCount, res.rewardTier);
+                } else {
+                  setDuelResult({
+                    outcome: "player_won",
+                    rewardTier: 0,
+                    grantCount: 0,
+                  });
+                }
+              } catch {
+                setDuelResult({
+                  outcome: "player_won",
+                  rewardTier: 0,
+                  grantCount: 0,
+                });
+              }
+            } else {
+              setDuelResult({
+                outcome: "opponent_won",
+                rewardTier: 0,
+                grantCount: 0,
+              });
+            }
+            setPhase("result");
+          }}
+          onBack={onClose}
+        />
+      </div>
+    );
+  }
+
+  /* ─── Phase: result ─── */
+  if (!duelResult) return null;
+  const won = duelResult.outcome === "player_won";
+  return (
+    <OverlayShell label={won ? "The tray is yours" : "The arithmetic settled"}>
+      <p className="font-serif text-[13px] void-text leading-relaxed">
+        {won
+          ? `${duelResult.grantCount} ${
+              duelResult.grantCount === 1 ? "memory" : "memories"
+            } folded into your collection — tier ${TIER_LABELS[duelResult.rewardTier]}.`
+          : "You lost the hand. The Casino keeps the file open. Come back when you've learned more."}
+      </p>
+      <CloseButton onClick={onClose} label={won ? "Take the tray." : "Step away."} />
+    </OverlayShell>
+  );
+}
+
+/* ─── Helpers ─── */
+
+const TIER_LABELS: Record<0 | 1 | 2 | 3, string> = {
+  0: "tier 0 (single)",
+  1: "tier 1 (handful)",
+  2: "tier 2 (pile)",
+  3: "tier 3 (full memorial)",
+};
+
+function OverlayShell({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label={label}
+      className="fixed inset-0 z-[80] flex items-center justify-center bg-black/85 backdrop-blur-md"
+    >
+      <div className="max-w-xl w-full mx-6 p-8 bg-stone-950/95 border void-border rounded">
+        <p className="font-mono text-[10px] uppercase tracking-[0.3em] void-text-dim mb-4 text-center">
+          {label}
+        </p>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function CloseButton({
+  onClick,
+  label,
+}: {
+  onClick: () => void;
+  label: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="mt-6 w-full rounded border void-border bg-cyan-950/40 px-4 py-2 font-mono text-[10px] uppercase tracking-wider void-text hover:bg-cyan-900/60"
+    >
+      {label}
+    </button>
+  );
+}

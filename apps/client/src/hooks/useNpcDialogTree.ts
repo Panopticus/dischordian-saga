@@ -69,6 +69,11 @@ export interface ChoiceCommitResult {
   /** Count of writer errors (each one logged server-side; the bundle
    *  still succeeds). */
   errors: number;
+  /** Routing signal — when the committed choice carried a
+   *  `challenge: { npcKey }` outcome, the host should mount the NPC
+   *  duel UI (e.g. NpcDuelOverlay). Null when the choice did not
+   *  carry a challenge. */
+  challenge: { npcKey: string } | null;
 }
 
 export interface UseNpcDialogTreeInput {

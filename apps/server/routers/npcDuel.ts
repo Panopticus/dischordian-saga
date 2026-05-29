@@ -1,7 +1,8 @@
+// audit-allow-proc: listChallengeable
 /* ═══════════════════════════════════════════════════════
    NPC DUEL ROUTER — system entry for the dialog → duel → harvest loop
 
-   Two procedures:
+   Three procedures:
 
      • getChallengeInfo (query) — given an NPC key, returns the
        composed deck preview + reward tier + per-aspect learn-state
