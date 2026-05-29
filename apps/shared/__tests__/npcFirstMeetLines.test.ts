@@ -68,12 +68,12 @@ describe("NPC first-meeting transcript JSONs (round-3 gap 1)", () => {
     }
   });
 
-  it("ships exactly 88 transcript entries across 10 NPCs (Section D5 expansion: +Akai/Lycos first-meeting + Wraith post-recruit + loyalty trees for all three)", () => {
+  it("ships exactly 96 transcript entries across 10 NPCs (Section D5 + the_degen perspective-gathering pilot)", () => {
     let total = 0;
     for (const [npcKey] of treesByNpc) {
       total += entriesForNpc(npcKey).length;
     }
-    expect(total).toBe(88);
+    expect(total).toBe(96);
   });
 
   it("each NPC's entry count matches its first-meeting tree's voLineId count", () => {

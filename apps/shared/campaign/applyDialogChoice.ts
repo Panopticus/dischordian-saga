@@ -38,6 +38,7 @@
    ═══════════════════════════════════════════════════════ */
 
 import type { NpcDialogChoice } from "../npcs/dialogTrees/types";
+import type { NpcKey } from "../npcs/types";
 import type { Faction } from "../tcg-core/types/Card";
 
 /** A flag-write intent. The caller maps this to whichever
@@ -91,6 +92,14 @@ export interface DeckMutationWrite {
   addCardDefId: string;
 }
 
+/** Routes the conversation to an NPC duel. The caller (campaign
+ *  router / in-room challenge handler) composes the deck via
+ *  `buildNpcDeck()` and mounts the match UI. Recorded one-per-bundle
+ *  by convention; multiple challenge writes are not meaningful. */
+export interface ChallengeWrite {
+  npcKey: NpcKey;
+}
+
 export interface OutcomeBundle {
   /** Stable identifier — `"<treeId>.<nodeId>.<choiceLabelSlug>"`
    *  by convention; supplied by the caller. */
@@ -102,6 +111,7 @@ export interface OutcomeBundle {
   stakesWrites: ReadonlyArray<StakesWrite>;
   cardUnlockWrites: ReadonlyArray<CardUnlockWrite>;
   deckMutationWrites: ReadonlyArray<DeckMutationWrite>;
+  challengeWrites: ReadonlyArray<ChallengeWrite>;
 }
 
 /** Fold a single `NpcDialogChoice` into a typed `OutcomeBundle`.
@@ -158,6 +168,10 @@ export function applyDialogChoiceOutcomes(
       ]
     : [];
 
+  const challengeWrites: ChallengeWrite[] = choice.challenge
+    ? [{ npcKey: choice.challenge.npcKey }]
+    : [];
+
   return {
     outcomeId,
     flagWrites,
@@ -167,6 +181,7 @@ export function applyDialogChoiceOutcomes(
     stakesWrites,
     cardUnlockWrites,
     deckMutationWrites,
+    challengeWrites,
   };
 }
 
@@ -181,7 +196,8 @@ export function bundleHasEffects(bundle: OutcomeBundle): boolean {
     bundle.factionRepWrites.length > 0 ||
     bundle.stakesWrites.length > 0 ||
     bundle.cardUnlockWrites.length > 0 ||
-    bundle.deckMutationWrites.length > 0
+    bundle.deckMutationWrites.length > 0 ||
+    bundle.challengeWrites.length > 0
   );
 }
 
@@ -213,6 +229,9 @@ export function describeBundle(bundle: OutcomeBundle): string[] {
   }
   for (const w of bundle.deckMutationWrites) {
     lines.push(`deck mutation: ${w.encounterId} +${w.addCardDefId}`);
+  }
+  for (const w of bundle.challengeWrites) {
+    lines.push(`challenge: ${w.npcKey}`);
   }
   return lines;
 }

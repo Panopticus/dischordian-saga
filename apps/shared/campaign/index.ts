@@ -49,6 +49,7 @@ export {
   describeBundle,
   type AxisWrite,
   type CardUnlockWrite,
+  type ChallengeWrite,
   type DeckMutationWrite,
   type FactionRepWrite,
   type FlagWrite,
