@@ -175,6 +175,9 @@ non-appearance, and Malkia's civilian-name privacy live there.
 ### 3.3 Acts 2–7 — line text complete, structural gaps documented
 
 Audit doc: `docs/narrative-audit/ACTS_2_7_COMPLETENESS_AUDIT.md`.
+Cohesion analysis (12-lens, 2026-05): `docs/narrative-audit/NARRATIVE_COHESION_ANALYSIS_2026-05.md`
+— supersedes the per-act figures below (verified against shipped source +
+`ship:check`; the structural "missing" cells were closed and are now wired).
 
 Summary verdict per act:
 
