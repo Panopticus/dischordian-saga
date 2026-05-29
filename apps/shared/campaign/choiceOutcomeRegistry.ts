@@ -122,6 +122,42 @@ export const CHOICE_OUTCOME_REGISTRY: ReadonlyArray<ChoiceOutcomeEntry> = [
     flag: "act1_closing_choice_made",
   },
   {
+    id: "act3.partial_share",
+    kind: "set_flag",
+    authoredAt: "act3.offer.share_partial",
+    owner: "act_3",
+    notes:
+      "Act 3 disclosure fork: player shared part of the secret (pragmatic path); routes Act 4 to Elara's 'Discovery' (Path B) and softens later opponent reads.",
+    flag: "act3_partial_share",
+  },
+  {
+    id: "act3.full_secret",
+    kind: "set_flag",
+    authoredAt: "act3.offer.keep_secret",
+    owner: "act_3",
+    notes:
+      "Act 3 disclosure fork: player kept the full secret (betrayal path); routes Act 4 to Elara's 'Betrayal' (Path C) and hardens later opponent reads.",
+    flag: "act3_full_secret",
+  },
+  {
+    id: "act6.elara_confession_heard",
+    kind: "set_flag",
+    authoredAt: "act6.confession.elara",
+    owner: "act_6",
+    notes:
+      "Player heard Elara's Act 6 confession (the woman she was); unlocks the confession-mirror match and is read by the Act 7 convergence seat.",
+    flag: "act6_elara_confession_heard",
+  },
+  {
+    id: "act6.human_confession_heard",
+    kind: "set_flag",
+    authoredAt: "act6.confession.human",
+    owner: "act_6",
+    notes:
+      "Player heard the Human's Act 6 confession (the detective in the wall); unlocks the confession-mirror match and is read by the Act 7 convergence seat.",
+    flag: "act6_human_confession_heard",
+  },
+  {
     id: "act7.endgame_light",
     kind: "set_flag",
     authoredAt: "act7.vortex.commit_light",

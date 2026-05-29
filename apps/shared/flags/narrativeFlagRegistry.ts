@@ -74,6 +74,10 @@ export const NARRATIVE_FLAG_REGISTRY: ReadonlyArray<NarrativeFlagEntry> = [
   /* ─── Act 1 closing branch ─── */
   { flag: "act1_closing_choice_made", category: "act_branch", owner: "act_1", notes: "Player has committed an Act 1 closing choice." },
 
+  /* ─── Act 3 disclosure fork ─── */
+  { flag: "act3_partial_share", category: "act_branch", owner: "act_3", notes: "Act 3 fork: player shared part of the secret (pragmatic path). Producer: narrativeActs.ts setFlag step. Gates the Act 4 'Discovery' (Path B) opponent." },
+  { flag: "act3_full_secret", category: "act_branch", owner: "act_3", notes: "Act 3 fork: player kept the full secret (betrayal path). Producer: narrativeActs.ts setFlag step. Gates the Act 4 'Betrayal' (Path C) opponent." },
+
   /* ─── Morality high-water marks ─── */
   { flag: "vortex_endgame_light_variant", category: "morality", owner: "act_7", notes: "Endgame committed to light path." },
   { flag: "vortex_endgame_dark_variant", category: "morality", owner: "act_7", notes: "Endgame committed to dark path." },

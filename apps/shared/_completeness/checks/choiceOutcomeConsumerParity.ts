@@ -55,11 +55,21 @@ import { FACTIONS } from "../../tcg-core/cards/schema";
 
 const APPS_DIR = path.join(REPO_ROOT, "apps");
 
-/** Same producer regex used by `narrativeFlagBridgeCoverage` —
+/** Call-site producer regex shared with `narrativeFlagBridgeCoverage` —
  *  matches `setNarrativeFlag("<flag>", ...)` and
  *  `flagsToSet.push("<flag>")`. Kept in sync deliberately. */
 const FLAG_PRODUCER_RE =
   /(?:setNarrativeFlag|flagsToSet\.push)\(\s*["']([a-z][a-zA-Z0-9_:]+)["']/g;
+
+/** Data-form producer regex. Act-step / NpcDialogChoice objects carry
+ *  the flag literal as `setFlag: "<flag>"`; NarrativeEngine.tsx applies
+ *  it at runtime via `setNarrativeFlag(choice.setFlag, true)`
+ *  (NarrativeEngine.tsx:204,263). The literal therefore never appears
+ *  at a `setNarrativeFlag("literal")` call site, so the call-site regex
+ *  alone misses these genuine producers. `\b` anchor avoids matching
+ *  `resetFlag:` / `unsetFlag:`. */
+const SET_FLAG_DATA_RE =
+  /\bsetFlag\s*:\s*["']([a-z][a-zA-Z0-9_:]+)["']/g;
 
 let producedFlagsCache: Set<string> | null = null;
 
@@ -68,11 +78,14 @@ function scanProducedFlags(): Set<string> {
   const out = new Set<string>();
   for (const file of walkSourceFiles(APPS_DIR)) {
     const src = fs.readFileSync(file, "utf-8");
-    let m: RegExpExecArray | null;
-    while ((m = FLAG_PRODUCER_RE.exec(src)) !== null) {
-      out.add(m[1]);
+    for (const re of [FLAG_PRODUCER_RE, SET_FLAG_DATA_RE]) {
+      re.lastIndex = 0;
+      let m: RegExpExecArray | null;
+      while ((m = re.exec(src)) !== null) {
+        out.add(m[1]);
+      }
+      re.lastIndex = 0;
     }
-    FLAG_PRODUCER_RE.lastIndex = 0;
   }
   producedFlagsCache = out;
   return out;

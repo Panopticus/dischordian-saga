@@ -64,11 +64,15 @@ function collectProducedFlags(): Set<string> {
   // first element to a number to avoid matching arbitrary 2-element
   // arrays.
   const tupleRe = /\[\s*\d+\s*,\s*["']([a-z][a-zA-Z0-9_]+)["']\s*\]/g;
+  // Data form: act-step / NpcDialogChoice objects carry the flag as
+  // `setFlag: "..."` and NarrativeEngine.tsx applies it at runtime via
+  // setNarrativeFlag(choice.setFlag, true). `\b` avoids resetFlag/unsetFlag.
+  const setFlagDataRe = /\bsetFlag\s*:\s*["']([a-z][a-zA-Z0-9_]+)["']/g;
   for (const dir of SCAN_DIRS) {
     for (const file of walk(dir)) {
       if (file.endsWith(".test.ts") || file.endsWith(".test.tsx") || file.endsWith(".spec.ts")) continue;
       const src = fs.readFileSync(file, "utf-8");
-      for (const re of [literalRe, altRe, completionRe, tupleRe]) {
+      for (const re of [literalRe, altRe, completionRe, tupleRe, setFlagDataRe]) {
         re.lastIndex = 0;
         let m: RegExpExecArray | null;
         while ((m = re.exec(src)) !== null) produced.add(m[1]);
