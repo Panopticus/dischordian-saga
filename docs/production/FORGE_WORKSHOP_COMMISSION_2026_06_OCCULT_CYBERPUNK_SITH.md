@@ -280,9 +280,9 @@ Each prompt below already includes the style anchor at its head — copy and use
 
 ---
 
-### 4.14 `iron_lions_medal_pickup.webp` — 512 × 512 (1:1, small item sprite)
+### 4.14 `kyber_crystal_weapon_blank.webp` — 512 × 512 (1:1, small item sprite)
 
-> Painterly cinematic close-up, small square 1:1 crop. **Occult / Cyberpunk 2077 / Sith epic style fusion.** Macro-scale view of a Smithcraft Honour Medal — a battered cast-bronze medal approximately 6 cm diameter, with a heat-anodised relief of the pentacle-and-hammer sigil on its face. The medal is suspended from a black-and-arterial-crimson ribbon (looped, hanging). The bronze is scratched, dented at the rim, oxidised to deep copper-brown with arterial-crimson accents where the heat-anodisation remains intact. A single hairline crack runs across the lower-right of the pentacle. Background: a soft out-of-focus pool of warm-amber lamp-light on dark oxblood leather (the bench surface). Palette: copper-brown, arterial-crimson, oxblood, amber. No figures. No text on the medal — sigil only.
+> Painterly cinematic close-up, small square 1:1 crop. **Occult / Cyberpunk 2077 / Sith epic style fusion.** Macro-scale view of an unfinished kyber-crystal weapon-blank resting on a leather pad — a partially-shaped weapon core approximately 25 cm long, with a raw kyber-crystal shard set into a blackened-iron tang at one end and the working blade-form at the other end still rough-forged (visible hammer-mark facets, oxidation pattern from recent cooling). The kyber-crystal glows arterial-crimson from within, with internal flaws and inclusions visible — fracture lines bleed light, the crystal is alive but unbound. Faint chromatic-aberration ghost (1px red/cyan separation) at the crystal's brightest edge. The iron tang is etched with three small sacred-geometry sigils that have been hand-chased but not yet ritually awakened (they read as dim engravings, no glow). A single drop of mercury rests on the leather pad beside the blank — a setting-step witness. Background: out-of-focus oxblood leather pad on the brass-edged bench surface, with a soft warm-amber lamp-light pool from the upper-left corner. Palette: arterial-crimson kyber, blackened iron, mercury-silver, oxblood, amber. No figures. No text — sigils on the tang are stylised glyphs only.
 
 ---
 
@@ -351,7 +351,7 @@ forge_workshop_commission_2026_06/
     ├── creed_plaque.webp                           [1024×512]
     ├── crafting_journal_display.webp               [1024×1024]
     ├── south_door_engineering.webp                 [1024×1024]
-    ├── iron_lions_medal_pickup.webp                [512×512]
+    ├── kyber_crystal_weapon_blank.webp              [512×512]
     └── apprentice_glyph_sigil.webp                 [512×512]
 ```
 
