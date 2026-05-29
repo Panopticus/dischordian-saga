@@ -12,6 +12,7 @@ function bundle(overrides: Partial<OutcomeBundle> = {}): OutcomeBundle {
     stakesWrites: [],
     cardUnlockWrites: [],
     deckMutationWrites: [],
+    challengeWrites: [],
     ...overrides,
   };
 }

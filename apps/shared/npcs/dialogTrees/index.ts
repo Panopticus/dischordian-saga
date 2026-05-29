@@ -29,6 +29,7 @@ import { THE_GAME_MASTER_SECOND_MEETING_PRE_TRIAL } from "./the_game_master/seco
 import { THE_GAME_MASTER_MID_TRIAL_INTERCESSION } from "./the_game_master/mid_trial_intercession";
 import { THE_MEME_FIRST_MEETING } from "./the_meme/first_meeting";
 import { THE_DEGEN_FIRST_GAME } from "./the_degen/first_meeting";
+import { THE_DEGEN_PERSPECTIVE_GATHERING } from "./the_degen/perspective_gathering";
 import { DMC_CLONE_COMPANION_AWAKENING_ARRIVAL } from "./dmc_clone_companion/first_meeting";
 import { YOUR_EIDOLON_BOND_RESONANCE } from "./your_eidolon/first_meeting";
 
@@ -54,6 +55,7 @@ const PER_NPC_TREES: ReadonlyArray<NpcDialogTree> = [
   THE_GAME_MASTER_MID_TRIAL_INTERCESSION,     // Phase A6 ✅ (in-match, three verdict bands)
   THE_MEME_FIRST_MEETING,                     // Phase 6e.1b ✅ (Ch12 fusion-reveal)
   THE_DEGEN_FIRST_GAME,                       // Phase 6e.1c ✅ (Casino first-game)
+  THE_DEGEN_PERSPECTIVE_GATHERING,            // NPC duel pilot ✅ (perspective + challenge)
   DMC_CLONE_COMPANION_AWAKENING_ARRIVAL,      // Phase 6e.1c ✅ (Severance Prize arrival)
   YOUR_EIDOLON_BOND_RESONANCE,                // Phase 6e.1c ✅ (Bond Resonance)
 ];

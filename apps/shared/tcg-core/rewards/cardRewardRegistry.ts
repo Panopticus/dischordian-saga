@@ -223,6 +223,72 @@ export const CARD_REWARD_REGISTRY: readonly CardRewardSource[] = Object.freeze([
     rarity: "rare",
     description: "Card variant (light/dark) earned at Dischordia Cycle energy peak.",
   },
+
+  /* ── NPC duel rewards (Highlander chain — Phase 2 pilot: the_degen)
+   *
+   *  Tier scales with how many perspective aspects the player learned
+   *  about the NPC before issuing the challenge (npcDuelRewardTier in
+   *  apps/shared/npc-decks/buildNpcDeck.ts):
+   *    Tier 0 — fixed, single generic memory ("nothing learned")
+   *    Tier 1 — random_pool of 3 weighted draws ("scratched the surface")
+   *    Tier 2 — random_pool of 6 weighted draws ("most of the way")
+   *    Tier 3 — fixed, the NPC's signature card ("full understanding"). The
+   *             server dispatcher additionally grants the entire NPC deck
+   *             as a memorial collection when tier 3 fires (see
+   *             dispatchNpcDuelVictory.ts grantFullMemorialDeck path).
+   *
+   *  Pool entries are drawn from the_degen.ts coreMemories — the
+   *  Degen's lived ledger is what the player inherits. ── */
+  {
+    id: "defeated_npc_the_degen_tier_0",
+    sourceSystem: "npc_duel",
+    triggerCondition: "Defeat the_degen with 0 perspective aspects learned",
+    rewardType: "fixed" as const,
+    fixedCardDefId: "s1_reward_casino_poker",
+    rarity: "common",
+    description: "A single Casino chit — the Degen barely registered the loss.",
+  },
+  {
+    id: "defeated_npc_the_degen_tier_1",
+    sourceSystem: "npc_duel",
+    triggerCondition: "Defeat the_degen with some perspective aspects learned",
+    rewardType: "random_pool" as const,
+    pool: [
+      { cardDefId: "s1_reward_casino_poker", weight: 40 },
+      { cardDefId: "s1_reward_casino_vip", weight: 30 },
+      { cardDefId: "s1_reward_casino_high_roller", weight: 20 },
+      { cardDefId: "s1_reward_casino_dice", weight: 10 },
+    ],
+    rarity: "rare",
+    description: "A handful of memories from the Casino's tray.",
+  },
+  {
+    id: "defeated_npc_the_degen_tier_2",
+    sourceSystem: "npc_duel",
+    triggerCondition: "Defeat the_degen with most perspective aspects learned",
+    rewardType: "random_pool" as const,
+    pool: [
+      { cardDefId: "s1_char_025", weight: 20 }, // The Dreamer
+      { cardDefId: "s1_char_037", weight: 15 }, // The Knowledge
+      { cardDefId: "s1_pack_015", weight: 15 }, // Probability Surge
+      { cardDefId: "s1_pack_017", weight: 15 }, // Fate's Edge
+      { cardDefId: "s1_pack_019", weight: 10 }, // Oracle's Wrath
+      { cardDefId: "s1_reward_casino_vip", weight: 15 },
+      { cardDefId: "s1_reward_casino_jackpot", weight: 10 },
+    ],
+    rarity: "epic",
+    description: "A pile from the Degen's tray — the kind of memory he files reluctantly.",
+  },
+  {
+    id: "defeated_npc_the_degen_tier_3",
+    sourceSystem: "npc_duel",
+    triggerCondition: "Defeat the_degen with all perspective aspects learned",
+    rewardType: "fixed" as const,
+    fixedCardDefId: "s1_char_023", // The Degen (the signature card)
+    rarity: "legendary",
+    description:
+      "The Degen's own card — the full Highlander memorial, plus the rest of his deck granted by the duel dispatcher.",
+  },
 ]);
 
 /* ─── Quick-lookup map ─── */
