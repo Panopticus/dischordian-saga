@@ -761,6 +761,18 @@
         "type": "terminal",
         "action": "/board",
         "elaraDialog": "The Conspiracy Board. Every pinned card is a person, a faction, a thread we've followed far enough to put a name on. Red string runs between cards we have evidence for — we are conservative with the string. I have been the only person looking at this board for some time. I am glad you are looking at it now.",
+        "compositeScopes": [
+          "sp14_board_act2_five_new_cards",
+          "sp15_board_act3_color_bands",
+          "sp16_board_act5_cyan_thread_exit",
+          "sp17_board_governance_vote_open_glyph",
+          "sp18_board_governance_vote_closed_glyph",
+          "sp19_board_governance_modifier_edge",
+          "sp20_board_guild_banner_drape",
+          "sp21_board_insurgency_hot_orange_card",
+          "sp24_board_tournament_bracket_chip",
+          "sp25_board_hellbox3_chalk_sigil"
+        ],
         "tiers": [
           {
             "id": "tier_bridge_tactical_t2",
@@ -790,7 +802,12 @@
         "height": 14.8,
         "type": "terminal",
         "action": "/war-map",
-        "elaraDialog": "The War Map. Faction territories drawn in their own colour; conflict zones drawn over the top in a second colour, the way you would draw a bruise. Some of the bruises are old. The ones that interest me are the ones that have changed shape since I last looked."
+        "elaraDialog": "The War Map. Faction territories drawn in their own colour; conflict zones drawn over the top in a second colour, the way you would draw a bruise. Some of the bruises are old. The ones that interest me are the ones that have changed shape since I last looked.",
+        "compositeScopes": [
+          "sp15_board_act3_color_bands",
+          "sp21_board_insurgency_hot_orange_card",
+          "sp20_board_guild_banner_drape"
+        ]
       },
       {
         "id": "timeline-projector",
@@ -816,6 +833,10 @@
         "type": "terminal",
         "action": "/guild",
         "elaraDialog": "The Guild Registry. The previous crew kept ledgers here; the system still accepts ledgers. If you decide to form one, the registry records names and the date of forming. It does not record reasons. I have stopped asking for them.",
+        "compositeScopes": [
+          "sp13_comms_guild_crest",
+          "sp20_board_guild_banner_drape"
+        ],
         "elaraDialogVoId": "room.bridge.hotspot.guild-console.elara"
       },
       {
@@ -828,7 +849,11 @@
         "height": 8.5,
         "type": "terminal",
         "action": "/conspiracy-board",
-        "elaraDialog": "Not the open board — the sealed ones. Seven editorial redactions taken out of the chronicle's record. Each one you reconstruct un-seals a cutscene and a Soul Stone. The redactions were not neutral. The Editor counted on us never being curious enough to count. We were always going to count."
+        "elaraDialog": "Not the open board — the sealed ones. Seven editorial redactions taken out of the chronicle's record. Each one you reconstruct un-seals a cutscene and a Soul Stone. The redactions were not neutral. The Editor counted on us never being curious enough to count. We were always going to count.",
+        "compositeScopes": [
+          "sp22_board_shadow_tongue_44th_thread",
+          "sp23_board_shadow_tongue_marginalia"
+        ]
       },
       {
         "id": "captains-chair",
@@ -841,6 +866,13 @@
         "type": "examine",
         "action": "room-mystery:bridge:captains-chair",
         "elaraDialog": "The Captain's chair. Dr. Lyra Vox designed the neural nanobot network that runs every system on this ship. She was the last to sit here before ordering the emergency cryo protocol. Something about her doesn't add up — a neuropsychologist with that level of access to the ship's core systems. Her personal log might still be in the armrest terminal.",
+        "compositeScopes": [
+          "sp39_chair_closure_plate",
+          "sp43_chair_hand_mark",
+          "sp48_cades_dischordia_card",
+          "sp49_cades_chair_warm_impression",
+          "sp50_cades_agent_zero_station_cleaned"
+        ],
         "elaraDialogVoId": "room.bridge.hotspot.captains-chair.elara",
         "responses": [
           {
@@ -868,6 +900,14 @@
         "type": "interact",
         "action": "nav-calibration",
         "elaraDialog": "The fast-travel console. The previous crew did not solve the glyph authentication — they tried; the half-finished sequence is on the pad. If you solve it, the Ark folds distance instead of crossing it. I would prefer to see you fold it for somewhere you have already chosen.",
+        "compositeScopes": [
+          "sp08_comms_locke_panel",
+          "sp09_comms_locke_panel_double",
+          "sp10_comms_declaration_glyphs",
+          "sp11_comms_substrate_rebel_sigil",
+          "sp12_comms_human_archon_iris",
+          "sp13_comms_guild_crest"
+        ],
         "elaraDialogVoId": "room.bridge.hotspot.nav-console.elara"
       },
       {
@@ -881,6 +921,9 @@
         "type": "terminal",
         "action": "/diplomacy",
         "elaraDialog": "The Diplomacy Table. Eight points, eight seats, the compass-star inlaid in the floor as a kind of oath. The empty chairs are factions that have not agreed to sit. Negotiations route through this table because it is — by oath, by inlay, by something more than inlay — the only neutral surface on the deck. I cannot reach into it. That is the point.",
+        "compositeScopes": [
+          "sp26_floor_compass_authority_lattice"
+        ],
         "tiers": [
           {
             "id": "tier_bridge_diplomacy_t2",
@@ -1358,7 +1401,15 @@
         "type": "npc",
         "action": "npc:elara",
         "npcId": "elara",
-        "elaraDialog": "That's me. The projection is one of three volumes I can render on this deck; this one puts me beside the chair so you have somewhere to look when I am speaking. Speaking to a wall is — I have learned — bad for the speaker."
+        "elaraDialog": "That's me. The projection is one of three volumes I can render on this deck; this one puts me beside the chair so you have somewhere to look when I am speaking. Speaking to a wall is — I have learned — bad for the speaker.",
+        "compositeScopes": [
+          "sp51_elara_default",
+          "sp52_elara_trust_lucid",
+          "sp53_elara_trust_luminous",
+          "sp54_elara_morality_light",
+          "sp55_elara_morality_dark",
+          "sp56_elara_cades_flickering"
+        ]
       }
     ]
   },

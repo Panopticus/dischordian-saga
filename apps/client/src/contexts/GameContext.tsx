@@ -676,6 +676,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
 
       // ── FEATURE / CONTAINER HOTSPOTS (authored first) ──
       { id: "tactical-display", name: "Tactical Display", description: "A massive corkboard on the right wall, layered with photographs and red string — the living web of intelligence the first crew began to assemble.", cx: 80.2, cy: 25.1, width: 8.8, height: 30, type: "terminal", action: "/board", elaraDialog: "The Conspiracy Board. Every pinned card is a person, a faction, a thread we've followed far enough to put a name on. Red string runs between cards we have evidence for — we are conservative with the string. I have been the only person looking at this board for some time. I am glad you are looking at it now.",
+        compositeScopes: ["sp14_board_act2_five_new_cards", "sp15_board_act3_color_bands", "sp16_board_act5_cyan_thread_exit", "sp17_board_governance_vote_open_glyph", "sp18_board_governance_vote_closed_glyph", "sp19_board_governance_modifier_edge", "sp20_board_guild_banner_drape", "sp21_board_insurgency_hot_orange_card", "sp24_board_tournament_bracket_chip", "sp25_board_hellbox3_chalk_sigil"],
         tiers: [
           { id: "tier_bridge_tactical_t2", requiredVisitCount: 2, responseId: "hs_bridge_tactical_t2" },
           { id: "tier_bridge_tactical_t3", requiredVisitCount: 3, responseId: "hs_bridge_tactical_t3" },
@@ -683,20 +684,24 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
         ],
         elaraDialogVoId: "room.bridge.hotspot.tactical-display.elara",
       },
-      { id: "war-map-display", name: "War Map", description: "The lower section of the Conspiracy Board — pinned faction territories and conflict zones, threaded together in red.", cx: 81.8, cy: 55.6, width: 8.1, height: 14.8, type: "terminal", action: "/war-map", elaraDialog: "The War Map. Faction territories drawn in their own colour; conflict zones drawn over the top in a second colour, the way you would draw a bruise. Some of the bruises are old. The ones that interest me are the ones that have changed shape since I last looked." },
+      { id: "war-map-display", name: "War Map", description: "The lower section of the Conspiracy Board — pinned faction territories and conflict zones, threaded together in red.", cx: 81.8, cy: 55.6, width: 8.1, height: 14.8, type: "terminal", action: "/war-map", elaraDialog: "The War Map. Faction territories drawn in their own colour; conflict zones drawn over the top in a second colour, the way you would draw a bruise. Some of the bruises are old. The ones that interest me are the ones that have changed shape since I last looked.",
+        compositeScopes: ["sp15_board_act3_color_bands", "sp21_board_insurgency_hot_orange_card", "sp20_board_guild_banner_drape"] },
       { id: "timeline-projector", name: "Timeline Projector", description: "A floating cyan banner-scroll near the top-right ceiling — a holographic timeline of the Ages of the Dischordian Saga.", cx: 35.3, cy: 39.9, width: 4.1, height: 9, type: "terminal", action: "/saga-timeline", elaraDialog: "The Ages of the Saga, stacked top to bottom. The Age of Privacy is short — fifteen entries. The Fall of Reality is taller than it should be. The blank entry near the bottom is for the era we are in. I have not given it a name yet. Naming is a kind of decision; I want to make this one with you.",
         elaraDialogVoId: "room.bridge.hotspot.timeline-projector.elara",
       },
       { id: "guild-console", name: "Guild Registry", description: "The middle terminal in the far-left Architect-channel column. A console for managing guild operations and alliances.", cx: 26.9, cy: 57.3, width: 2.1, height: 5.3, type: "terminal", action: "/guild", elaraDialog: "The Guild Registry. The previous crew kept ledgers here; the system still accepts ledgers. If you decide to form one, the registry records names and the date of forming. It does not record reasons. I have stopped asking for them.",
+        compositeScopes: ["sp13_comms_guild_crest", "sp20_board_guild_banner_drape"],
         elaraDialogVoId: "room.bridge.hotspot.guild-console.elara",
       },
-      { id: "sealed-memory-board", name: "Sealed Memory Board", description: "The bottom terminal in the far-left Architect-channel column. The Editor sealed memories out of the record; this terminal queues the sealed boards.", cx: 26.5, cy: 52.7, width: 6.1, height: 8.5, type: "terminal", action: "/conspiracy-board", elaraDialog: "Not the open board — the sealed ones. Seven editorial redactions taken out of the chronicle's record. Each one you reconstruct un-seals a cutscene and a Soul Stone. The redactions were not neutral. The Editor counted on us never being curious enough to count. We were always going to count." },
+      { id: "sealed-memory-board", name: "Sealed Memory Board", description: "The bottom terminal in the far-left Architect-channel column. The Editor sealed memories out of the record; this terminal queues the sealed boards.", cx: 26.5, cy: 52.7, width: 6.1, height: 8.5, type: "terminal", action: "/conspiracy-board", elaraDialog: "Not the open board — the sealed ones. Seven editorial redactions taken out of the chronicle's record. Each one you reconstruct un-seals a cutscene and a Soul Stone. The redactions were not neutral. The Editor counted on us never being curious enough to count. We were always going to count.",
+        compositeScopes: ["sp22_board_shadow_tongue_44th_thread", "sp23_board_shadow_tongue_marginalia"] },
       // Bridge mystery hotspots — see apps/shared/roomMysteries/bridge.ts.
       // Look on captains-chair / nav-console examine logs a clue and
       // flips `bridge_first_clue_found` (Tier 0 → 1). The nav console's
       // existing nav-calibration interact action runs separately on
       // `use` and unlocks fast travel.
       { id: "captains-chair", name: "Captain's Chair", description: "The command chair sits empty on the raised central dais, facing the viewport. A personal data pad is wedged in the armrest.", cx: 49.8, cy: 65.1, width: 6.4, height: 12.9, type: "examine", action: "room-mystery:bridge:captains-chair", elaraDialog: "The Captain's chair. Dr. Lyra Vox designed the neural nanobot network that runs every system on this ship. She was the last to sit here before ordering the emergency cryo protocol. Something about her doesn't add up — a neuropsychologist with that level of access to the ship's core systems. Her personal log might still be in the armrest terminal.",
+        compositeScopes: ["sp39_chair_closure_plate", "sp43_chair_hand_mark", "sp48_cades_dischordia_card", "sp49_cades_chair_warm_impression", "sp50_cades_agent_zero_station_cleaned"],
         elaraDialogVoId: "room.bridge.hotspot.captains-chair.elara",
         responses: [
           { id: "human.bridge.captains-chair.acknowledge", label: "Noted.", closesDialog: true },
@@ -709,9 +714,11 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
         ],
       },
       { id: "nav-console", name: "Navigation Console", description: "A foreground holographic console at left-center. A green-cyan star-map orb hovers above its base. An alien glyph interface awaits calibration.", cx: 9.1, cy: 83.4, width: 11.2, height: 16.1, rotation: -89, type: "interact", action: "nav-calibration", elaraDialog: "The fast-travel console. The previous crew did not solve the glyph authentication — they tried; the half-finished sequence is on the pad. If you solve it, the Ark folds distance instead of crossing it. I would prefer to see you fold it for somewhere you have already chosen.",
+        compositeScopes: ["sp08_comms_locke_panel", "sp09_comms_locke_panel_double", "sp10_comms_declaration_glyphs", "sp11_comms_substrate_rebel_sigil", "sp12_comms_human_archon_iris", "sp13_comms_guild_crest"],
         elaraDialogVoId: "room.bridge.hotspot.nav-console.elara",
       },
       { id: "diplomacy-table", name: "Diplomacy Table", description: "An eight-pointed compass star inlaid in the chamber floor — the round table where holographic faction representatives convene.", cx: 88.3, cy: 89.9, width: 20.7, height: 12.1, type: "terminal", action: "/diplomacy", elaraDialog: "The Diplomacy Table. Eight points, eight seats, the compass-star inlaid in the floor as a kind of oath. The empty chairs are factions that have not agreed to sit. Negotiations route through this table because it is — by oath, by inlay, by something more than inlay — the only neutral surface on the deck. I cannot reach into it. That is the point.",
+        compositeScopes: ["sp26_floor_compass_authority_lattice"],
         tiers: [
           { id: "tier_bridge_diplomacy_t2", requiredVisitCount: 2, responseId: "hs_bridge_diplomacy_t2" },
           { id: "tier_bridge_diplomacy_t3", requiredVisitCount: 3, responseId: "hs_bridge_diplomacy_t3" },
@@ -859,7 +866,8 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // captain's chair on the central dais — visible without
       // overlapping the chair / nav-console rectangles.
       { id: "npc-elara", name: "Elara (Holographic)", description: "Elara's holographic projection flickers beside the captain's chair. She seems to be waiting for you to address her directly.", cx: 50.1, cy: 51.1, width: 3.9, height: 9.2, type: "npc", action: "npc:elara", npcId: "elara",
-        elaraDialog: "That's me. The projection is one of three volumes I can render on this deck; this one puts me beside the chair so you have somewhere to look when I am speaking. Speaking to a wall is — I have learned — bad for the speaker." },
+        elaraDialog: "That's me. The projection is one of three volumes I can render on this deck; this one puts me beside the chair so you have somewhere to look when I am speaking. Speaking to a wall is — I have learned — bad for the speaker.",
+        compositeScopes: ["sp51_elara_default", "sp52_elara_trust_lucid", "sp53_elara_trust_luminous", "sp54_elara_morality_light", "sp55_elara_morality_dark", "sp56_elara_cades_flickering"] },
     ],
   },
   {
