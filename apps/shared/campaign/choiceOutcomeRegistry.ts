@@ -158,6 +158,15 @@ export const CHOICE_OUTCOME_REGISTRY: ReadonlyArray<ChoiceOutcomeEntry> = [
     flag: "act6_human_confession_heard",
   },
   {
+    id: "act1.trial_public_witness_swing",
+    kind: "stakes_axis",
+    authoredAt: "act1.authority_trial.public_appeal",
+    owner: "act_1",
+    notes:
+      "In the §5.8 Authority Trial, an in-encounter dialog appeal swings the Public Witness stakes axis; the stakesMode reducer applies the delta within the encounter's clip range.",
+    stakesAxisId: "public_witness",
+  },
+  {
     id: "act7.endgame_light",
     kind: "set_flag",
     authoredAt: "act7.vortex.commit_light",

@@ -30,14 +30,17 @@
  *                               StoryEncounter id somewhere in
  *                               `apps/shared/tcg-core/`.
  *
- *   - `stakes_axis` ⇒ deferred until StoryEncounter.stakesMode lands
- *                     (Plan #2). Counted as implemented today (the
- *                     scan is a no-op) so the registry can be seeded
- *                     ahead of the engine work.
+ *   - `stakes_axis` ⇒ the axis id is a canonical engine StakesAxis
+ *                     (STAKES_AXES, engine/stakesResolver.ts) AND is
+ *                     declared by at least one encounter's
+ *                     `stakesMode.axes`. The reducer
+ *                     (engine/stakesReducer.ts applyDialogStakes)
+ *                     drops deltas for axes no encounter declares, so
+ *                     an outcome naming an undeclared axis would be a
+ *                     dead write. Was a deferred no-op until the
+ *                     stakesMode reducer shipped; now a real scan.
  *
- * The check is **hard parity** — any gap fails CI. The registry is
- * intentionally small at Phase 1 (5 seed entries, all `set_flag`)
- * so 5/5 PASS is the expected initial state. Entries land
+ * The check is **hard parity** — any gap fails CI. Entries land
  * alongside their consumers.
  */
 import * as fs from "node:fs";
@@ -52,6 +55,7 @@ import {
   isRegisteredFlag,
 } from "../../flags/narrativeFlagRegistry";
 import { FACTIONS } from "../../tcg-core/cards/schema";
+import { STAKES_AXES } from "../../tcg-core/engine/stakesResolver";
 
 const APPS_DIR = path.join(REPO_ROOT, "apps");
 
@@ -135,6 +139,37 @@ function scanEncounterIds(): Set<string> {
   return out;
 }
 
+let declaredStakesAxesCache: Set<string> | null = null;
+
+/** Axes any encounter declares via `stakesMode: { axes: { <axis>: … } }`.
+ *  An outcome's `stakesAxisId` must be one of these or the reducer
+ *  (applyDialogStakes) drops the delta on the floor — a dead write.
+ *  We scan the canonical STAKES_AXES tokens as `<axis>:` keys inside
+ *  the tcg-core story files rather than parsing TS, mirroring the
+ *  literal-scan style of the card / encounter scanners above. */
+function scanDeclaredStakesAxes(): Set<string> {
+  if (declaredStakesAxesCache) return declaredStakesAxesCache;
+  const out = new Set<string>();
+  const tcgDir = path.join(APPS_DIR, "shared/tcg-core");
+  // Match an axis token used as an object key (`verdict:` / `"verdict":`)
+  // anywhere a stakesMode block can live. Constrained to the known axis
+  // tokens so arbitrary same-named keys elsewhere can't widen the set
+  // beyond what the engine actually understands.
+  const axisAlternation = STAKES_AXES.join("|");
+  const re = new RegExp(`["']?(${axisAlternation})["']?\\s*:`, "g");
+  for (const file of walkSourceFiles(tcgDir)) {
+    if (file.endsWith(".test.ts") || file.endsWith(".test.tsx")) continue;
+    const src = fs.readFileSync(file, "utf-8");
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(src)) !== null) {
+      out.add(m[1]);
+    }
+    re.lastIndex = 0;
+  }
+  declaredStakesAxesCache = out;
+  return out;
+}
+
 export function checkChoiceOutcomeConsumerParity(): RawParityCount {
   const declared = CHOICE_OUTCOME_REGISTRY.length;
   const missing: string[] = [];
@@ -143,6 +178,7 @@ export function checkChoiceOutcomeConsumerParity(): RawParityCount {
   let producedFlags: Set<string> | null = null;
   let cardDefIds: Set<string> | null = null;
   let encounterIds: Set<string> | null = null;
+  let declaredStakesAxes: Set<string> | null = null;
   const factionKeys = new Set<string>(FACTIONS);
 
   for (const entry of CHOICE_OUTCOME_REGISTRY) {
@@ -197,11 +233,22 @@ export function checkChoiceOutcomeConsumerParity(): RawParityCount {
         }
         break;
       }
-      case "stakes_axis":
-        // Deferred — counted as implemented until StoryEncounter.stakesMode
-        // lands (Plan #2). When the engine work is in flight, this branch
-        // gets a real consumer scan.
+      case "stakes_axis": {
+        const axisId = entry.stakesAxisId!;
+        if (!(STAKES_AXES as readonly string[]).includes(axisId)) {
+          missing.push(
+            `${entry.id}: stakes axis "${axisId}" is not a canonical STAKES_AXES member`,
+          );
+          break;
+        }
+        declaredStakesAxes ??= scanDeclaredStakesAxes();
+        if (!declaredStakesAxes.has(axisId)) {
+          missing.push(
+            `${entry.id}: stakes axis "${axisId}" is not declared by any encounter's stakesMode.axes (the reducer would drop the delta)`,
+          );
+        }
         break;
+      }
     }
   }
 
