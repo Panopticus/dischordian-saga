@@ -342,6 +342,165 @@ export const CARD_REWARD_REGISTRY: readonly CardRewardSource[] = Object.freeze([
     description:
       "The Hierophant's own card — the full Highlander memorial, plus the rest of the cell's roster granted by the duel dispatcher.",
   },
+
+  /* ── NPC duel rewards — vex_solene / Maestro of the Coda ── */
+  {
+    id: "defeated_npc_vex_solene_tier_0",
+    sourceSystem: "npc_duel",
+    triggerCondition: "Defeat vex_solene with 0 perspective aspects learned",
+    rewardType: "fixed" as const,
+    fixedCardDefId: "s1_curve_005", // Compliance Watcher
+    rarity: "common",
+    description: "A workmanlike trace — the Maestro closed the room politely.",
+  },
+  {
+    id: "defeated_npc_vex_solene_tier_1",
+    sourceSystem: "npc_duel",
+    triggerCondition: "Defeat vex_solene with some perspective aspects learned",
+    rewardType: "random_pool" as const,
+    pool: [
+      { cardDefId: "s1_curve_005", weight: 30 }, // Compliance Watcher
+      { cardDefId: "s1_curve_010", weight: 25 }, // Sector Magistrate
+      { cardDefId: "s1_char_082", weight: 25 }, // Spire Assassin
+      { cardDefId: "s1_pack_033", weight: 20 }, // Debt Collector
+    ],
+    rarity: "rare",
+    description: "A handful of closed contracts from the Coda's dead-drop.",
+  },
+  {
+    id: "defeated_npc_vex_solene_tier_2",
+    sourceSystem: "npc_duel",
+    triggerCondition: "Defeat vex_solene with most perspective aspects learned",
+    rewardType: "random_pool" as const,
+    pool: [
+      { cardDefId: "s1_char_001", weight: 15 }, // Adjudicator Locke
+      { cardDefId: "s1_char_020", weight: 12 }, // The Authority
+      { cardDefId: "s1_char_078", weight: 12 }, // Governor Thane
+      { cardDefId: "s1_char_117", weight: 12 }, // Senator Voss
+      { cardDefId: "s1_char_120", weight: 13 }, // Crystal Archive Guard
+      { cardDefId: "s1_pack_032", weight: 13 }, // Market Crash
+      { cardDefId: "s1_pack_034", weight: 23 }, // Locke's Inner Circle (Coda echo)
+    ],
+    rarity: "epic",
+    description:
+      "The Maestro folds the contract — deeper paper than she was meant to give.",
+  },
+  {
+    id: "defeated_npc_vex_solene_tier_3",
+    sourceSystem: "npc_duel",
+    triggerCondition: "Defeat vex_solene with all perspective aspects learned",
+    rewardType: "fixed" as const,
+    fixedCardDefId: "s1_char_061", // Vex herself (the Taskmaster signature)
+    rarity: "legendary",
+    description:
+      "The Maestro's own card — the full Highlander memorial, plus the Coda's commercial layer granted by the duel dispatcher.",
+  },
+
+  /* ── NPC duel rewards — the_seer ── */
+  {
+    id: "defeated_npc_the_seer_tier_0",
+    sourceSystem: "npc_duel",
+    triggerCondition: "Defeat the_seer with 0 perspective aspects learned",
+    rewardType: "fixed" as const,
+    fixedCardDefId: "s1_curve_003", // Glimmer Wisp
+    rarity: "common",
+    description: "A small inheritance from the bench — the lesson was minor.",
+  },
+  {
+    id: "defeated_npc_the_seer_tier_1",
+    sourceSystem: "npc_duel",
+    triggerCondition: "Defeat the_seer with some perspective aspects learned",
+    rewardType: "random_pool" as const,
+    pool: [
+      { cardDefId: "s1_curve_003", weight: 35 }, // Glimmer Wisp
+      { cardDefId: "s1_curve_008", weight: 30 }, // Vision Anchor
+      { cardDefId: "s1_pack_021", weight: 20 }, // Starlight Familiar
+      { cardDefId: "s1_pack_006", weight: 15 }, // Dream Choir
+    ],
+    rarity: "rare",
+    description: "A few entries from the probability table — the kinder columns.",
+  },
+  {
+    id: "defeated_npc_the_seer_tier_2",
+    sourceSystem: "npc_duel",
+    triggerCondition: "Defeat the_seer with most perspective aspects learned",
+    rewardType: "random_pool" as const,
+    pool: [
+      { cardDefId: "s1_char_025", weight: 18 }, // The Dreamer
+      { cardDefId: "s1_char_029", weight: 12 }, // The Forgotten
+      { cardDefId: "s1_char_034", weight: 12 }, // The Inventor
+      { cardDefId: "s1_char_037", weight: 12 }, // The Knowledge
+      { cardDefId: "s1_char_110", weight: 13 }, // Prophecy Keeper
+      { cardDefId: "s1_pack_015", weight: 13 }, // Probability Surge
+      { cardDefId: "s1_pack_020", weight: 20 }, // Prophecy Incarnate
+    ],
+    rarity: "epic",
+    description:
+      "Versions she ranked highest — given without prophecy-overhead.",
+  },
+  {
+    id: "defeated_npc_the_seer_tier_3",
+    sourceSystem: "npc_duel",
+    triggerCondition: "Defeat the_seer with all perspective aspects learned",
+    rewardType: "fixed" as const,
+    fixedCardDefId: "s1_char_046", // The Seer (her bench signature)
+    rarity: "legendary",
+    description:
+      "The Seer's own card — the full Highlander memorial, plus the Dreamer roster granted by the duel dispatcher.",
+  },
+
+  /* ── NPC duel rewards — akai_shi / the Red Death ── */
+  {
+    id: "defeated_npc_akai_shi_tier_0",
+    sourceSystem: "npc_duel",
+    triggerCondition: "Defeat akai_shi with 0 perspective aspects learned",
+    rewardType: "fixed" as const,
+    fixedCardDefId: "s1_curve_005", // Compliance Watcher
+    rarity: "common",
+    description: "A workmanlike trace — the Red Death classified the loss.",
+  },
+  {
+    id: "defeated_npc_akai_shi_tier_1",
+    sourceSystem: "npc_duel",
+    triggerCondition: "Defeat akai_shi with some perspective aspects learned",
+    rewardType: "random_pool" as const,
+    pool: [
+      { cardDefId: "s1_curve_005", weight: 30 }, // Compliance Watcher
+      { cardDefId: "s1_curve_010", weight: 25 }, // Sector Magistrate
+      { cardDefId: "s1_char_080", weight: 25 }, // District Enforcer
+      { cardDefId: "s1_char_082", weight: 20 }, // Spire Assassin
+    ],
+    rarity: "rare",
+    description: "A few entries from the operations desk — the lower-class files.",
+  },
+  {
+    id: "defeated_npc_akai_shi_tier_2",
+    sourceSystem: "npc_duel",
+    triggerCondition: "Defeat akai_shi with most perspective aspects learned",
+    rewardType: "random_pool" as const,
+    pool: [
+      { cardDefId: "s1_char_020", weight: 15 }, // The Authority
+      { cardDefId: "s1_char_078", weight: 13 }, // Governor Thane
+      { cardDefId: "s1_char_084", weight: 14 }, // Iron Decree
+      { cardDefId: "s1_char_085", weight: 13 }, // Sector Warden
+      { cardDefId: "s1_char_120", weight: 15 }, // Crystal Archive Guard
+      { cardDefId: "s1_pack_030", weight: 15 }, // Syndicate Enforcer
+      { cardDefId: "s1_pack_035", weight: 15 }, // Trade Embargo
+    ],
+    rarity: "epic",
+    description:
+      "Higher-class files — the strategies that did not work in the prevented timeline.",
+  },
+  {
+    id: "defeated_npc_akai_shi_tier_3",
+    sourceSystem: "npc_duel",
+    triggerCondition: "Defeat akai_shi with all perspective aspects learned",
+    rewardType: "fixed" as const,
+    fixedCardDefId: "s1_char_003", // Akai Shi (her own card)
+    rarity: "legendary",
+    description:
+      "The Red Death's own card — the full Highlander memorial, plus the operations desk granted by the duel dispatcher.",
+  },
 ]);
 
 /* ─── Quick-lookup map ─── */

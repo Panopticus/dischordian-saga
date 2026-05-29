@@ -10,6 +10,9 @@ import type { NpcKey } from "../npcs/types";
 import type { NpcDeck } from "./_template";
 import { THE_DEGEN_DECK } from "./the_degen";
 import { WRAITH_CALDER_DECK } from "./wraith_calder";
+import { VEX_SOLENE_DECK } from "./vex_solene";
+import { THE_SEER_DECK } from "./the_seer";
+import { AKAI_SHI_DECK } from "./akai_shi";
 import { assertNpcDeckIsLegal } from "./buildNpcDeck";
 
 export type { NpcDeck, PerspectiveAspectId, CardDefIdRef } from "./_template";
@@ -17,6 +20,9 @@ export type { NpcDeck, PerspectiveAspectId, CardDefIdRef } from "./_template";
 const ENTRIES: ReadonlyArray<NpcDeck> = [
   THE_DEGEN_DECK,
   WRAITH_CALDER_DECK,
+  VEX_SOLENE_DECK,
+  THE_SEER_DECK,
+  AKAI_SHI_DECK,
 ];
 
 // Fail loudly at module-load if any registered deck is malformed —

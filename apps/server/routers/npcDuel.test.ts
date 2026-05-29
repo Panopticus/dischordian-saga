@@ -52,7 +52,7 @@ describe("npcDuel router — registration", () => {
 // NPCs that have NOT been authored into NPC_DECK_REGISTRY yet — used
 // as canary inputs to verify the router refuses non-challengeable
 // NPCs. Update this list as more NPCs land via AUTHORING.md.
-const UNAUTHORED_NPCS = ["the_meme", "vex_solene", "the_oracle"] as const;
+const UNAUTHORED_NPCS = ["the_meme", "the_oracle", "lycos"] as const;
 
 describe("npcDuel.getChallengeInfo — input validation", () => {
   it("refuses npcKeys not in NPC_DECK_REGISTRY", async () => {
