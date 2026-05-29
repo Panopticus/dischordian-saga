@@ -16,6 +16,7 @@ import { resolveObservationDeckComposite, OBSERVATION_DECK_BASE_IDS, OBSERVATION
 import { resolveAntiquarianLibraryComposite, ANTIQUARIAN_LIBRARY_BASE_IDS, ANTIQUARIAN_LIBRARY_SPRITE_IDS } from "./antiquarianLibraryComposite";
 import { resolveCargoHoldComposite, CARGO_HOLD_BASE_IDS, CARGO_HOLD_SPRITE_IDS } from "./cargoHoldComposite";
 import { resolveCaptainsQuartersComposite, CAPTAINS_QUARTERS_BASE_IDS, CAPTAINS_QUARTERS_SPRITE_IDS } from "./captainsQuartersComposite";
+import { resolveArmoryComposite, ARMORY_BASE_IDS, ARMORY_SPRITE_IDS } from "./armoryComposite";
 import { compositeBaseUrl, compositeSpriteUrl } from "./types";
 import type {
   CompositeGameSlice,
@@ -50,6 +51,7 @@ export const COMPOSITE_ASSET_CATALOG: Readonly<
   "antiquarian-library": { bases: ANTIQUARIAN_LIBRARY_BASE_IDS, sprites: ANTIQUARIAN_LIBRARY_SPRITE_IDS },
   "cargo-hold": { bases: CARGO_HOLD_BASE_IDS, sprites: CARGO_HOLD_SPRITE_IDS },
   "captains-quarters": { bases: CAPTAINS_QUARTERS_BASE_IDS, sprites: CAPTAINS_QUARTERS_SPRITE_IDS },
+  armory: { bases: ARMORY_BASE_IDS, sprites: ARMORY_SPRITE_IDS },
 };
 
 /** True when the room has a Phase J composite resolver wired. */
@@ -64,7 +66,8 @@ export function hasRoomComposite(roomId: string): roomId is CompositeRoomId {
     roomId === "observation-deck" ||
     roomId === "antiquarian-library" ||
     roomId === "cargo-hold" ||
-    roomId === "captains-quarters"
+    roomId === "captains-quarters" ||
+    roomId === "armory"
   );
 }
 
@@ -97,6 +100,8 @@ export function resolveRoomComposite(
       return resolveCargoHoldComposite(game);
     case "captains-quarters":
       return resolveCaptainsQuartersComposite(game);
+    case "armory":
+      return resolveArmoryComposite(game);
   }
 }
 
@@ -127,3 +132,4 @@ export { resolveObservationDeckComposite } from "./observationDeckComposite";
 export { resolveAntiquarianLibraryComposite } from "./antiquarianLibraryComposite";
 export { resolveCargoHoldComposite } from "./cargoHoldComposite";
 export { resolveCaptainsQuartersComposite } from "./captainsQuartersComposite";
+export { resolveArmoryComposite } from "./armoryComposite";

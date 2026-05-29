@@ -4042,5 +4042,443 @@
       "hellbox1_transit": "brightness(1.10) sepia(0.15)",
       "long_sleep_ending": "brightness(0.95)"
     }
+  },
+  "armory": {
+    "bases": [
+      {
+        "id": "AR-B01",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/base/AR-B01.png"
+      },
+      {
+        "id": "AR-B02",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/base/AR-B02.png"
+      },
+      {
+        "id": "AR-B03",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/base/AR-B03.png"
+      },
+      {
+        "id": "AR-B04",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/base/AR-B04.png"
+      },
+      {
+        "id": "AR-B05",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/base/AR-B05.png"
+      },
+      {
+        "id": "AR-B06",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/base/AR-B06.png"
+      },
+      {
+        "id": "AR-B07",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/base/AR-B07.png"
+      },
+      {
+        "id": "AR-B08",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/base/AR-B08.png"
+      },
+      {
+        "id": "AR-B09",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/base/AR-B09.png"
+      },
+      {
+        "id": "AR-B10",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/base/AR-B10.png"
+      },
+      {
+        "id": "AR-B11",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/base/AR-B11.png"
+      },
+      {
+        "id": "AR-B12",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/base/AR-B12.png"
+      },
+      {
+        "id": "AR-B13",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/base/AR-B13.png"
+      },
+      {
+        "id": "AR-B14",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/base/AR-B14.png"
+      },
+      {
+        "id": "AR-B15",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/base/AR-B15.png"
+      }
+    ],
+    "sprites": [
+      {
+        "id": "SP01_rifle_rack_standard",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP01_rifle_rack_standard.png"
+      },
+      {
+        "id": "SP02_carbine_rack",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP02_carbine_rack.png"
+      },
+      {
+        "id": "SP03_marksman_rack_locked",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP03_marksman_rack_locked.png"
+      },
+      {
+        "id": "SP04_junta_assault_rifles",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP04_junta_assault_rifles.png"
+      },
+      {
+        "id": "SP05_council_ceremonial_muskets",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP05_council_ceremonial_muskets.png"
+      },
+      {
+        "id": "SP06_chaos_improvised_long_arms",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP06_chaos_improvised_long_arms.png"
+      },
+      {
+        "id": "SP07_synthesis_paired_arms",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP07_synthesis_paired_arms.png"
+      },
+      {
+        "id": "SP08_hellbox_cursed_rifle",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP08_hellbox_cursed_rifle.png"
+      },
+      {
+        "id": "SP09_council_marksman_rifle",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP09_council_marksman_rifle.png"
+      },
+      {
+        "id": "SP10_chaos_sawn_off_bullpup",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP10_chaos_sawn_off_bullpup.png"
+      },
+      {
+        "id": "SP11_pistol_rack_standard",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP11_pistol_rack_standard.png"
+      },
+      {
+        "id": "SP12_captains_sidearm_display",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP12_captains_sidearm_display.png"
+      },
+      {
+        "id": "SP13_junta_sidearms",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP13_junta_sidearms.png"
+      },
+      {
+        "id": "SP14_council_inspection_sidearms",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP14_council_inspection_sidearms.png"
+      },
+      {
+        "id": "SP15_hellbox_cursed_pistol",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP15_hellbox_cursed_pistol.png"
+      },
+      {
+        "id": "SP16_eidolon_haunted_sidearm",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP16_eidolon_haunted_sidearm.png"
+      },
+      {
+        "id": "SP17_bayonet_rack",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP17_bayonet_rack.png"
+      },
+      {
+        "id": "SP18_combat_blade_rack",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP18_combat_blade_rack.png"
+      },
+      {
+        "id": "SP19_captains_ceremonial_blade",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP19_captains_ceremonial_blade.png"
+      },
+      {
+        "id": "SP20_junta_riot_batons",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP20_junta_riot_batons.png"
+      },
+      {
+        "id": "SP21_chaos_improvised_melee",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP21_chaos_improvised_melee.png"
+      },
+      {
+        "id": "SP22_synthesis_arbitration_staves",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP22_synthesis_arbitration_staves.png"
+      },
+      {
+        "id": "SP23_master_smith_commission_blade",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP23_master_smith_commission_blade.png"
+      },
+      {
+        "id": "SP24_hellbox_cursed_blade",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP24_hellbox_cursed_blade.png"
+      },
+      {
+        "id": "SP25_ammo_lockers_rifle",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP25_ammo_lockers_rifle.png"
+      },
+      {
+        "id": "SP26_ammo_lockers_sidearm",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP26_ammo_lockers_sidearm.png"
+      },
+      {
+        "id": "SP27_grenade_locker",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP27_grenade_locker.png"
+      },
+      {
+        "id": "SP28_plasma_cell_rack",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP28_plasma_cell_rack.png"
+      },
+      {
+        "id": "SP29_eidolon_containment_rounds",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP29_eidolon_containment_rounds.png"
+      },
+      {
+        "id": "SP30_junta_riot_canisters",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP30_junta_riot_canisters.png"
+      },
+      {
+        "id": "SP31_smoke_grenade_rack",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP31_smoke_grenade_rack.png"
+      },
+      {
+        "id": "SP32_synthesis_non_lethal_rounds",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP32_synthesis_non_lethal_rounds.png"
+      },
+      {
+        "id": "SP33_riot_armor_mannequin",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP33_riot_armor_mannequin.png"
+      },
+      {
+        "id": "SP34_standard_combat_armor",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP34_standard_combat_armor.png"
+      },
+      {
+        "id": "SP35_captains_command_armor",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP35_captains_command_armor.png"
+      },
+      {
+        "id": "SP36_eva_boarding_armor",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP36_eva_boarding_armor.png"
+      },
+      {
+        "id": "SP37_junta_crowd_control_kit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP37_junta_crowd_control_kit.png"
+      },
+      {
+        "id": "SP38_council_ceremonial_plate",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP38_council_ceremonial_plate.png"
+      },
+      {
+        "id": "SP39_synthesis_arbitration_vest",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP39_synthesis_arbitration_vest.png"
+      },
+      {
+        "id": "SP40_hellbox_touched_cursed_armor",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP40_hellbox_touched_cursed_armor.png"
+      },
+      {
+        "id": "SP41_vault_door_closed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP41_vault_door_closed.png"
+      },
+      {
+        "id": "SP42_vault_door_open_interior",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP42_vault_door_open_interior.png"
+      },
+      {
+        "id": "SP43_restricted_weapons_vault",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP43_restricted_weapons_vault.png"
+      },
+      {
+        "id": "SP44_eidolon_munitions_vault",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP44_eidolon_munitions_vault.png"
+      },
+      {
+        "id": "SP45_hellbox_weapons_cache",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP45_hellbox_weapons_cache.png"
+      },
+      {
+        "id": "SP46_master_inventory_locker",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP46_master_inventory_locker.png"
+      },
+      {
+        "id": "SP47_quartermasters_desk_manned",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP47_quartermasters_desk_manned.png"
+      },
+      {
+        "id": "SP48_issue_log_book_open",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP48_issue_log_book_open.png"
+      },
+      {
+        "id": "SP49_chain_of_custody_board",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP49_chain_of_custody_board.png"
+      },
+      {
+        "id": "SP50_returned_gear_bin",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP50_returned_gear_bin.png"
+      },
+      {
+        "id": "SP51_maintenance_bench_rifle",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP51_maintenance_bench_rifle.png"
+      },
+      {
+        "id": "SP52_boresighting_rig",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP52_boresighting_rig.png"
+      },
+      {
+        "id": "SP53_training_dummy_intact",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP53_training_dummy_intact.png"
+      },
+      {
+        "id": "SP54_training_dummy_worn",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP54_training_dummy_worn.png"
+      },
+      {
+        "id": "SP55_boresight_target_wall",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP55_boresight_target_wall.png"
+      },
+      {
+        "id": "SP56_cleaning_station",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP56_cleaning_station.png"
+      },
+      {
+        "id": "SP57_weapon_parts_bin",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP57_weapon_parts_bin.png"
+      },
+      {
+        "id": "SP58_manufacturer_marker_board",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP58_manufacturer_marker_board.png"
+      },
+      {
+        "id": "SP59_authorization_roster_placard",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP59_authorization_roster_placard.png"
+      },
+      {
+        "id": "SP60_issue_priority_chart",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP60_issue_priority_chart.png"
+      },
+      {
+        "id": "SP61_junta_requisition_order",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP61_junta_requisition_order.png"
+      },
+      {
+        "id": "SP62_council_audit_notice",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP62_council_audit_notice.png"
+      },
+      {
+        "id": "SP63_synthesis_disarmament_protocol",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP63_synthesis_disarmament_protocol.png"
+      },
+      {
+        "id": "SP64_forge_supply_manifest",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP64_forge_supply_manifest.png"
+      },
+      {
+        "id": "SP65_quartermaster_on_duty",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP65_quartermaster_on_duty.png"
+      },
+      {
+        "id": "SP66_junta_requisition_officer",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP66_junta_requisition_officer.png"
+      },
+      {
+        "id": "SP67_council_inspector",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP67_council_inspector.png"
+      },
+      {
+        "id": "SP68_captain_drawing_sidearm",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP68_captain_drawing_sidearm.png"
+      },
+      {
+        "id": "SP69_apprentice_runner",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP69_apprentice_runner.png"
+      },
+      {
+        "id": "SP70_marines_drawing_kit",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP70_marines_drawing_kit.png"
+      },
+      {
+        "id": "SP71_sodium_emergency_strip",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP71_sodium_emergency_strip.png"
+      },
+      {
+        "id": "SP72_gun_oil_mist_haze",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP72_gun_oil_mist_haze.png"
+      },
+      {
+        "id": "SP73_dust_particulate_light",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP73_dust_particulate_light.png"
+      },
+      {
+        "id": "SP74_tv_static_infection_bleed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP74_tv_static_infection_bleed.png"
+      },
+      {
+        "id": "SP75_shadow_tongue_code_rain",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP75_shadow_tongue_code_rain.png"
+      },
+      {
+        "id": "SP76_dawn_beam_caged_window",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP76_dawn_beam_caged_window.png"
+      },
+      {
+        "id": "SP77_long_night_moonlight",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP77_long_night_moonlight.png"
+      },
+      {
+        "id": "SP78_plasma_cell_glow_halo",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP78_plasma_cell_glow_halo.png"
+      },
+      {
+        "id": "SP79_mr_whiskers_missing_poster",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP79_mr_whiskers_missing_poster.png"
+      },
+      {
+        "id": "SP80_captains_father_medal",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP80_captains_father_medal.png"
+      },
+      {
+        "id": "SP81_lost_dog_tag",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP81_lost_dog_tag.png"
+      },
+      {
+        "id": "SP82_hidden_marginalia_issue_log",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP82_hidden_marginalia_issue_log.png"
+      },
+      {
+        "id": "SP83_antiquarians_research_note",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP83_antiquarians_research_note.png"
+      },
+      {
+        "id": "SP84_forge_first_apprentice_piece",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP84_forge_first_apprentice_piece.png"
+      },
+      {
+        "id": "SP85_hellbox_cipher_rubbing",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP85_hellbox_cipher_rubbing.png"
+      },
+      {
+        "id": "SP86_eidolon_whisper_recorder",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP86_eidolon_whisper_recorder.png"
+      },
+      {
+        "id": "SP87_comms_array_key_fragment",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP87_comms_array_key_fragment.png"
+      },
+      {
+        "id": "SP88_lost_engagement_ring",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP88_lost_engagement_ring.png"
+      },
+      {
+        "id": "SP89_jack_of_swords_card",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP89_jack_of_swords_card.png"
+      },
+      {
+        "id": "SP90_cryo_frozen_contraband",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/sprites/SP90_cryo_frozen_contraband.png"
+      }
+    ],
+    "lightingFilters": {
+      "cycle_dawn": "brightness(1.05) sepia(0.10) hue-rotate(-4deg)",
+      "cycle_dimming": "brightness(0.85) hue-rotate(4deg)",
+      "cycle_long_night": "brightness(0.65) hue-rotate(220deg) saturate(0.85)",
+      "morality_dark": "brightness(0.90) hue-rotate(260deg) saturate(0.80)",
+      "season_interregnum": "brightness(0.55)",
+      "tv_corrupted": "brightness(0.70) saturate(0.60)",
+      "tv_quarantined": "brightness(0.85) saturate(1.10) hue-rotate(8deg)",
+      "epoch_grand_edit": "brightness(0.85) hue-rotate(240deg)",
+      "hellbox1_transit": "brightness(1.10) sepia(0.15)",
+      "long_sleep_ending": "brightness(0.95)"
+    }
   }
 }
