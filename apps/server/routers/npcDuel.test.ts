@@ -73,3 +73,17 @@ describe("npcDuel.recordVictory — input validation", () => {
     ).rejects.toThrow();
   });
 });
+
+describe("npcDuel.recordLoss — input validation", () => {
+  it("is registered as a callable mutation", () => {
+    const caller = appRouter.createCaller(createAuthContext(1));
+    expect(typeof caller.npcDuel.recordLoss).toBe("function");
+  });
+
+  it("refuses npcKeys not in NPC_DECK_REGISTRY", async () => {
+    const caller = appRouter.createCaller(createAuthContext(1));
+    await expect(
+      caller.npcDuel.recordLoss({ npcKey: "wraith_calder" }),
+    ).rejects.toThrow();
+  });
+});

@@ -80,6 +80,11 @@ interface DuelResult {
   outcome: "player_won" | "opponent_won";
   rewardTier: 0 | 1 | 2 | 3;
   grantCount: number;
+  /** On loss, the card the NPC took (Pokémon-style stake). Null
+   *  when the player owned nothing on the challengeMotive list. */
+  takenCardDefId: string | null;
+  /** On victory, any cards restored from prior stake losses. */
+  restoredCardDefIds: ReadonlyArray<string>;
 }
 
 function lookupCard(cardDefId: string): CardDefinition | undefined {
@@ -126,6 +131,7 @@ export function NpcDuelOverlay({
     { staleTime: 60_000 },
   );
   const recordVictory = trpc.npcDuel.recordVictory.useMutation();
+  const recordLoss = trpc.npcDuel.recordLoss.useMutation();
 
   const info = challengeInfoQuery.data;
   const bossFaction = useMemo<DuelystFaction>(() => {
@@ -242,6 +248,8 @@ export function NpcDuelOverlay({
                     outcome: "player_won",
                     rewardTier: res.rewardTier,
                     grantCount: res.grantCount,
+                    takenCardDefId: null,
+                    restoredCardDefIds: res.restoredCardDefIds ?? [],
                   });
                   onVictoryRecorded?.(res.grantCount, res.rewardTier);
                 } else {
@@ -249,6 +257,8 @@ export function NpcDuelOverlay({
                     outcome: "player_won",
                     rewardTier: 0,
                     grantCount: 0,
+                    takenCardDefId: null,
+                    restoredCardDefIds: [],
                   });
                 }
               } catch {
@@ -256,13 +266,24 @@ export function NpcDuelOverlay({
                   outcome: "player_won",
                   rewardTier: 0,
                   grantCount: 0,
+                  takenCardDefId: null,
+                  restoredCardDefIds: [],
                 });
               }
             } else {
+              let takenCardDefId: string | null = null;
+              try {
+                const res = await recordLoss.mutateAsync({ npcKey });
+                if (res.ok) takenCardDefId = res.takenCardDefId;
+              } catch {
+                // Loss-flag write failed; the result still renders.
+              }
               setDuelResult({
                 outcome: "opponent_won",
                 rewardTier: 0,
                 grantCount: 0,
+                takenCardDefId,
+                restoredCardDefIds: [],
               });
             }
             setPhase("result");
@@ -283,8 +304,17 @@ export function NpcDuelOverlay({
           ? `${duelResult.grantCount} ${
               duelResult.grantCount === 1 ? "memory" : "memories"
             } folded into your collection — tier ${TIER_LABELS[duelResult.rewardTier]}.`
-          : "You lost the hand. The Casino keeps the file open. Come back when you've learned more."}
+          : duelResult.takenCardDefId
+            ? `You lost the hand. They took ${duelResult.takenCardDefId} from your collection — recoverable on rematch win.`
+            : "You lost the hand. Nothing they wanted was in your deck — they kept the file open."}
       </p>
+
+      {won && duelResult.restoredCardDefIds.length > 0 && (
+        <p className="mt-3 font-serif text-[12px] italic void-text-dim">
+          Recovered from the ledger: {duelResult.restoredCardDefIds.join(", ")}.
+        </p>
+      )}
+
       <CloseButton onClick={onClose} label={won ? "Take the tray." : "Step away."} />
     </OverlayShell>
   );

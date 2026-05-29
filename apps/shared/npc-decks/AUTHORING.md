@@ -228,11 +228,29 @@ fires when ALL declared aspects are learned.
 
 ---
 
-## Loss path (deferred)
+## Loss path
 
-The dispatcher exposes a `dispatchNpcDuelVictory` only. A symmetric
-`dispatchNpcDuelLoss` path (Pokémon-style stake: NPC takes one
-challengeMotive-matching card until rematch win) is described in the
-plan but not yet shipped. The infrastructure is ready — the
-`challengeMotive` field on `NpcDeck` and the `lost_to_npc:<npcKey>`
-flag convention land it cleanly when needed.
+`dispatchNpcDuelLoss(userId, npcKey)` walks the NPC's
+`challengeMotive` list in declaration order, decrements the
+`user_cards.quantity` of the first owned match by 1 (deleting the
+row if quantity drops to 0), and writes two flags:
+
+- `lost_to_npc:<npcKey>` (always written)
+- `taken_by_<npcKey>:<cardDefId>` (written only when a match was found)
+
+On the next victory against the same NPC, `dispatchNpcDuelVictory`
+reads every `taken_by_<npcKey>:*` flag, increments the corresponding
+card's quantity, and clears each flag. The result is "you lost a
+card to them and won it back on rematch" — Pokémon-style mutual
+stakes, fully resolved through the existing user_cards table without
+a new schema.
+
+The router exposes `recordLoss(npcKey)` for the client to call from
+the match-end handler. `NpcDuelOverlay` already wires this in its
+loss branch and renders the consolation card naming what was taken.
+
+For NPCs whose `challengeMotive` doesn't intersect the player's
+collection, the loss has no card penalty — only the
+`lost_to_npc:<npcKey>` flag is written. That's intentional: a
+player who hasn't built a deck the NPC cares about doesn't get
+punished for losing.

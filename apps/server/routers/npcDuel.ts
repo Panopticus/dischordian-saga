@@ -1,4 +1,4 @@
-// audit-allow-proc: listChallengeable
+// audit-allow-proc: listChallengeable, recordLoss
 /* ═══════════════════════════════════════════════════════
    NPC DUEL ROUTER — system entry for the dialog → duel → harvest loop
 
@@ -35,7 +35,10 @@ import {
   countLearnedAspectsForNpc,
   npcDuelRewardTier,
 } from "@shared/npc-decks/buildNpcDeck";
-import { dispatchNpcDuelVictory } from "../services/dispatchNpcDuelVictory";
+import {
+  dispatchNpcDuelVictory,
+  dispatchNpcDuelLoss,
+} from "../services/dispatchNpcDuelVictory";
 import type { NpcKey } from "@shared/npcs/types";
 
 /** Every NpcKey that has a deck authored. The router refuses any
@@ -183,6 +186,34 @@ export const npcDuelRouter = router({
         ...result,
         grantCount: result.grants.length,
       };
+    }),
+
+  /**
+   * Record a player loss. Takes ONE card from the player's collection
+   * matching the NPC's challengeMotive list (Pokémon-style stake) and
+   * writes `lost_to_npc:<npcKey>` + `taken_by_<npcKey>:<cardDefId>`
+   * flags. The next time the player wins a rematch against the same
+   * NPC, dispatchNpcDuelVictory reads the `taken_by_` flag and
+   * restores the card.
+   *
+   * Safe to call even when the player owns no matching card — the
+   * dispatcher returns `takenCardDefId: null` and only the loss flag
+   * is written. The loss path is OPTIONAL — hosts that don't want
+   * the stake mechanic simply don't call this.
+   */
+  recordLoss: protectedProcedure
+    .input(z.object({ npcKey: npcKeyInput }))
+    .mutation(async ({ ctx, input }) => {
+      const npcKey = input.npcKey as NpcKey;
+      const deck = getNpcDeck(npcKey);
+      if (!deck) {
+        return { ok: false as const, reason: "no_deck_authored" };
+      }
+      const result = await dispatchNpcDuelLoss({
+        userId: ctx.user.id,
+        npcKey,
+      });
+      return { ok: true as const, ...result };
     }),
 
   /**
