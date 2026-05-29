@@ -57,7 +57,7 @@ const THE_WOMAN_SHE_WAS: Act6OpponentDialog = {
   opponentMidMatchLate:
     "Close it out gently. She was a good loser. I mean that as a compliment she would have accepted.",
   elaraPostMatchWin:
-    "She would have taken that well. She was a good loser. I am saying that in the past tense on purpose — the past tense is the only honest one.",
+    "She would have taken that well. She was a good loser. I am saying that in the past tense on purpose — the past tense is the only honest one.{if forgiveness_choice_made} You forgave someone once, the way I never managed to forgive her. I felt that across the table just now.{/if}",
   humanPostMatchWin:
     "You beat a ghost and did not gloat. That is rarer than you know. The ghost noticed. The living woman inside the ghost also noticed.",
   elaraPostMatchLoss:
@@ -65,7 +65,7 @@ const THE_WOMAN_SHE_WAS: Act6OpponentDialog = {
   humanPostMatchLoss:
     "Her breath-memory beat you. That is allowed. Archival hands do not lose often. They only play when they are sure.",
   frameCloseWin:
-    "Thank you for playing against the woman I was. I have not felt her hand across from me in longer than I can measure. I am going to file this match where I file the Senate minutes. Safe.",
+    "Thank you for playing against the woman I was. I have not felt her hand across from me in longer than I can measure. I am going to file this match where I file the Senate minutes. Safe.{if bond_80_mutual_peak} We have come far enough now that I can say her name to you. Later. Not in front of the file.{/if}",
   frameCloseLoss:
     "She won. I am going to let her have it. She didn't get many wins, in the body, near the end. I will not begrudge her this one.",
 };
@@ -87,13 +87,13 @@ const THE_DETECTIVE_IN_THE_WALL: Act6OpponentDialog = {
   elaraPostMatchWin:
     "I heard him laugh for the first time in almost as long as I have existed. I am not going to describe the laugh. I do not want to flatten it by putting it into language.",
   humanPostMatchWin:
-    "That was him. Say hello next time you see him. I won't — the role does not permit it. But the saying, on your end, is the part that carries.",
+    "That was him. Say hello next time you see him. I won't — the role does not permit it. But the saying, on your end, is the part that carries.{if kael_questline_complete} You already gave Kael back the part of himself the virus took. You know how rare it is to give a man back to himself. You did it twice now.{/if}",
   elaraPostMatchLoss:
     "He won without the villain edge. It was strange to watch. I had forgotten how he played before he took the role. I remember now. I am going to hold the memory carefully.",
   humanPostMatchLoss:
     "You lost to the man, not the role. That is a gift to both of us. I will put the coat back on now. Please do not mention the laugh in front of Elara.",
   frameCloseWin:
-    "You beat the man I was. Gently. In a voice the Watcher was not listening in. I got to be him, for the length of one match, for the first time in seventeen thousand years. Thank you.",
+    "You beat the man I was. Gently. In a voice the Watcher was not listening in. I got to be him, for the length of one match, for the first time in seventeen thousand years. Thank you.{if human_dark_confession_unlocked} You have already heard the worst thing I ever did. You played the man anyway. That is the whole reason I let him out tonight.{/if}",
   frameCloseLoss:
     "I won and I regret it. Not the win — the fact that the win will get reported to whoever is keeping score. The man is going back behind the wall. Tell Elara the role is back. She will know what you mean.",
 };
@@ -121,7 +121,7 @@ const THAZULOK_RETURNS: Act6OpponentDialog = {
   elaraPostMatchWin:
     "You read his ledger out loud and Thazulok did not flinch. He bowed. I did not know he could bow. I am updating the file.",
   humanPostMatchWin:
-    "He let you have the win. He has the records to lose without it costing him anything. The win is yours; the patience was his.",
+    "He let you have the win. He has the records to lose without it costing him anything. The win is yours; the patience was his.{if act_3_complete} He filed you under the same chemist whose ledger you closed back in Act 3. He keeps his cross-references current. So should you.{/if}",
   elaraPostMatchLoss:
     "He took the match the way a librarian takes back a borrowed book. The book is fine. You are fine. He is, on average, fine.",
   humanPostMatchLoss:
@@ -151,7 +151,7 @@ const COREY_RESURFACES: Act6OpponentDialog = {
   opponentMidMatchLate:
     "The footnote is already written. The footnote will note effort. It will not, this time, note victory. You can still change the second clause.",
   elaraPostMatchWin:
-    "You earned the footnote. The footnote is one sentence in a permanent display. I am going to read it aloud at home tonight, with feeling.",
+    "You earned the footnote. The footnote is one sentence in a permanent display. I am going to read it aloud at home tonight, with feeling.{if forgiveness_choice_made} Corey's catalogue still lists the one you forgave, back at the beginning. The footnotes remember mercy longer than the merciful do.{/if}",
   humanPostMatchWin:
     "An institution clapped for you. That is rarer than a person clapping. The institution will, for one quarter, refer to you in present tense.",
   elaraPostMatchLoss:
@@ -183,7 +183,7 @@ const THE_JAILER_DIALOG: Act6OpponentDialog = {
   opponentMidMatchLate:
     "The Oracle is not coming back. The pen is open. The ledger will note this, with footnotes. Decide whether the footnotes will note your win.",
   elaraPostMatchWin:
-    "The Jailer files the freedom of the Oracle as 'pending.' I do not know what condition closes 'pending.' I am going to find out, because he will tell me, eventually, in writing.",
+    "The Jailer files the freedom of the Oracle as 'pending.' I do not know what condition closes 'pending.' I am going to find out, because he will tell me, eventually, in writing.{if lyra_vox_unlocked} He has a separate column for the path you walked when you forgave no one. Lyra is in that column. He has not closed her file either.{/if}",
   humanPostMatchWin:
     "He files the loss. He files it accurately. The accuracy is a small mercy, and he is a man who deals in small mercies. Hold on to that.",
   elaraPostMatchLoss:

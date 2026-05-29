@@ -83,6 +83,8 @@ export const NARRATIVE_FLAG_REGISTRY: ReadonlyArray<NarrativeFlagEntry> = [
   { flag: "human_dark_confession_unlocked", category: "companion", owner: "the_human", notes: "The Human's dark confession is available." },
   { flag: "elara_high_confession_unlocked", category: "companion", owner: "elara", notes: "Elara's high-trust confession is available." },
   { flag: "kael_questline_complete", category: "companion", owner: "kael", notes: "Kael's questline cleared." },
+  { flag: "act6_elara_confession_heard", category: "companion", owner: "act_6", notes: "Player heard Elara's Act 6 confession (the woman she was). Producer: Act6CardLadderPage.tsx. Gates the Act 6 'woman she was' mirror match + Act 7 convergence callback." },
+  { flag: "act6_human_confession_heard", category: "companion", owner: "act_6", notes: "Player heard the Human's Act 6 confession (the detective in the wall). Producer: Act6CardLadderPage.tsx. Gates the Act 6 'detective in the wall' mirror match + Act 7 convergence callback." },
 
   /* ─── System unlocks ─── */
   { flag: "trade_empire_unlocked", category: "system_unlock", owner: "act_2", notes: "Trade Empire game mode is now available." },
