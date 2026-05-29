@@ -50,6 +50,10 @@ import {
   CAPTAINS_QUARTERS_SPRITE_IDS,
 } from "../shared/roomComposition/captainsQuartersComposite";
 import {
+  ARMORY_BASE_IDS,
+  ARMORY_SPRITE_IDS,
+} from "../shared/roomComposition/armoryComposite";
+import {
   compositeBaseUrl,
   compositeSpriteUrl,
   LIGHTING_FILTERS,
@@ -78,6 +82,7 @@ const ROOMS: Record<CompositeRoomId, { bases: readonly string[]; sprites: readon
   "antiquarian-library": { bases: ANTIQUARIAN_LIBRARY_BASE_IDS, sprites: ANTIQUARIAN_LIBRARY_SPRITE_IDS },
   "cargo-hold": { bases: CARGO_HOLD_BASE_IDS, sprites: CARGO_HOLD_SPRITE_IDS },
   "captains-quarters": { bases: CAPTAINS_QUARTERS_BASE_IDS, sprites: CAPTAINS_QUARTERS_SPRITE_IDS },
+  armory: { bases: ARMORY_BASE_IDS, sprites: ARMORY_SPRITE_IDS },
 };
 
 const out: Record<string, RoomComposite> = {};

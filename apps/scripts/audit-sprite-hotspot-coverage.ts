@@ -1,7 +1,7 @@
 /* ═══════════════════════════════════════════════════════════════════
    AUDIT — sprite ↔ hotspot coverage gap report
 
-   For every Phase J room (the 10 rooms with composite resolvers), walks
+   For every Phase J room (the 11 rooms with composite resolvers), walks
    - the sprite catalog (BRIDGE_SPRITE_IDS etc.)
    - the hotspot catalog (ROOM_DEFINITIONS[room].hotspots)
 

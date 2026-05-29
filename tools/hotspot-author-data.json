@@ -3164,7 +3164,7 @@
   {
     "id": "armory",
     "name": "Armory",
-    "imageUrl": "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_armory-cVMQ78mPE6bJeREyXAxC6a.webp",
+    "imageUrl": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/armory/base/AR-B02.png",
     "hotspots": [
       {
         "id": "weapon-rack",
