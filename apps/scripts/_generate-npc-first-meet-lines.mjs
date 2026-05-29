@@ -22,15 +22,47 @@
  *     voLineId fields on any node)
  *   - your_eidolon: non-verbal per Phase 6e.1c canon
  */
-import { writeFileSync, mkdirSync } from "fs";
+import { writeFileSync, mkdirSync, readFileSync, readdirSync } from "fs";
 import { fileURLToPath } from "url";
-import { dirname, resolve } from "path";
+import { dirname, resolve, join } from "path";
 
 import { ALL_NPC_DIALOG_TREES } from "../shared/npcs/dialogTrees/index.ts";
 import { spokenText, hasStageDirection } from "../shared/voSpokenText.ts";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+const TREES_DIR = resolve(__dirname, "..", "shared", "npcs", "dialogTrees");
+
+/** Resolve each tree's true source file by scanning the dialogTrees
+ *  directory for the `id: "<treeId>"` literal. Tree ids are thematic
+ *  (wraith_calder's first-meeting tree is `hierophant-first-meeting`),
+ *  so the filename can't be reverse-derived from the id — we must read
+ *  it from disk. Returns a Map<treeId, { npcKey, fileStem }>. */
+function buildTreeSourceIndex() {
+  const index = new Map();
+  for (const npcKey of readdirSync(TREES_DIR, { withFileTypes: true })) {
+    if (!npcKey.isDirectory()) continue;
+    const npcDir = join(TREES_DIR, npcKey.name);
+    for (const file of readdirSync(npcDir)) {
+      if (!file.endsWith(".ts") || file.endsWith(".test.ts")) continue;
+      const src = readFileSync(join(npcDir, file), "utf-8");
+      const re = /\bid:\s*["']([a-z0-9][a-zA-Z0-9_-]+)["']/g;
+      let m;
+      while ((m = re.exec(src)) !== null) {
+        // Only the tree-level id (not node ids) — tree ids are the ones
+        // ALL_NPC_DIALOG_TREES exposes; node ids are filtered out below
+        // because we only look up tree ids we actually emit for.
+        if (!index.has(m[1])) {
+          index.set(m[1], { npcKey: npcKey.name, fileStem: file.slice(0, -3) });
+        }
+      }
+    }
+  }
+  return index;
+}
+
+const TREE_SOURCE_INDEX = buildTreeSourceIndex();
 
 const SKIP_NPC_KEYS = new Set([
   "nilmorg",
@@ -62,6 +94,14 @@ for (const tree of ALL_NPC_DIALOG_TREES) {
 for (const [npcKey, trees] of treesByNpc) {
   const entries = [];
   for (const tree of trees) {
+    // Provenance: resolve the tree's real source file (first_meeting.ts,
+    // second_meeting_pre_trial.ts, …). The `context`/`file` fields are
+    // producer hints; mislabeling every multi-tree NPC's lines as
+    // `first_meeting.ts` sends producers to the wrong file. For
+    // single-tree NPCs this resolves back to `first_meeting`, so their
+    // emitted JSON is unchanged. Falls back defensively to first_meeting.
+    const source = TREE_SOURCE_INDEX.get(tree.id);
+    const fileStem = source?.fileStem ?? "first_meeting";
     for (const node of Object.values(tree.nodes)) {
       // Skip nodes without a voLineId — those are non-verbal /
       // expression-only beats.
@@ -81,9 +121,9 @@ for (const [npcKey, trees] of treesByNpc) {
       entries.push({
         id: node.voLineId,
         text: stripped,
-        context: `first_meeting.${tree.id}`,
+        context: `${fileStem}.${tree.id}`,
         emotion: "first_meeting",
-        file: `shared/npcs/dialogTrees/${npcKey}/first_meeting.ts`,
+        file: `shared/npcs/dialogTrees/${npcKey}/${fileStem}.ts`,
         ...(direction ? { directionNotes: node.onscreenText } : {}),
         meta: {
           npcKey,

@@ -136,6 +136,16 @@ describe("NPC first-meeting transcript JSONs (round-3 gap 1)", () => {
     }
   });
 
+  it("every entry's `file` provenance points at a real dialog-tree source on disk (multi-tree NPCs must not all claim first_meeting.ts)", () => {
+    const repoRoot = path.resolve(__dirname, "..", "..", "..");
+    for (const [npcKey] of treesByNpc) {
+      for (const e of entriesForNpc(npcKey)) {
+        const abs = path.join(repoRoot, "apps", e.file);
+        expect(fs.existsSync(abs), `${npcKey} ${e.id}: file ${e.file} does not exist`).toBe(true);
+      }
+    }
+  });
+
   it("every entry carries the producer-meta sidecar (npcKey + treeId + nodeId)", () => {
     for (const [npcKey] of treesByNpc) {
       const entries = entriesForNpc(npcKey);

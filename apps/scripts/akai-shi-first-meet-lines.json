@@ -71,9 +71,9 @@
   {
     "id": "akai.loyalty_intro.root",
     "text": "I want to read what the Lair learned. It learned things from me I did not know I was teaching. I would like a witness. I would like it to be you.",
-    "context": "first_meeting.akai-shi-loyalty-intro",
+    "context": "loyalty_intro.akai-shi-loyalty-intro",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/akai_shi/loyalty_intro.ts",
     "directionNotes": "[The case is still open. The journal — a Lair-bound notebook in two halves, one of which is hers — is on the floor between you. The pattern is hand-annotated in the margin.] I want to read what the Lair learned. It learned things from me I did not know I was teaching. I would like a witness. I would like it to be you.",
     "meta": {
       "npcKey": "akai_shi",
@@ -85,9 +85,9 @@
   {
     "id": "akai.loyalty_intro.accept_loyalty",
     "text": "Then we begin. The pattern lives in the margin. The body is the Lair's pretence; the margin is the truth. I am going to read the margin aloud. You may interrupt at any point. The interruption is the calibration.",
-    "context": "first_meeting.akai-shi-loyalty-intro",
+    "context": "loyalty_intro.akai-shi-loyalty-intro",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/akai_shi/loyalty_intro.ts",
     "directionNotes": "[She slides the journal toward you. Both halves. The margin notes are hers; the body text is the Lair's. The annotations agree on more than the body text wants them to.] Then we begin. The pattern lives in the margin. The body is the Lair's pretence; the margin is the truth. I am going to read the margin aloud. You may interrupt at any point. The interruption is the calibration.",
     "meta": {
       "npcKey": "akai_shi",
@@ -99,9 +99,9 @@
   {
     "id": "akai.loyalty_intro.press_on_pattern",
     "text": "It learned that the cure is generous. The Lair authored a curtailment of the cure — the curtailment specifies a single senior carrier and excludes the other three. The pattern as authored is more permissive; the curtailment is the Lair's choice, not the pattern's. I want to read past the curtailment. I want to know what the pattern says when it is not being curtailed.",
-    "context": "first_meeting.akai-shi-loyalty-intro",
+    "context": "loyalty_intro.akai-shi-loyalty-intro",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/akai_shi/loyalty_intro.ts",
     "meta": {
       "npcKey": "akai_shi",
       "treeId": "akai-shi-loyalty-intro",
@@ -112,9 +112,9 @@
   {
     "id": "akai.loyalty_intro.post_press_offer",
     "text": "Will you read it with me.",
-    "context": "first_meeting.akai-shi-loyalty-intro",
+    "context": "loyalty_intro.akai-shi-loyalty-intro",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/akai_shi/loyalty_intro.ts",
     "directionNotes": "[She waits. The static remains at the floor.] Will you read it with me.",
     "meta": {
       "npcKey": "akai_shi",
@@ -126,9 +126,9 @@
   {
     "id": "akai.loyalty_intro.defer",
     "text": "The journal will remain on the stand. The shrine does not move things on me without my consent. The next time you visit, the journal will be where it is now. If you come back ready, we read.",
-    "context": "first_meeting.akai-shi-loyalty-intro",
+    "context": "loyalty_intro.akai-shi-loyalty-intro",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/akai_shi/loyalty_intro.ts",
     "directionNotes": "[She closes the journal but does not put it away. She places it on the shrine's reading-stand within arm's reach.] The journal will remain on the stand. The shrine does not move things on me without my consent. The next time you visit, the journal will be where it is now. If you come back ready, we read.",
     "meta": {
       "npcKey": "akai_shi",
@@ -140,9 +140,9 @@
   {
     "id": "akai.loyalty_intro.defer_to_presence",
     "text": "The cushion does not require a reason. Sit. We can read another night. The pattern is generous. The pattern can wait. I — would not have asked for this if you had not offered. Thank you.",
-    "context": "first_meeting.akai-shi-loyalty-intro",
+    "context": "loyalty_intro.akai-shi-loyalty-intro",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/akai_shi/loyalty_intro.ts",
     "directionNotes": "[A small pause. She accepts the offer without quite acknowledging it.] The cushion does not require a reason. Sit. We can read another night. The pattern is generous. The pattern can wait. I — would not have asked for this if you had not offered. Thank you.",
     "meta": {
       "npcKey": "akai_shi",
