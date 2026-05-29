@@ -39,7 +39,8 @@ export type CompositeRoomId =
   | "antiquarian-library"
   | "cargo-hold"
   | "captains-quarters"
-  | "armory";
+  | "armory"
+  | "forge-workshop";
 
 /** Map the public room id ("cryo-bay") to the S3 path segment ("cryo_bay"). */
 export const COMPOSITE_ROOM_S3_DIR: Readonly<Record<CompositeRoomId, string>> = {
@@ -55,6 +56,7 @@ export const COMPOSITE_ROOM_S3_DIR: Readonly<Record<CompositeRoomId, string>> = 
   "cargo-hold": "cargo_hold",
   "captains-quarters": "captains_quarters",
   armory: "armory",
+  "forge-workshop": "forge_workshop",
 };
 
 /** A resolved composite: the single chosen base + ordered sprite list. */
