@@ -68,11 +68,14 @@ function collectProducedFlags(): Set<string> {
   // `setFlag: "..."` and NarrativeEngine.tsx applies it at runtime via
   // setNarrativeFlag(choice.setFlag, true). `\b` avoids resetFlag/unsetFlag.
   const setFlagDataRe = /\bsetFlag\s*:\s*["']([a-z][a-zA-Z0-9_]+)["']/g;
+  // Dialog-tree form: NpcDialogChoice.sets — applyDialogChoice.ts:115
+  // writes it as a narrative flag. `\b` avoids assets:/offsets:/presets:.
+  const setsDataRe = /\bsets\s*:\s*["']([a-z][a-zA-Z0-9_]+)["']/g;
   for (const dir of SCAN_DIRS) {
     for (const file of walk(dir)) {
       if (file.endsWith(".test.ts") || file.endsWith(".test.tsx") || file.endsWith(".spec.ts")) continue;
       const src = fs.readFileSync(file, "utf-8");
-      for (const re of [literalRe, altRe, completionRe, tupleRe, setFlagDataRe]) {
+      for (const re of [literalRe, altRe, completionRe, tupleRe, setFlagDataRe, setsDataRe]) {
         re.lastIndex = 0;
         let m: RegExpExecArray | null;
         while ((m = re.exec(src)) !== null) produced.add(m[1]);

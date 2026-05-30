@@ -59,6 +59,27 @@ export const DLC_BREEDING_01_CREW_UNLOCKS: DlcChapter = {
     },
     {
       kind: "narration",
+      id: "aftermath_pure",
+      speaker: "antiquarian",
+      text: "PURE. The patience tax. I will record this in the ledger in the long hand — the one I reserve for those who mean to be remembered in seven generations rather than one. The Collector will not see yield for an Age. He is, of all of us, the one who does not mind waiting. Neither, it seems, are you.",
+      requiresFlag: "breeding_path_pure_chosen",
+    },
+    {
+      kind: "narration",
+      id: "aftermath_hybrid",
+      speaker: "antiquarian",
+      text: "HYBRID. The working compromise. No corruption pressure, no waiting, decent crystal. I will not pretend it is the road the Collector hoped you would take — but it is the road that keeps the most of your crew alive to walk it. There is a kind of mercy in a yield nobody had to bleed for.",
+      requiresFlag: "breeding_path_hybrid_chosen",
+    },
+    {
+      kind: "narration",
+      id: "aftermath_named",
+      speaker: "antiquarian",
+      text: "NAMED. Each generation a person whose name you record. I will give you a second ledger for it, then — the names go beside mine, in the hand I keep for the witnessed. It is the slowest accounting of all, the naming. The Collector will understand. He has been a name in someone's book for fifteen thousand years.",
+      requiresFlag: "breeding_path_named_chosen",
+    },
+    {
+      kind: "narration",
       id: "first_cycle_opens",
       speaker: "antiquarian",
       text: "The manifest closes. The first ritual cycle is scheduled for the next moon. The Collector is, as always, in his study, in his office, in his chair, in his eternity. He is waiting for the first cycle's report.",

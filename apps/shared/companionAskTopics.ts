@@ -75,6 +75,26 @@ export const COMPANION_ASK_TOPICS: readonly CompanionAskTopic[] = [
     followUp: "ask_elara_vox",
   },
   {
+    id: "ask_elara_signal_investigate",
+    speaker: "elara",
+    label: "Going in directly",
+    question: "You objected when I interfaced with the signal directly. Do you still?",
+    answer:
+      "You went in directly — interfaced with the signal at the substrate layer, past where I could monitor you. I want to be clear that I logged my objection and I am keeping it logged. I also want to be clear that you found something I could not have found from above. Both of those are true. The part of me that is your operations officer is unhappy. The part of me that is curious is not. I contain both parts. So, increasingly, do you.",
+    unlockFlag: "act1_chose_investigate",
+    unlockedFromAct: 1,
+  },
+  {
+    id: "ask_elara_signal_caution",
+    speaker: "elara",
+    label: "Holding back",
+    question: "Was the passive scan the right call?",
+    answer:
+      "You held back — ran the passive scan from the Array instead of interfacing directly. We learned less. We also did not expose you to whatever is down there before we had its frequency pattern. I notice that I trust the readings more because of how we took them, and I notice that some operators would have called the caution a failure of nerve. It was not. Patience is a discipline. You showed me you have it on the first day. That tells me more than the scan did.",
+    unlockFlag: "act1_chose_caution",
+    unlockedFromAct: 1,
+  },
+  {
     id: "ask_human_substrate",
     speaker: "human",
     label: "The substrate",

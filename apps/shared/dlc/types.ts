@@ -117,6 +117,17 @@ export type DlcStep =
       readonly speaker: DlcStepSpeakerId;
       readonly text: string;
       readonly subtitle?: string;
+      /** Reactive-visibility gate. When set, this step is shown only
+       *  if the named flag is present in the player's narrativeFlags.
+       *  This is the "future steps' visibility logic" referenced on
+       *  DlcStepChoice.setFlag — it lets an earlier choice's flag
+       *  branch the chapter's own narration (an aftermath beat that
+       *  only the player who made that choice ever reads). */
+      readonly requiresFlag?: string;
+      /** Inverse gate — shown only if the named flag is ABSENT. Pairs
+       *  with requiresFlag to author mutually-exclusive aftermath beats
+       *  off a single choice. */
+      readonly requiresAbsentFlag?: string;
     }
   | {
       readonly kind: "choice";

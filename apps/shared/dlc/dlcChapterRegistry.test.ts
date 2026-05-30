@@ -4,9 +4,22 @@ import {
   dlcChapterCompletionFlag,
   getDlcChapter,
   getDlcChaptersForSection,
+  isDlcStepVisible,
   sameParentSection,
+  visibleDlcChapterSteps,
 } from "./dlcChapterRegistry";
 import type { DlcChapter, DlcParentSection } from "./types";
+
+/** Every flag any choice in the chapter can set. */
+function choiceFlags(chapter: DlcChapter): Set<string> {
+  const out = new Set<string>();
+  for (const step of chapter.steps) {
+    if (step.kind === "choice") {
+      for (const o of step.options) if (o.setFlag) out.add(o.setFlag);
+    }
+  }
+  return out;
+}
 
 describe("DLC chapter registry — foundation invariants", () => {
   it("registry is frozen and contains at least one chapter", () => {
@@ -48,6 +61,94 @@ describe("DLC chapter registry — foundation invariants", () => {
     expect(dlcChapterCompletionFlag("dlc_advocate_01_sacrum_echo")).toBe(
       "dlc_chapter_dlc_advocate_01_sacrum_echo_complete",
     );
+  });
+});
+
+describe("DLC step reactive-visibility", () => {
+  it("isDlcStepVisible honors requiresFlag / requiresAbsentFlag", () => {
+    const gated = {
+      kind: "narration",
+      id: "g",
+      speaker: "x",
+      text: "t",
+      requiresFlag: "f",
+    } as const;
+    expect(isDlcStepVisible(gated, {})).toBe(false);
+    expect(isDlcStepVisible(gated, { f: true })).toBe(true);
+
+    const absent = {
+      kind: "narration",
+      id: "a",
+      speaker: "x",
+      text: "t",
+      requiresAbsentFlag: "f",
+    } as const;
+    expect(isDlcStepVisible(absent, {})).toBe(true);
+    expect(isDlcStepVisible(absent, { f: true })).toBe(false);
+
+    const ungated = { kind: "narration", id: "u", speaker: "x", text: "t" } as const;
+    expect(isDlcStepVisible(ungated, {})).toBe(true);
+    // Non-narration steps are never gated.
+    const choice = {
+      kind: "choice",
+      id: "c",
+      speaker: "x",
+      prompt: "p",
+      options: [],
+    } as const;
+    expect(isDlcStepVisible(choice, {})).toBe(true);
+  });
+
+  it("every narration gate references a flag a choice in the same chapter can set (no dangling gate)", () => {
+    for (const chapter of ALL_DLC_CHAPTERS) {
+      const settable = choiceFlags(chapter);
+      for (const step of chapter.steps) {
+        if (step.kind !== "narration") continue;
+        for (const f of [step.requiresFlag, step.requiresAbsentFlag]) {
+          if (!f) continue;
+          expect(
+            settable.has(f),
+            `${chapter.id}: step ${step.id} gates on "${f}" but no choice in the chapter sets it`,
+          ).toBe(true);
+        }
+      }
+    }
+  });
+
+  it("every choice path with a setFlag has a reactive aftermath beat, and picking it reveals exactly that beat", () => {
+    for (const chapter of ALL_DLC_CHAPTERS) {
+      // Map each settable flag to the narration steps that require it.
+      const gatedByFlag = new Map<string, string[]>();
+      for (const step of chapter.steps) {
+        if (step.kind === "narration" && step.requiresFlag) {
+          const arr = gatedByFlag.get(step.requiresFlag) ?? [];
+          arr.push(step.id);
+          gatedByFlag.set(step.requiresFlag, arr);
+        }
+      }
+      // Chapters that author NO reactive beats are unaffected (legacy
+      // linear chapters). Only assert the property for chapters that
+      // opted into reactivity.
+      if (gatedByFlag.size === 0) continue;
+
+      for (const flag of choiceFlags(chapter)) {
+        expect(
+          gatedByFlag.has(flag),
+          `${chapter.id}: choice flag "${flag}" has no reactive aftermath narration`,
+        ).toBe(true);
+        // Selecting this path: the visible step list must include the
+        // beat(s) for this flag and none gated on a sibling flag.
+        const visible = visibleDlcChapterSteps(chapter, { [flag]: true });
+        const visibleIds = new Set(visible.map((s) => s.id));
+        for (const id of gatedByFlag.get(flag)!) {
+          expect(visibleIds.has(id)).toBe(true);
+        }
+        for (const [otherFlag, ids] of gatedByFlag) {
+          if (otherFlag === flag) continue;
+          for (const id of ids) expect(visibleIds.has(id)).toBe(false);
+        }
+      }
+    }
   });
 
   it("registry uniqueness invariants hold for any future content", () => {

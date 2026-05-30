@@ -19,8 +19,8 @@
 //                               + factionRepDelta x3
 //                                 (hierarchy_of_damned, antiquarian,
 //                                  dreamer)
-//   - branch_puzzle           → mutateNextEncounterDeck (chAuthorityTrial)
-//                               + stakesAxisDelta.verdict
+//   - branch_puzzle           → mutateNextEncounterDeck (ch_authority_trial)
+//                               + stakesAxisDelta.public_witness
 //                               + factionRepDelta (antiquarian)
 //
 // Voice discipline (the_game_master.md §§1.3 + 1.4):
@@ -120,12 +120,18 @@ export const THE_GAME_MASTER_SECOND_MEETING_PRE_TRIAL: NpcDialogTree = {
           // Game Master's presence in 17,000 years. The mechanical
           // expression: the architect-faction Game Master card joins
           // the Authority Trial encounter deck (the Two file the
-          // player's voicing into the Trial's witness layer), and
-          // the verdict-axis stakes shift in the player's favor.
+          // player's voicing into the Trial's witness layer), and the
+          // public-witness stakes shift in the player's favor — which
+          // carries forward to the §5.8 Authority Trial's
+          // openingVerdictBalance via deriveAuthorityVerdictOffset
+          // (act1TrialHandoff.ts). verdict itself is owned by trialMode
+          // and is not movable via stakesAxisDelta (chapters.ts §A4),
+          // so the nudge is authored on public_witness — the declared
+          // axis every GM dialog choice uses (see mid_trial_intercession).
           factionRepDelta: { antiquarian: 2 },
-          stakesAxisDelta: { verdict: 1 },
+          stakesAxisDelta: { public_witness: 1 },
           mutateNextEncounterDeck: {
-            encounterId: "chAuthorityTrial",
+            encounterId: "ch_authority_trial",
             addCardDefId: "s1_char_030",
           },
         },

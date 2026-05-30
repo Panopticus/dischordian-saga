@@ -115,9 +115,9 @@ describe("the_game_master second_meeting_pre_trial — Phase 1 outcome coverage"
     expect(unlock?.via).toBe("dialog_choice");
   });
 
-  it("mutateNextEncounterDeck targets chAuthorityTrial — the canonical pre-Trial referenced encounter", () => {
+  it("mutateNextEncounterDeck targets ch_authority_trial — the canonical pre-Trial encounter id (StoryEncounter.id, not the const name)", () => {
     const mut = choices.find((c) => Boolean(c.mutateNextEncounterDeck))?.mutateNextEncounterDeck;
-    expect(mut?.encounterId).toBe("chAuthorityTrial");
+    expect(mut?.encounterId).toBe("ch_authority_trial");
   });
 
   it("factionRepDelta keys are canonical Faction values only", () => {

@@ -13,6 +13,7 @@
 import type {
   DlcChapter,
   DlcParentSection,
+  DlcStep,
 } from "./types";
 import { DLC_ADVOCATE_01_SACRUM_ECHO } from "./chapters/dlc_advocate_01_sacrum_echo";
 import { ALL_EPOCH_WITNESS_DLC_CHAPTERS } from "./chapters/epoch_witness";
@@ -115,4 +116,31 @@ export function getDlcChaptersForSection(
  *  rely on its presence. */
 export function dlcChapterCompletionFlag(chapterId: string): string {
   return `dlc_chapter_${chapterId}_complete`;
+}
+
+/** True when a step's reactive-visibility gate is satisfied by the
+ *  player's current narrativeFlags. A step with neither gate is
+ *  always visible; `requiresFlag` demands presence, `requiresAbsentFlag`
+ *  demands absence, and both may be combined (AND). */
+export function isDlcStepVisible(
+  step: DlcStep,
+  flags: Readonly<Record<string, unknown>> | null | undefined,
+): boolean {
+  if (step.kind !== "narration") return true;
+  const has = (f: string) => Boolean(flags?.[f]);
+  if (step.requiresFlag && !has(step.requiresFlag)) return false;
+  if (step.requiresAbsentFlag && has(step.requiresAbsentFlag)) return false;
+  return true;
+}
+
+/** The chapter's steps filtered to those visible under the player's
+ *  current flags. This is what the renderer walks — an earlier
+ *  choice's setFlag thereby branches which aftermath narration the
+ *  player reads. Non-narration steps (choices, encounters, cinematics)
+ *  are never gated and always pass through. */
+export function visibleDlcChapterSteps(
+  chapter: DlcChapter,
+  flags: Readonly<Record<string, unknown>> | null | undefined,
+): readonly DlcStep[] {
+  return chapter.steps.filter((s) => isDlcStepVisible(s, flags));
 }

@@ -72,6 +72,27 @@ export const DLC_HIERARCHY_04_MOLGARATH_LABYRINTH: DlcChapter = {
     },
     {
       kind: "narration",
+      id: "molgarath_aftermath_annotations",
+      speaker: "antiquarian",
+      text: "The annotations. Of course you took the annotations — you are, at the root, one of mine, and a curriculum even Mol'Garath had to footnote is the rarest text in the Labyrinth. Read every footnote. The Engineer wrote them for a student he would never meet. Tonight, fifteen thousand years late, the student arrived.",
+      requiresFlag: "hierarchy_molgarath_annotations_taken",
+    },
+    {
+      kind: "narration",
+      id: "molgarath_aftermath_traps_feed",
+      speaker: "antiquarian",
+      text: "The live traps feed. A tactician's choice — now you know which traps are being designed across the saga as they are designed, and therefore where the Architects bend over their work. Useful. Also a leash: a feed you read is a feed that can read which traps you flinch at. Mol'Garath gave you a window and a mirror in the same pane. Watch which one you spend more time looking into.",
+      requiresFlag: "hierarchy_molgarath_traps_feed_taken",
+    },
+    {
+      kind: "narration",
+      id: "molgarath_aftermath_final_clue",
+      speaker: "antiquarian",
+      text: "The final connection. The substrate name the Engineer carved into the Hamlet board's last node — confirmed, in Mol'Garath's own hand, which he does not lend lightly. You carry out of the Labyrinth the one fact the whole saga has been circling. Be careful with it. A confirmed name is a key, and a key is only ever as safe as the lock it has not yet been turned in.",
+      requiresFlag: "hierarchy_molgarath_final_clue_taken",
+    },
+    {
+      kind: "narration",
       id: "audience_closes",
       speaker: "antiquarian",
       text: "He does not show you out. He never does. He only resumes his chair and turns a page. The next page is one you wrote, and he has been waiting to read it.",

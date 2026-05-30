@@ -75,6 +75,14 @@ const FLAG_PRODUCER_RE =
 const SET_FLAG_DATA_RE =
   /\bsetFlag\s*:\s*["']([a-z][a-zA-Z0-9_:]+)["']/g;
 
+/** Dialog-tree producer regex. `NpcDialogChoice` objects carry the
+ *  flag literal as `sets: "<flag>"`; applyDialogChoice.ts:115 pushes it
+ *  as a narrative flag write at runtime
+ *  (`flagWrites.push({ flag: choice.sets, scope: "narrative" })`). The
+ *  `\b` anchor avoids matching `assets:` / `offsets:` / `presets:`. */
+const SETS_DATA_RE =
+  /\bsets\s*:\s*["']([a-z][a-zA-Z0-9_:]+)["']/g;
+
 let producedFlagsCache: Set<string> | null = null;
 
 function scanProducedFlags(): Set<string> {
@@ -82,7 +90,7 @@ function scanProducedFlags(): Set<string> {
   const out = new Set<string>();
   for (const file of walkSourceFiles(APPS_DIR)) {
     const src = fs.readFileSync(file, "utf-8");
-    for (const re of [FLAG_PRODUCER_RE, SET_FLAG_DATA_RE]) {
+    for (const re of [FLAG_PRODUCER_RE, SET_FLAG_DATA_RE, SETS_DATA_RE]) {
       re.lastIndex = 0;
       let m: RegExpExecArray | null;
       while ((m = re.exec(src)) !== null) {

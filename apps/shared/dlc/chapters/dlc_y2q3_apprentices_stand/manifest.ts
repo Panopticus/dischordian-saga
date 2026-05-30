@@ -25,6 +25,22 @@ const STEPS: readonly DlcStep[] = [
       { id: "run", text: "Run. Live to study tomorrow.", setFlag: "apprentice_ran" },
     ],
   },
+  {
+    kind: "narration",
+    id: "aftermath_stood",
+    speaker: "lyra_vox",
+    text: "They stood. Fourteen minutes, both hands on the desk, and they held the encore through the whole wave. Kael made that same call once and it cost him the way he laughed. Your apprentice made it and walked off the roof still themselves. You taught them the difference. That is the part Kael never got to learn.",
+    subtitle: "The apprentice holds the post. The encore lands.",
+    requiresFlag: "apprentice_stood",
+  },
+  {
+    kind: "narration",
+    id: "aftermath_ran",
+    speaker: "lyra_vox",
+    text: "They ran. Down to the lower halls, alive, and ashamed of it in the way only the young can be. Tell them what I wish someone had told Kael: there is no dishonor in living to study tomorrow. The line you don't die on is the line you get to teach from. They will hold a post someday. Today they learned they get to choose which one.",
+    subtitle: "The apprentice reaches the lower halls. The roof does not.",
+    requiresFlag: "apprentice_ran",
+  },
 ];
 
 export const DLC_Y2Q3_APPRENTICES_STAND: DlcChapter = {

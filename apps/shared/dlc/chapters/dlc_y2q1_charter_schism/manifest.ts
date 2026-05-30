@@ -39,6 +39,22 @@ const STEPS: readonly DlcStep[] = [
       },
     ],
   },
+  {
+    kind: "narration",
+    id: "aftermath_ratified",
+    speaker: "antiquarian",
+    text: "Ratified. The redacted line is restored; the charter grows a second column for Year 3. Half the Council left the chamber smiling and half left silent, which is the truest sign a vote actually decided something. A charter with two columns is harder to read and harder to lie about. You chose the harder, more honest document. I will copy it out tonight in both hands.",
+    subtitle: "The second signatory's line returns to the charter.",
+    requiresFlag: "charter_schism_ratified",
+  },
+  {
+    kind: "narration",
+    id: "aftermath_closed",
+    speaker: "antiquarian",
+    text: "Closed. The existing charter holds, single-column, as it was signed. The descendants at the gate will call it erasure; the Council will call it stability; both will be partly right, which is the condition every charter lives in. You chose the document that already works over the one that would have to be rebuilt. Continuity is not nothing. Tell that to the gate. It will not believe you, but tell it anyway.",
+    subtitle: "The redacted line stays redacted. The gate does not open.",
+    requiresFlag: "charter_schism_closed",
+  },
 ];
 
 export const DLC_Y2Q1_CHARTER_SCHISM: DlcChapter = {
