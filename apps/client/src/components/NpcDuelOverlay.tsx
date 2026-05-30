@@ -85,7 +85,12 @@ interface DuelResult {
   takenCardDefId: string | null;
   /** On victory, any cards restored from prior stake losses. */
   restoredCardDefIds: ReadonlyArray<string>;
+  /** True iff this tier-3 victory unlocked the recruitment offer.
+   *  Drives the accept/decline prompt in the result phase. */
+  recruitable: boolean;
 }
+
+type RecruitmentChoice = "pending" | "accepted" | "declined";
 
 function lookupCard(cardDefId: string): CardDefinition | undefined {
   return ALL_CARD_DEFINITIONS.find((c) => c.id === cardDefId);
@@ -132,6 +137,10 @@ export function NpcDuelOverlay({
   );
   const recordVictory = trpc.npcDuel.recordVictory.useMutation();
   const recordLoss = trpc.npcDuel.recordLoss.useMutation();
+  const acceptRecruitment = trpc.npcDuel.acceptRecruitment.useMutation();
+  const declineRecruitment = trpc.npcDuel.declineRecruitment.useMutation();
+  const [recruitmentChoice, setRecruitmentChoice] =
+    useState<RecruitmentChoice>("pending");
 
   const info = challengeInfoQuery.data;
   const bossFaction = useMemo<DuelystFaction>(() => {
@@ -273,6 +282,7 @@ export function NpcDuelOverlay({
                     grantCount: res.grantCount,
                     takenCardDefId: null,
                     restoredCardDefIds: res.restoredCardDefIds ?? [],
+                    recruitable: Boolean(res.recruitable),
                   });
                   onVictoryRecorded?.(res.grantCount, res.rewardTier);
                 } else {
@@ -282,6 +292,7 @@ export function NpcDuelOverlay({
                     grantCount: 0,
                     takenCardDefId: null,
                     restoredCardDefIds: [],
+                    recruitable: false,
                   });
                 }
               } catch {
@@ -291,6 +302,7 @@ export function NpcDuelOverlay({
                   grantCount: 0,
                   takenCardDefId: null,
                   restoredCardDefIds: [],
+                  recruitable: false,
                 });
               }
             } else {
@@ -307,6 +319,7 @@ export function NpcDuelOverlay({
                 grantCount: 0,
                 takenCardDefId,
                 restoredCardDefIds: [],
+                recruitable: false,
               });
             }
             setPhase("result");
@@ -356,6 +369,70 @@ export function NpcDuelOverlay({
               Held by {npcKey}. Win the rematch to recover.
             </p>
           </div>
+        </div>
+      )}
+
+      {/* Recruitment offer — surfaces on tier-3 victory. Player
+       *  accepts (writes npc_companion:<key>), declines (writes
+       *  npc_declined_companion:<key>), or closes the overlay
+       *  with the offer still pending. Once accepted/declined,
+       *  the prompt collapses to a confirmation line. */}
+      {won && duelResult.recruitable && (
+        <div className="mt-4 rounded border void-border bg-cyan-950/30 p-4">
+          {recruitmentChoice === "pending" ? (
+            <>
+              <p className="font-mono text-[10px] uppercase tracking-wider void-text-accent mb-2">
+                ✦ They are asking to join you
+              </p>
+              <p className="font-serif text-[12px] italic void-text leading-relaxed mb-3">
+                You understood them at every aspect. The chronicle
+                has filed the understanding. They are offering to
+                walk with you.
+              </p>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  disabled={acceptRecruitment.isPending}
+                  onClick={async () => {
+                    try {
+                      const res = await acceptRecruitment.mutateAsync({ npcKey });
+                      if (res.ok) setRecruitmentChoice("accepted");
+                    } catch {
+                      // Best-effort — the flag write happens server-side
+                    }
+                  }}
+                  className="flex-1 rounded border void-border bg-cyan-900/40 px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider void-text hover:bg-cyan-800/60 disabled:opacity-50"
+                >
+                  Walk together
+                </button>
+                <button
+                  type="button"
+                  disabled={declineRecruitment.isPending}
+                  onClick={async () => {
+                    try {
+                      const res = await declineRecruitment.mutateAsync({ npcKey });
+                      if (res.ok) setRecruitmentChoice("declined");
+                    } catch {
+                      // Best-effort
+                    }
+                  }}
+                  className="flex-1 rounded border void-border bg-stone-900/40 px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider void-text-dim hover:bg-stone-800/60 disabled:opacity-50"
+                >
+                  Not this road
+                </button>
+              </div>
+            </>
+          ) : recruitmentChoice === "accepted" ? (
+            <p className="font-serif text-[12px] italic void-text-accent">
+              They are walking with you. The chronicle has filed
+              the companionship.
+            </p>
+          ) : (
+            <p className="font-serif text-[12px] italic void-text-dim">
+              You declined the road they offered. The offer remains
+              in the chronicle; the road does not close.
+            </p>
+          )}
         </div>
       )}
 

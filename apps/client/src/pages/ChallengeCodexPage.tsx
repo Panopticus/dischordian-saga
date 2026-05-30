@@ -20,7 +20,7 @@
  */
 import { useState, useMemo } from "react";
 import { useLocation } from "wouter";
-import { ArrowLeft, Swords, Check, History } from "lucide-react";
+import { ArrowLeft, Swords, Check, History, Users, Sparkles } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { NpcDialogTreeRunner } from "@/components/NpcDialogTreeRunner";
 import { ALL_NPC_DIALOG_TREES } from "@shared/npcs/dialogTrees";
@@ -35,6 +35,8 @@ interface ChallengeableNpc {
   learnedAspectCount: number;
   totalAspectCount: number;
   carriedByPlayer: boolean;
+  isCompanion?: boolean;
+  recruitable?: boolean;
 }
 
 /** Find the canonical perspective_gathering tree for an NPC. */
@@ -145,6 +147,22 @@ export default function ChallengeCodexPage() {
                           title="You have defeated this potential at least once"
                         >
                           <Check size={10} /> Defeated
+                        </span>
+                      )}
+                      {npc.isCompanion && (
+                        <span
+                          className="flex items-center gap-1 font-mono text-[8px] uppercase tracking-wider void-text-accent"
+                          title="Walking with you as a companion"
+                        >
+                          <Users size={10} /> Companion
+                        </span>
+                      )}
+                      {npc.recruitable && !npc.isCompanion && (
+                        <span
+                          className="flex items-center gap-1 font-mono text-[8px] uppercase tracking-wider void-text-accent"
+                          title="Has offered to walk with you — pick up the conversation again to accept or decline"
+                        >
+                          <Sparkles size={10} /> Awaiting answer
                         </span>
                       )}
                     </div>

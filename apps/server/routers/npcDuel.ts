@@ -39,6 +39,7 @@ import {
   dispatchNpcDuelVictory,
   dispatchNpcDuelLoss,
 } from "../services/dispatchNpcDuelVictory";
+import { setUserNarrativeFlag } from "../services/narrativeFlagWriter";
 import type { NpcKey } from "@shared/npcs/types";
 
 /** Every NpcKey that has a deck authored. The router refuses any
@@ -244,9 +245,69 @@ export const npcDuelRouter = router({
         learnedAspectCount: learned,
         totalAspectCount: deck.perspectiveAspects.length,
         carriedByPlayer: flags.has(`player_carries_${npcKey}_memory`),
+        isCompanion: flags.has(`npc_companion:${npcKey}`),
+        recruitable: flags.has(`npc_recruitable:${npcKey}`),
       };
     }).filter((x): x is NonNullable<typeof x> => x !== null);
   }),
+
+  /**
+   * Accept the recruitment offer surfaced after a tier-3 victory.
+   * Writes npc_companion:<npcKey> + clears npc_recruitable:<npcKey>
+   * so the offer doesn't re-fire on subsequent visits.
+   *
+   * Refuses NPCs whose recruitable flag is not set — the client
+   * should only surface the prompt when the flag is present.
+   */
+  acceptRecruitment: protectedProcedure
+    .input(z.object({ npcKey: npcKeyInput }))
+    .mutation(async ({ ctx, input }) => {
+      const npcKey = input.npcKey as NpcKey;
+      const flags = await readPlayerNarrativeFlags(ctx.user.id);
+      if (!flags.has(`npc_recruitable:${npcKey}`)) {
+        return { ok: false as const, reason: "not_recruitable" };
+      }
+      await setUserNarrativeFlag(
+        ctx.user.id,
+        `npc_companion:${npcKey}`,
+        true,
+      );
+      await setUserNarrativeFlag(
+        ctx.user.id,
+        `npc_recruitable:${npcKey}`,
+        false,
+      );
+      return { ok: true as const, npcKey };
+    }),
+
+  /**
+   * Decline the recruitment offer. Writes
+   * npc_declined_companion:<npcKey> + clears
+   * npc_recruitable:<npcKey>. The decline is durable but reversible
+   * — the player can ask the NPC about joining again later by
+   * triggering another tier-3 victory (or via authored dialog,
+   * deferred).
+   */
+  declineRecruitment: protectedProcedure
+    .input(z.object({ npcKey: npcKeyInput }))
+    .mutation(async ({ ctx, input }) => {
+      const npcKey = input.npcKey as NpcKey;
+      const flags = await readPlayerNarrativeFlags(ctx.user.id);
+      if (!flags.has(`npc_recruitable:${npcKey}`)) {
+        return { ok: false as const, reason: "not_recruitable" };
+      }
+      await setUserNarrativeFlag(
+        ctx.user.id,
+        `npc_declined_companion:${npcKey}`,
+        true,
+      );
+      await setUserNarrativeFlag(
+        ctx.user.id,
+        `npc_recruitable:${npcKey}`,
+        false,
+      );
+      return { ok: true as const, npcKey };
+    }),
 
   /**
    * List the user's past NPC duels — match-history rows tagged with
