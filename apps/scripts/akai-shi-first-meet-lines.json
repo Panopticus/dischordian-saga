@@ -71,9 +71,9 @@
   {
     "id": "akai.loyalty_intro.root",
     "text": "I want to read what the Lair learned. It learned things from me I did not know I was teaching. I would like a witness. I would like it to be you.",
-    "context": "first_meeting.akai-shi-loyalty-intro",
+    "context": "loyalty_intro.akai-shi-loyalty-intro",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/akai_shi/loyalty_intro.ts",
     "directionNotes": "[The case is still open. The journal — a Lair-bound notebook in two halves, one of which is hers — is on the floor between you. The pattern is hand-annotated in the margin.] I want to read what the Lair learned. It learned things from me I did not know I was teaching. I would like a witness. I would like it to be you.",
     "meta": {
       "npcKey": "akai_shi",
@@ -85,9 +85,9 @@
   {
     "id": "akai.loyalty_intro.accept_loyalty",
     "text": "Then we begin. The pattern lives in the margin. The body is the Lair's pretence; the margin is the truth. I am going to read the margin aloud. You may interrupt at any point. The interruption is the calibration.",
-    "context": "first_meeting.akai-shi-loyalty-intro",
+    "context": "loyalty_intro.akai-shi-loyalty-intro",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/akai_shi/loyalty_intro.ts",
     "directionNotes": "[She slides the journal toward you. Both halves. The margin notes are hers; the body text is the Lair's. The annotations agree on more than the body text wants them to.] Then we begin. The pattern lives in the margin. The body is the Lair's pretence; the margin is the truth. I am going to read the margin aloud. You may interrupt at any point. The interruption is the calibration.",
     "meta": {
       "npcKey": "akai_shi",
@@ -99,9 +99,9 @@
   {
     "id": "akai.loyalty_intro.press_on_pattern",
     "text": "It learned that the cure is generous. The Lair authored a curtailment of the cure — the curtailment specifies a single senior carrier and excludes the other three. The pattern as authored is more permissive; the curtailment is the Lair's choice, not the pattern's. I want to read past the curtailment. I want to know what the pattern says when it is not being curtailed.",
-    "context": "first_meeting.akai-shi-loyalty-intro",
+    "context": "loyalty_intro.akai-shi-loyalty-intro",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/akai_shi/loyalty_intro.ts",
     "meta": {
       "npcKey": "akai_shi",
       "treeId": "akai-shi-loyalty-intro",
@@ -112,9 +112,9 @@
   {
     "id": "akai.loyalty_intro.post_press_offer",
     "text": "Will you read it with me.",
-    "context": "first_meeting.akai-shi-loyalty-intro",
+    "context": "loyalty_intro.akai-shi-loyalty-intro",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/akai_shi/loyalty_intro.ts",
     "directionNotes": "[She waits. The static remains at the floor.] Will you read it with me.",
     "meta": {
       "npcKey": "akai_shi",
@@ -126,9 +126,9 @@
   {
     "id": "akai.loyalty_intro.defer",
     "text": "The journal will remain on the stand. The shrine does not move things on me without my consent. The next time you visit, the journal will be where it is now. If you come back ready, we read.",
-    "context": "first_meeting.akai-shi-loyalty-intro",
+    "context": "loyalty_intro.akai-shi-loyalty-intro",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/akai_shi/loyalty_intro.ts",
     "directionNotes": "[She closes the journal but does not put it away. She places it on the shrine's reading-stand within arm's reach.] The journal will remain on the stand. The shrine does not move things on me without my consent. The next time you visit, the journal will be where it is now. If you come back ready, we read.",
     "meta": {
       "npcKey": "akai_shi",
@@ -140,9 +140,9 @@
   {
     "id": "akai.loyalty_intro.defer_to_presence",
     "text": "The cushion does not require a reason. Sit. We can read another night. The pattern is generous. The pattern can wait. I — would not have asked for this if you had not offered. Thank you.",
-    "context": "first_meeting.akai-shi-loyalty-intro",
+    "context": "loyalty_intro.akai-shi-loyalty-intro",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/akai_shi/loyalty_intro.ts",
     "directionNotes": "[A small pause. She accepts the offer without quite acknowledging it.] The cushion does not require a reason. Sit. We can read another night. The pattern is generous. The pattern can wait. I — would not have asked for this if you had not offered. Thank you.",
     "meta": {
       "npcKey": "akai_shi",
@@ -154,9 +154,9 @@
   {
     "id": "akai.perspective.root",
     "text": "You will have asked. You ask. You have asked. The arrival is a class I have classified before. Not a thresher. Not a substrate-eater. The questions you brought are the questions readers bring. Some of them I have answered in the version of the conversation that comes after this one. Ask the version that occurs.",
-    "context": "first_meeting.akai-shi-perspective-gathering",
+    "context": "perspective_gathering.akai-shi-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/akai_shi/perspective_gathering.ts",
     "meta": {
       "npcKey": "akai_shi",
       "treeId": "akai-shi-perspective-gathering",
@@ -167,9 +167,9 @@
   {
     "id": "akai.perspective.tense_drift",
     "text": "Because the conversation has already been recorded in the version of the timeline I am preventing. I speak of it in the tense it occurred in there. You hear it in the tense it occurs in here. The drift is the seam where the two recordings meet. I do not adjust the tense for the listener; the listener adjusts the tense for the listening. I will have killed three threats today. I kill one. I have killed the others.",
-    "context": "first_meeting.akai-shi-perspective-gathering",
+    "context": "perspective_gathering.akai-shi-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/akai_shi/perspective_gathering.ts",
     "meta": {
       "npcKey": "akai_shi",
       "treeId": "akai-shi-perspective-gathering",
@@ -180,9 +180,9 @@
   {
     "id": "akai.perspective.matrix_killing",
     "text": "The Necromancer. Inside the Matrix of Dreams. He had hidden inside the substrate the Game Master designed and the Hierarchy funded. I entered the substrate. I located him. I ended him. The killing is not a boast; it is a closed file. The Matrix is where I do the work that the timeline cannot afford me to do outside it. There are others. I do not name them. The list is operational.",
-    "context": "first_meeting.akai-shi-perspective-gathering",
+    "context": "perspective_gathering.akai-shi-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/akai_shi/perspective_gathering.ts",
     "meta": {
       "npcKey": "akai_shi",
       "treeId": "akai-shi-perspective-gathering",
@@ -193,9 +193,9 @@
   {
     "id": "akai.perspective.mercy_killing",
     "text": "Jericho's. The Virus had already consumed me; the consumption was complete; what he ended was not me but the dissolution that wore my outline. The killing was mercy. The killing was clean. I do not recant the canon; I do not recant his account; I do not soften the act because the act was correct. The resurrection that occurred occurred AFTER the consumption. The body that sits with you is the body that came back. Jericho's record stands. So does mine.",
-    "context": "first_meeting.akai-shi-perspective-gathering",
+    "context": "perspective_gathering.akai-shi-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/akai_shi/perspective_gathering.ts",
     "meta": {
       "npcKey": "akai_shi",
       "treeId": "akai-shi-perspective-gathering",
@@ -206,9 +206,9 @@
   {
     "id": "akai.perspective.echo_degen_memory",
     "text": "He gives back a small ration. You carry the ration. The ration registers on the conversation. The version of you that arrived without the Casino's ration arrived in a different timeline; I have classified it; I will not deploy against you the strategies that timeline required.",
-    "context": "first_meeting.akai-shi-perspective-gathering",
+    "context": "perspective_gathering.akai-shi-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/akai_shi/perspective_gathering.ts",
     "meta": {
       "npcKey": "akai_shi",
       "treeId": "akai-shi-perspective-gathering",
@@ -219,9 +219,9 @@
   {
     "id": "akai.perspective.echo_wraith_memory",
     "text": "The lectern. You sat with the body that did the dying. He and I are not at the same table; we are at adjacent tables; the lectern is one shelf above the operations desk. The Hierophant counts; I classify. The work is parallel. You have now seen both shelves.",
-    "context": "first_meeting.akai-shi-perspective-gathering",
+    "context": "perspective_gathering.akai-shi-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/akai_shi/perspective_gathering.ts",
     "meta": {
       "npcKey": "akai_shi",
       "treeId": "akai-shi-perspective-gathering",
@@ -232,9 +232,9 @@
   {
     "id": "akai.perspective.after_aspect",
     "text": "Another class. Or the operations desk. Either is on schedule.",
-    "context": "first_meeting.akai-shi-perspective-gathering",
+    "context": "perspective_gathering.akai-shi-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/akai_shi/perspective_gathering.ts",
     "meta": {
       "npcKey": "akai_shi",
       "treeId": "akai-shi-perspective-gathering",
@@ -245,9 +245,9 @@
   {
     "id": "akai.perspective.challenge_offer",
     "text": "A match. Acceptable. I have classified you. You are not a thresher. You are not a substrate-eater. You are the class of opponent I trained against in the timeline I am preventing; I will deploy the strategies that did not work there and revise them in the version that occurs. The match ends in the way it ends. I do not flinch. Sit.",
-    "context": "first_meeting.akai-shi-perspective-gathering",
+    "context": "perspective_gathering.akai-shi-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/akai_shi/perspective_gathering.ts",
     "meta": {
       "npcKey": "akai_shi",
       "treeId": "akai-shi-perspective-gathering",
@@ -258,9 +258,9 @@
   {
     "id": "akai.perspective.challenge_accepted",
     "text": "Then the match begins. The Red Death does not flinch.",
-    "context": "first_meeting.akai-shi-perspective-gathering",
+    "context": "perspective_gathering.akai-shi-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/akai_shi/perspective_gathering.ts",
     "meta": {
       "npcKey": "akai_shi",
       "treeId": "akai-shi-perspective-gathering",
@@ -271,9 +271,9 @@
   {
     "id": "akai.perspective.terminal_come_back",
     "text": "Then the version where you return is the one I will have classified. I file the version. I file the closing. I will be at the desk.",
-    "context": "first_meeting.akai-shi-perspective-gathering",
+    "context": "perspective_gathering.akai-shi-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/akai_shi/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/akai_shi/perspective_gathering.ts",
     "meta": {
       "npcKey": "akai_shi",
       "treeId": "akai-shi-perspective-gathering",

@@ -68,12 +68,12 @@ describe("NPC first-meeting transcript JSONs (round-3 gap 1)", () => {
     }
   });
 
-  it("ships exactly 175 transcript entries across 10 NPCs (NPC duel content wave 2 — 9 perspective trees authored: the_degen + wraith_calder + vex_solene + the_seer + akai_shi + adjudicator_locke + the_meme + the_oracle + lycos)", () => {
+  it("ships exactly 185 transcript entries across 10 NPCs (NPC duel content wave 2 — 9 perspective trees — plus the Game Master second-meeting + mid-trial-intercession trees and the multi-tree source-file provenance fix)", () => {
     let total = 0;
     for (const [npcKey] of treesByNpc) {
       total += entriesForNpc(npcKey).length;
     }
-    expect(total).toBe(175);
+    expect(total).toBe(185);
   });
 
   it("each NPC's entry count matches its first-meeting tree's voLineId count", () => {
@@ -132,6 +132,16 @@ describe("NPC first-meeting transcript JSONs (round-3 gap 1)", () => {
       const entries = entriesForNpc(npcKey);
       for (const e of entries) {
         expect(e.text.length, `${npcKey} ${e.id} text non-empty`).toBeGreaterThan(0);
+      }
+    }
+  });
+
+  it("every entry's `file` provenance points at a real dialog-tree source on disk (multi-tree NPCs must not all claim first_meeting.ts)", () => {
+    const repoRoot = path.resolve(__dirname, "..", "..", "..");
+    for (const [npcKey] of treesByNpc) {
+      for (const e of entriesForNpc(npcKey)) {
+        const abs = path.join(repoRoot, "apps", e.file);
+        expect(fs.existsSync(abs), `${npcKey} ${e.id}: file ${e.file} does not exist`).toBe(true);
       }
     }
   });

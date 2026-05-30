@@ -74,6 +74,27 @@ export const DLC_HIERARCHY_02_TASKMASTER_REMEMBERED: DlcChapter = {
     },
     {
       kind: "narration",
+      id: "taskmaster_aftermath_revealed_to_kael",
+      speaker: "antiquarian",
+      text: "You told Kael. He turned the watchcase over twice and did not open it — he already knew what was inside, the way you know a wound is still there without pressing it. The grief was his to be handed, and you handed it. He is worse tonight and better for the year. That is what shared recognition costs, and what it is worth.",
+      requiresFlag: "hierarchy_taskmaster_revealed_to_kael",
+    },
+    {
+      kind: "narration",
+      id: "taskmaster_aftermath_carried_alone",
+      speaker: "antiquarian",
+      text: "You carried it alone. Kael sleeps tonight not knowing, and you do not, and you have decided that trade is yours to make. I will not tell you it was wrong — some recognitions, handed over, become a second wound rather than a shared one. But understand the ledger you have opened in yourself. You are now a person who knows a thing and holds it. Those grow heavy in a particular way.",
+      requiresFlag: "hierarchy_taskmaster_carried_alone",
+    },
+    {
+      kind: "narration",
+      id: "taskmaster_aftermath_old_name_spoken",
+      speaker: "antiquarian",
+      text: "You spoke her old name into the work-order room. For one half-second the handwriting on tomorrow's order wavered — a single letter formed the way she used to form it, before the Hierarchy unnamed her into a function. Then it corrected. You did not free her. But you proved there is still a her in there to free. In an Age of the Damned, that is not nothing. That is the whole fight, in miniature.",
+      requiresFlag: "hierarchy_taskmaster_old_name_spoken",
+    },
+    {
+      kind: "narration",
       id: "next_morning",
       speaker: "antiquarian",
       text: "Tomorrow's work order will arrive in the same handwriting. She will not change it. The handwriting is the only piece of her that is still, technically, hers.",

@@ -191,7 +191,7 @@ export function buildAct4OpponentTauntHooks(
 export function resolveAct4Dialog(
   flags: ReadonlySet<string>
 ): Act4OpponentDialog | null {
-  if (flags.has("act1_path_A")) return THE_BRIDGE;
+  if (flags.has("act1_path_a")) return THE_BRIDGE;
   if (flags.has("act3_full_secret")) return ELARA_BETRAYED;
   if (flags.has("act3_partial_share")) return ELARA_LEARNING;
   return null;

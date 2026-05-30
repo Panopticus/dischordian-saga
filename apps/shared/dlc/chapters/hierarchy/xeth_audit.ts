@@ -56,6 +56,27 @@ export const DLC_HIERARCHY_01_XETH_AUDIT: DlcChapter = {
     },
     {
       kind: "narration",
+      id: "audit_aftermath_honored",
+      speaker: "antiquarian",
+      text: "Every line, honored. The Debt Collector's stylus does not move — there is nothing to amend. I have watched men sign that ledger out of fear; you signed it out of weight, which is the only signature it respects. The debts are heavier now that they are willingly yours. So are you.",
+      requiresFlag: "hierarchy_xeth_audit_honored",
+    },
+    {
+      kind: "narration",
+      id: "audit_aftermath_renegotiated",
+      speaker: "antiquarian",
+      text: "Renegotiated. The lines you keep, kept; the lines you have outgrown, struck. The Collector recalculates without complaint — he is, in the end, an accountant, and an honest renegotiation is still a balanced book. You have done the rarest thing in his column: changed without lying about having changed.",
+      requiresFlag: "hierarchy_xeth_audit_renegotiated",
+    },
+    {
+      kind: "narration",
+      id: "audit_aftermath_refused",
+      speaker: "antiquarian",
+      text: "Refused. The whole ledger, unsigned. I will tell you what this costs, because the Collector will not: an unsigned debt does not vanish — it simply has no due date, which means it may come due at any hour he chooses. You have traded a known weight for an unknown one. Some would call that freedom. He calls it 'outstanding.'",
+      requiresFlag: "hierarchy_xeth_audit_refused",
+    },
+    {
+      kind: "narration",
       id: "audit_closes",
       speaker: "antiquarian",
       text: "The column closes. He does not say goodbye. Debt Collectors do not. They schedule the next audit.",

@@ -65,7 +65,7 @@ const THE_VISIBLE_WAR: Act7OpponentDialog = {
   opponentMidMatchLate:
     "You are facing yourself from every Act at once. You are winning. The winning is the cover. Finish the hand.",
   elaraPostMatchWin:
-    "You played every version of yourself out in one match. I watched you remember all of them. I am going to file the match. Nothing about it is going to be lost to the long memory.",
+    "You played every version of yourself out in one match. I watched you remember all of them. I am going to file the match. Nothing about it is going to be lost to the long memory.{if forgiveness_choice_made} The version of you who forgave someone in Cycle A was in the deck too. I saw that card land. It is still the one I am proudest of.{/if}",
   humanPostMatchWin:
     "The silhouette resolved into your army, then into Warlord Zero's first stance, then into nothing. That is the shape of the cover. Well played.",
   elaraPostMatchLoss:
@@ -73,7 +73,7 @@ const THE_VISIBLE_WAR: Act7OpponentDialog = {
   humanPostMatchLoss:
     "You are allowed to lose to your past. Nobody ever got out of one. What matters is that the past looked at you and did not win by more than it needed to.",
   frameCloseWin:
-    "You carried every one of them across the match. I saw the Engineer. I saw the Detective at his desk. I saw the version of me who handed you a staff on the bridge. Thank you for bringing us all.",
+    "You carried every one of them across the match. I saw the Engineer. I saw the Detective at his desk. I saw the version of me who handed you a staff on the bridge. Thank you for bringing us all.{if vortex_endgame_light_variant} Every silhouette in that deck leaned toward the light at the end. That was you. That was the whole of you, leaning.{/if}{if vortex_endgame_dark_variant} Every silhouette in that deck carried a shadow at the end. I am not going to pretend it was someone else's. It was yours. I narrated it anyway.{/if}",
   frameCloseLoss:
     "You lost to yourself and did not apologize. Good. The match is recoverable. I am not yet sure what the victory will look like, but I know it will be shaped like tonight.",
 };
@@ -96,7 +96,7 @@ const THE_WATCHERS_SHADOW: Act7OpponentDialog = {
   elaraPostMatchWin:
     "He said you won. I am going to take his word for it — my sensors recorded nothing. Nothing is what winning looks like in this match.",
   humanPostMatchWin:
-    "The shadow thinned. The Watcher's actual presence registered for one heartbeat on Elara's sensors, and then withdrew, bored. We bought the cover another Act. Exhale. Slowly.",
+    "The shadow thinned. The Watcher's actual presence registered for one heartbeat on Elara's sensors, and then withdrew, bored. We bought the cover another Act. Exhale. Slowly.{if human_dark_confession_unlocked} You know what the Watcher is to me now. You heard me say it. Boring it tonight cost you nothing and cost me everything, and you let me pay quietly. Thank you.{/if}",
   elaraPostMatchLoss:
     "I still cannot see anything. He says we lost. I am going to take his word for that too. I am going to be quieter about it than usual.",
   humanPostMatchLoss:
@@ -125,7 +125,7 @@ const PATIENT_ZERO_REBORN: Act7OpponentDialog = {
   elaraPostMatchWin:
     "The construct peeled off him. For a full second it was only itself — a viral shape with no face. Then the scanners reached it, and it was gone. His actual laugh played once in the substrate. Just once. That was enough.",
   humanPostMatchWin:
-    "That was the correct laugh. I have not heard it in seventeen thousand years. I am going to sit down for a minute. In the substrate, that means I am going to dim.",
+    "That was the correct laugh. I have not heard it in seventeen thousand years. I am going to sit down for a minute. In the substrate, that means I am going to dim.{if kael_questline_complete} You did the slow work with Kael already. That is the only reason the construct could not hold his laugh. You unhooked it before tonight. Tonight just proved it.{/if}",
   elaraPostMatchLoss:
     "It kept him on. We will play it again. Next time, I will help with the scanning. I promise. I should have been helping this time. I am sorry.",
   humanPostMatchLoss:
@@ -166,7 +166,7 @@ const THE_DREAMER_DIALOG: Act7OpponentDialog = {
   elaraPostMatchWin:
     "The tableau folded. There is no log entry. There is, however, a softening across the community sensors. I am going to credit you with the softening. You will not be able to point to it later.",
   humanPostMatchWin:
-    "You played a dream and did not wake it up. That is the only way to play one. Thank you.",
+    "You played a dream and did not wake it up. That is the only way to play one. Thank you.{if act_6_complete} The Dreamer only arrives when enough small kindnesses stack up to bend the universe. Everything you closed through Act 6 is in that stack. You built the conditions for this without knowing it.{/if}",
   elaraPostMatchLoss:
     "The Dreamer did not win. The Dreamer waited. The match ended without a verdict. We will play again when you have rested.",
   humanPostMatchLoss:
@@ -202,15 +202,15 @@ const THE_ORACLE_MEME_DIALOG: Act7OpponentDialog = {
   opponentMidMatchLate:
     "Finish the hand. The face holds one beat, then changes. You should know what it changes to. If not, the change tells you.",
   elaraPostMatchWin:
-    "You closed the seven acts on the face you earned. I am not going to tell you which face. I am going to tell you it was the right one. You will know later that I am right.",
+    "You closed the seven acts on the face you earned. I am not going to tell you which face. I am going to tell you it was the right one. You will know later that I am right.{if act6_elara_confession_heard} You heard what I confessed before the convergence. The face you earned tonight knows it too. I am glad you carried it in instead of leaving it at the door.{/if}",
   humanPostMatchWin:
-    "Both faces get the credit. That is the courtesy. The credits will, in fact, name both. Live with the ambiguity. The ambiguity is the prize.",
+    "Both faces get the credit. That is the courtesy. The credits will, in fact, name both. Live with the ambiguity. The ambiguity is the prize.{if act6_human_confession_heard} You let me finish the confession back in Act 6. I have wondered, every cycle since, whether you would. Tonight is the answer. Both faces saw you choose to stay.{/if}",
   elaraPostMatchLoss:
     "Both faces wait. Neither gloats. The match restarts when you do. I will be at the table either way. So will the other one.",
   humanPostMatchLoss:
     "You are allowed to lose to the saga's last face. That is, on average, what happens. Try again in the morning. The face will be different. Not the meaning — the face.",
   frameCloseWin:
-    "The face holds — Oracle or Meme, depending on you — and then resolves into the other for one frame, as a courtesy. The seven acts close on the resolution. The credits, when they come, name both.",
+    "The face holds — Oracle or Meme, depending on you — and then resolves into the other for one frame, as a courtesy. The seven acts close on the resolution. The credits, when they come, name both.{if vortex_endgame_light_variant} It settles, at the last, on the lighter of the two faces. You spent seven acts earning which one it would be. It remembers.{/if}{if vortex_endgame_dark_variant} It settles, at the last, on the darker of the two faces. It is not a punishment. It is a mirror. You spent seven acts earning the reflection.{/if}",
   frameCloseLoss:
     "The face says the same line in two voices at once: 'Come back. The other face will be waiting too.' The match restarts when you do.",
 };

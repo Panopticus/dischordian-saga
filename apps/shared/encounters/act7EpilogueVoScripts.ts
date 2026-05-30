@@ -59,7 +59,7 @@ export const HUMANITY_ENDING_VO: ReadonlyArray<EncounterLine> = [
     speaker: "the_human",
     phase: "negotiation",
     text:
-      "[CUE 0:34] [PATH-A VARIANT — ONLY RECORD IF act1_path_A FLAG SET] " +
+      "[CUE 0:34] [PATH-A VARIANT — ONLY RECORD IF act1_path_a FLAG SET] " +
       "[Voice direction: balanced, slight warmth, never hurry.] The " +
       "cover story is now the real story. The substrate steps back; the " +
       "people step forward. We will, all of us, carry small mortal " +
@@ -67,7 +67,7 @@ export const HUMANITY_ENDING_VO: ReadonlyArray<EncounterLine> = [
       "cost. The cost is not the whole truth — there is also the joy. " +
       "There will be a lot of joy.",
     minAct: 7,
-    requiresFlag: "act1_path_A",
+    requiresFlag: "act1_path_a",
     cooldownKey: "ep.humanity.human.A",
     maxPlays: 1,
   },
@@ -194,7 +194,7 @@ export const MACHINE_ENDING_VO: ReadonlyArray<EncounterLine> = [
       "truth-telling. The substrate respects truth-telling. Be careful " +
       "what the substrate respects.",
     minAct: 7,
-    requiresFlag: "act1_path_A",
+    requiresFlag: "act1_path_a",
     cooldownKey: "ep.machine.human.A",
     maxPlays: 1,
   },
@@ -314,7 +314,7 @@ export const BALANCE_ENDING_VO: ReadonlyArray<EncounterLine> = [
       "the Seat. The not-committing is, on this path, also a form of " +
       "love.",
     minAct: 7,
-    requiresFlag: "act1_path_A",
+    requiresFlag: "act1_path_a",
     cooldownKey: "ep.balance.human.A",
     maxPlays: 1,
   },
@@ -433,7 +433,7 @@ export const SOLDIER_COMMAND_ENDING_VO: ReadonlyArray<EncounterLine> = [
       "officers will trust you because of it. Trust is what makes a " +
       "bridge a bridge instead of a podium.",
     minAct: 7,
-    requiresFlag: "act1_path_A",
+    requiresFlag: "act1_path_a",
     cooldownKey: "ep.bridge.human.A",
     maxPlays: 1,
   },

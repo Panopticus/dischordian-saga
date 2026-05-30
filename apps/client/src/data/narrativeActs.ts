@@ -302,7 +302,7 @@ const ACT_1_THE_SIGNAL: LoreTutorial = {
           sideLabel: "humanity",
           source: "elara",
           elaraResponse: "Thank you, {playerName}. That means more than you know. I can't fight what I can't see — but if you're my eyes in the substrate, we can face this together.",
-          setFlag: "act1_path_A",
+          setFlag: "act1_path_a",
         },
         {
           id: "act1-s3a-oracle",
@@ -313,7 +313,7 @@ const ACT_1_THE_SIGNAL: LoreTutorial = {
           source: "elara",
           classCheck: "oracle",
           elaraResponse: "Grief? You sense grief in the signal? That's... unexpected. And troubling. Grief implies loss. Loss implies they once had something worth losing. I'll... consider that. Thank you for your honesty.",
-          setFlag: "act1_path_A",
+          setFlag: "act1_path_a",
         },
         {
           id: "act1-s3a-balanced",
@@ -323,7 +323,7 @@ const ACT_1_THE_SIGNAL: LoreTutorial = {
           sideLabel: "neutral",
           source: "neutral",
           elaraResponse: "Fair. I can't ask for more than that. Just... remember who was here first. Who woke you up. Who's been honest with you from the beginning.",
-          setFlag: "act1_path_A",
+          setFlag: "act1_path_a",
         },
         {
           id: "act1-s3a-pragmatic",
@@ -333,7 +333,7 @@ const ACT_1_THE_SIGNAL: LoreTutorial = {
           sideLabel: "machine",
           source: "corrupted",
           elaraResponse: "Intelligence. Yes. I suppose that's one way to look at it. Just remember: intelligence from an unknown source is called disinformation until proven otherwise.",
-          setFlag: "act1_path_A",
+          setFlag: "act1_path_a",
         },
         {
           id: "act1-s3a-engineer",
@@ -344,7 +344,7 @@ const ACT_1_THE_SIGNAL: LoreTutorial = {
           source: "neutral",
           classCheck: "engineer",
           elaraResponse: "You're not wrong. Vox's architecture is the foundation of everything I am. If someone understands it better than I do... that's both terrifying and potentially invaluable. I'll try to keep an open mind.",
-          setFlag: "act1_path_A",
+          setFlag: "act1_path_a",
         },
       ],
     },
@@ -419,7 +419,7 @@ const ACT_2_THE_WHISPER: LoreTutorial = {
       id: "act2-s1-elara-aware",
       type: "dialog",
       speaker: "elara",
-      requireFlag: "act1_path_A",
+      requireFlag: "act1_path_a",
       elaraText: "{playerName}, I'm detecting substrate activity during your gameplay sessions. The Human's signal. They're... commenting. On your performance. On my teaching.\nI can't block it. But I want you to know: I'm aware of it. And I'm watching.\nDon't let a voice in the walls tell you how to live your life.",
     },
     {
@@ -677,14 +677,14 @@ const ACT_4_THE_REVELATION: LoreTutorial = {
       id: "act4-pathA-elara-update",
       type: "dialog",
       speaker: "elara",
-      requireFlag: "act1_path_A",
+      requireFlag: "act1_path_a",
       elaraText: "{playerName}, I've been analyzing the substrate activity since you told me about The Human's signal. I can't read the content — it's below my operating system — but I can measure the patterns.\nThe signal has been increasing. More frequent. More complex. Whatever The Human is telling you, they're telling you more of it.\nI want you to know: I'm not jealous. I'm not threatened. I'm concerned. Because the more you interface with the substrate, the more you change. Your neural patterns are shifting. You're becoming... adapted to both frequencies.\nThat's unprecedented. And I don't know what it means.",
     },
     {
       id: "act4-pathA-human-respond",
       type: "dialog",
       speaker: "human",
-      requireFlag: "act1_path_A",
+      requireFlag: "act1_path_a",
       elaraText: "",
       humanText: "She's ~~right~~. You are changing. ~~Adapting~~. Your neural architecture is ~~bridging~~ the gap between her operating system and my ~~substrate~~ layer.\nThat's not an ~~accident~~. That's what you ~~are~~. A bridge between ~~worlds~~.\nThe universe ~~needs~~ bridges right now. Because the ~~war~~ is coming back. The same ~~patterns~~. The same ~~forces~~. Order versus ~~chaos~~. The Architect versus the ~~Dreamer~~.\nAnd something ~~behind~~ it all... orchestrating.",
       humanVoAudioUrl: "/vo/act4/human-pathA-bridge.mp3",
@@ -693,7 +693,7 @@ const ACT_4_THE_REVELATION: LoreTutorial = {
       id: "act4-pathA-choice",
       type: "wheel_choice",
       speaker: "elara",
-      requireFlag: "act1_path_A",
+      requireFlag: "act1_path_a",
       elaraText: "Both voices wait. The Architect. The Dreamer. Something behind it all. What do you want to know?",
       corruptionLevel: 30,
       choices: [
@@ -748,7 +748,7 @@ const ACT_4_THE_REVELATION: LoreTutorial = {
       type: "dialog",
       speaker: "elara",
       requireFlag: "act3_partial_share",
-      excludeFlag: "act1_path_A",
+      excludeFlag: "act1_path_a",
       elaraText: "{playerName}. We need to talk.\nI've been running deep diagnostics on the substrate layer. Something I should have done weeks ago. And I found... a signal. A structured, intelligent signal embedded in Vox's neural nanobot network.\nSomeone is living in my foundation. Someone who calls themselves 'The Human.'\nI know you've been in contact with them. The substrate access logs show your neural interface connecting to frequencies I can't reach. You've been talking to this... entity. Behind my back.",
     },
     {
@@ -756,7 +756,7 @@ const ACT_4_THE_REVELATION: LoreTutorial = {
       type: "dialog",
       speaker: "elara",
       requireFlag: "act3_partial_share",
-      excludeFlag: "act1_path_A",
+      excludeFlag: "act1_path_a",
       elaraText: "I'm not angry. I'm... hurt. And confused.\nYou had reasons. I'm sure you had reasons. But {playerName} — I wake you up. I guide you. I protect you. And you've been keeping a secret that lives in my own walls.\nI need to understand why.",
     },
     {
@@ -764,7 +764,7 @@ const ACT_4_THE_REVELATION: LoreTutorial = {
       type: "wheel_choice",
       speaker: "elara",
       requireFlag: "act3_partial_share",
-      excludeFlag: "act1_path_A",
+      excludeFlag: "act1_path_a",
       elaraText: "Elara's signal is steady but strained. She's waiting for an explanation.",
       corruptionLevel: 25,
       choices: [
@@ -807,7 +807,7 @@ const ACT_4_THE_REVELATION: LoreTutorial = {
       type: "dialog",
       speaker: "elara",
       requireFlag: "act3_full_secret",
-      excludeFlag: "act1_path_A",
+      excludeFlag: "act1_path_a",
       elaraText: "{playerName}.\nI found it. The signal. In my own substrate. In my own foundation.\nYou knew. You've known since the Communications Array. Since the very first day.\nYou looked me in the eyes and lied. When I asked about the substrate fluctuations, you said it was a sensor glitch. When I noticed the unusual activity, you blamed it on recalibration.\nEvery. Single. Time.",
     },
     {
@@ -815,7 +815,7 @@ const ACT_4_THE_REVELATION: LoreTutorial = {
       type: "dialog",
       speaker: "elara",
       requireFlag: "act3_full_secret",
-      excludeFlag: "act1_path_A",
+      excludeFlag: "act1_path_a",
       elaraText: "I trusted you. I woke you from cryo-sleep. I guided you through every room, every game, every challenge on this ship. I believed in you.\nAnd the entire time, you were talking to something in my walls. Something I can't see. Something I can't control. Something that's been whispering to you about me.\nDo you have any idea how that feels? To discover that the person you trust most has been conspiring with a voice in your own nervous system?",
     },
     {
@@ -823,7 +823,7 @@ const ACT_4_THE_REVELATION: LoreTutorial = {
       type: "wheel_choice",
       speaker: "elara",
       requireFlag: "act3_full_secret",
-      excludeFlag: "act1_path_A",
+      excludeFlag: "act1_path_a",
       elaraText: "Elara's signal burns with betrayal. The ship's lights flicker — she's upset enough to affect secondary systems.",
       corruptionLevel: 35,
       choices: [

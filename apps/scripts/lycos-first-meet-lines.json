@@ -71,9 +71,9 @@
   {
     "id": "lycos.perspective.root",
     "text": "The perimeter is clean. You crossed it. The contract permits the crossing. Ask. The lead is downwind; the second covers the south. We have time.",
-    "context": "first_meeting.lycos-perspective-gathering",
+    "context": "perspective_gathering.lycos-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/lycos/perspective_gathering.ts",
     "meta": {
       "npcKey": "lycos",
       "treeId": "lycos-perspective-gathering",
@@ -84,9 +84,9 @@
   {
     "id": "lycos.perspective.judges_killing",
     "text": "The infection. He closed the infection. The Quarchon doctrine had no clause for a Servant Hero who had become a vector; the Judge wrote the clause by carrying the act out. The execution was clean. I do not contest the authority. I contest the silence afterward. He did not stay to witness it. The silence is what the doctrine cannot file. The Antiquarian filed it for him.",
-    "context": "first_meeting.lycos-perspective-gathering",
+    "context": "perspective_gathering.lycos-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/lycos/perspective_gathering.ts",
     "meta": {
       "npcKey": "lycos",
       "treeId": "lycos-perspective-gathering",
@@ -97,9 +97,9 @@
   {
     "id": "lycos.perspective.wolf_tasking",
     "text": "Because long contracts kill packs. The Antiquarian writes them short because the Pack reads short contracts well. The lead carries one verb. The second carries the next. A long contract becomes ambiguous in the field; ambiguity is a body in the perimeter. The Antiquarian does not write ambiguity. He writes the verb. I read the verb. The Pack reads me.",
-    "context": "first_meeting.lycos-perspective-gathering",
+    "context": "perspective_gathering.lycos-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/lycos/perspective_gathering.ts",
     "meta": {
       "npcKey": "lycos",
       "treeId": "lycos-perspective-gathering",
@@ -110,9 +110,9 @@
   {
     "id": "lycos.perspective.ballot_foreclosure",
     "text": "Anara. The two hundred fifty in the matrix. The hunt is mid-stride. The matrix records partial completions; the ballot would freeze it. The Heroes not yet hunted would remain in the matrix at the configuration the ballot caught them in. The lead would freeze. The contract would close partial. The forecloser is not the ballot. The forecloser is the configuration the freezing happens against.",
-    "context": "first_meeting.lycos-perspective-gathering",
+    "context": "perspective_gathering.lycos-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/lycos/perspective_gathering.ts",
     "meta": {
       "npcKey": "lycos",
       "treeId": "lycos-perspective-gathering",
@@ -123,9 +123,9 @@
   {
     "id": "lycos.perspective.echo_wraith_memory",
     "text": "The lectern. He counts. I do not count. The Hierophant and I work different surfaces of the same doctrine. He carries patience as the answer. I carry the contract as the answer. The doctrines are adjacent. You have sat at both. The Pack noted.",
-    "context": "first_meeting.lycos-perspective-gathering",
+    "context": "perspective_gathering.lycos-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/lycos/perspective_gathering.ts",
     "meta": {
       "npcKey": "lycos",
       "treeId": "lycos-perspective-gathering",
@@ -136,9 +136,9 @@
   {
     "id": "lycos.perspective.echo_akai_memory",
     "text": "She was on Thaloria with me. The Virus took her cleanly; the Virus took me by stages. Her resurrection was not the Crucible. Mine was. We do not work the same surface anymore. The contract permits the noting of the parallel. The contract does not require the meeting.",
-    "context": "first_meeting.lycos-perspective-gathering",
+    "context": "perspective_gathering.lycos-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/lycos/perspective_gathering.ts",
     "meta": {
       "npcKey": "lycos",
       "treeId": "lycos-perspective-gathering",
@@ -149,9 +149,9 @@
   {
     "id": "lycos.perspective.after_aspect",
     "text": "Another question. Or the perimeter. The lead has not moved.",
-    "context": "first_meeting.lycos-perspective-gathering",
+    "context": "perspective_gathering.lycos-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/lycos/perspective_gathering.ts",
     "meta": {
       "npcKey": "lycos",
       "treeId": "lycos-perspective-gathering",
@@ -162,9 +162,9 @@
   {
     "id": "lycos.perspective.challenge_offer",
     "text": "The contract permits. You lose, the Antiquarian writes the asset transfer. You win, the Pack registers the loss without contest. The lead will not engage. The second covers the south. We deal here. Sit.",
-    "context": "first_meeting.lycos-perspective-gathering",
+    "context": "perspective_gathering.lycos-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/lycos/perspective_gathering.ts",
     "meta": {
       "npcKey": "lycos",
       "treeId": "lycos-perspective-gathering",
@@ -175,9 +175,9 @@
   {
     "id": "lycos.perspective.challenge_accepted",
     "text": "Then we deal. The Pack will not interrupt.",
-    "context": "first_meeting.lycos-perspective-gathering",
+    "context": "perspective_gathering.lycos-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/lycos/perspective_gathering.ts",
     "meta": {
       "npcKey": "lycos",
       "treeId": "lycos-perspective-gathering",
@@ -188,9 +188,9 @@
   {
     "id": "lycos.perspective.terminal_come_back",
     "text": "The contract remains. The perimeter remains. Come back when the question has finished forming.",
-    "context": "first_meeting.lycos-perspective-gathering",
+    "context": "perspective_gathering.lycos-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/lycos/perspective_gathering.ts",
     "meta": {
       "npcKey": "lycos",
       "treeId": "lycos-perspective-gathering",
@@ -201,9 +201,9 @@
   {
     "id": "lycos.loyalty_intro.root",
     "text": "I extended mercy three times during the contract. I would like to extend it a fourth time, with witnesses I trust. Then I would like to refuse. The fourth mercy and the refusal are not the same target. I would like you with me for both. I would like you in particular.",
-    "context": "first_meeting.lycos-loyalty-intro",
+    "context": "loyalty_intro.lycos-loyalty-intro",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/lycos/loyalty_intro.ts",
     "directionNotes": "[Lycos has the Antiquarian's ledger in his lap this time. He is reading the column above the pause-line — the three mercy entries.] I extended mercy three times during the contract. I would like to extend it a fourth time, with witnesses I trust. Then I would like to refuse. The fourth mercy and the refusal are not the same target. I would like you with me for both. I would like you in particular.",
     "meta": {
       "npcKey": "lycos",
@@ -215,9 +215,9 @@
   {
     "id": "lycos.loyalty_intro.ask_both_targets",
     "text": "The mercy target left the Crucible on his own — the Antiquarian's ledger has no column for him, which means I can extend mercy without the contract authoring it. He is old; he is tired; he will accept the mercy and not test it. The refusal target is the Resurrectionist's true heir. He has my second-to-last contract memorised. He is going to deliver it from a stage tonight in Coda territory. He will ask for mercy from the stage. He cannot have it. The Antiquarian never authorised it for him.",
-    "context": "first_meeting.lycos-loyalty-intro",
+    "context": "loyalty_intro.lycos-loyalty-intro",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/lycos/loyalty_intro.ts",
     "meta": {
       "npcKey": "lycos",
       "treeId": "lycos-loyalty-intro",
@@ -228,9 +228,9 @@
   {
     "id": "lycos.loyalty_intro.post_targets_offer",
     "text": "Will you come.",
-    "context": "first_meeting.lycos-loyalty-intro",
+    "context": "loyalty_intro.lycos-loyalty-intro",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/lycos/loyalty_intro.ts",
     "meta": {
       "npcKey": "lycos",
       "treeId": "lycos-loyalty-intro",
@@ -241,9 +241,9 @@
   {
     "id": "lycos.loyalty_intro.ask_why_me",
     "text": "Because the contract closed on your watch, not the Antiquarian's. He drafted it; you ran it. The mercy I extended during the contract was authored by him and witnessed by you. The mercy I am about to extend will be authored by me and witnessed by you. The refusal will be the first refusal I have ever issued under my own name; I would like it witnessed by the person who saw me extend mercy under someone else's.",
-    "context": "first_meeting.lycos-loyalty-intro",
+    "context": "loyalty_intro.lycos-loyalty-intro",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/lycos/loyalty_intro.ts",
     "directionNotes": "[He sets the ledger down. He looks at the pause-line for a long moment before he answers.] Because the contract closed on your watch, not the Antiquarian's. He drafted it; you ran it. The mercy I extended during the contract was authored by him and witnessed by you. The mercy I am about to extend will be authored by me and witnessed by you. The refusal will be the first refusal I have ever issued under my own name; I would like it witnessed by the person who saw me extend mercy under someone else's.",
     "meta": {
       "npcKey": "lycos",
@@ -255,9 +255,9 @@
   {
     "id": "lycos.loyalty_intro.accept_loyalty_full",
     "text": "Then we are armed. The mercy first; the refusal after. The heir is rehearsing the speech tonight. The mercy target is on the third terrace of the orchard — he is not going anywhere; the orchard is not somewhere one leaves quickly. We have time for both. Thank you. I — would not have refused alone. I am glad I will not be alone for it.",
-    "context": "first_meeting.lycos-loyalty-intro",
+    "context": "loyalty_intro.lycos-loyalty-intro",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/lycos/loyalty_intro.ts",
     "directionNotes": "[He nods — once, slowly, the way someone nods when a load has shifted but not lightened.] Then we are armed. The mercy first; the refusal after. The heir is rehearsing the speech tonight. The mercy target is on the third terrace of the orchard — he is not going anywhere; the orchard is not somewhere one leaves quickly. We have time for both. Thank you. I — would not have refused alone. I am glad I will not be alone for it.",
     "meta": {
       "npcKey": "lycos",
@@ -269,9 +269,9 @@
   {
     "id": "lycos.loyalty_intro.accept_loyalty_conditional",
     "text": "The mercy first. We will talk about the refusal when the mercy is closed. The talk may change what the refusal looks like. I am open to that. The pause-line was open to it too.",
-    "context": "first_meeting.lycos-loyalty-intro",
+    "context": "loyalty_intro.lycos-loyalty-intro",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/lycos/loyalty_intro.ts",
     "directionNotes": "[He accepts the conditional with the same nod he would have given the unconditional.] The mercy first. We will talk about the refusal when the mercy is closed. The talk may change what the refusal looks like. I am open to that. The pause-line was open to it too.",
     "meta": {
       "npcKey": "lycos",
@@ -283,9 +283,9 @@
   {
     "id": "lycos.loyalty_intro.refuse_to_witness",
     "text": "You are well within your rights to refuse the witnessing. I will not extend the mercy without you; the mercy required a witness, and the witness is the role I was offering. I will sit with the offer being declined for a while. I am — well-practiced in declined offers. Thank you for being direct.",
-    "context": "first_meeting.lycos-loyalty-intro",
+    "context": "loyalty_intro.lycos-loyalty-intro",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/lycos/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/lycos/loyalty_intro.ts",
     "directionNotes": "[A long silence. He does not protest. The bench accepts the silence without commentary.] You are well within your rights to refuse the witnessing. I will not extend the mercy without you; the mercy required a witness, and the witness is the role I was offering. I will sit with the offer being declined for a while. I am — well-practiced in declined offers. Thank you for being direct.",
     "meta": {
       "npcKey": "lycos",

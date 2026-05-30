@@ -12,7 +12,7 @@
 // the contract instead.
 //
 // Trust bands: Prospect / Client / Partner / Insider / Adjudicated
-// Path-aware variants attach to flag set: act1_path_A,
+// Path-aware variants attach to flag set: act1_path_a,
 // act3_partial_share, act3_full_secret.
 
 import type { DialogSurface, NpcLine } from "../types";
@@ -202,7 +202,7 @@ export const LOCKE_ROMANCE_STAGE_3: ReadonlyArray<SceneEntry> = [
       "The citation is precedent now. The precedent is yours.",
     surfaces: ["room", "cinematic"],
     requiresTrustBand: "Partner",
-    reactsToPublicFlag: "act1_path_A",
+    reactsToPublicFlag: "act1_path_a",
     minAct: 5,
     cooldownKey: "locke.romance.s3.pathA",
     maxPlays: 1,

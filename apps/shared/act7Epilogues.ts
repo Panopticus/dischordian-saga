@@ -161,11 +161,11 @@ export const ACT7_EPILOGUES: Readonly<Record<Act7StanceFlag, Act7Epilogue>> = {
  */
 export function epilogueBeatsFor(
   stance: Act7StanceFlag,
-  pathFlag: "act1_path_A" | "act3_partial_share" | "act3_full_secret" | null,
+  pathFlag: "act1_path_a" | "act3_partial_share" | "act3_full_secret" | null,
 ): readonly EpilogueBeat[] {
   const epilogue = ACT7_EPILOGUES[stance];
   const pathSuffix =
-    pathFlag === "act1_path_A"
+    pathFlag === "act1_path_a"
       ? "pathA"
       : pathFlag === "act3_partial_share"
         ? "pathB"

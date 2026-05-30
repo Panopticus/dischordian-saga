@@ -39,6 +39,7 @@ export type NarrativeFlagCategory =
   | "prelude" // pre-act-1 onboarding beats
   | "morality" // Order/Chaos high-level commitments
   | "companion" // companion-specific milestone / arc beats
+  | "dlc_choice" // DLC-chapter branching choice outcomes (advocate / hierarchy / breeding / quarterly arcs)
   | "system_unlock"; // system-level feature unlocks (army, trade, etc.)
 
 export interface NarrativeFlagEntry {
@@ -73,6 +74,39 @@ export const NARRATIVE_FLAG_REGISTRY: ReadonlyArray<NarrativeFlagEntry> = [
 
   /* ─── Act 1 closing branch ─── */
   { flag: "act1_closing_choice_made", category: "act_branch", owner: "act_1", notes: "Player has committed an Act 1 closing choice." },
+  { flag: "act1_path_a", category: "act_branch", owner: "act_1", notes: "Act 1 disclosure fork: player took the willing-disclosure path (told Elara the truth). Producer: narrativeActs.ts setFlag step. Gates the Act 4 'The Bridge' (Path A) opponent and the Path-A epilogue/inscription variants." },
+
+  /* ─── Act 1 disclosure fork (tell vs. conceal) ─── */
+  { flag: "act1_told_elara", category: "act_branch", owner: "act_1", notes: "Act 1 disclosure fork: player told Elara the truth (act1-s2-loyal / -soldier). Producer: narrativeActs.ts setFlag. Gates the Act 1 s3a Elara-reaction beats (requireFlag in narrativeActs.ts)." },
+  { flag: "act1_kept_secret", category: "act_branch", owner: "act_1", notes: "Act 1 disclosure fork: player concealed the truth (act1-s2-gather / -intrigued / -spy). Producer: narrativeActs.ts setFlag. Gates the Act 1 s3b concealment beats (requireFlag in narrativeActs.ts)." },
+  { flag: "act1_path_secret", category: "act_branch", owner: "act_1", notes: "Act 1 secret-path marker (concealment route). Producer: narrativeActs.ts setFlag. Gates later Act 1 secret-path beats (requireFlag in narrativeActs.ts)." },
+  { flag: "act1_chose_investigate", category: "act_branch", owner: "act_1", notes: "Act 1 scene-1.1 opening disposition: player interfaced with the substrate signal directly (act1-s1-curious / -engineer). Producer: narrativeActs.ts setFlag. Read by the ask_elara_substrate companion ask-topic (investigate variant)." },
+  { flag: "act1_chose_caution", category: "act_branch", owner: "act_1", notes: "Act 1 scene-1.1 opening disposition: player ran a passive scan instead of interfacing (act1-s1-cautious). Producer: narrativeActs.ts setFlag. Read by the ask_elara_substrate companion ask-topic (caution variant)." },
+
+  /* ─── Act 2 disclosure fork (the five s1 responses) ─── */
+  { flag: "act2_full_truth", category: "act_branch", owner: "act_2", notes: "Act 2 fork: player gave the full truth (act2-s1-full-truth). Producer: narrativeActs.ts setFlag. Read by companionComments.ts (narrator reactions) + companionAskTopics.ts (ask-topic gates)." },
+  { flag: "act2_partial_reveal", category: "act_branch", owner: "act_2", notes: "Act 2 fork: player partially confessed (act2-s1-almost-confess). Producer: narrativeActs.ts setFlag. Read by companionComments.ts + companionAskTopics.ts." },
+  { flag: "act2_lied", category: "act_branch", owner: "act_2", notes: "Act 2 fork: player lied (act2-s1-lie). Producer: narrativeActs.ts setFlag. Read by companionComments.ts (narrator reactions) + companionAskTopics.ts (ask-topic gates)." },
+  { flag: "act2_oracle_deflect_chosen", category: "act_branch", owner: "act_2", notes: "Act 2 fork: player deflected via the Oracle framing (act2-s1-oracle-deflect). Producer: narrativeActs.ts setFlag. Read by companionComments.ts + companionAskTopics.ts." },
+  { flag: "act2_spy_misdirect_chosen", category: "act_branch", owner: "act_2", notes: "Act 2 fork: player ran the spy misdirection (act2-s1-spy-misdirect). Producer: narrativeActs.ts setFlag. Read by companionComments.ts + companionAskTopics.ts." },
+
+  /* ─── Act 3 disclosure fork ─── */
+  { flag: "act3_partial_share", category: "act_branch", owner: "act_3", notes: "Act 3 fork: player shared part of the secret (pragmatic path). Producer: narrativeActs.ts setFlag step. Gates the Act 4 'Discovery' (Path B) opponent." },
+  { flag: "act3_full_secret", category: "act_branch", owner: "act_3", notes: "Act 3 fork: player kept the full secret (betrayal path). Producer: narrativeActs.ts setFlag step. Gates the Act 4 'Betrayal' (Path C) opponent." },
+  { flag: "act3_transparent", category: "act_branch", owner: "act_3", notes: "Act 3 fork: player chose full transparency. Producer: narrativeActs.ts setFlag. Read by moralityTrustActVariants.ts (trust-variant selection)." },
+
+  /* ─── Act 4 reconciliation fork (Path B / Path C outcomes) ─── */
+  { flag: "act4_reconciled", category: "act_branch", owner: "act_4", notes: "Act 4 Path-B outcome: relationship reconciled (act4-pB-honest / -explain). Producer: narrativeActs.ts setFlag. Read by companionComments.ts + companionAskTopics.ts." },
+  { flag: "act4_strained", category: "act_branch", owner: "act_4", notes: "Act 4 Path-B outcome: relationship strained (act4-pB-defiant). Producer: narrativeActs.ts setFlag. Read by companionComments.ts." },
+  { flag: "act4_fragile_trust", category: "act_branch", owner: "act_4", notes: "Act 4 Path-C outcome: fragile-trust salvage (act4-pC-grovel / -soldier-own). Producer: narrativeActs.ts setFlag. Read by companionComments.ts + companionAskTopics.ts." },
+  { flag: "act4_broken_trust", category: "act_branch", owner: "act_4", notes: "Act 4 Path-C outcome: trust broken (act4-pC-cold / -assassin). Producer: narrativeActs.ts setFlag. Read by companionComments.ts + companionAskTopics.ts (the most widely-referenced Act-4 branch)." },
+
+  /* ─── Act 5 strategic-path fork (the five s1 doctrines) ─── */
+  { flag: "act5_path_humanity_first", category: "act_branch", owner: "act_5", notes: "Act 5 doctrine fork: humanity-first path (act5-s1-humanity-first). Producer: narrativeActs.ts setFlag. Read by companionComments.ts + companionAskTopics.ts." },
+  { flag: "act5_path_strength_first", category: "act_branch", owner: "act_5", notes: "Act 5 doctrine fork: strength-first path (act5-s1-power). Producer: narrativeActs.ts setFlag. Read by companionComments.ts + companionAskTopics.ts." },
+  { flag: "act5_strategic_chosen", category: "act_branch", owner: "act_5", notes: "Act 5 doctrine fork: strategic path (act5-s1-strategic). Producer: narrativeActs.ts setFlag. Read by companionComments.ts + companionAskTopics.ts." },
+  { flag: "act5_engineer_tech_chosen", category: "act_branch", owner: "act_5", notes: "Act 5 doctrine fork: engineer/tech path (act5-s1-engineer-tech). Producer: narrativeActs.ts setFlag. Read by companionComments.ts." },
+  { flag: "act5_balanced_chosen", category: "act_branch", owner: "act_5", notes: "Act 5 doctrine fork: balanced path (act5-s1-balanced). Producer: narrativeActs.ts setFlag. Read by companionComments.ts." },
 
   /* ─── Morality high-water marks ─── */
   { flag: "vortex_endgame_light_variant", category: "morality", owner: "act_7", notes: "Endgame committed to light path." },
@@ -83,6 +117,37 @@ export const NARRATIVE_FLAG_REGISTRY: ReadonlyArray<NarrativeFlagEntry> = [
   { flag: "human_dark_confession_unlocked", category: "companion", owner: "the_human", notes: "The Human's dark confession is available." },
   { flag: "elara_high_confession_unlocked", category: "companion", owner: "elara", notes: "Elara's high-trust confession is available." },
   { flag: "kael_questline_complete", category: "companion", owner: "kael", notes: "Kael's questline cleared." },
+  { flag: "act6_elara_confession_heard", category: "companion", owner: "act_6", notes: "Player heard Elara's Act 6 confession (the woman she was). Producer: Act6CardLadderPage.tsx. Gates the Act 6 'woman she was' mirror match + Act 7 convergence callback." },
+  { flag: "act6_human_confession_heard", category: "companion", owner: "act_6", notes: "Player heard the Human's Act 6 confession (the detective in the wall). Producer: Act6CardLadderPage.tsx. Gates the Act 6 'detective in the wall' mirror match + Act 7 convergence callback." },
+
+  /* ─── DLC-chapter choice outcomes ─── */
+  /* Each reads back in-chapter via the reactive-visibility framework
+   * (DlcStep.requiresFlag → visibleDlcChapterSteps): the choice's
+   * setFlag reveals an aftermath narration only the player who made
+   * that choice ever sees. See dlcChapterRegistry.test.ts. */
+  { flag: "advocate_sacrum_path_preserve", category: "dlc_choice", owner: "advocate_arc", notes: "Sacrum Echo: player cataloged the shard into the Chronicle. Reveals the 'echo_preserve' aftermath beat." },
+  { flag: "advocate_sacrum_path_weave", category: "dlc_choice", owner: "advocate_arc", notes: "Sacrum Echo: player wove the shard into themselves. Reveals the 'echo_weave' aftermath beat." },
+  { flag: "advocate_sacrum_path_return", category: "dlc_choice", owner: "advocate_arc", notes: "Sacrum Echo: player returned the shard to the sealed chamber. Reveals the 'echo_return' aftermath beat." },
+  { flag: "breeding_path_pure_chosen", category: "dlc_choice", owner: "breeding_program", notes: "Crew Bene-Gesserit: player committed to the PURE bloodline (the patience tax). Reveals the 'aftermath_pure' beat; also the bloodline_threshold gate for the S2 Advocate-body hook." },
+  { flag: "breeding_path_hybrid_chosen", category: "dlc_choice", owner: "breeding_program", notes: "Crew Bene-Gesserit: player committed to the HYBRID bloodline (the working compromise). Reveals the 'aftermath_hybrid' beat." },
+  { flag: "breeding_path_named_chosen", category: "dlc_choice", owner: "breeding_program", notes: "Crew Bene-Gesserit: player committed to the NAMED bloodline (each generation recorded). Reveals the 'aftermath_named' beat." },
+  { flag: "apprentice_stood", category: "dlc_choice", owner: "endgame_quarterly", notes: "Apprentice's Stand (Reprise): player coached the apprentice to hold the post. Reveals the 'aftermath_stood' beat." },
+  { flag: "apprentice_ran", category: "dlc_choice", owner: "endgame_quarterly", notes: "Apprentice's Stand (Reprise): player coached the apprentice to run and live. Reveals the 'aftermath_ran' beat." },
+  { flag: "charter_schism_ratified", category: "dlc_choice", owner: "endgame_quarterly", notes: "Charter Schism: player ratified the schism (restored the second signatory's line). Reveals the 'aftermath_ratified' beat. (Parallel to the governance-hub vote's governance:charter_schism_ratified.)" },
+  { flag: "charter_schism_closed", category: "dlc_choice", owner: "endgame_quarterly", notes: "Charter Schism: player closed the schism (existing charter holds). Reveals the 'aftermath_closed' beat. (Parallel to the governance-hub vote's governance:charter_schism_closed.)" },
+  { flag: "hierarchy_xeth_audit_honored", category: "dlc_choice", owner: "hierarchy_arc", notes: "Xeth Audit: player honored every owed promise. Reveals the 'audit_aftermath_honored' beat." },
+  { flag: "hierarchy_xeth_audit_renegotiated", category: "dlc_choice", owner: "hierarchy_arc", notes: "Xeth Audit: player renegotiated the ledger (kept some, struck the rest). Reveals the 'audit_aftermath_renegotiated' beat." },
+  { flag: "hierarchy_xeth_audit_refused", category: "dlc_choice", owner: "hierarchy_arc", notes: "Xeth Audit: player refused to sign the ledger. Reveals the 'audit_aftermath_refused' beat." },
+  { flag: "hierarchy_taskmaster_revealed_to_kael", category: "dlc_choice", owner: "hierarchy_arc", notes: "Taskmaster Remembered: player told Kael the recognition. Reveals the 'taskmaster_aftermath_revealed_to_kael' beat." },
+  { flag: "hierarchy_taskmaster_carried_alone", category: "dlc_choice", owner: "hierarchy_arc", notes: "Taskmaster Remembered: player carried the recognition alone. Reveals the 'taskmaster_aftermath_carried_alone' beat." },
+  { flag: "hierarchy_taskmaster_old_name_spoken", category: "dlc_choice", owner: "hierarchy_arc", notes: "Taskmaster Remembered: player spoke her old name aloud. Reveals the 'taskmaster_aftermath_old_name_spoken' beat." },
+  { flag: "hierarchy_sylvex_refused_in_words", category: "dlc_choice", owner: "hierarchy_arc", notes: "Syl'Vex Temptation: player refused the Corruptor in words. Reveals the 'sylvex_aftermath_refused_in_words' beat." },
+  { flag: "hierarchy_sylvex_refused_in_silence", category: "dlc_choice", owner: "hierarchy_arc", notes: "Syl'Vex Temptation: player refused in silence. Reveals the 'sylvex_aftermath_refused_in_silence' beat." },
+  { flag: "hierarchy_sylvex_negotiated", category: "dlc_choice", owner: "hierarchy_arc", notes: "Syl'Vex Temptation: player negotiated with the part of her not yet remade. Reveals the 'sylvex_aftermath_negotiated' beat." },
+  { flag: "hierarchy_sylvex_deferred", category: "dlc_choice", owner: "hierarchy_arc", notes: "Syl'Vex Temptation: player let the offer hang (deferred). Reveals the 'sylvex_aftermath_deferred' beat." },
+  { flag: "hierarchy_molgarath_annotations_taken", category: "dlc_choice", owner: "hierarchy_arc", notes: "Mol'Garath Labyrinth: player took the Engineer's annotations. Reveals the 'molgarath_aftermath_annotations' beat." },
+  { flag: "hierarchy_molgarath_traps_feed_taken", category: "dlc_choice", owner: "hierarchy_arc", notes: "Mol'Garath Labyrinth: player took the live traps feed. Reveals the 'molgarath_aftermath_traps_feed' beat." },
+  { flag: "hierarchy_molgarath_final_clue_taken", category: "dlc_choice", owner: "hierarchy_arc", notes: "Mol'Garath Labyrinth: player took the Hamlet board's final connection. Reveals the 'molgarath_aftermath_final_clue' beat." },
 
   /* ─── System unlocks ─── */
   { flag: "trade_empire_unlocked", category: "system_unlock", owner: "act_2", notes: "Trade Empire game mode is now available." },

@@ -9,7 +9,7 @@ import {
 
 const REQUIRED_AND_PATH = {
   slideshow_act_4_revelation_intro_complete: true,
-  act1_path_A: true,
+  act1_path_a: true,
 };
 const ONE_CHAPTER = {
   act4_prisoner_cell_complete: true,
@@ -41,7 +41,7 @@ describe("deriveAct4CompletionStatus — readyToFire", () => {
     });
     expect(s.allConditionsMet).toBe(true);
     expect(s.readyToFire).toBe(true);
-    expect(s.activePathFlag).toBe("act1_path_A");
+    expect(s.activePathFlag).toBe("act1_path_a");
     expect(s.primaryChapter).toBe("act4_prisoner_cell_complete");
   });
 
@@ -103,16 +103,16 @@ describe("deriveAct4CompletionStatus — path flag disjunction", () => {
   }
 
   it("activePathFlag reports the canonical-order first raised path", () => {
-    // All three raised together — canonical order is [act1_path_A, partial, secret].
+    // All three raised together — canonical order is [act1_path_a, partial, secret].
     const flags = {
       slideshow_act_4_revelation_intro_complete: true,
       act3_full_secret: true,
       act3_partial_share: true,
-      act1_path_A: true,
+      act1_path_a: true,
       ...ONE_CHAPTER,
     };
     const s = deriveAct4CompletionStatus({ narrativeAct: 4, flags });
-    expect(s.activePathFlag).toBe("act1_path_A");
+    expect(s.activePathFlag).toBe("act1_path_a");
   });
 });
 

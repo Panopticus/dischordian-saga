@@ -195,7 +195,7 @@ export default function Act6CardLadderPage() {
         // Path callback selector — Acts 1-3 path locks the variant
         // of the confession callback that fires here. Honours the
         // path-lock pattern in act4OpponentDialog.ts.
-        const pathSuffix = gameState.narrativeFlags?.act1_path_A
+        const pathSuffix = gameState.narrativeFlags?.act1_path_a
           ? "_pathA"
           : gameState.narrativeFlags?.act3_full_secret
             ? "_pathC"

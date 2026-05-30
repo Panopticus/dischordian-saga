@@ -10,7 +10,7 @@
      2. A path chosen in Act 3 must have resolved. Exactly ONE
         of the three Act-1 path flags (from the Human's §3.1
         disclosure branch) drives Act 4's narrative surface:
-          - act1_path_A          (Willing Disclosure)
+          - act1_path_a          (Willing Disclosure)
           - act3_partial_share   (Discovery)
           - act3_full_secret     (Betrayal)
         If none is raised, Act 4's branching machine cannot pick
@@ -39,7 +39,7 @@
  *  keys off of. Exactly ONE should be raised in a canonical
  *  playthrough; we allow the OR for save compatibility. */
 export const ACT_4_PATH_FLAGS = [
-  "act1_path_A",
+  "act1_path_a",
   "act3_partial_share",
   "act3_full_secret",
 ] as const;

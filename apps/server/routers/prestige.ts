@@ -289,7 +289,7 @@ export const prestigeRouter = router({
     .input(z.object({
       stanceFlag: z.string().nullable(),
       pathFlag: z
-        .union([z.literal("act1_path_A"), z.literal("act3_partial_share"), z.literal("act3_full_secret")])
+        .union([z.literal("act1_path_a"), z.literal("act3_partial_share"), z.literal("act3_full_secret")])
         .nullable(),
       humanityRunCount: z.number().int().min(0).default(0),
       machineRunCount: z.number().int().min(0).default(0),

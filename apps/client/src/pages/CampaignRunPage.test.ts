@@ -38,7 +38,7 @@ const ACT4_SRC = fs.readFileSync(
 describe("resolveActiveEncounter — pure manifest → opponent resolver", () => {
   it("returns the first branch whose `requires` flag is set", () => {
     expect(
-      resolveActiveEncounter(ACT_4_MANIFEST, new Set(["act1_path_A"]))
+      resolveActiveEncounter(ACT_4_MANIFEST, new Set(["act1_path_a"]))
         ?.encounterId,
     ).toBe("act4_the_bridge");
   });

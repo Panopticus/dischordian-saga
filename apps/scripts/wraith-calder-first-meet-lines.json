@@ -82,9 +82,9 @@
   {
     "id": "wraith.post_recruit.root",
     "text": "You came. I had not assumed you would, on the first day. Sit. The room is still calibrating to having me back inside it.",
-    "context": "first_meeting.wraith-calder-post-recruit-visit",
+    "context": "post_recruit_visit.wraith-calder-post-recruit-visit",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/wraith_calder/post_recruit_visit.ts",
     "directionNotes": "[The brass desk catches the light differently here than in the Hierophant's chamber. Wraith is reading, not writing. He sets the ledger down when you come in. He has been waiting.] You came. I had not assumed you would, on the first day. Sit. The room is still calibrating to having me back inside it.",
     "meta": {
       "npcKey": "wraith_calder",
@@ -96,9 +96,9 @@
   {
     "id": "wraith.post_recruit.witness_the_ledger",
     "text": "That ledger has been in the Syndicate's safe since the year I died. The Antiquarian's resurrection-ticket included a clause for retrieval; he ran the retrieval the same morning he ran me. I have not opened it. I have been waiting to open it with a witness who is not the Syndicate. You qualify.",
-    "context": "first_meeting.wraith-calder-post-recruit-visit",
+    "context": "post_recruit_visit.wraith-calder-post-recruit-visit",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/wraith_calder/post_recruit_visit.ts",
     "directionNotes": "[He watches you pick it up. He does not flinch.] That ledger has been in the Syndicate's safe since the year I died. The Antiquarian's resurrection-ticket included a clause for retrieval; he ran the retrieval the same morning he ran me. I have not opened it. I have been waiting to open it with a witness who is not the Syndicate. You qualify.",
     "meta": {
       "npcKey": "wraith_calder",
@@ -110,9 +110,9 @@
   {
     "id": "wraith.post_recruit.ask_about_the_song",
     "text": "I am writing the verse I died before finishing. The Syndicate authored a substitute verse and shipped it under my name; the substitute is publicly canonical. I am rewriting the original. You can read it when it is done. You will be the second person to. I am the first.",
-    "context": "first_meeting.wraith-calder-post-recruit-visit",
+    "context": "post_recruit_visit.wraith-calder-post-recruit-visit",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/wraith_calder/post_recruit_visit.ts",
     "directionNotes": "[Pause. The pen-hand twitches; it does not lift.] I am writing the verse I died before finishing. The Syndicate authored a substitute verse and shipped it under my name; the substitute is publicly canonical. I am rewriting the original. You can read it when it is done. You will be the second person to. I am the first.",
     "meta": {
       "npcKey": "wraith_calder",
@@ -124,9 +124,9 @@
   {
     "id": "wraith.post_recruit.ask_about_dying",
     "text": "Dying was bookkeeping. The Syndicate had run the columns; the columns balanced; the closing entry was authored a week before the event. The event itself was unremarkable. What was remarkable was the silence after. The silence was not a balance. The silence was the column the Syndicate forgot to close. I lived inside that column for fourteen years. The Antiquarian closed it.",
-    "context": "first_meeting.wraith-calder-post-recruit-visit",
+    "context": "post_recruit_visit.wraith-calder-post-recruit-visit",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/wraith_calder/post_recruit_visit.ts",
     "meta": {
       "npcKey": "wraith_calder",
       "treeId": "wraith-calder-post-recruit-visit",
@@ -137,9 +137,9 @@
   {
     "id": "wraith.post_recruit.decline_to_visit",
     "text": "Tomorrow, then. The room will still be calibrating. I will still be here. The calibration is not on a schedule.",
-    "context": "first_meeting.wraith-calder-post-recruit-visit",
+    "context": "post_recruit_visit.wraith-calder-post-recruit-visit",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/wraith_calder/post_recruit_visit.ts",
     "directionNotes": "[He does not protest. He picks the ledger up again.] Tomorrow, then. The room will still be calibrating. I will still be here. The calibration is not on a schedule.",
     "meta": {
       "npcKey": "wraith_calder",
@@ -151,9 +151,9 @@
   {
     "id": "wraith.loyalty_intro.root",
     "text": "Six sanctuaries. I am told there are seven. I would like to know which one was added after I died. I am asking you, not the Antiquarian, because the Antiquarian's pen would close the column before I had read it.",
-    "context": "first_meeting.wraith-calder-loyalty-intro",
+    "context": "loyalty_intro.wraith-calder-loyalty-intro",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/wraith_calder/loyalty_intro.ts",
     "directionNotes": "[The ledger is open this time. He turns it toward you. The page is the Syndicate's canonical list of sanctuaries: six, in order, each with a balance and a closing date. The margin between entries six and the back cover is just wide enough for a column nobody has drawn.] Six sanctuaries. I am told there are seven. I would like to know which one was added after I died. I am asking you, not the Antiquarian, because the Antiquarian's pen would close the column before I had read it.",
     "meta": {
       "npcKey": "wraith_calder",
@@ -165,9 +165,9 @@
   {
     "id": "wraith.loyalty_intro.accept_loyalty",
     "text": "Thank you. Then we leave at dawn — Syndicate time, not ark time. The Syndicate keeps to a slower clock; we arrive when the auditor expects us, which is canonically twenty minutes after the auditor thinks we are still preparing.",
-    "context": "first_meeting.wraith-calder-loyalty-intro",
+    "context": "loyalty_intro.wraith-calder-loyalty-intro",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/wraith_calder/loyalty_intro.ts",
     "directionNotes": "[He closes the ledger. He has been ready since the Antiquarian wrote his name on the ticket. He needed someone to ride out with him.] Thank you. Then we leave at dawn — Syndicate time, not ark time. The Syndicate keeps to a slower clock; we arrive when the auditor expects us, which is canonically twenty minutes after the auditor thinks we are still preparing.",
     "meta": {
       "npcKey": "wraith_calder",
@@ -179,9 +179,9 @@
   {
     "id": "wraith.loyalty_intro.press_for_premise",
     "text": "I think we will find someone wearing my face who has signed three hundred contracts in my hand. The Syndicate does not retire functions; it replaces incumbents. The replacement and I will need to have a conversation about who owns the plates. I am asking you to be in the room because I have not been in a room with my own replacement before. Neither has anyone else, that I know of.",
-    "context": "first_meeting.wraith-calder-loyalty-intro",
+    "context": "loyalty_intro.wraith-calder-loyalty-intro",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/wraith_calder/loyalty_intro.ts",
     "meta": {
       "npcKey": "wraith_calder",
       "treeId": "wraith-calder-loyalty-intro",
@@ -192,9 +192,9 @@
   {
     "id": "wraith.loyalty_intro.post_premise_offer",
     "text": "Will you come.",
-    "context": "first_meeting.wraith-calder-loyalty-intro",
+    "context": "loyalty_intro.wraith-calder-loyalty-intro",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/wraith_calder/loyalty_intro.ts",
     "directionNotes": "[He waits. The pen is closed. The question is open.] Will you come.",
     "meta": {
       "npcKey": "wraith_calder",
@@ -206,9 +206,9 @@
   {
     "id": "wraith.loyalty_intro.defer",
     "text": "The page will remain open. The Syndicate will not move the seventh sanctuary tonight. They will not move it next week either. They have not moved it in fourteen years. I have time.",
-    "context": "first_meeting.wraith-calder-loyalty-intro",
+    "context": "loyalty_intro.wraith-calder-loyalty-intro",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/wraith_calder/loyalty_intro.ts",
     "directionNotes": "[He nods. He returns the ledger to its corner of the brass desk. He does not press.] The page will remain open. The Syndicate will not move the seventh sanctuary tonight. They will not move it next week either. They have not moved it in fourteen years. I have time.",
     "meta": {
       "npcKey": "wraith_calder",
@@ -220,9 +220,9 @@
   {
     "id": "wraith.loyalty_intro.summon_the_antiquarian",
     "text": "The Antiquarian's pen runs faster than the auditor can dictate. If you bring him in, he will close the column before I have read it; the closing will be canonical and the reading will not. I would prefer the reading. I would prefer it with you.",
-    "context": "first_meeting.wraith-calder-loyalty-intro",
+    "context": "loyalty_intro.wraith-calder-loyalty-intro",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/wraith_calder/loyalty_intro.ts",
     "directionNotes": "[He looks at the seat you slid the ledger toward. The look is not gratitude; the look is correction, polite and absolute.] The Antiquarian's pen runs faster than the auditor can dictate. If you bring him in, he will close the column before I have read it; the closing will be canonical and the reading will not. I would prefer the reading. I would prefer it with you.",
     "meta": {
       "npcKey": "wraith_calder",
@@ -234,9 +234,9 @@
   {
     "id": "wraith.perspective.root",
     "text": "You came to the chamber for a reason. The chair behind me is the chair I sit in. The lectern in front of me is the lectern I write at. Neither of them is going anywhere. Ask what you came to ask. If the question is small I will answer it small. If the question is large I will answer it the same way.",
-    "context": "first_meeting.wraith-calder-perspective-gathering",
+    "context": "perspective_gathering.wraith-calder-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/wraith_calder/perspective_gathering.ts",
     "meta": {
       "npcKey": "wraith_calder",
       "treeId": "wraith-calder-perspective-gathering",
@@ -247,9 +247,9 @@
   {
     "id": "wraith.perspective.patience_earned",
     "text": "Patience is the wrong word in the mouth of anyone who hasn't earned it. The first three deaths I argued with. The fourth I bargained with. The fifth I refused. The sixth I performed. The seventh I sat down inside. That is when the patience started. Not because I learned to wait. Because the body learned that argument, bargain, refusal, performance — all of them are the same ration of time. So I stopped spending the ration. That is the patience. It cost me six bodies. The seventh is the one that kept it.",
-    "context": "first_meeting.wraith-calder-perspective-gathering",
+    "context": "perspective_gathering.wraith-calder-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/wraith_calder/perspective_gathering.ts",
     "meta": {
       "npcKey": "wraith_calder",
       "treeId": "wraith-calder-perspective-gathering",
@@ -260,9 +260,9 @@
   {
     "id": "wraith.perspective.counting_as_confession",
     "text": "Because a round number is a kind of mercy I have not earned for the people behind it. Three hundred and forty-seven thousand. Not three hundred and fifty. Not three hundred and forty-six. Three hundred and forty-seven thousand. Each name in that count was a person who had a body and a Tuesday and a way of sitting that the room remembers. If I round, the people I round off become a kind of arithmetic. That is what the Shadow Tongue would do. I am not in the chamber to do what the Shadow Tongue would do. I am in the chamber to count.",
-    "context": "first_meeting.wraith-calder-perspective-gathering",
+    "context": "perspective_gathering.wraith-calder-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/wraith_calder/perspective_gathering.ts",
     "meta": {
       "npcKey": "wraith_calder",
       "treeId": "wraith-calder-perspective-gathering",
@@ -273,9 +273,9 @@
   {
     "id": "wraith.perspective.system_is_inside_us",
     "text": "Inside us. Not at the gate, not in the next room, not in the chamber down the hall — inside us. The Shadow Tongue is in the way I just constructed that sentence. The Architect is in the rhythm I used to construct it. The Hierarchy is in the patience I used to construct it. The Insurgency is in the refusal underneath it. If you go looking for the corruption at the gate you will find a gate. The corruption is the way you arrived at the gate. The work — the only work — is doing it from inside, every day, without a deadline. That is also why I count. The count is the work I do from inside.",
-    "context": "first_meeting.wraith-calder-perspective-gathering",
+    "context": "perspective_gathering.wraith-calder-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/wraith_calder/perspective_gathering.ts",
     "meta": {
       "npcKey": "wraith_calder",
       "treeId": "wraith-calder-perspective-gathering",
@@ -286,9 +286,9 @@
   {
     "id": "wraith.perspective.echo_degen_memory",
     "text": "I felt it the moment you walked in. The arithmetic on you has a different cadence than the arithmetic on you when you arrived the first time. The Degen is the part of the chronicle that gives a small ration back to the people who walked up to the table. He is not careless about which rations he gives. If he gave you one, the chronicle has marked you for a reason. I will not name the reason. The reason will surface in the chamber it surfaces in. Sit. Or stand. Either way I am listening.",
-    "context": "first_meeting.wraith-calder-perspective-gathering",
+    "context": "perspective_gathering.wraith-calder-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/wraith_calder/perspective_gathering.ts",
     "meta": {
       "npcKey": "wraith_calder",
       "treeId": "wraith-calder-perspective-gathering",
@@ -299,9 +299,9 @@
   {
     "id": "wraith.perspective.after_aspect",
     "text": "Another question. Or the lectern. Or the chair. The chamber accepts all three. Take the time you need.",
-    "context": "first_meeting.wraith-calder-perspective-gathering",
+    "context": "perspective_gathering.wraith-calder-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/wraith_calder/perspective_gathering.ts",
     "meta": {
       "npcKey": "wraith_calder",
       "treeId": "wraith-calder-perspective-gathering",
@@ -312,9 +312,9 @@
   {
     "id": "wraith.perspective.challenge_offer",
     "text": "A duel. Then yes. The chamber is the chamber whether we duel in it or write in it. I will not perform reluctance. I will not perform mercy. I will play the way the body that did the dying played — which is to say, accurately. You lose, the Hierophant takes one card from your tray. You win, the tray opens by however many doors you opened in this conversation. Sit. Or stand. Either way, deal.",
-    "context": "first_meeting.wraith-calder-perspective-gathering",
+    "context": "perspective_gathering.wraith-calder-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/wraith_calder/perspective_gathering.ts",
     "meta": {
       "npcKey": "wraith_calder",
       "treeId": "wraith-calder-perspective-gathering",
@@ -325,9 +325,9 @@
   {
     "id": "wraith.perspective.challenge_accepted",
     "text": "Then we sit. The body that did the dying knows how to deal.",
-    "context": "first_meeting.wraith-calder-perspective-gathering",
+    "context": "perspective_gathering.wraith-calder-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/wraith_calder/perspective_gathering.ts",
     "meta": {
       "npcKey": "wraith_calder",
       "treeId": "wraith-calder-perspective-gathering",
@@ -338,9 +338,9 @@
   {
     "id": "wraith.perspective.terminal_come_back",
     "text": "The chamber is not closing. The lectern is not closing. The chair is not closing. Come back when the question has finished forming. It will. It always does.",
-    "context": "first_meeting.wraith-calder-perspective-gathering",
+    "context": "perspective_gathering.wraith-calder-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/wraith_calder/perspective_gathering.ts",
     "meta": {
       "npcKey": "wraith_calder",
       "treeId": "wraith-calder-perspective-gathering",

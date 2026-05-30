@@ -21,6 +21,7 @@ import { useCallback, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Check, X } from "lucide-react";
 import type { DlcChapter, DlcStep } from "@shared/dlc";
+import { visibleDlcChapterSteps } from "@shared/dlc";
 import { CINEMATICS } from "@shared/expansionArt/cinematicsManifest";
 import { useGame } from "@/contexts/GameContext";
 import { SingleVideoCutsceneOverlay } from "@/components/cutscenes/SingleVideoCutsceneOverlay";
@@ -42,11 +43,17 @@ export default function DlcChapterPlayer({
 }: DlcChapterPlayerProps) {
   const [stepIndex, setStepIndex] = useState(0);
   const [committed, setCommitted] = useState(false);
-  const { setNarrativeFlag } = useGame();
+  const { state, setNarrativeFlag } = useGame();
   const markComplete = trpc.dlcChapters.markChapterComplete.useMutation();
 
-  const step: DlcStep | undefined = chapter.steps[stepIndex];
-  const isLastStep = stepIndex === chapter.steps.length - 1;
+  // Walk the flag-filtered step list, not the raw one: an earlier
+  // choice's setFlag reveals its gated aftermath narration (and hides
+  // the other branches'). Gated steps are authored AFTER their gating
+  // choice, so they only ever appear at/after the current position —
+  // keeping stepIndex stable across the recompute.
+  const steps = visibleDlcChapterSteps(chapter, state.narrativeFlags);
+  const step: DlcStep | undefined = steps[stepIndex];
+  const isLastStep = stepIndex === steps.length - 1;
 
   const finishChapter = useCallback(async () => {
     if (committed) return;
@@ -111,7 +118,7 @@ export default function DlcChapterPlayer({
             className="h-full bg-primary/60 rounded"
             initial={{ width: 0 }}
             animate={{
-              width: `${((stepIndex + 1) / chapter.steps.length) * 100}%`,
+              width: `${((stepIndex + 1) / steps.length) * 100}%`,
             }}
             transition={{ duration: 0.3 }}
           />

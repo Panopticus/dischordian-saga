@@ -9,7 +9,7 @@ import {
 const baseCtx: PostRunInscriptionContext = {
   prestigeTier: 1,
   stanceFlag: "act7_s1_humanity_path",
-  pathFlag: "act1_path_A",
+  pathFlag: "act1_path_a",
   humanityRunCount: 1,
   machineRunCount: 0,
   balanceRunCount: 0,
@@ -42,7 +42,7 @@ describe("buildCycleAwareInscription", () => {
   });
 
   it("inscriptions reference the path label (Disclosure / Discovery / Betrayal)", () => {
-    const a = buildCycleAwareInscription({ ...baseCtx, pathFlag: "act1_path_A" });
+    const a = buildCycleAwareInscription({ ...baseCtx, pathFlag: "act1_path_a" });
     const b = buildCycleAwareInscription({ ...baseCtx, pathFlag: "act3_partial_share" });
     const c = buildCycleAwareInscription({ ...baseCtx, pathFlag: "act3_full_secret" });
     expect(a.body).toContain("Disclosure");

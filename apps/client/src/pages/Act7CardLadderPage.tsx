@@ -172,7 +172,7 @@ export default function Act7CardLadderPage() {
       // Path callback selector — Acts 1-3 path locks the variant of
       // the convergence callback. Mirrors the Act 6 mechanism;
       // honours the path-lock pattern in act4OpponentDialog.ts.
-      const pathSuffix = gameState.narrativeFlags?.act1_path_A
+      const pathSuffix = gameState.narrativeFlags?.act1_path_a
         ? "_pathA"
         : gameState.narrativeFlags?.act3_full_secret
           ? "_pathC"

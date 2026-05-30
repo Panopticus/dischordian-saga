@@ -13,7 +13,7 @@
    Two structural twists in the content the runtime handles:
 
      1. Path-aware variants (Locke stage 3 has variants gated
-        on reactsToPublicFlag === "act1_path_A" /
+        on reactsToPublicFlag === "act1_path_a" /
         "act3_full_secret"). The active set of public flags is
         passed in; mismatching variants are filtered out.
 

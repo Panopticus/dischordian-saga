@@ -76,5 +76,135 @@
       "nodeId": "terminal",
       "requiresRevealStage": "Archon"
     }
+  },
+  {
+    "id": "gm.second_meeting_pre_trial.root",
+    "text": "Left: You played the chess. The arithmetic was the wrong question. I will tell the Right one. She will be disappointed.\n\nRight: ALREADY disappointed, darling. You used the Engineer's opening; I had the SHAPE of it filed in the drawer before you finished your tea. But you came back. That is the only data point I am KEEPING. Sit.",
+    "context": "second_meeting_pre_trial.game-master-second-meeting-pre-trial",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_game_master/second_meeting_pre_trial.ts",
+    "meta": {
+      "npcKey": "the_game_master",
+      "treeId": "game-master-second-meeting-pre-trial",
+      "nodeId": "root",
+      "requiresRevealStage": "Archon"
+    }
+  },
+  {
+    "id": "gm.second_meeting_pre_trial.branch_left_arithmetic",
+    "text": "Left: The arithmetic moved up a register. You solved the chess. The Trial does not care about the chess. The Trial cares about the man you have not yet been asked to be. I will give you a relic of the man I was, before the split. Read him. He laughed twice at Elara. The drawer the Right one keeps is not the only one.",
+    "context": "second_meeting_pre_trial.game-master-second-meeting-pre-trial",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_game_master/second_meeting_pre_trial.ts",
+    "meta": {
+      "npcKey": "the_game_master",
+      "treeId": "game-master-second-meeting-pre-trial",
+      "nodeId": "branch_left_arithmetic",
+      "requiresRevealStage": "Archon"
+    }
+  },
+  {
+    "id": "gm.second_meeting_pre_trial.branch_right_drawer",
+    "text": "Right: Drawers, plural, darling. One for every READ I have done. Yours has the Engineer's opening, the way you hold your queen when you are tired, the move you would have made if you trusted me. You are KEEPING me. I am KEEPING you. The Left one is unable to process the symmetry. Stay.",
+    "context": "second_meeting_pre_trial.game-master-second-meeting-pre-trial",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_game_master/second_meeting_pre_trial.ts",
+    "meta": {
+      "npcKey": "the_game_master",
+      "treeId": "game-master-second-meeting-pre-trial",
+      "nodeId": "branch_right_drawer",
+      "requiresRevealStage": "Archon"
+    }
+  },
+  {
+    "id": "gm.second_meeting_pre_trial.branch_refuse_original",
+    "text": "Left: The Original is destroyed. The contract was honored. Every clause.\n\nRight: Don't make her say it twice, darling. The clauses kept him. The clauses killed him. She is too quiet to hate the clauses. I am LOUD enough for both of us.",
+    "context": "second_meeting_pre_trial.game-master-second-meeting-pre-trial",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_game_master/second_meeting_pre_trial.ts",
+    "meta": {
+      "npcKey": "the_game_master",
+      "treeId": "game-master-second-meeting-pre-trial",
+      "nodeId": "branch_refuse_original",
+      "requiresRevealStage": "Archon"
+    }
+  },
+  {
+    "id": "gm.second_meeting_pre_trial.branch_puzzle",
+    "text": "Left: ... The Antiquarian asked that question. He has been asking it for seventeen thousand years. I do not answer it. I am the question.\n\nRight: Darling. You voiced it. The Authority will hear you voiced it. I am writing this one in the drawer where I keep the ones that matter. The Trial deck has just acquired a witness.",
+    "context": "second_meeting_pre_trial.game-master-second-meeting-pre-trial",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_game_master/second_meeting_pre_trial.ts",
+    "meta": {
+      "npcKey": "the_game_master",
+      "treeId": "game-master-second-meeting-pre-trial",
+      "nodeId": "branch_puzzle",
+      "requiresRevealStage": "Archon"
+    }
+  },
+  {
+    "id": "gm.second_meeting_pre_trial.terminal",
+    "text": "Left: You will leave the chamber. The Authority Trial will begin in an hour. Somewhere, in the Matrix of Dreams, your moves will already be filed before you make them.",
+    "context": "second_meeting_pre_trial.game-master-second-meeting-pre-trial",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_game_master/second_meeting_pre_trial.ts",
+    "meta": {
+      "npcKey": "the_game_master",
+      "treeId": "game-master-second-meeting-pre-trial",
+      "nodeId": "terminal",
+      "requiresRevealStage": "Archon"
+    }
+  },
+  {
+    "id": "gm.mid_trial.winning",
+    "text": "Left: The arithmetic is correct. I am noting it. The Right one is, regrettably, HAPPY.\n\nRight: Darling. You are WINNING and I am READING. The public record will need to be larger than I had budgeted. The Left one is, in fact, miserable about it.",
+    "context": "mid_trial_intercession.game-master-mid-trial-intercession",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_game_master/mid_trial_intercession.ts",
+    "meta": {
+      "npcKey": "the_game_master",
+      "treeId": "game-master-mid-trial-intercession",
+      "nodeId": "winning_band_entry",
+      "requiresRevealStage": "Archon"
+    }
+  },
+  {
+    "id": "gm.mid_trial.neutral",
+    "text": "Left: The arithmetic is undecided. That is the wrong arithmetic. The trial will be decided by what you are about to say.\n\nRight: Sit, darling. The Left one is wrong about one thing: it will be decided by what you do NOT say. Both are recorded. I am HOPING for the silence.",
+    "context": "mid_trial_intercession.game-master-mid-trial-intercession",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_game_master/mid_trial_intercession.ts",
+    "meta": {
+      "npcKey": "the_game_master",
+      "treeId": "game-master-mid-trial-intercession",
+      "nodeId": "neutral_band_entry",
+      "requiresRevealStage": "Archon"
+    }
+  },
+  {
+    "id": "gm.mid_trial.losing",
+    "text": "Left: The arithmetic is incorrect. I am noting that for the record. The Right one will tell you what is left.\n\nRight: Darling. You are LOSING and I am WORKING. I have material for you. There is a thing the public record will not survive. You know which one. I will not say it for you.",
+    "context": "mid_trial_intercession.game-master-mid-trial-intercession",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_game_master/mid_trial_intercession.ts",
+    "meta": {
+      "npcKey": "the_game_master",
+      "treeId": "game-master-mid-trial-intercession",
+      "nodeId": "losing_band_entry",
+      "requiresRevealStage": "Archon"
+    }
+  },
+  {
+    "id": "gm.mid_trial.terminal_filed",
+    "text": "Left: Filed. The arithmetic will continue. I will not be present at the next verdict.\n\nRight: I will be. I am ALWAYS present at the verdict. Sit. Play. Every move enters the public record. Every clause.",
+    "context": "mid_trial_intercession.game-master-mid-trial-intercession",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_game_master/mid_trial_intercession.ts",
+    "meta": {
+      "npcKey": "the_game_master",
+      "treeId": "game-master-mid-trial-intercession",
+      "nodeId": "terminal_filed",
+      "requiresRevealStage": "Archon"
+    }
   }
 ]

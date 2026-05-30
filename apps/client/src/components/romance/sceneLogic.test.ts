@@ -18,7 +18,7 @@ describe("selectStageBeats — path-aware variant filtering", () => {
     }
   });
 
-  it("filters out Locke stage 3 disclosure variant when act1_path_A flag is missing", () => {
+  it("filters out Locke stage 3 disclosure variant when act1_path_a flag is missing", () => {
     const beats = selectStageBeats("locke", 3, new Set());
     const ids = beats.map((b) => b.lineId);
     expect(ids).not.toContain("locke.romance.s3.path_a_disclosure");
@@ -28,8 +28,8 @@ describe("selectStageBeats — path-aware variant filtering", () => {
     expect(ids).toContain("locke.romance.s3.commit");
   });
 
-  it("includes the disclosure variant when act1_path_A flag is set", () => {
-    const beats = selectStageBeats("locke", 3, new Set(["act1_path_A"]));
+  it("includes the disclosure variant when act1_path_a flag is set", () => {
+    const beats = selectStageBeats("locke", 3, new Set(["act1_path_a"]));
     const ids = beats.map((b) => b.lineId);
     expect(ids).toContain("locke.romance.s3.path_a_disclosure");
     expect(ids).not.toContain("locke.romance.s3.path_c_betrayal");
@@ -54,7 +54,7 @@ describe("selectStageBeats — path-aware variant filtering", () => {
 
 describe("detectDmcChoice", () => {
   it("returns null for non-DMC NPCs", () => {
-    const beats = selectStageBeats("locke", 3, new Set(["act1_path_A"]));
+    const beats = selectStageBeats("locke", 3, new Set(["act1_path_a"]));
     expect(detectDmcChoice("locke", 3, beats)).toBeNull();
   });
 

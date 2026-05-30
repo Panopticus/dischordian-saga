@@ -36,7 +36,7 @@ export type LockeInboxBridgeId =
 export type LockeVariantFlag =
   | "last_words_choice_light"
   | "last_words_choice_dark"
-  | "act1_path_A"
+  | "act1_path_a"
   | "act3_partial_share"
   | "act3_full_secret";
 
@@ -96,7 +96,7 @@ export const LOCKE_INBOX_BRIDGES: ReadonlyArray<LockeInboxBridge> = [
       "Whichever you picked, you are now in the Revelation. There is a person — a human person, not the substrate one — held in the Collectors Arena story-mode. Four chapters. Cell, Extraction, Warlord Rematch, White Oracle.\n\nPick one. Just one. Whichever feels true. The other three will keep.\n\nWhen you have picked, the Casino will open. I have a friend there. He is older than he should be. His eyes are the wrong color. Tell him Locke sent you and he will let you in for free.\n\n— L.",
     variants: [
       {
-        whenFlag: "act1_path_A",
+        whenFlag: "act1_path_a",
         body:
           "You disclosed everything to your AI. That is the rare correct answer in this universe. I will not pretend it makes you safer. It makes you legible, which is more important.\n\nYou are now in the Revelation. There is a person — a human person, not the substrate one — held in the Collectors Arena story-mode. Four chapters. Cell, Extraction, Warlord Rematch, White Oracle.\n\nPick one. Just one. Whichever feels true. The other three will keep.\n\nWhen you have picked, the Casino will open. I have a friend there. He is older than he should be. His eyes are the wrong color. Tell him Locke sent you and he will let you in for free.\n\n— L.",
       },

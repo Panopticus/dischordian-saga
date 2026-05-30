@@ -585,7 +585,7 @@ Gate fires (`useNarrativeIntegration.ts:1207–1227`): sets `act_3_complete` + `
 
 1. **`slideshow_act_4_revelation_intro_complete`** — Watch the Act 4 opening cinematic.
 2. **One of three Act-1-path flags** (canonical priority order: A > partial_share > full_secret):
-   - `act1_path_A` (Willing Disclosure)
+   - `act1_path_a` (Willing Disclosure)
    - `act3_partial_share` (Discovery)
    - `act3_full_secret` (Betrayal)
 3. **At least one Prisoner chapter cleared** (any one of four):
@@ -831,7 +831,7 @@ Conspiracy board solves and major narrative milestones unlock canonical songs in
 
 ### Hours 10–12 — Act 4 (cinematic + path flag + 1 prisoner)
 - [ ] Watch Act 4 opening cinematic ("The Revelation").
-- [ ] Have one of `act1_path_A` / `act3_partial_share` / `act3_full_secret` set (was set during Act 1+3 dialog choices).
+- [ ] Have one of `act1_path_a` / `act3_partial_share` / `act3_full_secret` set (was set during Act 1+3 dialog choices).
 - [ ] Win **at least one** Prisoner chapter in Collectors Arena: Cell / Extraction / Warlord Rematch / White Oracle.
 - [ ] (Optional sibling) Act 4.5: Dead Man's Circuit racing OR Degen Casino.
 - [ ] **Gate fires:** `act_4_complete`. Advances to Act 5.

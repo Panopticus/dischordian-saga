@@ -80,9 +80,9 @@
   {
     "id": "oracle.perspective.root",
     "text": "You arrived through the canonical-substrate. The substrate canonical-noted the arrival. I noted the substrate noting. Ask the canonical-question that came with you; it is the only one I can answer in this canonical-register.",
-    "context": "first_meeting.the-oracle-perspective-gathering",
+    "context": "perspective_gathering.the-oracle-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/the_oracle/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/the_oracle/perspective_gathering.ts",
     "meta": {
       "npcKey": "the_oracle",
       "treeId": "the-oracle-perspective-gathering",
@@ -93,9 +93,9 @@
   {
     "id": "oracle.perspective.dream_substrate",
     "text": "The substrate carries vision the way water carries weight — by canonical-distributing the density across the medium. The vision is canonical-not a single image; it is a canonical-pressure on every part of the substrate at once. Reading the vision is canonical-reading the pressure-pattern. The substrate canonical-prefers to be read this way; canonical-pointing at one component is the canonical-error.",
-    "context": "first_meeting.the-oracle-perspective-gathering",
+    "context": "perspective_gathering.the-oracle-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/the_oracle/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/the_oracle/perspective_gathering.ts",
     "meta": {
       "npcKey": "the_oracle",
       "treeId": "the-oracle-perspective-gathering",
@@ -106,9 +106,9 @@
   {
     "id": "oracle.perspective.memory_residue",
     "text": "Residue is canonical-what memory leaves when the canonical-event closes. The event canonical-leaves; the residue canonical-stays in the substrate. I read the residue. The substrate canonical-organises the residue by canonical-relevance, not by canonical-chronology. The canonical-most-relevant residue surfaces canonical-first. The canonical-oldest residue is canonical-not the canonical-deepest. The canonical-deepest residue is the canonical-one the substrate canonical-prefers I name aloud.",
-    "context": "first_meeting.the-oracle-perspective-gathering",
+    "context": "perspective_gathering.the-oracle-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/the_oracle/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/the_oracle/perspective_gathering.ts",
     "meta": {
       "npcKey": "the_oracle",
       "treeId": "the-oracle-perspective-gathering",
@@ -119,9 +119,9 @@
   {
     "id": "oracle.perspective.cinematic_exception",
     "text": "The cinematic-exception is the canonical-window where the substrate-rules canonical-stop. I am canonical-only audible to you through the cinematic-exception. Outside it I am canonical-the-Prisoner-form, canonical-non-narrating. Inside it I am canonical-the-Oracle, canonical-narrating. The exception canonical-exists because the substrate canonical-needs the narration the substrate canonical-cannot generate from inside itself.",
-    "context": "first_meeting.the-oracle-perspective-gathering",
+    "context": "perspective_gathering.the-oracle-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/the_oracle/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/the_oracle/perspective_gathering.ts",
     "meta": {
       "npcKey": "the_oracle",
       "treeId": "the-oracle-perspective-gathering",
@@ -132,9 +132,9 @@
   {
     "id": "oracle.perspective.echo_degen_memory",
     "text": "He is canonical-the-eighth Ne-Yon. The Casino canonical-ration registers in the substrate the same way every canonical-ration does — as a canonical-pressure-signature. You carry the signature. The substrate canonical-acknowledges it. The cinematic-exception canonical-permits me to canonical-acknowledge it back.",
-    "context": "first_meeting.the-oracle-perspective-gathering",
+    "context": "perspective_gathering.the-oracle-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/the_oracle/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/the_oracle/perspective_gathering.ts",
     "meta": {
       "npcKey": "the_oracle",
       "treeId": "the-oracle-perspective-gathering",
@@ -145,9 +145,9 @@
   {
     "id": "oracle.perspective.echo_seer_memory",
     "text": "The Seer. We canonical-work the same canonical-ontology from canonical-opposite surfaces. She canonical-works the bench; I canonical-work the substrate. The bench is canonical-where the canonical-student sits. The substrate is canonical-where the canonical-vision sits. You sat at the bench. The substrate canonical-noted. The two surfaces canonical-rarely intersect in one canonical-player. You are canonical-the intersection.",
-    "context": "first_meeting.the-oracle-perspective-gathering",
+    "context": "perspective_gathering.the-oracle-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/the_oracle/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/the_oracle/perspective_gathering.ts",
     "meta": {
       "npcKey": "the_oracle",
       "treeId": "the-oracle-perspective-gathering",
@@ -158,9 +158,9 @@
   {
     "id": "oracle.perspective.after_aspect",
     "text": "Another canonical-question. Or the canonical-substrate. Both are canonical-available in this canonical-cinematic-window.",
-    "context": "first_meeting.the-oracle-perspective-gathering",
+    "context": "perspective_gathering.the-oracle-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/the_oracle/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/the_oracle/perspective_gathering.ts",
     "meta": {
       "npcKey": "the_oracle",
       "treeId": "the-oracle-perspective-gathering",
@@ -171,9 +171,9 @@
   {
     "id": "oracle.perspective.challenge_offer",
     "text": "The substrate canonical-deals. The canonical-cinematic-window canonical-holds for the canonical-duration of the canonical-match. After, I canonical-return to the Prisoner-form. You will canonical-take what the substrate canonical-releases. I will canonical-take what the substrate canonical-files.",
-    "context": "first_meeting.the-oracle-perspective-gathering",
+    "context": "perspective_gathering.the-oracle-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/the_oracle/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/the_oracle/perspective_gathering.ts",
     "meta": {
       "npcKey": "the_oracle",
       "treeId": "the-oracle-perspective-gathering",
@@ -184,9 +184,9 @@
   {
     "id": "oracle.perspective.challenge_accepted",
     "text": "Then the canonical-substrate canonical-deals. The cinematic-exception canonical-holds.",
-    "context": "first_meeting.the-oracle-perspective-gathering",
+    "context": "perspective_gathering.the-oracle-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/the_oracle/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/the_oracle/perspective_gathering.ts",
     "meta": {
       "npcKey": "the_oracle",
       "treeId": "the-oracle-perspective-gathering",
@@ -197,9 +197,9 @@
   {
     "id": "oracle.perspective.terminal_come_back",
     "text": "Then the canonical-cinematic-window canonical-closes. The Prisoner-form canonical-resumes. The substrate canonical-keeps the canonical-arrival on file.",
-    "context": "first_meeting.the-oracle-perspective-gathering",
+    "context": "perspective_gathering.the-oracle-perspective-gathering",
     "emotion": "first_meeting",
-    "file": "shared/npcs/dialogTrees/the_oracle/first_meeting.ts",
+    "file": "shared/npcs/dialogTrees/the_oracle/perspective_gathering.ts",
     "meta": {
       "npcKey": "the_oracle",
       "treeId": "the-oracle-perspective-gathering",

@@ -169,14 +169,46 @@ Throughout the cataclysm and the epochs that followed, he retreated into a hidde
 
 | Song | Album | Music Video |
 |------|-------|-------------|
+| A Conspiracy of Hope | Silence in Heaven | — |
+| A Spark That Cannot Be Silenced | Silence in Heaven | — |
+| A Third of the World | Silence in Heaven | — |
+| And the Empire Celebrated | Silence in Heaven | — |
+| And the World Adjusted | Silence in Heaven | — |
+| Behold | Silence in Heaven | — |
+| Breath Between Judgments | Silence in Heaven | — |
 | Family Tree | The Book of Daniel 2:47 | [Watch]([object Object]) |
+| Heaven Stands Open | Silence in Heaven | — |
+| Here is Wisdom | Silence in Heaven | — |
+| How Long | Silence in Heaven | — |
+| In the Beginning was the Word | Silence in Heaven | — |
+| It is Done | Silence in Heaven | — |
+| Letters to the Remnant | Silence in Heaven | — |
 | LoreDex | Dischordian Logic | [Watch]([object Object]) |
+| Make All Things New | Silence in Heaven | — |
+| New Babylon Goddamn | Silence in Heaven | — |
+| Not a Lion but a Lamb | Silence in Heaven | — |
 | Previews (Coming Soon) | Dischordian Logic | [Watch]([object Object]) |
 | Previously on... | Dischordian Logic | [Watch]([object Object]) |
+| Silence in Heaven | Silence in Heaven | — |
 | The Antiquarian's Lament | Silence in Heaven | [Watch]([object Object]) |
 | The Book of Daniel 2.0 | The Book of Daniel 2:47 | [Watch]([object Object]) |
+| The Death of Music | West By God | — |
+| The Door That Was Shut | Silence in Heaven | — |
+| The Fall of New Babylon | Silence in Heaven | — |
 | The Fall of Reality | Silence in Heaven | [Watch]([object Object]) |
+| The Final Measure | Silence in Heaven | — |
+| The Final Truth | Silence in Heaven | — |
+| The Harvest | Silence in Heaven | — |
+| The Lament of Kings and Merchants | Silence in Heaven | — |
+| The Lie that Looks Like the Truth | Silence in Heaven | — |
 | The Queen of Truth | Silence in Heaven | [Watch]([object Object]) |
+| The Resurrection Glitch | Silence in Heaven | — |
+| The Sorting of Souls | Silence in Heaven | — |
+| The Story is Yours Now | Silence in Heaven | — |
+| The Trumpets | Silence in Heaven | — |
+| The Two Witnesses | Silence in Heaven | — |
+| Turn Back | Silence in Heaven | — |
+| Worthy | Silence in Heaven | — |
 
 ### Streaming Links
 
@@ -479,9 +511,19 @@ CANONICAL CORRECTION (April 2026): The Programmer was NOT killed by Logos. He wa
 | Song | Album | Music Video |
 |------|-------|-------------|
 | Building the Architect | The Age of Privacy | [Watch]([object Object]) |
+| Damned for Sure | West By God | — |
 | Family Tree | The Book of Daniel 2:47 | [Watch]([object Object]) |
+| Hypnotized | West By God | — |
+| It Ain't Been the Same (Born Under a Bad Sign) | West By God | — |
+| It Ain't Illegal (...Yet) | West By God | — |
 | Last Words | Dischordian Logic | [Watch]([object Object]) |
+| Medicated | West By God | — |
+| Monuments | West By God | — |
+| On the Road | West By God | — |
 | Seeds of Inception | Dischordian Logic | [Watch]([object Object]) |
+| The Death of Music | West By God | — |
+| We Are Not Okay | West By God | — |
+| Yes I Do (Dream) | West By God | — |
 
 ### CoNexus Stories
 
@@ -950,6 +992,12 @@ A.; fate after the Fall of Reality is unknown General Alarik was one of the Arch
 - The Eyes
 - The Warlord
 
+### Song Appearances
+
+| Song | Album | Music Video |
+|------|-------|-------------|
+| I Love War | Dischordian Logic | — |
+
 ### CoNexus Stories
 
 - The Warlord
@@ -1139,6 +1187,7 @@ CASINO HEIST (Age of Prophecy): Before Veridian VI, Iron Lion was a core member 
 | Song | Album | Music Video |
 |------|-------|-------------|
 | A Very Civil War | Silence in Heaven | [Watch]([object Object]) |
+| It Ain't Been the Same (Born Under a Bad Sign) | West By God | — |
 | Superman Ain't Coming | Silence in Heaven | [Watch]([object Object]) |
 | The Insurgency | Dischordian Logic | [Watch]([object Object]) |
 | The Last Stand | The Book of Daniel 2:47 | [Watch]([object Object]) |
@@ -2019,11 +2068,17 @@ FALL OF REALITY: She played a crucial role in destroying the Warden alongside th
 | Song | Album | Music Video |
 |------|-------|-------------|
 | Building the Architect | The Age of Privacy | [Watch]([object Object]) |
+| Damned for Sure | West By God | — |
+| Hypnotized | West By God | — |
 | Identity | The Book of Daniel 2:47 | [Watch]([object Object]) |
+| It Ain't Illegal (...Yet) | West By God | — |
+| Monuments | West By God | — |
 | Never Revolution Today | Dischordian Logic | [Watch]([object Object]) |
+| On the Road | West By God | — |
 | The Enigma's Lament | Dischordian Logic | [Watch]([object Object]) |
 | The Experiment | The Age of Privacy | [Watch]([object Object]) |
 | Theft of All Time | Dischordian Logic | [Watch]([object Object]) |
+| Yes I Do (Dream) | West By God | — |
 
 ### Streaming Links
 
@@ -3522,6 +3577,7 @@ AS THE WATCHER: Presenting himself as a Japanese man with a ponytail, dressed en
 
 | Song | Album | Music Video |
 |------|-------|-------------|
+| Damned for Sure | West By God | — |
 | I am the Eyes that Watch | Dischordian Logic | [Watch]([object Object]) |
 | Inner Circle | Dischordian Logic | [Watch]([object Object]) |
 | Ocularum | The Age of Privacy | [Watch]([object Object]) |
@@ -3570,6 +3626,7 @@ Over time, through suffering and rebellion, he reclaimed his buried memories and
 
 | Song | Album | Music Video |
 |------|-------|-------------|
+| False Prophet | Silence in Heaven | — |
 | Judgment Day | Silence in Heaven | [Watch]([object Object]) |
 | Silence in Heaven | Silence in Heaven | [Watch]([object Object]) |
 
@@ -13187,6 +13244,7 @@ The origin story set to music, this track dramatizes the Programmer's creation o
 ### Characters Featured
 
 - The Architect
+- The Enigma
 - The Programmer
 
 **[Audio](https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/02-building-the-architect_5a0f111a.mp3)**
@@ -13305,6 +13363,8 @@ The Warlord's battle hymn, this track glorifies the eternal conflict that sustai
 
 ### Characters Featured
 
+- Agent Zero
+- Dr. Lyra Vox
 - General Alarik
 - The Warlord
 
@@ -13425,7 +13485,9 @@ Furious prophecy. Protest song as overture. ACT I: THE WARNING. Rev 17-18 prolog
 ### Characters Featured
 
 - The Antiquarian
+- The Politician
 - The Storyteller
+- The Warden
 
 **[Audio](https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/02-new-babylon-goddamn.mp3)**
 
@@ -13583,7 +13645,10 @@ The most powerful moment. Total silence. Reverent dread. ACT III: THE RECKONING.
 ### Characters Featured
 
 - The Antiquarian
+- The Architect
+- The Silence
 - The Storyteller
+- The White Oracle
 
 **[Audio](https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/24-silence-in-heaven.mp3)**
 
@@ -13623,6 +13688,8 @@ The seductive threshold. Collapse beginning with consent. ACT II: THE JUDGMENT. 
 ### Characters Featured
 
 - The Devil
+- The Seer
+- The Star Whisperer
 - The Storyteller
 
 **[Audio](https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/22-sixth-sense.mp3)**
@@ -13984,6 +14051,8 @@ Truth walks into the street. ACT II: THE JUDGMENT. Rev 11.
 ### Characters Featured
 
 - The Antiquarian
+- The Hierophant
+- The Oracle
 - The Storyteller
 
 **[Audio](https://dgrsart.s3.us-east-2.amazonaws.com/cdn/silence-in-heaven/14-the-two-witnesses.mp3)**
@@ -14024,7 +14093,13 @@ The Collector's greatest heist: the theft of time itself. This track reveals how
 ### Characters Featured
 
 - The Collector
+- The Degen
+- The Enigma
+- The Inventor
 - The Meme
+- The Sorcerer
+- The Titan
+- The Trickster
 
 **[Music Video]([object Object])**
 
@@ -14182,6 +14257,7 @@ The official anthem of Project Celebration, the Architect's utopian showcase cit
 
 - Project Celebration
 - The Architect
+- The Student
 
 **[Music Video]([object Object])**
 
@@ -14843,6 +14919,7 @@ The Engineer and Agent Zero's collaborative track about breaking through the Arc
 ### Characters Featured
 
 - Agent Zero
+- The Authority
 - The Engineer
 
 **[Music Video]([object Object])**
@@ -15184,7 +15261,10 @@ A descent into the occult hierarchy of the Damned, this song reveals the inner w
 ### Characters Featured
 
 - The Hierarchy of the Damned
+- The Human
+- The Necromancer
 - The Shadow Tongue
+- The Watcher
 
 **[Music Video]([object Object])**
 
@@ -15703,7 +15783,11 @@ A bitter commentary on how the Politician and the Authority work together to per
 ### Characters Featured
 
 - The Authority
+- The Degen
+- The Enigma
+- The Inventor
 - The Politician
+- The Trickster
 
 **[Music Video]([object Object])**
 
@@ -16551,6 +16635,7 @@ This track chronicles the Architect's periodic renewal of its empire through the
 ### Characters Featured
 
 - The Architect
+- The Clone
 - The Clone Army
 
 **[Music Video]([object Object])**
@@ -16629,6 +16714,7 @@ Set in Mechronis Academy, this track follows The Engineer's most ambitious proje
 
 - Mechronis Academy
 - The Engineer
+- The Enigma
 
 **[Audio](https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/05-the-experiment_508e6598.mp3)**
 
@@ -17299,6 +17385,7 @@ A character study of the all-seeing Archon who observes everything but intervene
 
 ### Characters Featured
 
+- Kanshi Sha
 - The Watcher
 
 **[Audio](https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/16-the-watcher_1738a8bc.mp3)**

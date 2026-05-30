@@ -79,11 +79,11 @@ describe("acts2to7Opponents", () => {
     const pathA = ACT_4_OPPONENTS.find((o) => o.id === "act4_the_bridge")!;
     const pathB = ACT_4_OPPONENTS.find((o) => o.id === "act4_the_discovery")!;
     const pathC = ACT_4_OPPONENTS.find((o) => o.id === "act4_the_betrayal")!;
-    expect(pathA.requiredFlag).toBe("act1_path_A");
+    expect(pathA.requiredFlag).toBe("act1_path_a");
     expect(pathB.requiredFlag).toBe("act3_partial_share");
-    expect(pathB.excludeFlag).toBe("act1_path_A");
+    expect(pathB.excludeFlag).toBe("act1_path_a");
     expect(pathC.requiredFlag).toBe("act3_full_secret");
-    expect(pathC.excludeFlag).toBe("act1_path_A");
+    expect(pathC.excludeFlag).toBe("act1_path_a");
   });
 
   it("getActNOpponent resolves by id and returns undefined for unknown ids", () => {

@@ -401,7 +401,7 @@ export const COMPANION_COMMENTS: CompanionComment[] = [
      Bandersnatch Move 3 + choice-memory (audit §4 / §8). Path
      suffix is set by Act6CardLadderPage / Act7CardLadderPage based
      on which path-lock flag is set:
-       _pathA — act1_path_A (Disclosure: told Elara the truth in Act 1)
+       _pathA — act1_path_a (Disclosure: told Elara the truth in Act 1)
        _pathB — act3_partial_share (Discovery: she found out in Act 3)
        _pathC — act3_full_secret (Betrayal: she only learned at the bridge)
      These fire alongside the canonical confession/landing triggers,

@@ -72,7 +72,7 @@ describe("ACT_4_MANIFEST — encounter ids resolve against ACT_4_OPPONENTS", () 
 describe("ACT_4_MANIFEST — branch order matches the existing resolver", () => {
   // The branching surface resolves via "first branch whose `requires`
   // flag is set." For Act 4 the precedence is canonically:
-  //   1. act1_path_A      (Path A wins outright)
+  //   1. act1_path_a      (Path A wins outright)
   //   2. act3_full_secret (Path C beats Path B when both are set)
   //   3. act3_partial_share
   // The tests below assert each input flag set resolves to the same
@@ -92,7 +92,7 @@ describe("ACT_4_MANIFEST — branch order matches the existing resolver", () => 
   }
 
   it("Path A only → act4_the_bridge (matches resolver)", () => {
-    const flags = new Set(["act1_path_A"]);
+    const flags = new Set(["act1_path_a"]);
     expect(resolveManifest(flags)).toBe("act4_the_bridge");
     expect(resolveAct4Dialog(flags)?.opponentId).toBe("act4_the_bridge");
   });
@@ -110,7 +110,7 @@ describe("ACT_4_MANIFEST — branch order matches the existing resolver", () => 
   });
 
   it("Path A + Path C (both flags) → Path A wins on both sides", () => {
-    const flags = new Set(["act1_path_A", "act3_full_secret"]);
+    const flags = new Set(["act1_path_a", "act3_full_secret"]);
     expect(resolveManifest(flags)).toBe("act4_the_bridge");
     expect(resolveAct4Dialog(flags)?.opponentId).toBe("act4_the_bridge");
   });

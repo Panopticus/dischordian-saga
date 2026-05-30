@@ -2964,7 +2964,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "confidant",
     trustCompanionId: "elara",
     act: 4,
-    requiredFlags: ["act1_path_A"],
+    requiredFlags: ["act1_path_a"],
   },
   {
     id: "elara_pathC_warm_humanity_act5",
@@ -3001,7 +3001,7 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     trust: "confidant",
     trustCompanionId: "the_human",
     act: 5,
-    requiredFlags: ["act1_path_A"],
+    requiredFlags: ["act1_path_a"],
   },
   {
     id: "human_pathC_confidant_machine_act5",

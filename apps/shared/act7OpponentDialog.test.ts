@@ -7,6 +7,11 @@ import {
   getAct7OpponentWithDialog,
   type Act7OpponentDialog,
 } from "./act7OpponentDialog";
+import {
+  extractReferencedFlags,
+  hasConditional,
+} from "./dialogTemplating";
+import { isRegisteredFlag } from "./flags/narrativeFlagRegistry";
 
 const REQUIRED_FIELDS: ReadonlyArray<keyof Act7OpponentDialog> = [
   "frameIntro",
@@ -124,5 +129,39 @@ describe("act7OpponentDialog", () => {
     expect(hooks.early.turn).toBe(2);
     expect(hooks.mid.hpBelowPercent).toBe(50);
     expect(hooks.late.hpBelowPercent).toBe(25);
+  });
+
+  it("carries at least one {if} flag-conditional callback (Lens 4 reactivity)", () => {
+    const reactiveModules = ACT_7_OPPONENT_DIALOGS.filter((dialog) =>
+      REQUIRED_FIELDS.some((field) => hasConditional(dialog[field] as string))
+    );
+    expect(
+      reactiveModules.length,
+      "Act 7 opponent dialog should pay off the choices that led to the convergence"
+    ).toBeGreaterThan(0);
+  });
+
+  it("only references narrative flags registered in the flag registry", () => {
+    for (const dialog of ACT_7_OPPONENT_DIALOGS) {
+      for (const field of REQUIRED_FIELDS) {
+        for (const flag of extractReferencedFlags(dialog[field] as string)) {
+          expect(
+            isRegisteredFlag(flag),
+            `${dialog.opponentId}.${String(field)} references unregistered flag "${flag}"`
+          ).toBe(true);
+        }
+      }
+    }
+  });
+
+  it("never templates the word-capped mid-match taunt fields", () => {
+    for (const dialog of ACT_7_OPPONENT_DIALOGS) {
+      for (const field of TAUNT_FIELDS) {
+        expect(
+          hasConditional(dialog[field] as string),
+          `${dialog.opponentId}.${String(field)} taunt must stay static`
+        ).toBe(false);
+      }
+    }
   });
 });

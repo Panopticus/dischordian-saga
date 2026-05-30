@@ -41,7 +41,7 @@ export interface PostRunInscriptionContext {
    *    act7_silence_stance */
   stanceFlag: string | null;
   /** Active path-lock flag from Acts 1-3. */
-  pathFlag: "act1_path_A" | "act3_partial_share" | "act3_full_secret" | null;
+  pathFlag: "act1_path_a" | "act3_partial_share" | "act3_full_secret" | null;
   /** Cumulative humanity-path runs across all prior tiers. */
   humanityRunCount: number;
   /** Cumulative machine-path runs. */
@@ -80,7 +80,7 @@ function stanceLabel(flag: string | null): string {
 
 function pathLabel(flag: string | null): string {
   switch (flag) {
-    case "act1_path_A":
+    case "act1_path_a":
       return "Disclosure";
     case "act3_partial_share":
       return "Discovery";

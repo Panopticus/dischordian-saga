@@ -48,7 +48,7 @@ describe("ACT7_EPILOGUES registry", () => {
 describe("epilogueBeatsFor", () => {
   it("returns 'any'-variant beats for all paths", () => {
     const noPath = epilogueBeatsFor("act7_s1_humanity_path", null);
-    const pathA = epilogueBeatsFor("act7_s1_humanity_path", "act1_path_A");
+    const pathA = epilogueBeatsFor("act7_s1_humanity_path", "act1_path_a");
     expect(noPath.length).toBeGreaterThan(0);
     expect(pathA.length).toBeGreaterThan(noPath.length);
   });
@@ -56,7 +56,7 @@ describe("epilogueBeatsFor", () => {
   it("disclosure path includes only its variant + any-variants", () => {
     const beats = epilogueBeatsFor(
       "act7_s1_humanity_path",
-      "act1_path_A",
+      "act1_path_a",
     );
     const variantCounts = beats.reduce(
       (acc, b) => {
@@ -81,7 +81,7 @@ describe("epilogueBeatsFor", () => {
   });
 
   it("silence ending is path-neutral (no path variants)", () => {
-    const beats = epilogueBeatsFor("act7_silence_stance", "act1_path_A");
+    const beats = epilogueBeatsFor("act7_silence_stance", "act1_path_a");
     for (const b of beats) {
       expect(b.pathVariant === undefined || b.pathVariant === "any").toBe(true);
     }

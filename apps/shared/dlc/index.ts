@@ -25,7 +25,9 @@ export {
   dlcChapterCompletionFlag,
   getDlcChapter,
   getDlcChaptersForSection,
+  isDlcStepVisible,
   sameParentSection,
+  visibleDlcChapterSteps,
 } from "./dlcChapterRegistry";
 
 export {
