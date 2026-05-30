@@ -13,22 +13,31 @@
 import type { NpcKey } from "../types";
 import type { NpcDialogTree } from "./types";
 import { ADJUDICATOR_LOCKE_FIRST_MEETING } from "./adjudicator_locke/first_meeting";
+import { ADJUDICATOR_LOCKE_PERSPECTIVE_GATHERING } from "./adjudicator_locke/perspective_gathering";
 import { NILMORG_FIRST_CONTACT } from "./nilmorg/first_meeting";
 import { VEX_SOLENE_FIRST_MEETING } from "./vex_solene/first_meeting";
+import { VEX_SOLENE_PERSPECTIVE_GATHERING } from "./vex_solene/perspective_gathering";
 import { WRAITH_CALDER_FIRST_MEETING } from "./wraith_calder/first_meeting";
 import { WRAITH_CALDER_POST_RECRUIT_VISIT } from "./wraith_calder/post_recruit_visit";
 import { WRAITH_CALDER_LOYALTY_INTRO } from "./wraith_calder/loyalty_intro";
+import { WRAITH_CALDER_PERSPECTIVE_GATHERING } from "./wraith_calder/perspective_gathering";
 import { AKAI_SHI_FIRST_MEETING } from "./akai_shi/first_meeting";
 import { AKAI_SHI_LOYALTY_INTRO } from "./akai_shi/loyalty_intro";
+import { AKAI_SHI_PERSPECTIVE_GATHERING } from "./akai_shi/perspective_gathering";
 import { LYCOS_FIRST_MEETING } from "./lycos/first_meeting";
+import { LYCOS_PERSPECTIVE_GATHERING } from "./lycos/perspective_gathering";
 import { LYCOS_LOYALTY_INTRO } from "./lycos/loyalty_intro";
 import { THE_SEER_FIRST_MEETING } from "./the_seer/first_meeting";
+import { THE_SEER_PERSPECTIVE_GATHERING } from "./the_seer/perspective_gathering";
 import { THE_ORACLE_FIRST_MEETING } from "./the_oracle/first_meeting";
+import { THE_ORACLE_PERSPECTIVE_GATHERING } from "./the_oracle/perspective_gathering";
 import { THE_GAME_MASTER_FIRST_MEETING } from "./the_game_master/first_meeting";
 import { THE_GAME_MASTER_SECOND_MEETING_PRE_TRIAL } from "./the_game_master/second_meeting_pre_trial";
 import { THE_GAME_MASTER_MID_TRIAL_INTERCESSION } from "./the_game_master/mid_trial_intercession";
 import { THE_MEME_FIRST_MEETING } from "./the_meme/first_meeting";
+import { THE_MEME_PERSPECTIVE_GATHERING } from "./the_meme/perspective_gathering";
 import { THE_DEGEN_FIRST_GAME } from "./the_degen/first_meeting";
+import { THE_DEGEN_PERSPECTIVE_GATHERING } from "./the_degen/perspective_gathering";
 import { DMC_CLONE_COMPANION_AWAKENING_ARRIVAL } from "./dmc_clone_companion/first_meeting";
 import { YOUR_EIDOLON_BOND_RESONANCE } from "./your_eidolon/first_meeting";
 
@@ -38,22 +47,31 @@ import { YOUR_EIDOLON_BOND_RESONANCE } from "./your_eidolon/first_meeting";
 
 const PER_NPC_TREES: ReadonlyArray<NpcDialogTree> = [
   ADJUDICATOR_LOCKE_FIRST_MEETING,           // Phase 6a.2 ✅ (Locke first-meeting)
+  ADJUDICATOR_LOCKE_PERSPECTIVE_GATHERING,   // NPC duel ✅ (perspective + challenge)
   NILMORG_FIRST_CONTACT,                      // Phase 6e.1a ✅ (DMC opening)
   VEX_SOLENE_FIRST_MEETING,                   // Phase 6e.1a ✅ (Coda Maestro)
+  VEX_SOLENE_PERSPECTIVE_GATHERING,           // NPC duel ✅ (perspective + challenge)
   WRAITH_CALDER_FIRST_MEETING,                // Phase 6e.1a ✅ (Long Mourning chamber)
   WRAITH_CALDER_POST_RECRUIT_VISIT,           // Section D5 ✅ (ledger-vault first-visit)
   WRAITH_CALDER_LOYALTY_INTRO,                // Section D5 ✅ (Seventh Sanctuary opening)
+  WRAITH_CALDER_PERSPECTIVE_GATHERING,        // NPC duel ✅ (perspective + challenge)
   AKAI_SHI_FIRST_MEETING,                     // Section D5 ✅ (blade-shrine first-visit)
   AKAI_SHI_LOYALTY_INTRO,                     // Section D5 ✅ (Red Death Pattern opening)
+  AKAI_SHI_PERSPECTIVE_GATHERING,             // NPC duel ✅ (perspective + challenge)
   LYCOS_FIRST_MEETING,                        // Section D5 ✅ (containment-atrium first-visit)
+  LYCOS_PERSPECTIVE_GATHERING,                // NPC duel ✅ (perspective + challenge)
   LYCOS_LOYALTY_INTRO,                        // Section D5 ✅ (Mercy, Refused opening)
   THE_SEER_FIRST_MEETING,                     // Phase 6e.1b ✅ (Mechronis bench)
+  THE_SEER_PERSPECTIVE_GATHERING,             // NPC duel ✅ (perspective + challenge)
   THE_ORACLE_FIRST_MEETING,                   // Phase 6e.1b ✅ (Ch5 dream-sequence)
+  THE_ORACLE_PERSPECTIVE_GATHERING,           // NPC duel ✅ (perspective + challenge)
   THE_GAME_MASTER_FIRST_MEETING,              // Phase 6e.1b ✅ (witness-mode)
   THE_GAME_MASTER_SECOND_MEETING_PRE_TRIAL,   // Phase 1 BioWare ✅ (Act 2 Interlude, the Two co-speak)
   THE_GAME_MASTER_MID_TRIAL_INTERCESSION,     // Phase A6 ✅ (in-match, three verdict bands)
   THE_MEME_FIRST_MEETING,                     // Phase 6e.1b ✅ (Ch12 fusion-reveal)
+  THE_MEME_PERSPECTIVE_GATHERING,             // NPC duel ✅ (perspective + challenge)
   THE_DEGEN_FIRST_GAME,                       // Phase 6e.1c ✅ (Casino first-game)
+  THE_DEGEN_PERSPECTIVE_GATHERING,            // NPC duel pilot ✅ (perspective + challenge)
   DMC_CLONE_COMPANION_AWAKENING_ARRIVAL,      // Phase 6e.1c ✅ (Severance Prize arrival)
   YOUR_EIDOLON_BOND_RESONANCE,                // Phase 6e.1c ✅ (Bond Resonance)
 ];

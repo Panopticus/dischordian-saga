@@ -202,6 +202,45 @@ export interface GameState {
    * apps/shared/tcg-core/heat/registry.ts.
    */
   heatModifiers: readonly string[];
+  /**
+   * Optional: NPC duel replay-pin metadata. Present only on matches
+   * launched via the NpcDuelOverlay path (initialized via
+   * CreateMatchOptionsExtras.npcDuelMeta). Records the perspective
+   * context the duel was launched with so a historical replay can
+   * surface "you'd learned 2 of 3 aspects — the harvest scaled to
+   * tier 2." Pure metadata: no reducer reads it, no effect interprets
+   * it. Engine treats it as opaque pass-through.
+   *
+   * Replay determinism: the value is locked at init and never
+   * mutates. A replay of the same actions against the same
+   * NpcDuelMeta produces a bit-identical action stream.
+   */
+  npcDuelMeta?: NpcDuelMeta;
+}
+
+/**
+ * NPC duel replay-pin — opaque metadata recorded at match init.
+ * The engine never reads these fields; they exist so a replay
+ * viewer / match-history surface can render "this duel was tier 2"
+ * without re-deriving the context from server logs.
+ */
+export interface NpcDuelMeta {
+  /** Canonical NpcKey the duel was launched against. */
+  npcKey: string;
+  /** Reward tier the player was projected to earn on victory at the
+   *  moment the duel was issued. Values 0-3 match the tier-source
+   *  ids in cardRewardRegistry.ts. */
+  rewardTier: 0 | 1 | 2 | 3;
+  /** Number of perspective aspects the player had learned about
+   *  this NPC at challenge time. */
+  learnedAspectCount: number;
+  /** Total number of perspective aspects declared on the NPC's
+   *  deck. */
+  totalAspectCount: number;
+  /** The perspective-aspect ids that triggered the advantage-card
+   *  swaps in the composed deck. Empty when the player learned no
+   *  aspects. */
+  appliedAspects: ReadonlyArray<string>;
 }
 
 /**

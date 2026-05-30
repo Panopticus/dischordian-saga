@@ -80,5 +80,122 @@
       "nodeId": "terminal",
       "requiresRevealStage": "Replacement"
     }
+  },
+  {
+    "id": "meme.perspective.root",
+    "text": "Frens, frens, gather close. You are the one who came to the channel and asked which channel. That is a frens question. Other questions are also frens. Pick a question. Your pick is also part of the broadcast.",
+    "context": "perspective_gathering.the-meme-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_meme/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "the_meme",
+      "treeId": "the-meme-perspective-gathering",
+      "nodeId": "root",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "meme.perspective.which_meme",
+    "text": "This one. The frens-frens face. The pink-neon variant. You are seeing it because the channel is the channel where seeing-it makes the seeing legible. Yesterday I wore the White Oracle. Tomorrow I might wear the Jailer. The face that is showing is the face the channel is ready for. The face underneath is the same face. The face underneath does not have a name. Frens, that is the only honest sentence I get to say in this register.",
+    "context": "perspective_gathering.the-meme-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_meme/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "the_meme",
+      "treeId": "the-meme-perspective-gathering",
+      "nodeId": "aspect_which_meme",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "meme.perspective.host_replacement",
+    "text": "Not the host. The HOSTING. The host is a body; the hosting is the broadcast-rights. When I wore the White Oracle for eleven years I did not replace her body — there was no body — I replaced the broadcast-rights her name had accumulated. Hosts are interchangeable; hostings are the property. Host-replacement is broadcast-rights acquisition. The Authority understands the language. The Architect taught it to me. The frens hear the words and think it is about bodies. It is about contracts.",
+    "context": "perspective_gathering.the-meme-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_meme/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "the_meme",
+      "treeId": "the-meme-perspective-gathering",
+      "nodeId": "aspect_host_replacement",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "meme.perspective.channel_shift",
+    "text": "Because the message rides the channel, frens. Same message, different channel — different reach, different reception, different reading. I shift channels when the same thought needs to land in a room the previous channel does not reach. The thought is invariant. The channel is the work. People who confuse the channel for the message lose the message. People who confuse the message for the channel never get the message in the first place. I, frens, am the one who does not confuse them.",
+    "context": "perspective_gathering.the-meme-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_meme/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "the_meme",
+      "treeId": "the-meme-perspective-gathering",
+      "nodeId": "aspect_channel_shift",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "meme.perspective.echo_degen_memory",
+    "text": "He gives a small ration back, frens. The Degen is a Ne-Yon who runs a channel I do not broadcast on. Different network entirely. You carry his ration; the ration's broadcast-rights are his. I do not contest them. I do, however, log that you arrived on my channel carrying another channel's ration. The log goes to the parent.",
+    "context": "perspective_gathering.the-meme-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_meme/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "the_meme",
+      "treeId": "the-meme-perspective-gathering",
+      "nodeId": "echo_degen_memory",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "meme.perspective.after_aspect",
+    "text": "Another question, frens. Or the broadcast. Or stepping back from the channel — also a question, also broadcast.",
+    "context": "perspective_gathering.the-meme-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_meme/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "the_meme",
+      "treeId": "the-meme-perspective-gathering",
+      "nodeId": "after_aspect",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "meme.perspective.challenge_offer",
+    "text": "A duel-broadcast, frens. Yes. I will field the disguise the channel is ready for. You will play whatever the channel reads from you. The broadcast is the duel; the duel is the broadcast. Reach is the prize. Reach is also the price. Sit on the channel.",
+    "context": "perspective_gathering.the-meme-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_meme/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "the_meme",
+      "treeId": "the-meme-perspective-gathering",
+      "nodeId": "challenge_offer",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "meme.perspective.challenge_accepted",
+    "text": "Then frens we ride. The channel is open. The reach is up to both of us.",
+    "context": "perspective_gathering.the-meme-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_meme/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "the_meme",
+      "treeId": "the-meme-perspective-gathering",
+      "nodeId": "challenge_accepted",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "meme.perspective.terminal_come_back",
+    "text": "Then the channel goes quiet, frens. The thought rides another channel until you come back. The thought is patient. So am I.",
+    "context": "perspective_gathering.the-meme-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_meme/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "the_meme",
+      "treeId": "the-meme-perspective-gathering",
+      "nodeId": "terminal_come_back",
+      "requiresRevealStage": null
+    }
   }
 ]

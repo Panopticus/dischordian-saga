@@ -88,6 +88,13 @@ export interface OutcomeDispatchContext {
     addCardDefId: string,
   ) => void;
 
+  /** Records an NPC duel-challenge intent. The host (campaign
+   *  router / in-room challenge handler) reads the recorded
+   *  intent, composes the NPC deck via `buildNpcDeck()`, and
+   *  mounts the duel UI. The dispatcher records only — it does
+   *  not launch the match. */
+  recordChallengeIntent?: (npcKey: string) => void;
+
   /** Optional logger — invoked once per dispatch with a
    *  structured summary the caller can route to telemetry. */
   log?: (event: string, payload: Record<string, unknown>) => void;
@@ -144,6 +151,7 @@ export async function dispatchOutcomeBundle(
     stakesIntents: 0,
     cardUnlockIntents: 0,
     deckMutationIntents: 0,
+    challengeIntents: 0,
   };
 
   /* ─── Flag writes ─── */
@@ -257,6 +265,16 @@ export async function dispatchOutcomeBundle(
       ctx.recordDeckMutationIntent?.(w.encounterId, w.addCardDefId);
     } catch (err) {
       errors.push({ kind: "deck_mutation_intent", detail: err });
+    }
+  }
+
+  /* ─── Challenge intents (NPC duel routing) ─── */
+  for (const w of bundle.challengeWrites) {
+    attempted.challengeIntents += 1;
+    try {
+      ctx.recordChallengeIntent?.(w.npcKey);
+    } catch (err) {
+      errors.push({ kind: "challenge_intent", detail: err });
     }
   }
 

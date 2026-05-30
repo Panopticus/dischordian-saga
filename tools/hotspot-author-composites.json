@@ -4480,5 +4480,179 @@
       "hellbox1_transit": "brightness(1.10) sepia(0.15)",
       "long_sleep_ending": "brightness(0.95)"
     }
+  },
+  "forge-workshop": {
+    "bases": [
+      {
+        "id": "baseline",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/base/baseline.png"
+      },
+      {
+        "id": "act_tier_3",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/base/act_tier_3.png"
+      },
+      {
+        "id": "act_tier_7",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/base/act_tier_7.png"
+      },
+      {
+        "id": "battlepass_winter",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/base/battlepass_winter.png"
+      },
+      {
+        "id": "cycle_dawn",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/base/cycle_dawn.png"
+      },
+      {
+        "id": "cycle_dusk",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/base/cycle_dusk.png"
+      },
+      {
+        "id": "cycle_longnight",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/base/cycle_longnight.png"
+      },
+      {
+        "id": "cycle_midday",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/base/cycle_midday.png"
+      },
+      {
+        "id": "cycle_nightwatch",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/base/cycle_nightwatch.png"
+      },
+      {
+        "id": "faction_authority",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/base/faction_authority.png"
+      },
+      {
+        "id": "faction_collectors",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/base/faction_collectors.png"
+      },
+      {
+        "id": "faction_dreamer",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/base/faction_dreamer.png"
+      },
+      {
+        "id": "faction_insurgency",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/base/faction_insurgency.png"
+      },
+      {
+        "id": "faction_multi",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/base/faction_multi.png"
+      },
+      {
+        "id": "faction_panopticon",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/base/faction_panopticon.png"
+      },
+      {
+        "id": "faction_pureflame",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/base/faction_pureflame.png"
+      },
+      {
+        "id": "morality_dark",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/base/morality_dark.png"
+      },
+      {
+        "id": "tv_clean",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/base/tv_clean.png"
+      },
+      {
+        "id": "tv_corrupted",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/base/tv_corrupted.png"
+      },
+      {
+        "id": "tv_exposed",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/base/tv_exposed.png"
+      },
+      {
+        "id": "tv_quarantined",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/base/tv_quarantined.png"
+      },
+      {
+        "id": "tv_spreading",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/base/tv_spreading.png"
+      },
+      {
+        "id": "unlock_apprentice",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/base/unlock_apprentice.png"
+      },
+      {
+        "id": "unlock_mastered",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/base/unlock_mastered.png"
+      }
+    ],
+    "sprites": [
+      {
+        "id": "apprentice_glyph_sigil",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/sprites/apprentice_glyph_sigil.png"
+      },
+      {
+        "id": "bench_workstation",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/sprites/bench_workstation.png"
+      },
+      {
+        "id": "central_forge_anvil",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/sprites/central_forge_anvil.png"
+      },
+      {
+        "id": "crafting_journal_display",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/sprites/crafting_journal_display.png"
+      },
+      {
+        "id": "creed_plaque",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/sprites/creed_plaque.png"
+      },
+      {
+        "id": "hammer_rack_east",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/sprites/hammer_rack_east.png"
+      },
+      {
+        "id": "kiln",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/sprites/kiln.png"
+      },
+      {
+        "id": "kyber_crystal_weapon_blank",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/sprites/kyber_crystal_weapon_blank.png"
+      },
+      {
+        "id": "material_vault",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/sprites/material_vault.png"
+      },
+      {
+        "id": "quench_tank_triptych",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/sprites/quench_tank_triptych.png"
+      },
+      {
+        "id": "recipe_archive_tool_wall",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/sprites/recipe_archive_tool_wall.png"
+      },
+      {
+        "id": "schema_rack",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/sprites/schema_rack.png"
+      },
+      {
+        "id": "signature_card_shrine",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/sprites/signature_card_shrine.png"
+      },
+      {
+        "id": "skill_totem_throne",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/sprites/skill_totem_throne.png"
+      },
+      {
+        "id": "south_door_engineering",
+        "url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/forge_workshop/sprites/south_door_engineering.png"
+      }
+    ],
+    "lightingFilters": {
+      "cycle_dawn": "brightness(1.05) sepia(0.10) hue-rotate(-4deg)",
+      "cycle_dimming": "brightness(0.85) hue-rotate(4deg)",
+      "cycle_long_night": "brightness(0.65) hue-rotate(220deg) saturate(0.85)",
+      "morality_dark": "brightness(0.90) hue-rotate(260deg) saturate(0.80)",
+      "season_interregnum": "brightness(0.55)",
+      "tv_corrupted": "brightness(0.70) saturate(0.60)",
+      "tv_quarantined": "brightness(0.85) saturate(1.10) hue-rotate(8deg)",
+      "epoch_grand_edit": "brightness(0.85) hue-rotate(240deg)",
+      "hellbox1_transit": "brightness(1.10) sepia(0.15)",
+      "long_sleep_ending": "brightness(0.95)"
+    }
   }
 }

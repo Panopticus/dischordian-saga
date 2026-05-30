@@ -115,5 +115,109 @@
       "nodeId": "dreamer_aware_denial",
       "requiresRevealStage": null
     }
+  },
+  {
+    "id": "degen.perspective.root",
+    "text": "You came back. Good. The arithmetic remembered you. Sit down. You want the table, or you want the booth tonight, friend? Or — you want the thing nobody at the booth asks for. The reading. The actual reading. I do those too. Pick.",
+    "context": "perspective_gathering.degen-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_degen/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "the_degen",
+      "treeId": "degen-perspective-gathering",
+      "nodeId": "root",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "degen.perspective.risk_addiction",
+    "text": "Sitting out is the only canonical-losing move at the Casino, friend. The table moves whether you're at it or not. The arithmetic advances. The hands deal. If you're not in, you're in arrears — your seat is canonical-paying interest on the chair. So I sit. I sit because the math sits. The compulsion isn't the cards. It's the chair. Tell me you've never canonical-felt that.",
+    "context": "perspective_gathering.degen-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_degen/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "the_degen",
+      "treeId": "degen-perspective-gathering",
+      "nodeId": "aspect_risk_addiction",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "degen.perspective.lonely_void",
+    "text": "Against the thing that mostly takes, friend. The Casino is the part of the universe that gives a little back — not much, but enough that the canonical-give registers against the canonical-take. Most rooms only take. The Casino takes too, but it takes with a receipt. A receipt is a kind of company. I am, at the table, very canonical-not-alone. That is the wager.",
+    "context": "perspective_gathering.degen-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_degen/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "the_degen",
+      "treeId": "degen-perspective-gathering",
+      "nodeId": "aspect_lonely_void",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "degen.perspective.bet_against_god",
+    "text": "The wager the ledger never closes, friend, is the canonical-bet that the Architect was canonical-wrong about the cadence. The design says you cannot canonical-beat the math. The Casino is built on that. I am built on that. And I am canonically wagering — every hand, every chair, every receipt — that one night the canonical-design canonical-breaks and the arithmetic canonical-blinks. I am the house. The house bets against itself. That's the ledger that never canonical-closes.",
+    "context": "perspective_gathering.degen-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_degen/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "the_degen",
+      "treeId": "degen-perspective-gathering",
+      "nodeId": "aspect_bet_against_god",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "degen.perspective.after_aspect",
+    "text": "There are other questions, friend. There usually are. Ask another. Or pull up to the table and let the arithmetic do the rest of the answering. Your call.",
+    "context": "perspective_gathering.degen-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_degen/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "the_degen",
+      "treeId": "degen-perspective-gathering",
+      "nodeId": "after_aspect",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "degen.perspective.challenge_offer",
+    "text": "A real game then. Not the booth, not the bar, not the back-room — the canonical-table. I deal, you canonical-play, the arithmetic settles. You lose, the Casino takes one canonical-card from your collection — a memory I have been wanting. You win, the canonical-tray is yours. The deeper you canonical-understood what's at the table, the more the canonical-tray weighs. Sit?",
+    "context": "perspective_gathering.degen-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_degen/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "the_degen",
+      "treeId": "degen-perspective-gathering",
+      "nodeId": "challenge_offer",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "degen.perspective.challenge_accepted",
+    "text": "Then we play. The arithmetic was waiting.",
+    "context": "perspective_gathering.degen-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_degen/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "the_degen",
+      "treeId": "degen-perspective-gathering",
+      "nodeId": "challenge_accepted",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "degen.perspective.terminal_come_back",
+    "text": "Then the canonical-arithmetic will wait. It does, mostly. The table is here. So is the booth. So am I.",
+    "context": "perspective_gathering.degen-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_degen/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "the_degen",
+      "treeId": "degen-perspective-gathering",
+      "nodeId": "terminal_come_back",
+      "requiresRevealStage": null
+    }
   }
 ]

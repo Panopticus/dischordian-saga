@@ -68,12 +68,12 @@ describe("NPC first-meeting transcript JSONs (round-3 gap 1)", () => {
     }
   });
 
-  it("ships exactly 98 transcript entries across 10 NPCs (Section D5 expansion: +Akai/Lycos first-meeting + Wraith post-recruit + loyalty trees for all three; +Game Master second-meeting + mid-trial-intercession trees)", () => {
+  it("ships exactly 185 transcript entries across 10 NPCs (NPC duel content wave 2 — 9 perspective trees — plus the Game Master second-meeting + mid-trial-intercession trees and the multi-tree source-file provenance fix)", () => {
     let total = 0;
     for (const [npcKey] of treesByNpc) {
       total += entriesForNpc(npcKey).length;
     }
-    expect(total).toBe(98);
+    expect(total).toBe(185);
   });
 
   it("each NPC's entry count matches its first-meeting tree's voLineId count", () => {

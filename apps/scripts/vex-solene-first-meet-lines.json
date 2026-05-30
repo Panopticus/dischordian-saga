@@ -115,5 +115,135 @@
       "nodeId": "dreamer_aware_ledger_entry",
       "requiresRevealStage": "eyes_of_reality"
     }
+  },
+  {
+    "id": "vex.perspective.root",
+    "text": "I know what you came for. I know who sent you. I know which of the questions you have prepared are the ones I will answer and which are the ones you have brought because you would rather ask them than do nothing. Hello. I'm glad it's you. Ask.",
+    "context": "perspective_gathering.vex-solene-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/vex_solene/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "vex_solene",
+      "treeId": "vex-solene-perspective-gathering",
+      "nodeId": "root",
+      "requiresRevealStage": "eyes_of_reality"
+    }
+  },
+  {
+    "id": "vex.perspective.counted_audience",
+    "text": "Right now? Four. The room we are in. The room the Coda chair is in, which is reading this exchange in encrypted text. The room you came from, which is recording you on cadence the way I am. And the room you have not yet entered, which I am preparing in advance because preparation is the cheapest courtesy I can offer it. I am always counting the rooms. The counting is what makes the diplomacy possible.",
+    "context": "perspective_gathering.vex-solene-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/vex_solene/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "vex_solene",
+      "treeId": "vex-solene-perspective-gathering",
+      "nodeId": "aspect_counted_audience",
+      "requiresRevealStage": "eyes_of_reality"
+    }
+  },
+  {
+    "id": "vex.perspective.inherited_mission",
+    "text": "I carry the work of a man whose memories I do not have. I will not name him. I will reference him by the work he left and by the chair I built that sounds like him without being him. The intellect is here. The memory is not. I have looked. I have stopped looking. The Coda is the form the mission took when the man it was meant for could not continue carrying it. I am the chair held out for the work, not for him.",
+    "context": "perspective_gathering.vex-solene-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/vex_solene/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "vex_solene",
+      "treeId": "vex-solene-perspective-gathering",
+      "nodeId": "aspect_inherited_mission",
+      "requiresRevealStage": "eyes_of_reality"
+    }
+  },
+  {
+    "id": "vex.perspective.diplomat_underneath",
+    "text": "Diplomatic precision. I was a diplomat before I was a contractor; I am still a diplomat in every component of the work except the closing instrument. A contract is a treaty. A treaty is a contract. The difference is who is at the table to sign it. When the parties cannot be brought to the table, the Coda goes to them. That is the only difference between what I do and what an embassy does. The Hitman face is the closing instrument. The diplomat is the entire rest of the negotiation.",
+    "context": "perspective_gathering.vex-solene-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/vex_solene/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "vex_solene",
+      "treeId": "vex-solene-perspective-gathering",
+      "nodeId": "aspect_diplomat_underneath",
+      "requiresRevealStage": "eyes_of_reality"
+    }
+  },
+  {
+    "id": "vex.perspective.echo_degen_memory",
+    "text": "He gives a small ration back. He chooses who. The arithmetic on you arrived in this room two beats before you did. I know the cadence; the Coda has a file on the cadence; the file has its own opinion. We will not consult the file out loud. We will simply note the cadence has been counted and proceed.",
+    "context": "perspective_gathering.vex-solene-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/vex_solene/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "vex_solene",
+      "treeId": "vex-solene-perspective-gathering",
+      "nodeId": "echo_degen_memory",
+      "requiresRevealStage": "eyes_of_reality"
+    }
+  },
+  {
+    "id": "vex.perspective.echo_wraith_memory",
+    "text": "Then you have sat at the lectern. Good. The body that did the dying sits well; the body that does the writing sits better. The Coda has reached out to the chamber before; the chamber answered in writing; the writing was longer than the question and shorter than the answer. The Maestro and the Hierophant are not at the same table. We are at adjacent tables. You have now been at both. That counts.",
+    "context": "perspective_gathering.vex-solene-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/vex_solene/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "vex_solene",
+      "treeId": "vex-solene-perspective-gathering",
+      "nodeId": "echo_wraith_memory",
+      "requiresRevealStage": "eyes_of_reality"
+    }
+  },
+  {
+    "id": "vex.perspective.after_aspect",
+    "text": "Another question. Or the table. Either is in cadence.",
+    "context": "perspective_gathering.vex-solene-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/vex_solene/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "vex_solene",
+      "treeId": "vex-solene-perspective-gathering",
+      "nodeId": "after_aspect",
+      "requiresRevealStage": "eyes_of_reality"
+    }
+  },
+  {
+    "id": "vex.perspective.challenge_offer",
+    "text": "A table. Then yes. I will deal the way the Coda deals: accurately, briefly, and without theatre. You will play the way you play, which is what I am here to read. The Maestro takes one card on your loss; the Maestro folds the tray on your win. The deeper the room you asked about, the deeper the tray. Sit. Hello. Play.",
+    "context": "perspective_gathering.vex-solene-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/vex_solene/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "vex_solene",
+      "treeId": "vex-solene-perspective-gathering",
+      "nodeId": "challenge_offer",
+      "requiresRevealStage": "eyes_of_reality"
+    }
+  },
+  {
+    "id": "vex.perspective.challenge_accepted",
+    "text": "Then we play. The cadence is yours; the contract is mine; the room is both.",
+    "context": "perspective_gathering.vex-solene-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/vex_solene/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "vex_solene",
+      "treeId": "vex-solene-perspective-gathering",
+      "nodeId": "challenge_accepted",
+      "requiresRevealStage": "eyes_of_reality"
+    }
+  },
+  {
+    "id": "vex.perspective.terminal_come_back",
+    "text": "Then the room closes on cadence. The Coda remains. So do I. Come back when the question has finished forming. They tend to.",
+    "context": "perspective_gathering.vex-solene-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/vex_solene/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "vex_solene",
+      "treeId": "vex-solene-perspective-gathering",
+      "nodeId": "terminal_come_back",
+      "requiresRevealStage": "eyes_of_reality"
+    }
   }
 ]

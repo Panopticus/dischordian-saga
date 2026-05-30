@@ -54,6 +54,10 @@ import {
   ARMORY_SPRITE_IDS,
 } from "../shared/roomComposition/armoryComposite";
 import {
+  FORGE_WORKSHOP_BASE_IDS,
+  FORGE_WORKSHOP_SPRITE_IDS,
+} from "../shared/roomComposition/forgeWorkshopComposite";
+import {
   compositeBaseUrl,
   compositeSpriteUrl,
   LIGHTING_FILTERS,
@@ -83,6 +87,7 @@ const ROOMS: Record<CompositeRoomId, { bases: readonly string[]; sprites: readon
   "cargo-hold": { bases: CARGO_HOLD_BASE_IDS, sprites: CARGO_HOLD_SPRITE_IDS },
   "captains-quarters": { bases: CAPTAINS_QUARTERS_BASE_IDS, sprites: CAPTAINS_QUARTERS_SPRITE_IDS },
   armory: { bases: ARMORY_BASE_IDS, sprites: ARMORY_SPRITE_IDS },
+  "forge-workshop": { bases: FORGE_WORKSHOP_BASE_IDS, sprites: FORGE_WORKSHOP_SPRITE_IDS },
 };
 
 const out: Record<string, RoomComposite> = {};

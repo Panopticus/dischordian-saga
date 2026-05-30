@@ -17,6 +17,7 @@ import { resolveAntiquarianLibraryComposite, ANTIQUARIAN_LIBRARY_BASE_IDS, ANTIQ
 import { resolveCargoHoldComposite, CARGO_HOLD_BASE_IDS, CARGO_HOLD_SPRITE_IDS } from "./cargoHoldComposite";
 import { resolveCaptainsQuartersComposite, CAPTAINS_QUARTERS_BASE_IDS, CAPTAINS_QUARTERS_SPRITE_IDS } from "./captainsQuartersComposite";
 import { resolveArmoryComposite, ARMORY_BASE_IDS, ARMORY_SPRITE_IDS } from "./armoryComposite";
+import { resolveForgeWorkshopComposite, FORGE_WORKSHOP_BASE_IDS, FORGE_WORKSHOP_SPRITE_IDS } from "./forgeWorkshopComposite";
 import { compositeBaseUrl, compositeSpriteUrl } from "./types";
 import type {
   CompositeGameSlice,
@@ -52,6 +53,7 @@ export const COMPOSITE_ASSET_CATALOG: Readonly<
   "cargo-hold": { bases: CARGO_HOLD_BASE_IDS, sprites: CARGO_HOLD_SPRITE_IDS },
   "captains-quarters": { bases: CAPTAINS_QUARTERS_BASE_IDS, sprites: CAPTAINS_QUARTERS_SPRITE_IDS },
   armory: { bases: ARMORY_BASE_IDS, sprites: ARMORY_SPRITE_IDS },
+  "forge-workshop": { bases: FORGE_WORKSHOP_BASE_IDS, sprites: FORGE_WORKSHOP_SPRITE_IDS },
 };
 
 /** True when the room has a Phase J composite resolver wired. */
@@ -67,7 +69,8 @@ export function hasRoomComposite(roomId: string): roomId is CompositeRoomId {
     roomId === "antiquarian-library" ||
     roomId === "cargo-hold" ||
     roomId === "captains-quarters" ||
-    roomId === "armory"
+    roomId === "armory" ||
+    roomId === "forge-workshop"
   );
 }
 
@@ -102,6 +105,8 @@ export function resolveRoomComposite(
       return resolveCaptainsQuartersComposite(game);
     case "armory":
       return resolveArmoryComposite(game);
+    case "forge-workshop":
+      return resolveForgeWorkshopComposite(game);
   }
 }
 
@@ -133,3 +138,4 @@ export { resolveAntiquarianLibraryComposite } from "./antiquarianLibraryComposit
 export { resolveCargoHoldComposite } from "./cargoHoldComposite";
 export { resolveCaptainsQuartersComposite } from "./captainsQuartersComposite";
 export { resolveArmoryComposite } from "./armoryComposite";
+export { resolveForgeWorkshopComposite } from "./forgeWorkshopComposite";

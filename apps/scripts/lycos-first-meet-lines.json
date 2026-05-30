@@ -69,6 +69,136 @@
     }
   },
   {
+    "id": "lycos.perspective.root",
+    "text": "The perimeter is clean. You crossed it. The contract permits the crossing. Ask. The lead is downwind; the second covers the south. We have time.",
+    "context": "perspective_gathering.lycos-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/lycos/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-perspective-gathering",
+      "nodeId": "root",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "lycos.perspective.judges_killing",
+    "text": "The infection. He closed the infection. The Quarchon doctrine had no clause for a Servant Hero who had become a vector; the Judge wrote the clause by carrying the act out. The execution was clean. I do not contest the authority. I contest the silence afterward. He did not stay to witness it. The silence is what the doctrine cannot file. The Antiquarian filed it for him.",
+    "context": "perspective_gathering.lycos-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/lycos/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-perspective-gathering",
+      "nodeId": "aspect_judges_killing",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "lycos.perspective.wolf_tasking",
+    "text": "Because long contracts kill packs. The Antiquarian writes them short because the Pack reads short contracts well. The lead carries one verb. The second carries the next. A long contract becomes ambiguous in the field; ambiguity is a body in the perimeter. The Antiquarian does not write ambiguity. He writes the verb. I read the verb. The Pack reads me.",
+    "context": "perspective_gathering.lycos-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/lycos/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-perspective-gathering",
+      "nodeId": "aspect_wolf_tasking",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "lycos.perspective.ballot_foreclosure",
+    "text": "Anara. The two hundred fifty in the matrix. The hunt is mid-stride. The matrix records partial completions; the ballot would freeze it. The Heroes not yet hunted would remain in the matrix at the configuration the ballot caught them in. The lead would freeze. The contract would close partial. The forecloser is not the ballot. The forecloser is the configuration the freezing happens against.",
+    "context": "perspective_gathering.lycos-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/lycos/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-perspective-gathering",
+      "nodeId": "aspect_ballot_foreclosure",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "lycos.perspective.echo_wraith_memory",
+    "text": "The lectern. He counts. I do not count. The Hierophant and I work different surfaces of the same doctrine. He carries patience as the answer. I carry the contract as the answer. The doctrines are adjacent. You have sat at both. The Pack noted.",
+    "context": "perspective_gathering.lycos-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/lycos/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-perspective-gathering",
+      "nodeId": "echo_wraith_memory",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "lycos.perspective.echo_akai_memory",
+    "text": "She was on Thaloria with me. The Virus took her cleanly; the Virus took me by stages. Her resurrection was not the Crucible. Mine was. We do not work the same surface anymore. The contract permits the noting of the parallel. The contract does not require the meeting.",
+    "context": "perspective_gathering.lycos-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/lycos/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-perspective-gathering",
+      "nodeId": "echo_akai_memory",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "lycos.perspective.after_aspect",
+    "text": "Another question. Or the perimeter. The lead has not moved.",
+    "context": "perspective_gathering.lycos-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/lycos/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-perspective-gathering",
+      "nodeId": "after_aspect",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "lycos.perspective.challenge_offer",
+    "text": "The contract permits. You lose, the Antiquarian writes the asset transfer. You win, the Pack registers the loss without contest. The lead will not engage. The second covers the south. We deal here. Sit.",
+    "context": "perspective_gathering.lycos-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/lycos/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-perspective-gathering",
+      "nodeId": "challenge_offer",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "lycos.perspective.challenge_accepted",
+    "text": "Then we deal. The Pack will not interrupt.",
+    "context": "perspective_gathering.lycos-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/lycos/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-perspective-gathering",
+      "nodeId": "challenge_accepted",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "lycos.perspective.terminal_come_back",
+    "text": "The contract remains. The perimeter remains. Come back when the question has finished forming.",
+    "context": "perspective_gathering.lycos-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/lycos/perspective_gathering.ts",
+    "meta": {
+      "npcKey": "lycos",
+      "treeId": "lycos-perspective-gathering",
+      "nodeId": "terminal_come_back",
+      "requiresRevealStage": null
+    }
+  },
+  {
     "id": "lycos.loyalty_intro.root",
     "text": "I extended mercy three times during the contract. I would like to extend it a fourth time, with witnesses I trust. Then I would like to refuse. The fourth mercy and the refusal are not the same target. I would like you with me for both. I would like you in particular.",
     "context": "loyalty_intro.lycos-loyalty-intro",

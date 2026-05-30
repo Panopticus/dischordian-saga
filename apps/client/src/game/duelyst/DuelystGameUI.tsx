@@ -158,6 +158,10 @@ interface DuelystGameUIProps {
    * DuelystGameUI it's safe to pass through.
    */
   playerDeckCardDefIds?: readonly string[];
+  /** NPC duel replay-pin metadata. Pure pass-through onto
+   *  GameState.npcDuelMeta (see TcgClient.init); the renderer does
+   *  not read this field. Set when NpcDuelOverlay launches a duel. */
+  npcDuelMeta?: import("@shared/tcg-core/types/GameState").NpcDuelMeta;
   onGameEnd: (winner: "player" | "opponent") => void;
   onBack: () => void;
   /**
@@ -187,7 +191,7 @@ type SelectionMode = "none" | "move" | "attack" | "summon" | "spell_target";
 
 interface LogEntry { text: string; type: "info" | "attack" | "spell" | "move" | "system"; }
 
-function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onGameEnd, onBack, trialHistory, encounter, playerDeckCardDefIds, onTurnChange, onBossHpChange }: DuelystGameUIProps) {
+function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onGameEnd, onBack, trialHistory, encounter, playerDeckCardDefIds, npcDuelMeta, onTurnChange, onBossHpChange }: DuelystGameUIProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rendererRef = useRef<BoardRenderer | null>(null);
   const tcgClientRef = useRef<TcgClient | null>(null);
@@ -624,6 +628,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
       witnessMode: encounter?.witnessMode,
       prophecyMode: encounter?.prophecyMode,
       scriptedActions: encounter?.scriptedActions,
+      npcDuelMeta,
     });
     tcgClientRef.current = client;
     setGameState(asGameState(client.getViewState()));

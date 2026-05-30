@@ -437,6 +437,11 @@ export const npcRouter = router({
         attempted: result.attempted,
         skipped: result.skipped.map((s) => ({ kind: s.kind, reason: s.reason })),
         errors: result.errors.length,
+        // Pure routing signal — when the dialog choice carried a
+        // `challenge: { npcKey }`, surface it so the client can mount
+        // the NPC duel UI. Bundles authored without `challenge` return
+        // null here.
+        challenge: bundle.challengeWrites[0] ?? null,
       };
     }),
 
