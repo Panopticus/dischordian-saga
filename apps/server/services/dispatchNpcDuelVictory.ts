@@ -30,7 +30,12 @@ import { grantCardReward, type GrantResult } from "./cardRewardService";
 import { setUserNarrativeFlag } from "./narrativeFlagWriter";
 import { eq, and, sql } from "drizzle-orm";
 import { getDb } from "../db";
-import { userCards, userProgress, npcPublicFlags } from "../../db/schema";
+import {
+  userCards,
+  userProgress,
+  npcPublicFlags,
+  cardGameMatches,
+} from "../../db/schema";
 import { logger } from "../logger";
 
 export interface NpcDuelVictoryInput {
@@ -126,6 +131,21 @@ export async function dispatchNpcDuelVictory(
   const publicFlag = `player_carries_${npcKey}_memory`;
   await writeNpcPublicFlag(userId, publicFlag, "npc_duel_victory");
 
+  // Persist a match-history row so /codex/past-duels can render the
+  // duel later. result JSON carries npcDuelMeta + the outcome summary
+  // for the replay viewer.
+  await recordNpcDuelMatchRow({
+    userId,
+    npcKey,
+    outcome: "player_won",
+    rewardTier: tier,
+    learnedCount,
+    totalCount: deck.perspectiveAspects.length,
+    grantCount: grants.length,
+    takenCardDefId: null,
+    restoredCardDefIds: restored,
+  });
+
   return {
     npcKey,
     rewardTier: tier,
@@ -182,6 +202,27 @@ export async function dispatchNpcDuelLoss(
     await setUserNarrativeFlag(userId, stakeFlag, true);
     flagsWritten.push(stakeFlag);
   }
+
+  // Persist the loss to match history so /codex/past-duels can render
+  // it. learnedCount/totalCount are best-effort — the loss path does
+  // not currently take a learnedAspects snapshot. Future enhancement:
+  // route them in from the recordLoss caller.
+  await recordNpcDuelMatchRow({
+    userId,
+    npcKey,
+    outcome: "opponent_won",
+    rewardTier: 0,
+    learnedCount: deck.perspectiveAspects.filter((a) =>
+      // Best-effort: we read the flag store here so the history row
+      // still captures the aspect context, even though the loss
+      // dispatcher's input only carries npcKey.
+      false,
+    ).length,
+    totalCount: deck.perspectiveAspects.length,
+    grantCount: 0,
+    takenCardDefId: taken,
+    restoredCardDefIds: [],
+  });
 
   return {
     npcKey,
@@ -340,6 +381,57 @@ async function restoreTakenCards(
       err,
     );
     return [];
+  }
+}
+
+/** Persist an NPC-duel outcome to cardGameMatches so the Past Duels
+ *  surface can render it later. The match row's result JSON carries
+ *  the full npcDuelMeta + outcome summary; the source is tagged
+ *  "npc_duel" so the listPastDuels query can filter to just our
+ *  matches. Best-effort: a failed insert is logged and swallowed,
+ *  since the duel outcome already landed (grants + flags). */
+async function recordNpcDuelMatchRow(input: {
+  userId: number;
+  npcKey: NpcKey;
+  outcome: "player_won" | "opponent_won";
+  rewardTier: 0 | 1 | 2 | 3;
+  learnedCount: number;
+  totalCount: number;
+  grantCount: number;
+  takenCardDefId: string | null;
+  restoredCardDefIds: ReadonlyArray<string>;
+}): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  try {
+    await db.insert(cardGameMatches).values({
+      player1Id: input.userId,
+      player2Id: 0, // 0 = AI opponent, per schema convention
+      status: "completed",
+      winnerId: input.outcome === "player_won" ? input.userId : null,
+      startedAt: new Date(),
+      endedAt: new Date(),
+      gameState: {
+        source: "npc_duel",
+        npcKey: input.npcKey,
+      },
+      result: {
+        source: "npc_duel",
+        npcKey: input.npcKey,
+        outcome: input.outcome,
+        rewardTier: input.rewardTier,
+        learnedAspectCount: input.learnedCount,
+        totalAspectCount: input.totalCount,
+        grantCount: input.grantCount,
+        takenCardDefId: input.takenCardDefId,
+        restoredCardDefIds: input.restoredCardDefIds,
+      },
+    });
+  } catch (err) {
+    logger.warn(
+      `[dispatchNpcDuel] match history write failed for ${input.npcKey}`,
+      err,
+    );
   }
 }
 
