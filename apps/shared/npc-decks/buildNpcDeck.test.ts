@@ -63,6 +63,90 @@ describe("buildNpcDeck", () => {
     expect(a.deck).toEqual(b.deck);
     expect(a.appliedAspects).toEqual(b.appliedAspects);
   });
+
+  it("returns empty appliedCrossMemoryUpgrades when ctx is omitted", () => {
+    const r = buildNpcDeck(THE_DEGEN_DECK, new Set());
+    expect(r.appliedCrossMemoryUpgrades).toEqual([]);
+  });
+
+  it("returns empty appliedCrossMemoryUpgrades when crossMemoryCount is 0", () => {
+    const r = buildNpcDeck(THE_DEGEN_DECK, new Set(), { crossMemoryCount: 0 });
+    expect(r.appliedCrossMemoryUpgrades).toEqual([]);
+  });
+
+  it("the_degen has no crossMemoryUpgrades — high crossMemoryCount is a no-op", () => {
+    const r = buildNpcDeck(THE_DEGEN_DECK, new Set(), { crossMemoryCount: 99 });
+    expect(r.appliedCrossMemoryUpgrades).toEqual([]);
+    expect(r.deck.length).toBe(39);
+  });
+});
+
+describe("buildNpcDeck — crossMemoryUpgrades", () => {
+  // Synthetic deck with controllable upgrades — lets us assert the
+  // mechanic without relying on a specific authored NPC's
+  // declarations.
+  const baseDeck = {
+    npcKey: "the_degen" as const,
+    general: "gen_dreamer",
+    coreMemories: Array.from({ length: 33 }, (_, i) =>
+      i < 3 ? "weak_a" : i < 6 ? "weak_b" : "filler",
+    ),
+    inheritedFragments: [
+      { fromNpcId: "potential" as const, cardDefId: "frag_a" },
+      { fromNpcId: "potential" as const, cardDefId: "frag_b" },
+      { fromNpcId: "potential" as const, cardDefId: "frag_c" },
+    ],
+    advantageCards: [
+      { cardDefId: "adv_a", gatedByAspect: "test:x", replacement: "rep_a" },
+      { cardDefId: "adv_b", gatedByAspect: "test:y", replacement: "rep_b" },
+      { cardDefId: "adv_c", gatedByAspect: "test:z", replacement: "rep_c" },
+    ],
+    challengeMotive: ["motive_a"],
+    perspectiveAspects: [
+      { id: "test:x", label: "x" },
+      { id: "test:y", label: "y" },
+      { id: "test:z", label: "z" },
+    ],
+    crossMemoryUpgrades: [
+      { weakerCardDefId: "weak_a", strongerCardDefId: "strong_a", threshold: 1 },
+      { weakerCardDefId: "weak_a", strongerCardDefId: "strong_a2", threshold: 2 },
+      { weakerCardDefId: "weak_b", strongerCardDefId: "strong_b", threshold: 3 },
+    ],
+  };
+
+  it("applies no upgrades below threshold:1", () => {
+    const r = buildNpcDeck(baseDeck, new Set(), { crossMemoryCount: 0 });
+    expect(r.appliedCrossMemoryUpgrades).toEqual([]);
+    expect(r.deck).not.toContain("strong_a");
+  });
+
+  it("applies the first upgrade at threshold:1", () => {
+    const r = buildNpcDeck(baseDeck, new Set(), { crossMemoryCount: 1 });
+    expect(r.appliedCrossMemoryUpgrades).toHaveLength(1);
+    expect(r.deck).toContain("strong_a");
+  });
+
+  it("applies multiple upgrades targeting the same weakerCardDefId one at a time", () => {
+    const r = buildNpcDeck(baseDeck, new Set(), { crossMemoryCount: 2 });
+    expect(r.appliedCrossMemoryUpgrades).toHaveLength(2);
+    // Both strong_a and strong_a2 should appear — separate occurrences
+    // of weak_a got swapped.
+    expect(r.deck).toContain("strong_a");
+    expect(r.deck).toContain("strong_a2");
+  });
+
+  it("applies all upgrades at or above the highest threshold", () => {
+    const r = buildNpcDeck(baseDeck, new Set(), { crossMemoryCount: 5 });
+    expect(r.appliedCrossMemoryUpgrades).toHaveLength(3);
+    expect(r.deck).toContain("strong_b");
+  });
+
+  it("preserves deck size invariant (always 39)", () => {
+    for (const n of [0, 1, 2, 3, 5, 10, 99]) {
+      const r = buildNpcDeck(baseDeck, new Set(), { crossMemoryCount: n });
+      expect(r.deck.length, `crossMemoryCount=${n}`).toBe(39);
+    }
+  });
 });
 
 describe("countLearnedAspectsForNpc", () => {

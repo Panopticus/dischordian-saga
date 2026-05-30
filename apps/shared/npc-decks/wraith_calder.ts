@@ -140,4 +140,19 @@ export const WRAITH_CALDER_DECK: NpcDeck = {
       label: "Where the corruption actually lives",
     },
   ],
+  // The Hierophant counts. Players carrying more memories raise
+  // the count he records about THEM; the chamber answers in
+  // longer-form cards. Thresholds 1 / 3.
+  crossMemoryUpgrades: [
+    {
+      weakerCardDefId: "s1_curve_004", // Cell Decoy
+      strongerCardDefId: "s1_char_002", // Agent Zero
+      threshold: 1,
+    },
+    {
+      weakerCardDefId: "s1_curve_009", // Trench Sergeant
+      strongerCardDefId: "s1_pack_011", // Insurgent Commander
+      threshold: 3,
+    },
+  ],
 };

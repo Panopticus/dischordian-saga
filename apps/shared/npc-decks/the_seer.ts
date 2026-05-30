@@ -132,4 +132,20 @@ export const THE_SEER_DECK: NpcDeck = {
       label: "Why waiting is her favourite move",
     },
   ],
+  // The Seer names the version. Players carrying more memories
+  // arrive in a different version of the probability table; she
+  // brings the cards that version files. Thresholds 2 / 4 — the
+  // Seer waits longer before adapting because waiting IS the move.
+  crossMemoryUpgrades: [
+    {
+      weakerCardDefId: "s1_curve_003", // Glimmer Wisp
+      strongerCardDefId: "s1_char_110", // Prophecy Keeper
+      threshold: 2,
+    },
+    {
+      weakerCardDefId: "s1_curve_008", // Vision Anchor
+      strongerCardDefId: "s1_pack_017", // Fate's Edge
+      threshold: 4,
+    },
+  ],
 };

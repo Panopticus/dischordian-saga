@@ -81,6 +81,30 @@ export interface PerspectiveAspect {
   label: string;
 }
 
+/** A cross-NPC memory upgrade — fires when the player has defeated
+ *  enough OTHER NPCs that the current NPC adapts mechanically.
+ *
+ *  The mechanic: every NPC the player has defeated is recorded as
+ *  `player_carries_<npcKey>_memory` in npc_public_flags. When the
+ *  count of carried-memories (excluding the current NPC) crosses
+ *  the threshold, buildNpcDeck swaps the weaker card for the
+ *  stronger variant. The NPC is "playing harder" because they
+ *  respect (or fear) the player's track record.
+ *
+ *  Authoring contract: thresholds are 1-indexed (threshold:1 fires
+ *  on first carried memory). Upgrades are applied in the order
+ *  declared, one per crossed threshold. The deck size stays at
+ *  39 — each upgrade is a 1:1 swap. */
+export interface CrossMemoryUpgrade {
+  /** The card in coreMemories that gets replaced when threshold met. */
+  weakerCardDefId: CardDefIdRef;
+  /** The card swapped in. */
+  strongerCardDefId: CardDefIdRef;
+  /** How many other-NPC memories the player must carry for this
+   *  upgrade to fire. */
+  threshold: number;
+}
+
 /** The full per-NPC deck declaration. One per NPC that the player
  *  can challenge. Authored as static data — no runtime state. */
 export interface NpcDeck {
@@ -110,4 +134,13 @@ export interface NpcDeck {
    *  exactly one advantageCards[i].gatedByAspect or the resolver
    *  cannot translate learning into deck mutation. */
   perspectiveAspects: ReadonlyArray<PerspectiveAspect>;
+  /** Optional cross-NPC adaptation. When the player has defeated
+   *  multiple other NPCs (each leaves a `player_carries_<key>_memory`
+   *  public flag), the NPC fields stronger variants of cards from
+   *  their coreMemories. NPCs without crossMemoryUpgrades behave
+   *  identically regardless of the player's track record — only
+   *  bibles that warrant the adaptation (Locke noting prior
+   *  contracts, the Seer naming the version where the player
+   *  arrived carrying more) author this. */
+  crossMemoryUpgrades?: ReadonlyArray<CrossMemoryUpgrade>;
 }
