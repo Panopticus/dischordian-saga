@@ -20,7 +20,7 @@
  */
 import { useState, useMemo } from "react";
 import { useLocation } from "wouter";
-import { ArrowLeft, Swords, Check } from "lucide-react";
+import { ArrowLeft, Swords, Check, History } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { NpcDialogTreeRunner } from "@/components/NpcDialogTreeRunner";
 import { ALL_NPC_DIALOG_TREES } from "@shared/npcs/dialogTrees";
@@ -86,6 +86,13 @@ export default function ChallengeCodexPage() {
               Challenge Codex
             </h1>
           </div>
+          <button
+            onClick={() => navigate("/codex/past-duels")}
+            className="flex items-center gap-1.5 rounded border void-border px-2 py-1 font-mono text-[9px] uppercase tracking-wider void-text-dim hover:void-text"
+            title="Historical record of every NPC duel you've played"
+          >
+            <History size={11} /> Past Duels
+          </button>
         </div>
       </div>
 

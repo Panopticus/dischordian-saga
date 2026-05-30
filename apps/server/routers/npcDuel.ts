@@ -24,10 +24,10 @@
    ═══════════════════════════════════════════════════════ */
 
 import { z } from "zod";
-import { eq } from "drizzle-orm";
+import { eq, desc, and, sql } from "drizzle-orm";
 import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
-import { userProgress } from "../../db/schema";
+import { userProgress, cardGameMatches } from "../../db/schema";
 import { logger } from "../logger";
 import { getNpcDeck, NPC_DECK_REGISTRY } from "@shared/npc-decks";
 import {
@@ -239,4 +239,68 @@ export const npcDuelRouter = router({
       };
     }).filter((x): x is NonNullable<typeof x> => x !== null);
   }),
+
+  /**
+   * List the user's past NPC duels — match-history rows tagged with
+   * source: "npc_duel" by the dispatcher. Powers the Past Duels
+   * codex page; the replay pin (npcDuelMeta / rewardTier / aspects)
+   * lives in each row's result JSON.
+   *
+   * Returns most-recent first, capped at 50 entries (large enough
+   * for a typical player's history, bounded so the query doesn't
+   * scan a runaway table).
+   */
+  listPastDuels: protectedProcedure
+    .input(z.object({ limit: z.number().int().min(1).max(50).default(20) }).optional())
+    .query(async ({ ctx, input }) => {
+      const limit = input?.limit ?? 20;
+      const db = await getDb();
+      if (!db) return [];
+      try {
+        const rows = await db
+          .select({
+            id: cardGameMatches.id,
+            result: cardGameMatches.result,
+            startedAt: cardGameMatches.startedAt,
+            endedAt: cardGameMatches.endedAt,
+          })
+          .from(cardGameMatches)
+          .where(
+            and(
+              eq(cardGameMatches.player1Id, ctx.user.id),
+              eq(cardGameMatches.player2Id, 0),
+              eq(cardGameMatches.status, "completed"),
+              // MySQL JSON_EXTRACT — filter to npc_duel matches only.
+              sql`JSON_EXTRACT(${cardGameMatches.result}, '$.source') = 'npc_duel'`,
+            ),
+          )
+          .orderBy(desc(cardGameMatches.endedAt))
+          .limit(limit);
+
+        return rows.map((r) => {
+          const result = (r.result ?? {}) as Record<string, unknown>;
+          return {
+            matchId: r.id,
+            npcKey: String(result.npcKey ?? ""),
+            outcome: result.outcome as "player_won" | "opponent_won",
+            rewardTier: Number(result.rewardTier ?? 0) as 0 | 1 | 2 | 3,
+            learnedAspectCount: Number(result.learnedAspectCount ?? 0),
+            totalAspectCount: Number(result.totalAspectCount ?? 0),
+            grantCount: Number(result.grantCount ?? 0),
+            takenCardDefId:
+              (result.takenCardDefId as string | null | undefined) ?? null,
+            restoredCardDefIds:
+              (result.restoredCardDefIds as ReadonlyArray<string>) ?? [],
+            startedAt: r.startedAt?.getTime() ?? null,
+            endedAt: r.endedAt?.getTime() ?? null,
+          };
+        });
+      } catch (err) {
+        // Best-effort — if the JSON_EXTRACT predicate fails on a
+        // non-MySQL backend (sqlite in tests), return an empty list.
+        // The dispatcher's write still succeeded; only the read is
+        // gated by the backend.
+        return [];
+      }
+    }),
 });
