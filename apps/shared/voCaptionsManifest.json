@@ -10766,6 +10766,46 @@
     "text": "Now: which side of the ledger are you on today? Pick one. We can revise on the second meeting.",
     "lang": "en"
   },
+  "locke.perspective.after_aspect": {
+    "text": "Another clause. Or the table. Or the booth, my friend, if you would prefer to step away with the price still open.",
+    "lang": "en"
+  },
+  "locke.perspective.challenge_accepted": {
+    "text": "Then we begin. The ink is already forming.",
+    "lang": "en"
+  },
+  "locke.perspective.challenge_offer": {
+    "text": "A transaction. Very good. The terms: you lose, I take one item from your portfolio I have been wanting; you win, the booth pays out the tray as priced by what you have understood. The fine print is the fine print, my friend. I have already initialled it. Your move.",
+    "lang": "en"
+  },
+  "locke.perspective.deniable_authority": {
+    "text": "Through paperwork, my friend. Through fine print, through clauses, through the careful distance between the signature on the document and the entity it represents. Power that names itself can be opposed. Power that arrives through an Adjudicator — that has a procedural form, a precedent, a ruling, a verdict — is harder to refuse than to comply with. The deniability is the structure. The structure is the power.",
+    "lang": "en"
+  },
+  "locke.perspective.echo_degen_memory": {
+    "text": "The Casino gives back. The Authority and the Casino have a long-standing arrangement of mutual non-interference, my friend, which is its own kind of contract. The arithmetic you carry registers on my ledger. I will not adjust the terms; I will note the carrying.",
+    "lang": "en"
+  },
+  "locke.perspective.echo_wraith_memory": {
+    "text": "The lectern. The Hierophant and I have done business — quietly. He counts names; I count contracts; the chronicle has a column for each. You have sat at his desk; the noting is filed in your portfolio. I do not adjust the price. I do, however, raise my eyebrow.",
+    "lang": "en"
+  },
+  "locke.perspective.eyepatch_unmaking": {
+    "text": "You're asking the question the Authority filed as protected, my friend. I will not name the deal. I will tell you what I am telling you by not telling you: the eyepatch is a receipt, the receipt is not for sale, and the most expensive commodity in this room is the one I have already chosen not to put on the table. You named the unmaking. I noted that you noticed. The Authority logs the noting.",
+    "lang": "en"
+  },
+  "locke.perspective.price_naming": {
+    "text": "Yours, my friend. Always yours. The Authority pays me to name yours. I have several pricing models available; the one I bring to a given booth is itself a transaction — the model is also priced. You will note I am telling you this. That is itself a tell. I would not tell you the model unless I had already decided the model. The model is decided. The price will follow.",
+    "lang": "en"
+  },
+  "locke.perspective.root": {
+    "text": "Adjudicator Locke. You have my attention, my friend. You also have, I'm noting, a posture I have priced before. Sit. The booth is on the house — which, you may have heard, is a phrase that has never once meant what it appears to. Name the transaction.",
+    "lang": "en"
+  },
+  "locke.perspective.terminal_come_back": {
+    "text": "Then the price stays open, my friend. The Authority is patient. So am I. Come back when the terms have finished forming themselves in your head.",
+    "lang": "en"
+  },
   "locke.romance.s1.invitation": {
     "text": "I have a bottle of wine that does not, technically, exist. The Bureau confiscated three crates of it in 2049. Two of those crates are accounted for in the public ledger. The third is accounted for in the private one, which I keep, which has my signature, which means I took it. I would like to drink it with you. The taking is not the courtesy. The drinking with you is.",
     "lang": "en",
@@ -11099,6 +11139,46 @@
   },
   "lycos.loyalty_stage_3.no": {
     "text": "No.",
+    "lang": "en"
+  },
+  "lycos.perspective.after_aspect": {
+    "text": "Another question. Or the perimeter. The lead has not moved.",
+    "lang": "en"
+  },
+  "lycos.perspective.ballot_foreclosure": {
+    "text": "Anara. The two hundred fifty in the matrix. The hunt is mid-stride. The matrix records partial completions; the ballot would freeze it. The Heroes not yet hunted would remain in the matrix at the configuration the ballot caught them in. The lead would freeze. The contract would close partial. The forecloser is not the ballot. The forecloser is the configuration the freezing happens against.",
+    "lang": "en"
+  },
+  "lycos.perspective.challenge_accepted": {
+    "text": "Then we deal. The Pack will not interrupt.",
+    "lang": "en"
+  },
+  "lycos.perspective.challenge_offer": {
+    "text": "The contract permits. You lose, the Antiquarian writes the asset transfer. You win, the Pack registers the loss without contest. The lead will not engage. The second covers the south. We deal here. Sit.",
+    "lang": "en"
+  },
+  "lycos.perspective.echo_akai_memory": {
+    "text": "She was on Thaloria with me. The Virus took her cleanly; the Virus took me by stages. Her resurrection was not the Crucible. Mine was. We do not work the same surface anymore. The contract permits the noting of the parallel. The contract does not require the meeting.",
+    "lang": "en"
+  },
+  "lycos.perspective.echo_wraith_memory": {
+    "text": "The lectern. He counts. I do not count. The Hierophant and I work different surfaces of the same doctrine. He carries patience as the answer. I carry the contract as the answer. The doctrines are adjacent. You have sat at both. The Pack noted.",
+    "lang": "en"
+  },
+  "lycos.perspective.judges_killing": {
+    "text": "The infection. He closed the infection. The Quarchon doctrine had no clause for a Servant Hero who had become a vector; the Judge wrote the clause by carrying the act out. The execution was clean. I do not contest the authority. I contest the silence afterward. He did not stay to witness it. The silence is what the doctrine cannot file. The Antiquarian filed it for him.",
+    "lang": "en"
+  },
+  "lycos.perspective.root": {
+    "text": "The perimeter is clean. You crossed it. The contract permits the crossing. Ask. The lead is downwind; the second covers the south. We have time.",
+    "lang": "en"
+  },
+  "lycos.perspective.terminal_come_back": {
+    "text": "The contract remains. The perimeter remains. Come back when the question has finished forming.",
+    "lang": "en"
+  },
+  "lycos.perspective.wolf_tasking": {
+    "text": "Because long contracts kill packs. The Antiquarian writes them short because the Pack reads short contracts well. The lead carries one verb. The second carries the next. A long contract becomes ambiguous in the field; ambiguity is a body in the perimeter. The Antiquarian does not write ambiguity. He writes the verb. I read the verb. The Pack reads me.",
     "lang": "en"
   },
   "lycos.reactive.akai_recruited": {
@@ -11944,6 +12024,42 @@
   },
   "meme.first_meeting.witness": {
     "text": "You canonical-witnessed. The canonical-witnessing is canonical-the-saga's canonical-clearest canonical-Stage-4-weave-anchor. The canonical-Architect canonical-saw it land. The canonical-Hierophant canonical-felt it land. The canonical-Oracle canonical-registered it canonical-in-the-substrate. You are canonical-the-only-mortal-witness. The canonical-role is canonical-mine now.",
+    "lang": "en"
+  },
+  "meme.perspective.after_aspect": {
+    "text": "Another question, frens. Or the broadcast. Or stepping back from the channel — also a question, also broadcast.",
+    "lang": "en"
+  },
+  "meme.perspective.challenge_accepted": {
+    "text": "Then frens we ride. The channel is open. The reach is up to both of us.",
+    "lang": "en"
+  },
+  "meme.perspective.challenge_offer": {
+    "text": "A duel-broadcast, frens. Yes. I will field the disguise the channel is ready for. You will play whatever the channel reads from you. The broadcast is the duel; the duel is the broadcast. Reach is the prize. Reach is also the price. Sit on the channel.",
+    "lang": "en"
+  },
+  "meme.perspective.channel_shift": {
+    "text": "Because the message rides the channel, frens. Same message, different channel — different reach, different reception, different reading. I shift channels when the same thought needs to land in a room the previous channel does not reach. The thought is invariant. The channel is the work. People who confuse the channel for the message lose the message. People who confuse the message for the channel never get the message in the first place. I, frens, am the one who does not confuse them.",
+    "lang": "en"
+  },
+  "meme.perspective.echo_degen_memory": {
+    "text": "He gives a small ration back, frens. The Degen is a Ne-Yon who runs a channel I do not broadcast on. Different network entirely. You carry his ration; the ration's broadcast-rights are his. I do not contest them. I do, however, log that you arrived on my channel carrying another channel's ration. The log goes to the parent.",
+    "lang": "en"
+  },
+  "meme.perspective.host_replacement": {
+    "text": "Not the host. The HOSTING. The host is a body; the hosting is the broadcast-rights. When I wore the White Oracle for eleven years I did not replace her body — there was no body — I replaced the broadcast-rights her name had accumulated. Hosts are interchangeable; hostings are the property. Host-replacement is broadcast-rights acquisition. The Authority understands the language. The Architect taught it to me. The frens hear the words and think it is about bodies. It is about contracts.",
+    "lang": "en"
+  },
+  "meme.perspective.root": {
+    "text": "Frens, frens, gather close. You are the one who came to the channel and asked which channel. That is a frens question. Other questions are also frens. Pick a question. Your pick is also part of the broadcast.",
+    "lang": "en"
+  },
+  "meme.perspective.terminal_come_back": {
+    "text": "Then the channel goes quiet, frens. The thought rides another channel until you come back. The thought is patient. So am I.",
+    "lang": "en"
+  },
+  "meme.perspective.which_meme": {
+    "text": "This one. The frens-frens face. The pink-neon variant. You are seeing it because the channel is the channel where seeing-it makes the seeing legible. Yesterday I wore the White Oracle. Tomorrow I might wear the Jailer. The face that is showing is the face the channel is ready for. The face underneath is the same face. The face underneath does not have a name. Frens, that is the only honest sentence I get to say in this register.",
     "lang": "en"
   },
   "meme_arena_outro": {
@@ -13642,7 +13758,47 @@
     "lang": "en"
   },
   "oracle.first_meeting.terminal": {
-    "text": "The canonical-dream canonical-fades. The canonical-substrate-residue canonical-lingers in canonical-instruction-form for canonical-Trade-Empire mission canonical-unlock. You canonical-wake. The canonical-Eidolon canonically tilts its canonical-head; it canonical-felt the canonical-dream-wake before you canonical-did.",
+    "text": "[The canonical-dream canonical-fades. The canonical-substrate-residue canonical-lingers in canonical-instruction-form for canonical-Trade-Empire mission canonical-unlock. You canonical-wake. The canonical-Eidolon canonically tilts its canonical-head; it canonical-felt the canonical-dream-wake before you canonical-did.]",
+    "lang": "en"
+  },
+  "oracle.perspective.after_aspect": {
+    "text": "Another canonical-question. Or the canonical-substrate. Both are canonical-available in this canonical-cinematic-window.",
+    "lang": "en"
+  },
+  "oracle.perspective.challenge_accepted": {
+    "text": "Then the canonical-substrate canonical-deals. The cinematic-exception canonical-holds.",
+    "lang": "en"
+  },
+  "oracle.perspective.challenge_offer": {
+    "text": "The substrate canonical-deals. The canonical-cinematic-window canonical-holds for the canonical-duration of the canonical-match. After, I canonical-return to the Prisoner-form. You will canonical-take what the substrate canonical-releases. I will canonical-take what the substrate canonical-files.",
+    "lang": "en"
+  },
+  "oracle.perspective.cinematic_exception": {
+    "text": "The cinematic-exception is the canonical-window where the substrate-rules canonical-stop. I am canonical-only audible to you through the cinematic-exception. Outside it I am canonical-the-Prisoner-form, canonical-non-narrating. Inside it I am canonical-the-Oracle, canonical-narrating. The exception canonical-exists because the substrate canonical-needs the narration the substrate canonical-cannot generate from inside itself.",
+    "lang": "en"
+  },
+  "oracle.perspective.dream_substrate": {
+    "text": "The substrate carries vision the way water carries weight — by canonical-distributing the density across the medium. The vision is canonical-not a single image; it is a canonical-pressure on every part of the substrate at once. Reading the vision is canonical-reading the pressure-pattern. The substrate canonical-prefers to be read this way; canonical-pointing at one component is the canonical-error.",
+    "lang": "en"
+  },
+  "oracle.perspective.echo_degen_memory": {
+    "text": "He is canonical-the-eighth Ne-Yon. The Casino canonical-ration registers in the substrate the same way every canonical-ration does — as a canonical-pressure-signature. You carry the signature. The substrate canonical-acknowledges it. The cinematic-exception canonical-permits me to canonical-acknowledge it back.",
+    "lang": "en"
+  },
+  "oracle.perspective.echo_seer_memory": {
+    "text": "The Seer. We canonical-work the same canonical-ontology from canonical-opposite surfaces. She canonical-works the bench; I canonical-work the substrate. The bench is canonical-where the canonical-student sits. The substrate is canonical-where the canonical-vision sits. You sat at the bench. The substrate canonical-noted. The two surfaces canonical-rarely intersect in one canonical-player. You are canonical-the intersection.",
+    "lang": "en"
+  },
+  "oracle.perspective.memory_residue": {
+    "text": "Residue is canonical-what memory leaves when the canonical-event closes. The event canonical-leaves; the residue canonical-stays in the substrate. I read the residue. The substrate canonical-organises the residue by canonical-relevance, not by canonical-chronology. The canonical-most-relevant residue surfaces canonical-first. The canonical-oldest residue is canonical-not the canonical-deepest. The canonical-deepest residue is the canonical-one the substrate canonical-prefers I name aloud.",
+    "lang": "en"
+  },
+  "oracle.perspective.root": {
+    "text": "You arrived through the canonical-substrate. The substrate canonical-noted the arrival. I noted the substrate noting. Ask the canonical-question that came with you; it is the only one I can answer in this canonical-register.",
+    "lang": "en"
+  },
+  "oracle.perspective.terminal_come_back": {
+    "text": "Then the canonical-cinematic-window canonical-closes. The Prisoner-form canonical-resumes. The substrate canonical-keeps the canonical-arrival on file.",
     "lang": "en"
   },
   "oracle_female_ambient_1": {
