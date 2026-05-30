@@ -200,6 +200,18 @@ export function NpcDuelOverlay({
           </p>
         )}
 
+        {/* Cross-NPC adaptation note. When the NPC's deck has been
+         *  mechanically upgraded by the player's track record (NPC
+         *  authors crossMemoryUpgrades), surface the count so the
+         *  player knows they're facing a harder version. Silent when
+         *  the NPC has no upgrades authored or none fired. */}
+        {info.appliedCrossMemoryUpgrades.length > 0 && (
+          <p className="mt-2 font-mono text-[10px] uppercase tracking-wider void-text-accent">
+            ✦ They have adapted to your record: {info.appliedCrossMemoryUpgrades.length}{" "}
+            card{info.appliedCrossMemoryUpgrades.length === 1 ? "" : "s"} upgraded
+          </p>
+        )}
+
         <div className="mt-6 flex flex-col gap-2">
           <button
             type="button"

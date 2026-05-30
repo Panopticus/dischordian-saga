@@ -128,4 +128,24 @@ export const ADJUDICATOR_LOCKE_DECK: NpcDeck = {
       label: "What the eyepatch was the receipt for",
     },
   ],
+  // Locke notes prior contracts. Every NPC you've defeated raises
+  // the price; the Authority responds by fielding heavier inventory.
+  // Thresholds are 1 / 3 / 5 — small, medium, full-roster respect.
+  crossMemoryUpgrades: [
+    {
+      weakerCardDefId: "s1_curve_005", // Compliance Watcher
+      strongerCardDefId: "s1_char_081", // Tribunal Magistrate
+      threshold: 1,
+    },
+    {
+      weakerCardDefId: "s1_curve_010", // Sector Magistrate
+      strongerCardDefId: "s1_pack_034", // Locke's Inner Circle
+      threshold: 3,
+    },
+    {
+      weakerCardDefId: "s1_pack_033", // Debt Collector
+      strongerCardDefId: "s1_char_066", // Fenra the Moon Tyrant
+      threshold: 5,
+    },
+  ],
 };

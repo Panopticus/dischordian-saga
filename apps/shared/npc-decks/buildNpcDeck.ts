@@ -20,6 +20,21 @@ export interface BuildNpcDeckResult {
   deck: ReadonlyArray<CardDefIdRef>;
   /** Echo channel — which aspects were applied as deck mutations. */
   appliedAspects: ReadonlyArray<PerspectiveAspectId>;
+  /** Echo channel — which cross-memory upgrades fired (one entry
+   *  per swapped card). Empty when the NPC has no crossMemoryUpgrades
+   *  authored or the player carries no other-NPC memories. */
+  appliedCrossMemoryUpgrades: ReadonlyArray<{
+    weakerCardDefId: CardDefIdRef;
+    strongerCardDefId: CardDefIdRef;
+    threshold: number;
+  }>;
+}
+
+/** Optional context for buildNpcDeck — currently just the
+ *  cross-NPC memory count (the number of OTHER NPCs the player has
+ *  defeated). Pass an empty object or omit for the legacy behavior. */
+export interface BuildNpcDeckContext {
+  crossMemoryCount?: number;
 }
 
 /** Compose the NPC's concrete deck for a single challenge match.
@@ -30,18 +45,27 @@ export interface BuildNpcDeckResult {
  *    3. For each advantage card: include the secret-weapon variant
  *       if the gating aspect is UNLEARNED, the replacement if
  *       LEARNED.
+ *    4. For each crossMemoryUpgrade whose threshold is met by
+ *       ctx.crossMemoryCount, swap the FIRST occurrence of the
+ *       weaker card in the composed deck for the stronger variant.
+ *       The NPC adapts mechanically when the player carries more
+ *       prior victories.
  *
- *  The composed length is invariant under aspect changes because
- *  every advantageCards[i] contributes exactly one card to the
- *  output regardless of which side of the gate the player is on.
- *  This keeps the deck size stable across replay scrubs and across
- *  player progression. */
+ *  The composed length is invariant under aspect / cross-memory
+ *  changes because every swap is 1:1 — the deck stays at exactly
+ *  39 cards. This keeps replay determinism intact. */
 export function buildNpcDeck(
   npcDeck: NpcDeck,
   learnedAspects: ReadonlySet<PerspectiveAspectId>,
+  ctx?: BuildNpcDeckContext,
 ): BuildNpcDeckResult {
   const deck: CardDefIdRef[] = [];
   const applied: PerspectiveAspectId[] = [];
+  const appliedUpgrades: Array<{
+    weakerCardDefId: CardDefIdRef;
+    strongerCardDefId: CardDefIdRef;
+    threshold: number;
+  }> = [];
 
   for (const cardDefId of npcDeck.coreMemories) {
     deck.push(cardDefId);
@@ -60,10 +84,32 @@ export function buildNpcDeck(
     }
   }
 
+  // Cross-memory upgrades. Iterate in declaration order; each
+  // upgrade whose threshold ≤ crossMemoryCount fires once. The
+  // swap mutates the first matching card def id occurrence, so a
+  // single weaker card listed multiple times in coreMemories is
+  // upgraded one at a time — authors get fine-grained control by
+  // declaring multiple upgrade entries with the same weakerCardDefId.
+  const crossMemoryCount = ctx?.crossMemoryCount ?? 0;
+  if (npcDeck.crossMemoryUpgrades && crossMemoryCount > 0) {
+    for (const upgrade of npcDeck.crossMemoryUpgrades) {
+      if (crossMemoryCount < upgrade.threshold) continue;
+      const idx = deck.indexOf(upgrade.weakerCardDefId);
+      if (idx === -1) continue;
+      deck[idx] = upgrade.strongerCardDefId;
+      appliedUpgrades.push({
+        weakerCardDefId: upgrade.weakerCardDefId,
+        strongerCardDefId: upgrade.strongerCardDefId,
+        threshold: upgrade.threshold,
+      });
+    }
+  }
+
   return {
     general: npcDeck.general,
     deck,
     appliedAspects: applied,
+    appliedCrossMemoryUpgrades: appliedUpgrades,
   };
 }
 

@@ -111,16 +111,22 @@ export const npcDuelRouter = router({
       const totalCount = deck.perspectiveAspects.length;
       const tier = npcDuelRewardTier(learnedCount, totalCount);
 
-      const composition = buildNpcDeck(deck, learnedAspectSet);
-
-      // Cross-NPC echoes — which other NPCs has the player already
-      // defeated? Drives opening-line conditionals on the client.
+      // Cross-NPC echoes — which OTHER NPCs has the player already
+      // defeated? Drives opening-line conditionals on the client AND
+      // (when the deck author opted in via crossMemoryUpgrades)
+      // mechanically adapts the NPC's deck to match the player's
+      // track record.
       const carriedMemories: NpcKey[] = [];
       for (const otherKey of CHALLENGEABLE_NPC_KEYS) {
+        if (otherKey === npcKey) continue;
         if (flags.has(`player_carries_${otherKey}_memory`)) {
           carriedMemories.push(otherKey);
         }
       }
+
+      const composition = buildNpcDeck(deck, learnedAspectSet, {
+        crossMemoryCount: carriedMemories.length,
+      });
 
       return {
         challengeable: true as const,
@@ -129,6 +135,7 @@ export const npcDuelRouter = router({
         deck: composition.deck,
         deckSize: composition.deck.length,
         appliedAspects: composition.appliedAspects,
+        appliedCrossMemoryUpgrades: composition.appliedCrossMemoryUpgrades,
         perspectiveAspects: deck.perspectiveAspects.map((a) => ({
           id: a.id,
           label: a.label,
@@ -139,6 +146,7 @@ export const npcDuelRouter = router({
         rewardTier: tier,
         challengeMotive: deck.challengeMotive,
         carriedMemories,
+        crossMemoryCount: carriedMemories.length,
         alreadyDefeated: flags.has(`defeated_npc:${npcKey}`),
       };
     }),
