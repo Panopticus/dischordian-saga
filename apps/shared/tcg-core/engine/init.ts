@@ -161,6 +161,14 @@ export interface CreateMatchOptionsExtras {
    * follow-ups. See `apps/shared/tcg-core/heat/registry.ts`.
    */
   heatModifiers?: readonly string[];
+  /**
+   * Optional: NPC duel replay-pin metadata. Set by callers that
+   * launched the match via the NpcDuelOverlay (apps/client/src/
+   * components/NpcDuelOverlay.tsx). Recorded on GameState.npcDuelMeta
+   * for replay viewers; reducers never read it. See
+   * apps/shared/tcg-core/types/GameState.ts NpcDuelMeta.
+   */
+  npcDuelMeta?: import("../types/GameState").NpcDuelMeta;
 }
 
 export interface CreateMatchOptions extends CreateMatchOptionsExtras {
@@ -367,6 +375,7 @@ export function createMatchState(opts: CreateMatchOptions): GameState {
       ? { pending: null, playsPerformed: 0 }
       : undefined,
     heatModifiers: validateHeatModifiersAtInit(opts.heatModifiers),
+    npcDuelMeta: opts.npcDuelMeta,
   };
 }
 

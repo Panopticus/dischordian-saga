@@ -136,6 +136,17 @@ export function buildOutcomeDispatchContext(
       );
     },
 
+    recordChallengeIntent: (challengedNpcKey) => {
+      // The procedure return surfaces bundle.challengeWrites directly
+      // so the client can mount the duel UI — this hook just logs
+      // for telemetry / audit. No DB write happens here.
+      logger?.debug?.(
+        "outcomeDispatch.challengeIntent",
+        "buildOutcomeDispatchContext",
+        { userId, npcKey, challengedNpcKey },
+      );
+    },
+
     log: (event, payload) => {
       logger?.info?.(event, "buildOutcomeDispatchContext", payload);
     },

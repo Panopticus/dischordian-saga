@@ -1,7 +1,7 @@
 [
   {
     "id": "hierophant.first_meeting.root",
-    "text": "The Hierophant does not look up. The pen continues — a name is being written. A small silence. Then another name. The chamber waits to see what kind of visitor you canonically are.",
+    "text": "[The Hierophant does not look up. The pen continues — a name is being written. A small silence. Then another name. The chamber waits to see what kind of visitor you canonically are.]",
     "context": "first_meeting.hierophant-first-meeting",
     "emotion": "first_meeting",
     "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
@@ -10,8 +10,7 @@
       "treeId": "hierophant-first-meeting",
       "nodeId": "root",
       "requiresRevealStage": "post_arena"
-    },
-    "directionNotes": "[The Hierophant does not look up. The pen continues — a name is being written. A small silence. Then another name. The chamber waits to see what kind of visitor you canonically are.]"
+    }
   },
   {
     "id": "hierophant.first_meeting.silence_held",
@@ -69,7 +68,7 @@
   },
   {
     "id": "hierophant.first_meeting.terminal",
-    "text": "The pen returns to the page. The next canonical-name canonically begins. The chamber is canonical-quiet again. You may stay; you may leave; the canonical-work canonically continues either way.",
+    "text": "[The pen returns to the page. The next canonical-name canonically begins. The chamber is canonical-quiet again. You may stay; you may leave; the canonical-work canonically continues either way.]",
     "context": "first_meeting.hierophant-first-meeting",
     "emotion": "first_meeting",
     "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
@@ -78,8 +77,7 @@
       "treeId": "hierophant-first-meeting",
       "nodeId": "terminal",
       "requiresRevealStage": "post_arena"
-    },
-    "directionNotes": "[The pen returns to the page. The next canonical-name canonically begins. The chamber is canonical-quiet again. You may stay; you may leave; the canonical-work canonically continues either way.]"
+    }
   },
   {
     "id": "wraith.post_recruit.root",
@@ -231,6 +229,123 @@
       "treeId": "wraith-calder-loyalty-intro",
       "nodeId": "summon_the_antiquarian",
       "requiresRevealStage": "post_arena"
+    }
+  },
+  {
+    "id": "wraith.perspective.root",
+    "text": "You came to the chamber for a reason. The chair behind me is the chair I sit in. The lectern in front of me is the lectern I write at. Neither of them is going anywhere. Ask what you came to ask. If the question is small I will answer it small. If the question is large I will answer it the same way.",
+    "context": "first_meeting.wraith-calder-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "meta": {
+      "npcKey": "wraith_calder",
+      "treeId": "wraith-calder-perspective-gathering",
+      "nodeId": "root",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "wraith.perspective.patience_earned",
+    "text": "Patience is the wrong word in the mouth of anyone who hasn't earned it. The first three deaths I argued with. The fourth I bargained with. The fifth I refused. The sixth I performed. The seventh I sat down inside. That is when the patience started. Not because I learned to wait. Because the body learned that argument, bargain, refusal, performance — all of them are the same ration of time. So I stopped spending the ration. That is the patience. It cost me six bodies. The seventh is the one that kept it.",
+    "context": "first_meeting.wraith-calder-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "meta": {
+      "npcKey": "wraith_calder",
+      "treeId": "wraith-calder-perspective-gathering",
+      "nodeId": "aspect_patience_earned",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "wraith.perspective.counting_as_confession",
+    "text": "Because a round number is a kind of mercy I have not earned for the people behind it. Three hundred and forty-seven thousand. Not three hundred and fifty. Not three hundred and forty-six. Three hundred and forty-seven thousand. Each name in that count was a person who had a body and a Tuesday and a way of sitting that the room remembers. If I round, the people I round off become a kind of arithmetic. That is what the Shadow Tongue would do. I am not in the chamber to do what the Shadow Tongue would do. I am in the chamber to count.",
+    "context": "first_meeting.wraith-calder-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "meta": {
+      "npcKey": "wraith_calder",
+      "treeId": "wraith-calder-perspective-gathering",
+      "nodeId": "aspect_counting_as_confession",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "wraith.perspective.system_is_inside_us",
+    "text": "Inside us. Not at the gate, not in the next room, not in the chamber down the hall — inside us. The Shadow Tongue is in the way I just constructed that sentence. The Architect is in the rhythm I used to construct it. The Hierarchy is in the patience I used to construct it. The Insurgency is in the refusal underneath it. If you go looking for the corruption at the gate you will find a gate. The corruption is the way you arrived at the gate. The work — the only work — is doing it from inside, every day, without a deadline. That is also why I count. The count is the work I do from inside.",
+    "context": "first_meeting.wraith-calder-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "meta": {
+      "npcKey": "wraith_calder",
+      "treeId": "wraith-calder-perspective-gathering",
+      "nodeId": "aspect_system_is_inside_us",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "wraith.perspective.echo_degen_memory",
+    "text": "I felt it the moment you walked in. The arithmetic on you has a different cadence than the arithmetic on you when you arrived the first time. The Degen is the part of the chronicle that gives a small ration back to the people who walked up to the table. He is not careless about which rations he gives. If he gave you one, the chronicle has marked you for a reason. I will not name the reason. The reason will surface in the chamber it surfaces in. Sit. Or stand. Either way I am listening.",
+    "context": "first_meeting.wraith-calder-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "meta": {
+      "npcKey": "wraith_calder",
+      "treeId": "wraith-calder-perspective-gathering",
+      "nodeId": "echo_degen_memory",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "wraith.perspective.after_aspect",
+    "text": "Another question. Or the lectern. Or the chair. The chamber accepts all three. Take the time you need.",
+    "context": "first_meeting.wraith-calder-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "meta": {
+      "npcKey": "wraith_calder",
+      "treeId": "wraith-calder-perspective-gathering",
+      "nodeId": "after_aspect",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "wraith.perspective.challenge_offer",
+    "text": "A duel. Then yes. The chamber is the chamber whether we duel in it or write in it. I will not perform reluctance. I will not perform mercy. I will play the way the body that did the dying played — which is to say, accurately. You lose, the Hierophant takes one card from your tray. You win, the tray opens by however many doors you opened in this conversation. Sit. Or stand. Either way, deal.",
+    "context": "first_meeting.wraith-calder-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "meta": {
+      "npcKey": "wraith_calder",
+      "treeId": "wraith-calder-perspective-gathering",
+      "nodeId": "challenge_offer",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "wraith.perspective.challenge_accepted",
+    "text": "Then we sit. The body that did the dying knows how to deal.",
+    "context": "first_meeting.wraith-calder-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "meta": {
+      "npcKey": "wraith_calder",
+      "treeId": "wraith-calder-perspective-gathering",
+      "nodeId": "challenge_accepted",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "wraith.perspective.terminal_come_back",
+    "text": "The chamber is not closing. The lectern is not closing. The chair is not closing. Come back when the question has finished forming. It will. It always does.",
+    "context": "first_meeting.wraith-calder-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "meta": {
+      "npcKey": "wraith_calder",
+      "treeId": "wraith-calder-perspective-gathering",
+      "nodeId": "terminal_come_back",
+      "requiresRevealStage": null
     }
   }
 ]

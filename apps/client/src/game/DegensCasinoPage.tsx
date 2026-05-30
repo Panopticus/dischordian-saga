@@ -37,6 +37,8 @@ import { trpc } from "@/lib/trpc";
 import { useGame } from "@/contexts/GameContext";
 import { milestonesCrossed } from "@shared/degenPazaakMilestones";
 import { toast } from "sonner";
+import { NpcDialogTreeRunner } from "@/components/NpcDialogTreeRunner";
+import { THE_DEGEN_PERSPECTIVE_GATHERING } from "@shared/npcs/dialogTrees/the_degen/perspective_gathering";
 
 const CASINO_FLOOR_BG = CASINO_ENVIRONMENTS.mainFloor;
 const CASINO_PARALLAX_COLOR = "https://res.cloudinary.com/dsenaozjq/image/upload/q_auto/f_auto/v1775681916/Vast_open_casino_202604081640_drbpia.jpg";
@@ -151,6 +153,11 @@ export default function DegensCasinoPage() {
   const [degenText, setDegenText] = useState(() => getDegenQuote("welcome"));
   const [latestTale, setLatestTale] = useState<DegenTale | null>(null);
   const [showTale, setShowTale] = useState(false);
+  /** Toggled by the "Approach the Degen" header button. Mounts the
+   *  NpcDialogTreeRunner with the perspective-gathering tree; the
+   *  runner auto-mounts the duel overlay if the player picks the
+   *  challenge choice. */
+  const [showDegenDialog, setShowDegenDialog] = useState(false);
 
   const vip = useMemo(() => getVIPLevel(casinoState.totalWagered), [casinoState.totalWagered]);
   const streakReward = useMemo(() => getStreakReward(casinoState.currentStreak), [casinoState.currentStreak]);
@@ -344,6 +351,13 @@ export default function DegensCasinoPage() {
               <p className="font-mono text-[8px] text-white/20">Wagered: {casinoState.totalWagered}D</p>
             </div>
           </div>
+          <button
+            onClick={() => setShowDegenDialog(true)}
+            className="font-mono text-[9px] void-text-accent px-2 py-1 rounded border void-border"
+            title="Approach the Degen — perspective dialog, optional duel"
+          >
+            APPROACH
+          </button>
           <button
             onClick={() => navigate("/casino/leaderboard")}
             className="font-mono text-[9px] void-text-accent void-text-accent px-2 py-1 rounded border void-border void-border"
@@ -565,6 +579,27 @@ export default function DegensCasinoPage() {
           <span>VIP: {vip.name}</span>
         </div>
       </div>
+
+      {/* Approach the Degen — dialog → optional duel → memorial harvest.
+       *  The runner walks THE_DEGEN_PERSPECTIVE_GATHERING; if the player
+       *  picks the "Sit. Deal." challenge choice, NpcDuelOverlay
+       *  auto-mounts on top of this dialog. playerFaction defaults to
+       *  "neutral" — the player's starter deck is what runs against the
+       *  Degen's authored deck. */}
+      {showDegenDialog && (
+        <NpcDialogTreeRunner
+          tree={THE_DEGEN_PERSPECTIVE_GATHERING}
+          playerFaction="neutral"
+          onClose={() => setShowDegenDialog(false)}
+          onVictoryRecorded={(grantCount, rewardTier) => {
+            toast.success(
+              `The Degen folded ${grantCount} ${
+                grantCount === 1 ? "memory" : "memories"
+              } into your tray (tier ${rewardTier}).`,
+            );
+          }}
+        />
+      )}
     </div>
   );
 }

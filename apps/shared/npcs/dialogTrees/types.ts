@@ -71,6 +71,25 @@ export interface NpcDialogChoice {
     encounterId: string;
     addCardDefId: string;
   };
+  /** Routes this choice to a uniform NPC duel entry instead of
+   *  rendering the next dialog node. The dialog runner forwards the
+   *  `challenge` outcome to the host (campaign router, in-room
+   *  challenge handler) which composes the NPC deck via
+   *  `buildNpcDeck()` and mounts the duel UI. After the match the
+   *  host dispatches `dispatchNpcDuelVictory` (server) to grant the
+   *  perspective-scaled reward.
+   *
+   *  Authoring contract: a choice with `challenge` SHOULD also carry
+   *  a non-empty `requires:` gate so the option only appears once
+   *  the player meets the trust / perspective bar for that NPC. The
+   *  choice's `nextId` is still required (the runner uses it as the
+   *  fallback / cancel destination if the host cannot launch the
+   *  duel — e.g., no deck authored, network failure). */
+  challenge?: {
+    /** NPC the player is challenging. MUST match the owning tree's
+     *  `npcKey` — the dialog tree lint catches cross-NPC challenges. */
+    npcKey: NpcKey;
+  };
 }
 
 export interface NpcDialogNode {

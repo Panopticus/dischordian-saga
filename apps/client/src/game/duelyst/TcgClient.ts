@@ -109,6 +109,10 @@ export class TcgClient {
     witnessMode?: WitnessModeConfig;
     prophecyMode?: ProphecyModeConfig;
     scriptedActions?: readonly ScriptedAction[];
+    /** NPC duel replay-pin metadata. Pure pass-through onto
+     *  GameState.npcDuelMeta; reducers ignore the field. Set by
+     *  NpcDuelOverlay launches. */
+    npcDuelMeta?: import("@shared/tcg-core/types/GameState").NpcDuelMeta;
   }): TcgClient {
     const matchId = opts.matchId ?? `local-${Date.now()}`;
     const seed = opts.seed ?? `s-${matchId}`;
@@ -135,6 +139,7 @@ export class TcgClient {
       witnessMode: opts.witnessMode,
       prophecyMode: opts.prophecyMode,
       scriptedActions: opts.scriptedActions,
+      npcDuelMeta: opts.npcDuelMeta,
     });
     return new TcgClient(state, opts.localSide ?? 0);
   }

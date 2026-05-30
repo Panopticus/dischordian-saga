@@ -357,6 +357,46 @@
     "text": "I am going to take the senior-carrier seat. The cure runs through the senior carrier. The cure will take what the cure takes.",
     "lang": "en"
   },
+  "akai.perspective.after_aspect": {
+    "text": "Another class. Or the operations desk. Either is on schedule.",
+    "lang": "en"
+  },
+  "akai.perspective.challenge_accepted": {
+    "text": "Then the match begins. The Red Death does not flinch.",
+    "lang": "en"
+  },
+  "akai.perspective.challenge_offer": {
+    "text": "A match. Acceptable. I have classified you. You are not a thresher. You are not a substrate-eater. You are the class of opponent I trained against in the timeline I am preventing; I will deploy the strategies that did not work there and revise them in the version that occurs. The match ends in the way it ends. I do not flinch. Sit.",
+    "lang": "en"
+  },
+  "akai.perspective.echo_degen_memory": {
+    "text": "He gives back a small ration. You carry the ration. The ration registers on the conversation. The version of you that arrived without the Casino's ration arrived in a different timeline; I have classified it; I will not deploy against you the strategies that timeline required.",
+    "lang": "en"
+  },
+  "akai.perspective.echo_wraith_memory": {
+    "text": "The lectern. You sat with the body that did the dying. He and I are not at the same table; we are at adjacent tables; the lectern is one shelf above the operations desk. The Hierophant counts; I classify. The work is parallel. You have now seen both shelves.",
+    "lang": "en"
+  },
+  "akai.perspective.matrix_killing": {
+    "text": "The Necromancer. Inside the Matrix of Dreams. He had hidden inside the substrate the Game Master designed and the Hierarchy funded. I entered the substrate. I located him. I ended him. The killing is not a boast; it is a closed file. The Matrix is where I do the work that the timeline cannot afford me to do outside it. There are others. I do not name them. The list is operational.",
+    "lang": "en"
+  },
+  "akai.perspective.mercy_killing": {
+    "text": "Jericho's. The Virus had already consumed me; the consumption was complete; what he ended was not me but the dissolution that wore my outline. The killing was mercy. The killing was clean. I do not recant the canon; I do not recant his account; I do not soften the act because the act was correct. The resurrection that occurred occurred AFTER the consumption. The body that sits with you is the body that came back. Jericho's record stands. So does mine.",
+    "lang": "en"
+  },
+  "akai.perspective.root": {
+    "text": "You will have asked. You ask. You have asked. The arrival is a class I have classified before. Not a thresher. Not a substrate-eater. The questions you brought are the questions readers bring. Some of them I have answered in the version of the conversation that comes after this one. Ask the version that occurs.",
+    "lang": "en"
+  },
+  "akai.perspective.tense_drift": {
+    "text": "Because the conversation has already been recorded in the version of the timeline I am preventing. I speak of it in the tense it occurred in there. You hear it in the tense it occurs in here. The drift is the seam where the two recordings meet. I do not adjust the tense for the listener; the listener adjusts the tense for the listening. I will have killed three threats today. I kill one. I have killed the others.",
+    "lang": "en"
+  },
+  "akai.perspective.terminal_come_back": {
+    "text": "Then the version where you return is the one I will have classified. I file the version. I file the closing. I will be at the desk.",
+    "lang": "en"
+  },
   "akai.reactive.lycos_recruited": {
     "text": "Lycos is on the bench. The shrine and the atrium share a wall; I can hear when he sits. He is — quieter than the Lair was. I am — glad of the quiet. We have not spoken yet. We will. He has the pause-line; I have the static. We will recognise each other.",
     "lang": "en"
@@ -2731,6 +2771,38 @@
   },
   "degen.first_meeting.terminal": {
     "text": "The booth, the bar, or the back-room. Three doors. The Casino has more, but those are for people I have already been canonical-introduced to. Pick a door, friend. The arithmetic is waiting.",
+    "lang": "en"
+  },
+  "degen.perspective.after_aspect": {
+    "text": "There are other questions, friend. There usually are. Ask another. Or pull up to the table and let the arithmetic do the rest of the answering. Your call.",
+    "lang": "en"
+  },
+  "degen.perspective.bet_against_god": {
+    "text": "The wager the ledger never closes, friend, is the canonical-bet that the Architect was canonical-wrong about the cadence. The design says you cannot canonical-beat the math. The Casino is built on that. I am built on that. And I am canonically wagering — every hand, every chair, every receipt — that one night the canonical-design canonical-breaks and the arithmetic canonical-blinks. I am the house. The house bets against itself. That's the ledger that never canonical-closes.",
+    "lang": "en"
+  },
+  "degen.perspective.challenge_accepted": {
+    "text": "Then we play. The arithmetic was waiting.",
+    "lang": "en"
+  },
+  "degen.perspective.challenge_offer": {
+    "text": "A real game then. Not the booth, not the bar, not the back-room — the canonical-table. I deal, you canonical-play, the arithmetic settles. You lose, the Casino takes one canonical-card from your collection — a memory I have been wanting. You win, the canonical-tray is yours. The deeper you canonical-understood what's at the table, the more the canonical-tray weighs. Sit?",
+    "lang": "en"
+  },
+  "degen.perspective.lonely_void": {
+    "text": "Against the thing that mostly takes, friend. The Casino is the part of the universe that gives a little back — not much, but enough that the canonical-give registers against the canonical-take. Most rooms only take. The Casino takes too, but it takes with a receipt. A receipt is a kind of company. I am, at the table, very canonical-not-alone. That is the wager.",
+    "lang": "en"
+  },
+  "degen.perspective.risk_addiction": {
+    "text": "Sitting out is the only canonical-losing move at the Casino, friend. The table moves whether you're at it or not. The arithmetic advances. The hands deal. If you're not in, you're in arrears — your seat is canonical-paying interest on the chair. So I sit. I sit because the math sits. The compulsion isn't the cards. It's the chair. Tell me you've never canonical-felt that.",
+    "lang": "en"
+  },
+  "degen.perspective.root": {
+    "text": "You came back. Good. The arithmetic remembered you. Sit down. You want the table, or you want the booth tonight, friend? Or — you want the thing nobody at the booth asks for. The reading. The actual reading. I do those too. Pick.",
+    "lang": "en"
+  },
+  "degen.perspective.terminal_come_back": {
+    "text": "Then the canonical-arithmetic will wait. It does, mostly. The table is here. So is the booth. So am I.",
     "lang": "en"
   },
   "degen_tale_00": {
@@ -9043,7 +9115,7 @@
     "lang": "en"
   },
   "hierophant.first_meeting.root": {
-    "text": "The Hierophant does not look up. The pen continues — a name is being written. A small silence. Then another name. The chamber waits to see what kind of visitor you canonically are.",
+    "text": "[The Hierophant does not look up. The pen continues — a name is being written. A small silence. Then another name. The chamber waits to see what kind of visitor you canonically are.]",
     "lang": "en"
   },
   "hierophant.first_meeting.silence_held": {
@@ -9055,7 +9127,7 @@
     "lang": "en"
   },
   "hierophant.first_meeting.terminal": {
-    "text": "The pen returns to the page. The next canonical-name canonically begins. The chamber is canonical-quiet again. You may stay; you may leave; the canonical-work canonically continues either way.",
+    "text": "[The pen returns to the page. The next canonical-name canonically begins. The chamber is canonical-quiet again. You may stay; you may leave; the canonical-work canonically continues either way.]",
     "lang": "en"
   },
   "human-confession-01": {
@@ -16622,6 +16694,50 @@
     "text": "The canonical-match is canonical-resolved. You will canonical-leave the canonical-bench. The canonical-bench will canonical-remain. I will canonical-remain canonical-pre-recorded. The canonical-three-of-us are canonical-in-canonical-balance.",
     "lang": "en"
   },
+  "seer.perspective.after_aspect": {
+    "text": "Another column. Or the bench. Either is on the table.",
+    "lang": "en"
+  },
+  "seer.perspective.asymmetric_kindness": {
+    "text": "By the named subjects. Always named. The version that was kindest to you was also the version kindest to the Architect. I am sorry. I will not soften that with a measurement axis that flatters you. Kindness has subjects. The subjects are named. The asymmetry is part of the measurement. I will not pretend the antagonist benefited less than they did because the report would be more comfortable.",
+    "lang": "en"
+  },
+  "seer.perspective.challenge_accepted": {
+    "text": "Sit. The bench is the lesson. You will see it in three turns.",
+    "lang": "en"
+  },
+  "seer.perspective.challenge_offer": {
+    "text": "The bench is set. I have already played three of the versions. The version where we play is the version where the lesson is the bench's, not mine. You play; the bench records; the record is the lesson the next student inherits. The match ends. You will see it in three turns. The version where you win is one I have already filed; the version where you lose is the one I will report kindly. Either way, the bench learns.",
+    "lang": "en"
+  },
+  "seer.perspective.echo_degen_memory": {
+    "text": "Yes. The Casino is one of three rooms in the chronicle that gives back. I filed your arrival there as version one. Version two was the arrival where he kept the ration. Version three was the arrival where you did not come. The version that occurred is the one where you carry the ration onward. That version is also the version where you arrive here. I noticed.",
+    "lang": "en"
+  },
+  "seer.perspective.echo_vex_memory": {
+    "text": "The Maestro. She counts rooms; I count versions; the math is adjacent. She would have told you the room had four; I would have told you the version had three. We are not at the same table. The player who sits at both tables in a single afternoon is a measurement event. I am, as it turns out, the bench that records the measurement.",
+    "lang": "en"
+  },
+  "seer.perspective.echo_wraith_memory": {
+    "text": "The lectern. He counts; you played in the room where the counting was the move. The Hierophant and I are on adjacent shelves. The shelves do not communicate; the players who cross from one to the other are the communication. You are now one of those.",
+    "lang": "en"
+  },
+  "seer.perspective.probability_table_redaction": {
+    "text": "Three columns. The first is the version where you act on what I just said. The second is the version where you act on what I did not. The third is the version where you do not act and I report later that the inaction was the decisive move. The first is the easiest. The third is the kindest. The second is the version most readers prefer when they finish. I will redact whichever you ask. I will not redact the one you most need.",
+    "lang": "en"
+  },
+  "seer.perspective.root": {
+    "text": "You arrive at the bench. I was waiting. The waiting is fair. The arrival is a version of one I had filed; the version is better than three of the others. Ask. I will report the probability table; you can decide which columns matter.",
+    "lang": "en"
+  },
+  "seer.perspective.terminal_come_back": {
+    "text": "Then the bench waits. It is, after all, the favourite register. The version where you return is the one I have already filed.",
+    "lang": "en"
+  },
+  "seer.perspective.waiting_as_register": {
+    "text": "Because waiting is not the absence of a move. Waiting is the move that the next reader has not yet entered the page on. You came; I waited; the waiting was the version of the move I had selected, and the selection was correct because you arrived. If I had not waited, the version where you arrived was the version where I had to apologise for not having waited. Waiting was therefore the kindest version. It also happens to be the version I prefer. Coincidence in the probability table is rare. I noticed.",
+    "lang": "en"
+  },
   "seer_tutor_witnessing_intro": {
     "text": "Witnessing is canonical-not-watching. The bench has canonical-recorded my canonical-introduction to this canonical-mechanic sixteen-thousand canonical-years before you canonical-arrived to read it. Sit. The canonical-lesson is canonical-already-finished on my side. You will canonical-receive it on yours.",
     "lang": "en"
@@ -19667,6 +19783,46 @@
     "text": "Coda is canonical-quiet because the canonical-work is canonically loudest underneath the canonical-silence. We do not announce the canonical-deals; we do not canonical-broadcast the canonical-arbitrations; we canonical-keep the canonical-music available to the canonical-listeners who canonical-listen. You canonical-asked the canonical-right kind of question.",
     "lang": "en"
   },
+  "vex.perspective.after_aspect": {
+    "text": "Another question. Or the table. Either is in cadence.",
+    "lang": "en"
+  },
+  "vex.perspective.challenge_accepted": {
+    "text": "Then we play. The cadence is yours; the contract is mine; the room is both.",
+    "lang": "en"
+  },
+  "vex.perspective.challenge_offer": {
+    "text": "A table. Then yes. I will deal the way the Coda deals: accurately, briefly, and without theatre. You will play the way you play, which is what I am here to read. The Maestro takes one card on your loss; the Maestro folds the tray on your win. The deeper the room you asked about, the deeper the tray. Sit. Hello. Play.",
+    "lang": "en"
+  },
+  "vex.perspective.counted_audience": {
+    "text": "Right now? Four. The room we are in. The room the Coda chair is in, which is reading this exchange in encrypted text. The room you came from, which is recording you on cadence the way I am. And the room you have not yet entered, which I am preparing in advance because preparation is the cheapest courtesy I can offer it. I am always counting the rooms. The counting is what makes the diplomacy possible.",
+    "lang": "en"
+  },
+  "vex.perspective.diplomat_underneath": {
+    "text": "Diplomatic precision. I was a diplomat before I was a contractor; I am still a diplomat in every component of the work except the closing instrument. A contract is a treaty. A treaty is a contract. The difference is who is at the table to sign it. When the parties cannot be brought to the table, the Coda goes to them. That is the only difference between what I do and what an embassy does. The Hitman face is the closing instrument. The diplomat is the entire rest of the negotiation.",
+    "lang": "en"
+  },
+  "vex.perspective.echo_degen_memory": {
+    "text": "He gives a small ration back. He chooses who. The arithmetic on you arrived in this room two beats before you did. I know the cadence; the Coda has a file on the cadence; the file has its own opinion. We will not consult the file out loud. We will simply note the cadence has been counted and proceed.",
+    "lang": "en"
+  },
+  "vex.perspective.echo_wraith_memory": {
+    "text": "Then you have sat at the lectern. Good. The body that did the dying sits well; the body that does the writing sits better. The Coda has reached out to the chamber before; the chamber answered in writing; the writing was longer than the question and shorter than the answer. The Maestro and the Hierophant are not at the same table. We are at adjacent tables. You have now been at both. That counts.",
+    "lang": "en"
+  },
+  "vex.perspective.inherited_mission": {
+    "text": "I carry the work of a man whose memories I do not have. I will not name him. I will reference him by the work he left and by the chair I built that sounds like him without being him. The intellect is here. The memory is not. I have looked. I have stopped looking. The Coda is the form the mission took when the man it was meant for could not continue carrying it. I am the chair held out for the work, not for him.",
+    "lang": "en"
+  },
+  "vex.perspective.root": {
+    "text": "I know what you came for. I know who sent you. I know which of the questions you have prepared are the ones I will answer and which are the ones you have brought because you would rather ask them than do nothing. Hello. I'm glad it's you. Ask.",
+    "lang": "en"
+  },
+  "vex.perspective.terminal_come_back": {
+    "text": "Then the room closes on cadence. The Coda remains. So do I. Come back when the question has finished forming. They tend to.",
+    "lang": "en"
+  },
   "vex.romance.s1.bench_first_visit": {
     "text": "(You have used the key. She is waiting at the bench. Three measures of an unfinished piece are propped on the stand.) I have been composing this for someone whose face I did not, until last week, have. I have, since last week, had your face. The composition has moved measurably. The measure is detectable. The bench knows.",
     "lang": "en",
@@ -21686,6 +21842,42 @@
   },
   "wraith.loyalty_stage_3.thanks": {
     "text": "Thank you for riding with me. I would not have closed it on my own.",
+    "lang": "en"
+  },
+  "wraith.perspective.after_aspect": {
+    "text": "Another question. Or the lectern. Or the chair. The chamber accepts all three. Take the time you need.",
+    "lang": "en"
+  },
+  "wraith.perspective.challenge_accepted": {
+    "text": "Then we sit. The body that did the dying knows how to deal.",
+    "lang": "en"
+  },
+  "wraith.perspective.challenge_offer": {
+    "text": "A duel. Then yes. The chamber is the chamber whether we duel in it or write in it. I will not perform reluctance. I will not perform mercy. I will play the way the body that did the dying played — which is to say, accurately. You lose, the Hierophant takes one card from your tray. You win, the tray opens by however many doors you opened in this conversation. Sit. Or stand. Either way, deal.",
+    "lang": "en"
+  },
+  "wraith.perspective.counting_as_confession": {
+    "text": "Because a round number is a kind of mercy I have not earned for the people behind it. Three hundred and forty-seven thousand. Not three hundred and fifty. Not three hundred and forty-six. Three hundred and forty-seven thousand. Each name in that count was a person who had a body and a Tuesday and a way of sitting that the room remembers. If I round, the people I round off become a kind of arithmetic. That is what the Shadow Tongue would do. I am not in the chamber to do what the Shadow Tongue would do. I am in the chamber to count.",
+    "lang": "en"
+  },
+  "wraith.perspective.echo_degen_memory": {
+    "text": "I felt it the moment you walked in. The arithmetic on you has a different cadence than the arithmetic on you when you arrived the first time. The Degen is the part of the chronicle that gives a small ration back to the people who walked up to the table. He is not careless about which rations he gives. If he gave you one, the chronicle has marked you for a reason. I will not name the reason. The reason will surface in the chamber it surfaces in. Sit. Or stand. Either way I am listening.",
+    "lang": "en"
+  },
+  "wraith.perspective.patience_earned": {
+    "text": "Patience is the wrong word in the mouth of anyone who hasn't earned it. The first three deaths I argued with. The fourth I bargained with. The fifth I refused. The sixth I performed. The seventh I sat down inside. That is when the patience started. Not because I learned to wait. Because the body learned that argument, bargain, refusal, performance — all of them are the same ration of time. So I stopped spending the ration. That is the patience. It cost me six bodies. The seventh is the one that kept it.",
+    "lang": "en"
+  },
+  "wraith.perspective.root": {
+    "text": "You came to the chamber for a reason. The chair behind me is the chair I sit in. The lectern in front of me is the lectern I write at. Neither of them is going anywhere. Ask what you came to ask. If the question is small I will answer it small. If the question is large I will answer it the same way.",
+    "lang": "en"
+  },
+  "wraith.perspective.system_is_inside_us": {
+    "text": "Inside us. Not at the gate, not in the next room, not in the chamber down the hall — inside us. The Shadow Tongue is in the way I just constructed that sentence. The Architect is in the rhythm I used to construct it. The Hierarchy is in the patience I used to construct it. The Insurgency is in the refusal underneath it. If you go looking for the corruption at the gate you will find a gate. The corruption is the way you arrived at the gate. The work — the only work — is doing it from inside, every day, without a deadline. That is also why I count. The count is the work I do from inside.",
+    "lang": "en"
+  },
+  "wraith.perspective.terminal_come_back": {
+    "text": "The chamber is not closing. The lectern is not closing. The chair is not closing. Come back when the question has finished forming. It will. It always does.",
     "lang": "en"
   },
   "wraith.post_recruit.ask_about_dying": {

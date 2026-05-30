@@ -145,6 +145,7 @@ import { wolfHuntRouter } from "./routers/wolfHunt";
 import { hellboxRouter } from "./routers/hellbox";
 import { bloodWeaveRouter } from "./routers/bloodWeave";
 import { npcRecruitRouter } from "./routers/npcRecruit";
+import { npcDuelRouter } from "./routers/npcDuel";
 import { recruitmentQuestsRouter } from "./routers/recruitmentQuests";
 import { commonsRouter } from "./routers/commons";
 import { storyModeRouter } from "./routers/storyMode";
@@ -329,6 +330,7 @@ export const appRouter = router({
   hellbox: hellboxRouter,
   bloodWeave: bloodWeaveRouter,
   npcRecruit: npcRecruitRouter,
+  npcDuel: npcDuelRouter,
   recruitmentQuests: recruitmentQuestsRouter,
   commons: commonsRouter,
   storyMode: storyModeRouter,
