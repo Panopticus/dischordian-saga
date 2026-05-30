@@ -63,6 +63,10 @@ export interface NpcDuelVictoryResult {
    *  victory — these are stake recoveries from prior losses to the
    *  same NPC. Empty when no prior loss is in flight. */
   restoredCardDefIds: ReadonlyArray<string>;
+  /** True iff the victory unlocked the recruitment offer (tier 3 —
+   *  all aspects learned). The client uses this to mount the
+   *  accept/decline prompt in the duel-result phase. */
+  recruitable: boolean;
 }
 
 export async function dispatchNpcDuelVictory(
@@ -82,6 +86,7 @@ export async function dispatchNpcDuelVictory(
       flagsWritten: [],
       publicFlagsWritten: [],
       restoredCardDefIds: [],
+      recruitable: false,
     };
   }
 
@@ -131,6 +136,21 @@ export async function dispatchNpcDuelVictory(
   const publicFlag = `player_carries_${npcKey}_memory`;
   await writeNpcPublicFlag(userId, publicFlag, "npc_duel_victory");
 
+  // Recruitment-hook flag — tier-3 victories (all aspects learned)
+  // unlock the post-victory companion offer. The narrative
+  // permission is "the NPC respects you enough to ask." The
+  // overlay's result phase surfaces an accept/decline choice;
+  // the player's response writes either npc_companion:<key>
+  // (accept) or npc_declined_companion:<key> (decline). The
+  // recruitable flag stays set until the player picks one side,
+  // so a "Not yet" close still preserves the offer.
+  const recruitedFlags: string[] = [];
+  if (tier === 3) {
+    const recruitableFlag = `npc_recruitable:${npcKey}`;
+    await setUserNarrativeFlag(userId, recruitableFlag, true);
+    recruitedFlags.push(recruitableFlag);
+  }
+
   // Persist a match-history row so /codex/past-duels can render the
   // duel later. result JSON carries npcDuelMeta + the outcome summary
   // for the replay viewer.
@@ -150,9 +170,10 @@ export async function dispatchNpcDuelVictory(
     npcKey,
     rewardTier: tier,
     grants,
-    flagsWritten: [defeatedFlag, perspectivesAtVictoryFlag],
+    flagsWritten: [defeatedFlag, perspectivesAtVictoryFlag, ...recruitedFlags],
     publicFlagsWritten: [publicFlag],
     restoredCardDefIds: restored,
+    recruitable: tier === 3,
   };
 }
 
