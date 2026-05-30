@@ -76,5 +76,135 @@
       "nodeId": "terminal",
       "requiresRevealStage": null
     }
+  },
+  {
+    "id": "locke.perspective.root",
+    "text": "Adjudicator Locke. You have my attention, my friend. You also have, I'm noting, a posture I have priced before. Sit. The booth is on the house — which, you may have heard, is a phrase that has never once meant what it appears to. Name the transaction.",
+    "context": "first_meeting.adjudicator-locke-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/adjudicator_locke/first_meeting.ts",
+    "meta": {
+      "npcKey": "adjudicator_locke",
+      "treeId": "adjudicator-locke-perspective-gathering",
+      "nodeId": "root",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "locke.perspective.price_naming",
+    "text": "Yours, my friend. Always yours. The Authority pays me to name yours. I have several pricing models available; the one I bring to a given booth is itself a transaction — the model is also priced. You will note I am telling you this. That is itself a tell. I would not tell you the model unless I had already decided the model. The model is decided. The price will follow.",
+    "context": "first_meeting.adjudicator-locke-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/adjudicator_locke/first_meeting.ts",
+    "meta": {
+      "npcKey": "adjudicator_locke",
+      "treeId": "adjudicator-locke-perspective-gathering",
+      "nodeId": "aspect_price_naming",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "locke.perspective.deniable_authority",
+    "text": "Through paperwork, my friend. Through fine print, through clauses, through the careful distance between the signature on the document and the entity it represents. Power that names itself can be opposed. Power that arrives through an Adjudicator — that has a procedural form, a precedent, a ruling, a verdict — is harder to refuse than to comply with. The deniability is the structure. The structure is the power.",
+    "context": "first_meeting.adjudicator-locke-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/adjudicator_locke/first_meeting.ts",
+    "meta": {
+      "npcKey": "adjudicator_locke",
+      "treeId": "adjudicator-locke-perspective-gathering",
+      "nodeId": "aspect_deniable_authority",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "locke.perspective.eyepatch_unmaking",
+    "text": "You're asking the question the Authority filed as protected, my friend. I will not name the deal. I will tell you what I am telling you by not telling you: the eyepatch is a receipt, the receipt is not for sale, and the most expensive commodity in this room is the one I have already chosen not to put on the table. You named the unmaking. I noted that you noticed. The Authority logs the noting.",
+    "context": "first_meeting.adjudicator-locke-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/adjudicator_locke/first_meeting.ts",
+    "meta": {
+      "npcKey": "adjudicator_locke",
+      "treeId": "adjudicator-locke-perspective-gathering",
+      "nodeId": "aspect_eyepatch_unmaking",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "locke.perspective.echo_degen_memory",
+    "text": "The Casino gives back. The Authority and the Casino have a long-standing arrangement of mutual non-interference, my friend, which is its own kind of contract. The arithmetic you carry registers on my ledger. I will not adjust the terms; I will note the carrying.",
+    "context": "first_meeting.adjudicator-locke-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/adjudicator_locke/first_meeting.ts",
+    "meta": {
+      "npcKey": "adjudicator_locke",
+      "treeId": "adjudicator-locke-perspective-gathering",
+      "nodeId": "echo_degen_memory",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "locke.perspective.echo_wraith_memory",
+    "text": "The lectern. The Hierophant and I have done business — quietly. He counts names; I count contracts; the chronicle has a column for each. You have sat at his desk; the noting is filed in your portfolio. I do not adjust the price. I do, however, raise my eyebrow.",
+    "context": "first_meeting.adjudicator-locke-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/adjudicator_locke/first_meeting.ts",
+    "meta": {
+      "npcKey": "adjudicator_locke",
+      "treeId": "adjudicator-locke-perspective-gathering",
+      "nodeId": "echo_wraith_memory",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "locke.perspective.after_aspect",
+    "text": "Another clause. Or the table. Or the booth, my friend, if you would prefer to step away with the price still open.",
+    "context": "first_meeting.adjudicator-locke-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/adjudicator_locke/first_meeting.ts",
+    "meta": {
+      "npcKey": "adjudicator_locke",
+      "treeId": "adjudicator-locke-perspective-gathering",
+      "nodeId": "after_aspect",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "locke.perspective.challenge_offer",
+    "text": "A transaction. Very good. The terms: you lose, I take one item from your portfolio I have been wanting; you win, the booth pays out the tray as priced by what you have understood. The fine print is the fine print, my friend. I have already initialled it. Your move.",
+    "context": "first_meeting.adjudicator-locke-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/adjudicator_locke/first_meeting.ts",
+    "meta": {
+      "npcKey": "adjudicator_locke",
+      "treeId": "adjudicator-locke-perspective-gathering",
+      "nodeId": "challenge_offer",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "locke.perspective.challenge_accepted",
+    "text": "Then we begin. The ink is already forming.",
+    "context": "first_meeting.adjudicator-locke-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/adjudicator_locke/first_meeting.ts",
+    "meta": {
+      "npcKey": "adjudicator_locke",
+      "treeId": "adjudicator-locke-perspective-gathering",
+      "nodeId": "challenge_accepted",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "locke.perspective.terminal_come_back",
+    "text": "Then the price stays open, my friend. The Authority is patient. So am I. Come back when the terms have finished forming themselves in your head.",
+    "context": "first_meeting.adjudicator-locke-perspective-gathering",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/adjudicator_locke/first_meeting.ts",
+    "meta": {
+      "npcKey": "adjudicator_locke",
+      "treeId": "adjudicator-locke-perspective-gathering",
+      "nodeId": "terminal_come_back",
+      "requiresRevealStage": null
+    }
   }
 ]

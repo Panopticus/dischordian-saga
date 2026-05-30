@@ -68,12 +68,12 @@ describe("NPC first-meeting transcript JSONs (round-3 gap 1)", () => {
     }
   });
 
-  it("ships exactly 146 transcript entries across 10 NPCs (NPC duel content rollout — the_degen + wraith_calder + vex_solene + the_seer + akai_shi perspective trees)", () => {
+  it("ships exactly 175 transcript entries across 10 NPCs (NPC duel content wave 2 — 9 perspective trees authored: the_degen + wraith_calder + vex_solene + the_seer + akai_shi + adjudicator_locke + the_meme + the_oracle + lycos)", () => {
     let total = 0;
     for (const [npcKey] of treesByNpc) {
       total += entriesForNpc(npcKey).length;
     }
-    expect(total).toBe(136);
+    expect(total).toBe(175);
   });
 
   it("each NPC's entry count matches its first-meeting tree's voLineId count", () => {

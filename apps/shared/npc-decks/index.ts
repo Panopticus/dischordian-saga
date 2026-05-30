@@ -13,6 +13,10 @@ import { WRAITH_CALDER_DECK } from "./wraith_calder";
 import { VEX_SOLENE_DECK } from "./vex_solene";
 import { THE_SEER_DECK } from "./the_seer";
 import { AKAI_SHI_DECK } from "./akai_shi";
+import { ADJUDICATOR_LOCKE_DECK } from "./adjudicator_locke";
+import { THE_MEME_DECK } from "./the_meme";
+import { THE_ORACLE_DECK } from "./the_oracle";
+import { LYCOS_DECK } from "./lycos";
 import { assertNpcDeckIsLegal } from "./buildNpcDeck";
 
 export type { NpcDeck, PerspectiveAspectId, CardDefIdRef } from "./_template";
@@ -23,6 +27,10 @@ const ENTRIES: ReadonlyArray<NpcDeck> = [
   VEX_SOLENE_DECK,
   THE_SEER_DECK,
   AKAI_SHI_DECK,
+  ADJUDICATOR_LOCKE_DECK,
+  THE_MEME_DECK,
+  THE_ORACLE_DECK,
+  LYCOS_DECK,
 ];
 
 // Fail loudly at module-load if any registered deck is malformed —
