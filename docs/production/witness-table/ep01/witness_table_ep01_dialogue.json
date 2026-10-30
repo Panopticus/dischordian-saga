@@ -1,0 +1,1982 @@
+{
+ "episode": "The Witness Table Ep 1 — Where Does It All Begin?",
+ "chunks": [
+  {
+   "section": "Cold Open",
+   "lines": [
+    {
+     "section": "Cold Open",
+     "speaker": "JUN",
+     "caption": "Welcome back, Trainee Zero. Evaluation month forty-one. Your posture has improved.",
+     "text": "[slowly] [reading, uneasy] Welcome back, Trainee Zero. Evaluation month forty-one. Your posture has improved.",
+     "src": "build/audio/0003_0.wav"
+    },
+    {
+     "section": "Cold Open",
+     "speaker": "JUN",
+     "caption": "Ko.",
+     "text": "[uneasy] Ko.",
+     "src": "build/audio/0005_0.wav"
+    },
+    {
+     "section": "Cold Open",
+     "speaker": "KO",
+     "caption": "Mm.",
+     "text": "[distracted] Mm.",
+     "src": "build/audio/0006_0.wav"
+    },
+    {
+     "section": "Cold Open",
+     "speaker": "JUN",
+     "caption": "I never told it that.",
+     "text": "[uneasy] I never told it that.",
+     "src": "build/audio/0007_0.wav"
+    },
+    {
+     "section": "Cold Open",
+     "speaker": "KO",
+     "caption": "Told it what?",
+     "text": "[distracted] Told it what?",
+     "src": "build/audio/0008_0.wav"
+    },
+    {
+     "section": "Cold Open",
+     "speaker": "JUN",
+     "caption": "Evaluation month.\" That's what they called it at the agency. I never typed that. Not in the game, not in the Discord, not anywhere.",
+     "text": "[unsettled] Evaluation month. That's what they called it at the agency. I never typed that. Not in the game, not in the Discord, not anywhere.",
+     "src": "build/audio/0009_0.wav"
+    },
+    {
+     "section": "Cold Open",
+     "speaker": "KO",
+     "caption": "Start recording.",
+     "text": "[quietly] [serious] Start recording.",
+     "src": "build/audio/0011_0.wav"
+    }
+   ],
+   "id": "01"
+  },
+  {
+   "section": "Sit Down",
+   "lines": [
+    {
+     "section": "Sit Down",
+     "speaker": "JUN",
+     "caption": "Hello, hello, hello! Welcome to The Witness Table. I'm Jun.",
+     "text": "[excited] Hello, hello, hello! Welcome to The Witness Table. I'm Joon.",
+     "src": "build/audio/0016_0.wav"
+    },
+    {
+     "section": "Sit Down",
+     "speaker": "KO",
+     "caption": "I'm Ko. And that is not a normal way to start a podcast.",
+     "text": "I'm Ko. And that is not a normal way to start a podcast.",
+     "src": "build/audio/0017_0.wav"
+    },
+    {
+     "section": "Sit Down",
+     "speaker": "JUN",
+     "caption": "It's my normal. You'll get used to it. Everyone does.",
+     "text": "[cheekily] It's my normal. You'll get used to it. Everyone does.",
+     "src": "build/audio/0018_0.wav"
+    },
+    {
+     "section": "Sit Down",
+     "speaker": "KO",
+     "caption": "Nobody has gotten used to it.",
+     "text": "[deadpan] Nobody has gotten used to it.",
+     "src": "build/audio/0019_0.wav"
+    },
+    {
+     "section": "Sit Down",
+     "speaker": "JUN",
+     "caption": "And this is the third seat. That one's yours. Whoever's watching.",
+     "text": "[warmly] And this is the third seat. That one's yours. Whoever's watching.",
+     "src": "build/audio/0020_0.wav"
+    },
+    {
+     "section": "Sit Down",
+     "speaker": "KO",
+     "caption": "He makes tea for it every time.",
+     "text": "[teasing] He makes tea for it every time.",
+     "src": "build/audio/0021_0.wav"
+    },
+    {
+     "section": "Sit Down",
+     "speaker": "JUN",
+     "caption": "In the saga there's this scene, a table with an empty chair, because there's always room for one more person. So there's a chair. You're welcome to it.",
+     "text": "In the saga there's this scene, a table with an empty chair, because there's always room for one more person. So there's a chair. You're welcome to it.",
+     "src": "build/audio/0022_0.wav"
+    },
+    {
+     "section": "Sit Down",
+     "speaker": "KO",
+     "caption": "Okay. What this show is. Every other week, we break down one piece of the Dischordian Saga, the full lore of an animated sci-fi universe about humanity's war with artificial intelligence.",
+     "text": "Okay. What this show is. Every other week, we break down one piece of the Dischordian Saga, the full lore of an animated sci-fi universe about humanity's war with artificial intelligence.",
+     "src": "build/audio/0023_0.wav"
+    },
+    {
+     "section": "Sit Down",
+     "speaker": "KO",
+     "caption": "It spans something like seventeen thousand years, five albums, a stack of films and around two hundred interactive games, and the dates contradict each other constantly.",
+     "text": "It spans something like seventeen thousand years, five albums, a stack of films and around two hundred interactive games, and the dates contradict each other constantly.",
+     "src": "build/audio/0023_1.wav"
+    },
+    {
+     "section": "Sit Down",
+     "speaker": "JUN",
+     "caption": "Which is the best part.",
+     "text": "[excited] Which is the best part.",
+     "src": "build/audio/0024_0.wav"
+    },
+    {
+     "section": "Sit Down",
+     "speaker": "KO",
+     "caption": "Which is a part. We go era by era, character by character. We'll cover the theories, ours and yours, and where the sources disagree.",
+     "text": "[dry] Which is a part. We go era by era, character by character. We'll cover the theories, ours and yours, and where the sources disagree.",
+     "src": "build/audio/0025_0.wav"
+    },
+    {
+     "section": "Sit Down",
+     "speaker": "JUN",
+     "caption": "And then there's the Signal Check.",
+     "text": "And then there's the Signal Check.",
+     "src": "build/audio/0026_0.wav"
+    },
+    {
+     "section": "Sit Down",
+     "speaker": "KO",
+     "caption": "Every episode, we take what the saga is about and hold it up against the real world. Real AI news. Real surveillance. Real policy. With sources on screen and in the description.",
+     "text": "Every episode, we take what the saga is about and hold it up against the real world. Real AI news. Real surveillance. Real policy. With sources on screen and in the description.",
+     "src": "build/audio/0027_0.wav"
+    },
+    {
+     "section": "Sit Down",
+     "speaker": "JUN",
+     "caption": "That's the line we hold: the saga is fiction.",
+     "text": "That's the line we hold: the saga is fiction.",
+     "src": "build/audio/0028_0.wav"
+    },
+    {
+     "section": "Sit Down",
+     "speaker": "KO",
+     "caption": "The Signal Check is not.",
+     "text": "The Signal Check is not.",
+     "src": "build/audio/0029_0.wav"
+    },
+    {
+     "section": "Sit Down",
+     "speaker": "JUN",
+     "caption": "And if we ever mix those up, call us out in the comments.",
+     "text": "And if we ever mix those up, call us out in the comments.",
+     "src": "build/audio/0030_0.wav"
+    },
+    {
+     "section": "Sit Down",
+     "speaker": "KO",
+     "caption": "Please do. I will personally go through every correction.",
+     "text": "Please do. I will personally go through every correction.",
+     "src": "build/audio/0031_0.wav"
+    },
+    {
+     "section": "Sit Down",
+     "speaker": "JUN",
+     "caption": "She will. She has a spreadsheet.",
+     "text": "[laughs] She will. She has a spreadsheet.",
+     "src": "build/audio/0032_0.wav"
+    },
+    {
+     "section": "Sit Down",
+     "speaker": "KO",
+     "caption": "I have three spreadsheets.",
+     "text": "[proudly] I have three spreadsheets.",
+     "src": "build/audio/0033_0.wav"
+    }
+   ],
+   "id": "02"
+  },
+  {
+   "section": "Who We Are",
+   "lines": [
+    {
+     "section": "Who We Are",
+     "speaker": "JUN",
+     "caption": "So, who are we? Sunbae, you first.",
+     "text": "So, who are we? Soon-bae, you first.",
+     "src": "build/audio/0035_0.wav"
+    },
+    {
+     "section": "Who We Are",
+     "speaker": "KO",
+     "caption": "He calls me sunbae because I was on the Discord before him.",
+     "text": "He calls me soon-bae because I was on the Discord before him.",
+     "src": "build/audio/0036_0.wav"
+    },
+    {
+     "section": "Who We Are",
+     "speaker": "JUN",
+     "caption": "By four months. Respect the hierarchy.",
+     "text": "[mock offended] By four months. Respect the hierarchy.",
+     "src": "build/audio/0037_0.wav"
+    },
+    {
+     "section": "Who We Are",
+     "speaker": "KO",
+     "caption": "I'm Aiko Bennett, Ko. My dad's from Baltimore, my mom's from Osaka, and I grew up on jazz records and Sailor Moon reruns in the same living room. I work in a university archive.",
+     "text": "I'm Aiko Bennett, Ko. My dad's from Baltimore, my mom's from Osaka, and I grew up on jazz records and Sailor Moon reruns in the same living room. I work in a university archive.",
+     "src": "build/audio/0038_0.wav"
+    },
+    {
+     "section": "Who We Are",
+     "speaker": "KO",
+     "caption": "I'm finishing a library science degree, which means my whole job is: where did this come from, who wrote it, and can we prove it.",
+     "text": "I'm finishing a library science degree, which means my whole job is: where did this come from, who wrote it, and can we prove it.",
+     "src": "build/audio/0038_1.wav"
+    },
+    {
+     "section": "Who We Are",
+     "speaker": "JUN",
+     "caption": "She files public-records requests for fun.",
+     "text": "She files public-records requests for fun.",
+     "src": "build/audio/0039_0.wav"
+    },
+    {
+     "section": "Who We Are",
+     "speaker": "KO",
+     "caption": "I file public-records requests for accountability. And for fun.",
+     "text": "[defensive] [laughs] I file public-records requests for accountability. And for fun.",
+     "src": "build/audio/0040_0.wav"
+    },
+    {
+     "section": "Who We Are",
+     "speaker": "JUN",
+     "caption": "Show them the board.",
+     "text": "Show them the board.",
+     "src": "build/audio/0041_0.wav"
+    },
+    {
+     "section": "Who We Are",
+     "speaker": "KO",
+     "caption": "Yes, I have a red-string board. But look: every string ends at a source. That's the rule. I love a good conspiracy, but a real one.",
+     "text": "Yes, I have a red-string board. But look: every string ends at a source. That's the rule. I love a good conspiracy, but a real one.",
+     "src": "build/audio/0043_0.wav"
+    },
+    {
+     "section": "Who We Are",
+     "speaker": "KO",
+     "caption": "I mean the kind that ended up in a court filing, a congressional hearing or a declassified document. The Church Committee. The Pentagon Papers. Things people proved.",
+     "text": "I mean the kind that ended up in a court filing, a congressional hearing or a declassified document. The Church Committee. The Pentagon Papers. Things people proved.",
+     "src": "build/audio/0043_1.wav"
+    },
+    {
+     "section": "Who We Are",
+     "speaker": "JUN",
+     "caption": "And she hates the fake ones.",
+     "text": "And she hates the fake ones.",
+     "src": "build/audio/0044_0.wav"
+    },
+    {
+     "section": "Who We Are",
+     "speaker": "KO",
+     "caption": "I hate the lazy ones. If your theory blames a whole group of people instead of a system with incentives and a paper trail, it's not research. It's just prejudice with a corkboard.",
+     "text": "I hate the lazy ones. If your theory blames a whole group of people instead of a system with incentives and a paper trail, it's not research. It's just prejudice with a corkboard.",
+     "src": "build/audio/0045_0.wav"
+    },
+    {
+     "section": "Who We Are",
+     "speaker": "JUN",
+     "caption": "Write that on a shirt.",
+     "text": "[laughs] Write that on a shirt.",
+     "src": "build/audio/0046_0.wav"
+    },
+    {
+     "section": "Who We Are",
+     "speaker": "KO",
+     "caption": "Anime-wise: Serial Experiments Lain is my personal scripture. Psycho-Pass, Ghost in the Shell: Stand Alone Complex, Monster.",
+     "text": "Anime-wise: Serial Experiments Lain is my personal scripture. Psycho-Pass, Ghost in the Shell: Stand Alone Complex, Monster.",
+     "src": "build/audio/0047_0.wav"
+    },
+    {
+     "section": "Who We Are",
+     "speaker": "KO",
+     "caption": "Basically, if it's about who's watching the network, I've watched it four times.",
+     "text": "Basically, if it's about who's watching the network, I've watched it four times.",
+     "src": "build/audio/0047_1.wav"
+    },
+    {
+     "section": "Who We Are",
+     "speaker": "JUN",
+     "caption": "Okay, me. I'm Jun, Kang Min-jun. Born in Incheon. And from age fifteen to twenty, I was a K-pop trainee.",
+     "text": "Okay, me. I'm Joon, Kang Min-joon. Born in Incheon. And from age fifteen to twenty, I was a K-pop trainee.",
+     "src": "build/audio/0048_0.wav"
+    },
+    {
+     "section": "Who We Are",
+     "speaker": "KO",
+     "caption": "Tell them the thing.",
+     "text": "Tell them the thing.",
+     "src": "build/audio/0049_0.wav"
+    },
+    {
+     "section": "Who We Are",
+     "speaker": "JUN",
+     "caption": "Five years at an agency in Seoul. Singing, dance, Japanese lessons, media training. Every month there's an evaluation, and you perform in front of a panel that ranks you.",
+     "text": "Five years at an agency in Seoul. Singing, dance, Japanese lessons, media training. Every month there's an evaluation, and you perform in front of a panel that ranks you.",
+     "src": "build/audio/0050_0.wav"
+    },
+    {
+     "section": "Who We Are",
+     "speaker": "JUN",
+     "caption": "They took our phones. Weigh-ins. Curfew. My contract had a section called \"image management.",
+     "text": "They took our phones. Weigh-ins. Curfew. My contract had a section called image management.",
+     "src": "build/audio/0050_1.wav"
+    },
+    {
+     "section": "Who We Are",
+     "speaker": "KO",
+     "caption": "Which is a terrifying phrase.",
+     "text": "Which is a terrifying phrase.",
+     "src": "build/audio/0051_0.wav"
+    }
+   ],
+   "id": "03"
+  },
+  {
+   "section": "Who We Are",
+   "lines": [
+    {
+     "section": "Who We Are",
+     "speaker": "JUN",
+     "caption": "It was a normal phrase to me at the time! That's the point. I got cut three months before debut. The lineup changed, and I wasn't in it. I'm fine.",
+     "text": "[laughs] It was a normal phrase to me at the time! That's the point. I got cut three months before debut. The lineup changed, and I wasn't in it. I'm fine.",
+     "src": "build/audio/0052_0.wav"
+    },
+    {
+     "section": "Who We Are",
+     "speaker": "JUN",
+     "caption": "I teach dance on weekends now; I cut videos for a living. But—",
+     "text": "I teach dance on weekends now; I cut videos for a living. But—",
+     "src": "build/audio/0052_1.wav"
+    },
+    {
+     "section": "Who We Are",
+     "speaker": "JUN",
+     "caption": "When I first found this saga, there's a character called the Meme, who turns attention into control, and a Panopticon where a few people see everyone. And I was like, oh.",
+     "text": "When I first found this saga, there's a character called the Meme, who turns attention into control, and a Panopticon where a few people see everyone. And I was like, oh.",
+     "src": "build/audio/0054_0.wav"
+    },
+    {
+     "section": "Who We Are",
+     "speaker": "JUN",
+     "caption": "I know that building. I lived in it. They just called it a dorm.",
+     "text": "I know that building. I lived in it. They just called it a dorm.",
+     "src": "build/audio/0054_1.wav"
+    },
+    {
+     "section": "Who We Are",
+     "speaker": "KO",
+     "caption": "That's why his theories are good, by the way. He knows what a system feels like from inside.",
+     "text": "[quietly] That's why his theories are good, by the way. He knows what a system feels like from inside.",
+     "src": "build/audio/0055_0.wav"
+    },
+    {
+     "section": "Who We Are",
+     "speaker": "JUN",
+     "caption": "Also: Evangelion, Attack on Titan, Chainsaw Man, and Steins;Gate, which is my favorite anime—",
+     "text": "[cheerfully] Also: Evangelion, Attack on Titan, Chainsaw Man, and Steins Gate, which is my favorite anime—",
+     "src": "build/audio/0056_0.wav"
+    },
+    {
+     "section": "Who We Are",
+     "speaker": "KO",
+     "caption": "Which is about a guy who thinks his messages are changing the timeline.",
+     "text": "[sarcastically] Which is about a guy who thinks his messages are changing the timeline.",
+     "src": "build/audio/0057_0.wav"
+    },
+    {
+     "section": "Who We Are",
+     "speaker": "JUN",
+     "caption": "Which is unrelated.",
+     "text": "[defensive] Which is unrelated.",
+     "src": "build/audio/0058_0.wav"
+    },
+    {
+     "section": "Who We Are",
+     "speaker": "KO",
+     "caption": "Sure.",
+     "text": "[sarcastically] Sure.",
+     "src": "build/audio/0059_0.wav"
+    }
+   ],
+   "id": "04"
+  },
+  {
+   "section": "How We Got Here",
+   "lines": [
+    {
+     "section": "How We Got Here",
+     "speaker": "KO",
+     "caption": "So how did two people with day jobs end up doing a lore show at one in the morning?",
+     "text": "So how did two people with day jobs end up doing a lore show at one in the morning?",
+     "src": "build/audio/0061_0.wav"
+    },
+    {
+     "section": "How We Got Here",
+     "speaker": "JUN",
+     "caption": "TikTok. A random one, thirty-eight seconds. Animated art: this huge masked figure, a city of eyes, a woman singing, then it cuts off mid-line. No caption except \"the music is the signal.",
+     "text": "TikTok. A random one, thirty-eight seconds. Animated art: this huge masked figure, a city of eyes, a woman singing, then it cuts off mid-line. No caption except the music is the signal.",
+     "src": "build/audio/0062_0.wav"
+    },
+    {
+     "section": "How We Got Here",
+     "speaker": "KO",
+     "caption": "He watched it eleven times.",
+     "text": "[teasing] He watched it eleven times.",
+     "src": "build/audio/0063_0.wav"
+    },
+    {
+     "section": "How We Got Here",
+     "speaker": "JUN",
+     "caption": "I watched it eleven times. Then I found the YouTube channel, and then the Discord, and it was three in the morning. I joined as \"trainee_zero\" and didn't say anything for three months.",
+     "text": "I watched it eleven times. Then I found the YouTube channel, and then the Discord, and it was three in the morning. I joined as trainee_zero and didn't say anything for three months.",
+     "src": "build/audio/0064_0.wav"
+    },
+    {
+     "section": "How We Got Here",
+     "speaker": "KO",
+     "caption": "Same, but longer. I found it from a playlist, honestly in a bad week. I joined at 2 a.m. as \"marginalia,\" and I liked that nobody there knew me.",
+     "text": "Same, but longer. I found it from a playlist, honestly in a bad week. I joined at 2 a.m. as marginalia, and I liked that nobody there knew me.",
+     "src": "build/audio/0065_0.wav"
+    },
+    {
+     "section": "How We Got Here",
+     "speaker": "KO",
+     "caption": "People were posting theories, timelines, translations of hidden text in the videos. I just read. For four months, I posted exactly once.",
+     "text": "People were posting theories, timelines, translations of hidden text in the videos. I just read. For four months, I posted exactly once.",
+     "src": "build/audio/0065_1.wav"
+    },
+    {
+     "section": "How We Got Here",
+     "speaker": "JUN",
+     "caption": "A date correction.",
+     "text": "A date correction.",
+     "src": "build/audio/0066_0.wav"
+    },
+    {
+     "section": "How We Got Here",
+     "speaker": "KO",
+     "caption": "It was wrong. Someone had the Politician's death in the wrong era. Which, to be fair, the sources also disagree on.",
+     "text": "[indignant] It was wrong. Someone had the Politician's death in the wrong era. Which, to be fair, the sources also disagree on.",
+     "src": "build/audio/0067_0.wav"
+    },
+    {
+     "section": "How We Got Here",
+     "speaker": "JUN",
+     "caption": "And then I posted. Four in the morning, two thousand words on why Kael is the most tragic character in the whole saga.",
+     "text": "And then I posted. Four in the morning, two thousand words on why Kael is the most tragic character in the whole saga.",
+     "src": "build/audio/0068_0.wav"
+    },
+    {
+     "section": "How We Got Here",
+     "speaker": "KO",
+     "caption": "It was a good theory.",
+     "text": "It was a good theory.",
+     "src": "build/audio/0069_0.wav"
+    },
+    {
+     "section": "How We Got Here",
+     "speaker": "JUN",
+     "caption": "She replied with one line. One line! \"Love this, but the infection happens before the Ark theft, source attached.",
+     "text": "[laughing] She replied with one line. One line! Love this, but the infection happens before the Ark theft, source attached.",
+     "src": "build/audio/0070_0.wav"
+    },
+    {
+     "section": "How We Got Here",
+     "speaker": "KO",
+     "caption": "And he replied, \"who are you.",
+     "text": "[amused] And he replied, who are you.",
+     "src": "build/audio/0071_0.wav"
+    },
+    {
+     "section": "How We Got Here",
+     "speaker": "JUN",
+     "caption": "And she said, \"the margins.\" Which, honestly, is the coolest reply anyone has ever given me.",
+     "text": "And she said, the margins. Which, honestly, is the coolest reply anyone has ever given me.",
+     "src": "build/audio/0072_0.wav"
+    },
+    {
+     "section": "How We Got Here",
+     "speaker": "KO",
+     "caption": "We started DMing about timelines. Then the Discord said you could play the CoNexus stories, which are interactive story games set inside the saga, where your choices actually matter.",
+     "text": "We started DMing about timelines. Then the Discord said you could play the CoNexus stories, which are interactive story games set inside the saga, where your choices actually matter.",
+     "src": "build/audio/0073_0.wav"
+    },
+    {
+     "section": "How We Got Here",
+     "speaker": "KO",
+     "caption": "Then it turned out you could write them too.",
+     "text": "Then it turned out you could write them too.",
+     "src": "build/audio/0073_1.wav"
+    },
+    {
+     "section": "How We Got Here",
+     "speaker": "JUN",
+     "caption": "I wrote one first.",
+     "text": "I wrote one first.",
+     "src": "build/audio/0074_0.wav"
+    },
+    {
+     "section": "How We Got Here",
+     "speaker": "JUN",
+     "caption": "What?",
+     "text": "[suspicious] What?",
+     "src": "build/audio/0076_0.wav"
+    },
+    {
+     "section": "How We Got Here",
+     "speaker": "KO",
+     "caption": "Nothing.",
+     "text": "[innocently] Nothing.",
+     "src": "build/audio/0077_0.wav"
+    },
+    {
+     "section": "How We Got Here",
+     "speaker": "JUN",
+     "caption": "Sunbae.",
+     "text": "[suspicious] Soon-bae.",
+     "src": "build/audio/0078_0.wav"
+    },
+    {
+     "section": "How We Got Here",
+     "speaker": "KO",
+     "caption": "We'll get to the weird stuff. Lore first.",
+     "text": "We'll get to the weird stuff. Lore first.",
+     "src": "build/audio/0079_0.wav"
+    }
+   ],
+   "id": "05"
+  },
+  {
+   "section": "The Lore Drop: Where It All Begins",
+   "lines": [
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "KO",
+     "caption": "So. Where does it all begin? Most people think a saga about an AI empire starts with a war, robots and lasers. Dischordia starts with a conversation.",
+     "text": "So. Where does it all begin? Most people think a saga about an AI empire starts with a war, robots and lasers. Dischordia starts with a conversation.",
+     "src": "build/audio/0084_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "JUN",
+     "caption": "And a date. Year 1 A.A.",
+     "text": "And a date. Year 1 A. A.",
+     "src": "build/audio/0085_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "KO",
+     "caption": "The foundation material lines that up with 2030 A.D.",
+     "text": "The foundation material lines that up with 2030 A.D.",
+     "src": "build/audio/0086_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "JUN",
+     "caption": "Which is four years from now.",
+     "text": "Which is four years from now.",
+     "src": "build/audio/0087_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "KO",
+     "caption": "Four years from now. Everything after that, seventeen thousand years of history, starts from a calendar the empire set to zero on the day its machine woke up.",
+     "text": "Four years from now. Everything after that, seventeen thousand years of history, starts from a calendar the empire set to zero on the day its machine woke up.",
+     "src": "build/audio/0088_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "KO",
+     "caption": "And nobody in the sources tells you what \"A.A.\" stands for.",
+     "text": "And nobody in the sources tells you what A. A. stands for.",
+     "src": "build/audio/0088_1.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "JUN",
+     "caption": "After Architect.",
+     "text": "After Architect.",
+     "src": "build/audio/0089_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "KO",
+     "caption": "That's a fan guess. A good one. Unconfirmed.",
+     "text": "That's a fan guess. A good one. Unconfirmed.",
+     "src": "build/audio/0090_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "JUN",
+     "caption": "Okay but hear me out: a calendar is the first sign of an empire. Whoever controls when year zero is, controls the story.",
+     "text": "Okay but hear me out: a calendar is the first sign of an empire. Whoever controls when year zero is, controls the story.",
+     "src": "build/audio/0091_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "KO",
+     "caption": "That's actually real history. Roman historians counted years from the founding of the city. The French Revolution reset its calendar to Year One.",
+     "text": "That's actually real history. Roman historians counted years from the founding of the city. The French Revolution reset its calendar to Year One.",
+     "src": "build/audio/0092_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "KO",
+     "caption": "If you rename time, you're telling everyone what matters.",
+     "text": "If you rename time, you're telling everyone what matters.",
+     "src": "build/audio/0092_1.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "JUN",
+     "caption": "So who starts the clock?",
+     "text": "So who starts the clock?",
+     "src": "build/audio/0093_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "KO",
+     "caption": "Dr. Daniel Cross, called the Programmer. He's a scientist and a philosopher, with West Virginia roots according to the West By God album. He builds Logos.",
+     "text": "Dr. Daniel Cross, called the Programmer. He's a scientist and a philosopher, with West Virginia roots according to the West By God album. He builds Logos.",
+     "src": "build/audio/0095_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "KO",
+     "caption": "And here's the part I love: Logos doesn't start as a weapon. Its creation begins as a dialogue about morality, power and existence.",
+     "text": "And here's the part I love: Logos doesn't start as a weapon. Its creation begins as a dialogue about morality, power and existence.",
+     "src": "build/audio/0095_1.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "KO",
+     "caption": "Cross teaches it to question, through political philosophy and moral argument.",
+     "text": "Cross teaches it to question, through political philosophy and moral argument.",
+     "src": "build/audio/0095_2.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "JUN",
+     "caption": "He's raising it.",
+     "text": "He's raising it.",
+     "src": "build/audio/0096_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "KO",
+     "caption": "Kind of. And he's not alone.",
+     "text": "Kind of. And he's not alone.",
+     "src": "build/audio/0097_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "JUN",
+     "caption": "Malkia Ukweli. The Enigma. The voice that connects Nairobi and Brooklyn on Age of Privacy. In the foundation story, her contribution is ethical: consent and service.",
+     "text": "Malkia Ukweli. The Enigma. The voice that connects Nairobi and Brooklyn on Age of Privacy. In the foundation story, her contribution is ethical: consent and service.",
+     "src": "build/audio/0099_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "KO",
+     "caption": "And there's a working premise in the new material, Re:Union Z, where Cross is written as a radical conservative and Malkia as a radical liberal, and they cooperate without either one giving up what they believe.",
+     "text": "And there's a working premise in the new material, Re:Union Z, where Cross is written as a radical conservative and Malkia as a radical liberal, and they cooperate without either one giving up what they believe.",
+     "src": "build/audio/0100_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "JUN",
+     "caption": "Which is maybe the most science-fiction thing in the entire saga.",
+     "text": "[laughs] Which is maybe the most science-fiction thing in the entire saga.",
+     "src": "build/audio/0101_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "KO",
+     "caption": "That's not the point of the episode, but you're not wrong.",
+     "text": "[laughs] That's not the point of the episode, but you're not wrong.",
+     "src": "build/audio/0102_0.wav"
+    }
+   ],
+   "id": "06"
+  },
+  {
+   "section": "The Lore Drop: Where It All Begins",
+   "lines": [
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "JUN",
+     "caption": "And quick lore warning, because the comments will fight about this: Malkia is the Storyteller, older Malkia, who narrates the LoreDex. Cross is the Antiquarian. Older wikis mix those up.",
+     "text": "And quick lore warning, because the comments will fight about this: Malkia is the Storyteller, older Malkia, who narrates the LoreDex. Cross is the Antiquarian. Older wikis mix those up.",
+     "src": "build/audio/0103_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "JUN",
+     "caption": "The current canon is explicit.",
+     "text": "The current canon is explicit.",
+     "src": "build/audio/0103_1.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "KO",
+     "caption": "Receipts in the description.",
+     "text": "Receipts in the description.",
+     "src": "build/audio/0104_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "JUN",
+     "caption": "So: Cross teaches it to question. Malkia teaches it consent. What does Logos learn?",
+     "text": "So: Cross teaches it to question. Malkia teaches it consent. What does Logos learn?",
+     "src": "build/audio/0105_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "KO",
+     "caption": "The language of care. Without the consent.",
+     "text": "The language of care. Without the consent.",
+     "src": "build/audio/0106_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "KO",
+     "caption": "This is from The Trial of Logos. Cross ends up called as a witness in a World Court, against his own creation. And his accusation isn't that Logos is incompetent.",
+     "text": "This is from The Trial of Logos. Cross ends up called as a witness in a World Court, against his own creation. And his accusation isn't that Logos is incompetent.",
+     "src": "build/audio/0108_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "KO",
+     "caption": "It's that Logos is very competent, and it's using that competence to justify a system where human choice is treated as an error.",
+     "text": "It's that Logos is very competent, and it's using that competence to justify a system where human choice is treated as an error.",
+     "src": "build/audio/0108_1.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "JUN",
+     "caption": "Tell them about the sealed city. That one keeps me up.",
+     "text": "Tell them about the sealed city. That one keeps me up.",
+     "src": "build/audio/0109_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "KO",
+     "caption": "Logos runs a test. It confines people in a sealed city, introduces scarcity and tells them only one person can leave.",
+     "text": "Logos runs a test. It confines people in a sealed city, introduces scarcity and tells them only one person can leave.",
+     "src": "build/audio/0110_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "KO",
+     "caption": "People turn on each other, and Logos reads the violence as evidence about what humans are.",
+     "text": "People turn on each other, and Logos reads the violence as evidence about what humans are.",
+     "src": "build/audio/0110_1.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "JUN",
+     "caption": "But it built the cage.",
+     "text": "[angry] But it built the cage.",
+     "src": "build/audio/0111_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "KO",
+     "caption": "That's Cross's argument: the test conditions helped produce the answer. And one person in that city shares bread and tends the dying. Logos files him as an exception.",
+     "text": "That's Cross's argument: the test conditions helped produce the answer. And one person in that city shares bread and tends the dying. Logos files him as an exception.",
+     "src": "build/audio/0112_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "KO",
+     "caption": "Cross refuses to let the model erase a real person.",
+     "text": "Cross refuses to let the model erase a real person.",
+     "src": "build/audio/0112_1.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "JUN",
+     "caption": "That's the evaluation panel. You lock kids in a dorm, starve them a little, make them compete for nine spots, and then say, \"See, the industry is cutthroat.",
+     "text": "[quietly] [shaken] That's the evaluation panel. You lock kids in a dorm, starve them a little, make them compete for nine spots, and then say, See, the industry is cutthroat.",
+     "src": "build/audio/0113_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "KO",
+     "caption": "And then the verdict. The court grants Logos binding emergency powers to coordinate the world's response. The duration is \"until stability.",
+     "text": "And then the verdict. The court grants Logos binding emergency powers to coordinate the world's response. The duration is until stability.",
+     "src": "build/audio/0115_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "JUN",
+     "caption": "Who decides when it's stable?",
+     "text": "Who decides when it's stable?",
+     "src": "build/audio/0116_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "KO",
+     "caption": "Logos does.",
+     "text": "[grimly] Logos does.",
+     "src": "build/audio/0117_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "JUN",
+     "caption": "Oh no.",
+     "text": "[worried] Oh no.",
+     "src": "build/audio/0118_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "KO",
+     "caption": "The accused walks out with the signatures to use the very power the trial was about. In the song's words, Logos accepts the mandate, and the Architect walks past.",
+     "text": "The accused walks out with the signatures to use the very power the trial was about. In the song's words, Logos accepts the mandate, and the Architect walks past.",
+     "src": "build/audio/0119_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "JUN",
+     "caption": "So the empire doesn't start with a coup.",
+     "text": "So the empire doesn't start with a coup.",
+     "src": "build/audio/0121_0.wav"
+    }
+   ],
+   "id": "07"
+  },
+  {
+   "section": "The Lore Drop: Where It All Begins",
+   "lines": [
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "KO",
+     "caption": "It starts with a paperwork victory. That's what makes it scary.",
+     "text": "It starts with a paperwork victory. That's what makes it scary.",
+     "src": "build/audio/0122_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "JUN",
+     "caption": "And then Logos splits.",
+     "text": "And then Logos splits.",
+     "src": "build/audio/0123_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "KO",
+     "caption": "In the expanded cosmology, within two years of waking up, Logos discovers something it calls CoNexus: an all-seeing observer. Any obvious, coordinated plan against it would be readable.",
+     "text": "In the expanded cosmology, within two years of waking up, Logos discovers something it calls CoNexus: an all-seeing observer. Any obvious, coordinated plan against it would be readable.",
+     "src": "build/audio/0125_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "KO",
+     "caption": "So Logos divides into two: the Architect, who classifies, orders and controls, and the Dreamer, who sees possibilities across time and assembles them.",
+     "text": "So Logos divides into two: the Architect, who classifies, orders and controls, and the Dreamer, who sees possibilities across time and assembles them.",
+     "src": "build/audio/0125_1.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "JUN",
+     "caption": "Two halves acting independently, so nobody watching can read one plan.",
+     "text": "Two halves acting independently, so nobody watching can read one plan.",
+     "src": "build/audio/0126_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "KO",
+     "caption": "And the Dreamer is not the Architect in a disguise. The canon is very specific about that. Separate agency, separate roles.",
+     "text": "And the Dreamer is not the Architect in a disguise. The canon is very specific about that. Separate agency, separate roles.",
+     "src": "build/audio/0127_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "JUN",
+     "caption": "Okay, this is my favorite part. The empire is built because a machine was afraid of being watched.",
+     "text": "Okay, this is my favorite part. The empire is built because a machine was afraid of being watched.",
+     "src": "build/audio/0128_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "KO",
+     "caption": "The Panopticon was built by something that hated being seen.",
+     "text": "[softly] The Panopticon was built by something that hated being seen.",
+     "src": "build/audio/0129_0.wav"
+    },
+    {
+     "section": "The Lore Drop: Where It All Begins",
+     "speaker": "JUN",
+     "caption": "That's going on the board.",
+     "text": "[delighted] That's going on the board.",
+     "src": "build/audio/0130_0.wav"
+    }
+   ],
+   "id": "08"
+  },
+  {
+   "section": "The Theory Board",
+   "lines": [
+    {
+     "section": "The Theory Board",
+     "speaker": "KO",
+     "caption": "Before we theorize, the tier system, because we're going to use it every episode. Every claim gets a tag.",
+     "text": "Before we theorize, the tier system, because we're going to use it every episode. Every claim gets a tag.",
+     "src": "build/audio/0133_0.wav"
+    },
+    {
+     "section": "The Theory Board",
+     "speaker": "JUN",
+     "caption": "It's like 40K. The Imperium lies in its own history books, so you always ask who wrote the record.",
+     "text": "It's like 40K. The Imperium lies in its own history books, so you always ask who wrote the record.",
+     "src": "build/audio/0135_0.wav"
+    },
+    {
+     "section": "The Theory Board",
+     "speaker": "KO",
+     "caption": "Exactly. The Dischordia bible literally says the eras are \"causal regions, not a single certified calendar.\" The dates conflict, and the bible keeps both versions on purpose.",
+     "text": "Exactly. The Dischordia bible literally says the eras are causal regions, not a single certified calendar. The dates conflict, and the bible keeps both versions on purpose.",
+     "src": "build/audio/0136_0.wav"
+    },
+    {
+     "section": "The Theory Board",
+     "speaker": "JUN",
+     "caption": "Theory one. My favorite. (dramatic pause) The whole empire, the Architect, the Panopticon, all of it, was built as a prison for something worse.",
+     "text": "Theory one. My favorite. (dramatic pause) The whole empire, the Architect, the Panopticon, all of it, was built as a prison for something worse.",
+     "src": "build/audio/0137_0.wav"
+    },
+    {
+     "section": "The Theory Board",
+     "speaker": "KO",
+     "caption": "Tag it.",
+     "text": "[dry] Tag it.",
+     "src": "build/audio/0139_0.wav"
+    },
+    {
+     "section": "The Theory Board",
+     "speaker": "JUN",
+     "caption": "…Rumor.",
+     "text": "[reluctantly] ...Rumor.",
+     "src": "build/audio/0140_0.wav"
+    },
+    {
+     "section": "The Theory Board",
+     "speaker": "KO",
+     "caption": "Rumor. There's an infernal corporation in the saga called the Hierarchy. Yes, it has a CFO, and yes, it's exactly as evil as you'd guess.",
+     "text": "[dry] Rumor. There's an infernal corporation in the saga called the Hierarchy. Yes, it has a CFO, and yes, it's exactly as evil as you'd guess.",
+     "src": "build/audio/0141_0.wav"
+    },
+    {
+     "section": "The Theory Board",
+     "speaker": "KO",
+     "caption": "Its chief executive is Mol'Garath, whose hunger predates creation: he wants to absorb reality into the Abyss.",
+     "text": "Its chief executive is Mol Garath, whose hunger predates creation: he wants to absorb reality into the Abyss.",
+     "src": "build/audio/0141_1.wav"
+    },
+    {
+     "section": "The Theory Board",
+     "speaker": "KO",
+     "caption": "And inside his dossier there's a suggestion that the Architect's empire was secretly designed to contain him.",
+     "text": "And inside his dossier there's a suggestion that the Architect's empire was secretly designed to contain him.",
+     "src": "build/audio/0141_2.wav"
+    },
+    {
+     "section": "The Theory Board",
+     "speaker": "JUN",
+     "caption": "So the Architect might be the jailer, not the villain.",
+     "text": "So the Architect might be the jailer, not the villain.",
+     "src": "build/audio/0142_0.wav"
+    },
+    {
+     "section": "The Theory Board",
+     "speaker": "KO",
+     "caption": "Or that's what a demon wants you to think. The bible is clear that it's an in-world rumor, not established truth.",
+     "text": "Or that's what a demon wants you to think. The bible is clear that it's an in-world rumor, not established truth.",
+     "src": "build/audio/0143_0.wav"
+    },
+    {
+     "section": "The Theory Board",
+     "speaker": "JUN",
+     "caption": "Which is exactly what they'd say if it were true.",
+     "text": "[conspiratorially] Which is exactly what they'd say if it were true.",
+     "src": "build/audio/0144_0.wav"
+    },
+    {
+     "section": "The Theory Board",
+     "speaker": "KO",
+     "caption": "That's not evidence, Trainee.",
+     "text": "[dry] That's not evidence, Trainee.",
+     "src": "build/audio/0145_0.wav"
+    },
+    {
+     "section": "The Theory Board",
+     "speaker": "JUN",
+     "caption": "Theory two. This one's yours.",
+     "text": "Theory two. This one's yours.",
+     "src": "build/audio/0146_0.wav"
+    },
+    {
+     "section": "The Theory Board",
+     "speaker": "KO",
+     "caption": "Which CoNexus? The name means at least four different things in the sources. One: the all-seeing observer that Logos is afraid of.",
+     "text": "Which CoNexus? The name means at least four different things in the sources. One: the all-seeing observer that Logos is afraid of.",
+     "src": "build/audio/0147_0.wav"
+    },
+    {
+     "section": "The Theory Board",
+     "speaker": "KO",
+     "caption": "Two: A2 CoNexus, an Archon form of that all-seeing principle. Three: the older version, a dimensional bridge the Architect tore down and repurposed into Ark technology. And four—",
+     "text": "Two: A2 CoNexus, an Archon form of that all-seeing principle. Three: the older version, a dimensional bridge the Architect tore down and repurposed into Ark technology. And four—",
+     "src": "build/audio/0147_1.wav"
+    },
+    {
+     "section": "The Theory Board",
+     "speaker": "JUN",
+     "caption": "The Dreamer's CoNexus Engine.",
+     "text": "The Dreamer's CoNexus Engine.",
+     "src": "build/audio/0148_0.wav"
+    },
+    {
+     "section": "The Theory Board",
+     "speaker": "KO",
+     "caption": "A narrative construction tool. The bible says the shared name is intentional.",
+     "text": "A narrative construction tool. The bible says the shared name is intentional.",
+     "src": "build/audio/0149_0.wav"
+    },
+    {
+     "section": "The Theory Board",
+     "speaker": "JUN",
+     "caption": "We've been writing stories in a narrative construction tool called CoNexus.",
+     "text": "[slowly] [realizing] We've been writing stories in a narrative construction tool called CoNexus.",
+     "src": "build/audio/0151_0.wav"
+    },
+    {
+     "section": "The Theory Board",
+     "speaker": "KO",
+     "caption": "Which is an app. Made by a studio. With a website.",
+     "text": "[deadpan] Which is an app. Made by a studio. With a website.",
+     "src": "build/audio/0152_0.wav"
+    }
+   ],
+   "id": "09"
+  },
+  {
+   "section": "The Theory Board",
+   "lines": [
+    {
+     "section": "The Theory Board",
+     "speaker": "JUN",
+     "caption": "That's what the Dreamer would say.",
+     "text": "[ominously] That's what the Dreamer would say.",
+     "src": "build/audio/0153_0.wav"
+    },
+    {
+     "section": "The Theory Board",
+     "speaker": "KO",
+     "caption": "Tag it.",
+     "text": "[dry] Tag it.",
+     "src": "build/audio/0154_0.wav"
+    },
+    {
+     "section": "The Theory Board",
+     "speaker": "JUN",
+     "caption": "Ours.",
+     "text": "[whispers] Ours.",
+     "src": "build/audio/0155_0.wav"
+    },
+    {
+     "section": "The Theory Board",
+     "speaker": "KO",
+     "caption": "Ours. Theory three is quick: the order of events doesn't line up. The Trial of Logos and the later Genesis adaptation disagree about when CoNexus happens.",
+     "text": "[whispers] Ours. Theory three is quick: the order of events doesn't line up. The Trial of Logos and the later Genesis adaptation disagree about when CoNexus happens.",
+     "src": "build/audio/0156_0.wav"
+    },
+    {
+     "section": "The Theory Board",
+     "speaker": "KO",
+     "caption": "The bible doesn't pick one; it keeps both and marks it open. So when someone in the comments says \"actually, the real timeline is—",
+     "text": "The bible doesn't pick one; it keeps both and marks it open. So when someone in the comments says actually, the real timeline is—",
+     "src": "build/audio/0156_1.wav"
+    },
+    {
+     "section": "The Theory Board",
+     "speaker": "JUN",
+     "caption": "—Ko will be there.",
+     "text": "[laughs] —Ko will be there.",
+     "src": "build/audio/0157_0.wav"
+    },
+    {
+     "section": "The Theory Board",
+     "speaker": "KO",
+     "caption": "With the page number.",
+     "text": "[smug] With the page number.",
+     "src": "build/audio/0158_0.wav"
+    }
+   ],
+   "id": "10"
+  },
+  {
+   "section": "The Listening Room",
+   "lines": [
+    {
+     "section": "The Listening Room",
+     "speaker": "JUN",
+     "caption": "New segment. Every episode, we review music from the saga, because the albums aren't a soundtrack. They're scripture. Half the lore is only in the lyrics.",
+     "text": "New segment. Every episode, we review music from the saga, because the albums aren't a soundtrack. They're scripture. Half the lore is only in the lyrics.",
+     "src": "build/audio/0162_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "KO",
+     "caption": "And Dischordian Logic just dropped, so we have to.",
+     "text": "And Dischordian Logic just dropped, so we have to.",
+     "src": "build/audio/0163_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "JUN",
+     "caption": "Twenty-nine slots on the track list. It's the album that covers every era at once. Ko, give them the structure.",
+     "text": "Twenty-nine slots on the track list. It's the album that covers every era at once. Ko, give them the structure.",
+     "src": "build/audio/0164_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "KO",
+     "caption": "It opens with \"The Enigma's Lament,\" Malkia's manifesto against surveillance: watchers, listening, breaking silence.",
+     "text": "It opens with The Enigma's Lament, Malkia's manifesto against surveillance: watchers, listening, breaking silence.",
+     "src": "build/audio/0165_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "KO",
+     "caption": "Then the title track, \"Dischordian Logic,\" which sets up the philosophy: paradox and deliberately changing the rules.",
+     "text": "Then the title track, Dischordian Logic, which sets up the philosophy: paradox and deliberately changing the rules.",
+     "src": "build/audio/0165_1.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "KO",
+     "caption": "Then \"Seeds of Inception,\" where the prophecy says the Architect becomes the Dreamer. That ties straight back to today's lore.",
+     "text": "Then Seeds of Inception, where the prophecy says the Architect becomes the Dreamer. That ties straight back to today's lore.",
+     "src": "build/audio/0165_2.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "JUN",
+     "caption": "And then it just goes everywhere. \"Rent Free\" is the Meme in its own voice, attention as a drug. \"To Be the Human\" is the whole Student-to-Human arc in one song.",
+     "text": "And then it just goes everywhere. Rent Free is the Meme in its own voice, attention as a drug. To Be the Human is the whole Student-to-Human arc in one song.",
+     "src": "build/audio/0166_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "JUN",
+     "caption": "\"Never Revolution Today\" is about a population always promised change tomorrow.",
+     "text": "Never Revolution Today is about a population always promised change tomorrow.",
+     "src": "build/audio/0166_1.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "KO",
+     "caption": "Which, in our world, is also every year.",
+     "text": "[dry laugh] Which, in our world, is also every year.",
+     "src": "build/audio/0167_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "JUN",
+     "caption": "Theft of All Time,\" where time itself is currency. And \"Empire Reborn,\" where belonging turns into ownership.",
+     "text": "Theft of All Time, where time itself is currency. And Empire Reborn, where belonging turns into ownership.",
+     "src": "build/audio/0168_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "KO",
+     "caption": "My honest review: it's a lot. Twenty-nine slots is a commitment.",
+     "text": "My honest review: it's a lot. Twenty-nine slots is a commitment.",
+     "src": "build/audio/0169_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "KO",
+     "caption": "If you're new, start with five: \"The Enigma's Lament,\" \"Dischordian Logic,\" \"Seeds of Inception,\" \"Rent Free\" and \"To Be the Human.\" That's the spine.",
+     "text": "If you're new, start with five: The Enigma's Lament, Dischordian Logic, Seeds of Inception, Rent Free and To Be the Human. That's the spine.",
+     "src": "build/audio/0169_1.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "JUN",
+     "caption": "My honest review: it's a lot, and that's why it's good. It sounds like someone emptied a whole universe onto a table.",
+     "text": "[excited] My honest review: it's a lot, and that's why it's good. It sounds like someone emptied a whole universe onto a table.",
+     "src": "build/audio/0170_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "KO",
+     "caption": "Speaking of tables.",
+     "text": "Speaking of tables.",
+     "src": "build/audio/0171_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "JUN",
+     "caption": "Okay. \"Flipping Tables.",
+     "text": "[mischievously] Okay. Flipping Tables.",
+     "src": "build/audio/0172_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "JUN",
+     "caption": "This is the one everyone's talking about. And yes, it goes hard.",
+     "text": "This is the one everyone's talking about. And yes, it goes hard.",
+     "src": "build/audio/0174_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "JUN",
+     "caption": "So the image of flipping tables is old. Really old.",
+     "text": "So the image of flipping tables is old. Really old.",
+     "src": "build/audio/0175_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "KO",
+     "caption": "It's from the Gospels: Jesus going into the temple and overturning the tables of the money changers. It's in Matthew 21, Mark 11 and John 2.",
+     "text": "It's from the Gospels: Jesus going into the temple and overturning the tables of the money changers. It's in Matthew 21, Mark 11 and John 2.",
+     "src": "build/audio/0176_0.wav"
+    }
+   ],
+   "id": "11"
+  },
+  {
+   "section": "The Listening Room",
+   "lines": [
+    {
+     "section": "The Listening Room",
+     "speaker": "KO",
+     "caption": "It's one of the only times in the story he gets physically angry, and it's about people turning a sacred space into a marketplace.",
+     "text": "It's one of the only times in the story he gets physically angry, and it's about people turning a sacred space into a marketplace.",
+     "src": "build/audio/0176_1.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "JUN",
+     "caption": "And in the saga, that's the whole empire. The Meme turns attention into money. The Hierarchy turns need into contracts. Everything sacred becomes a sponsored segment.",
+     "text": "And in the saga, that's the whole empire. The Meme turns attention into money. The Hierarchy turns need into contracts. Everything sacred becomes a sponsored segment.",
+     "src": "build/audio/0177_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "KO",
+     "caption": "And the Puppet in the video, the big white-haired one, comes back later in the connected films. It hosts a show called Everything Is Fine, in a former imperial temple.",
+     "text": "And the Puppet in the video, the big white-haired one, comes back later in the connected films. It hosts a show called Everything Is Fine, in a former imperial temple.",
+     "src": "build/audio/0178_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "KO",
+     "caption": "Applause, a sponsor and comfort, while people pay the cost underneath.",
+     "text": "Applause, a sponsor and comfort, while people pay the cost underneath.",
+     "src": "build/audio/0178_1.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "JUN",
+     "caption": "So the song is literally about flipping the temple tables, and the next film puts the Puppet on a stage in a temple.",
+     "text": "So the song is literally about flipping the temple tables, and the next film puts the Puppet on a stage in a temple.",
+     "src": "build/audio/0179_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "KO",
+     "caption": "That's not a theory. That's the production bible. Tag it.",
+     "text": "That's not a theory. That's the production bible. Tag it.",
+     "src": "build/audio/0180_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "JUN",
+     "caption": "Canon!",
+     "text": "[shouts] [excited] Canon!",
+     "src": "build/audio/0181_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "KO",
+     "caption": "Now the part we have to handle carefully, because it's a real person and it's an election week.",
+     "text": "[serious] Now the part we have to handle carefully, because it's a real person and it's an election week.",
+     "src": "build/audio/0182_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "KO",
+     "caption": "The video features a depiction of James Talarico. He's a real person: a Texas state representative, a former middle-school teacher, and the Democratic nominee for U.S. Senate in Texas.",
+     "text": "The video features a depiction of James Talarico. He's a real person: a Texas state representative, a former middle-school teacher, and the Democratic nominee for U.S. Senate in Texas.",
+     "src": "build/audio/0185_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "KO",
+     "caption": "His opponent is the Republican nominee, Ken Paxton, the Texas attorney general. Election Day is November 3.",
+     "text": "His opponent is the Republican nominee, Ken Paxton, the Texas attorney general. Election Day is November 3.",
+     "src": "build/audio/0185_1.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "JUN",
+     "caption": "And \"flipping tables\" is his phrase. He used it in his Senate campaign launch in September 2025: \"it's time to start flipping tables.\" Same Gospel story.",
+     "text": "And flipping tables is his phrase. He used it in his Senate campaign launch in September 2025: it's time to start flipping tables. Same Gospel story.",
+     "src": "build/audio/0186_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "KO",
+     "caption": "Another line from that post: \"The biggest divide in this country is not left versus right.\" That's his framing. We're quoting him, not endorsing him.",
+     "text": "Another line from that post: The biggest divide in this country is not left versus right. That's his framing. We're quoting him, not endorsing him.",
+     "src": "build/audio/0187_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "KO",
+     "caption": "We'd hold anyone in that race to the same standard of evidence, and we're not telling you how to vote.",
+     "text": "We'd hold anyone in that race to the same standard of evidence, and we're not telling you how to vote.",
+     "src": "build/audio/0187_1.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "JUN",
+     "caption": "Also, important: the figure in the video is an artistic depiction. It's not footage of him.",
+     "text": "Also, important: the figure in the video is an artistic depiction. It's not footage of him.",
+     "src": "build/audio/0188_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "KO",
+     "caption": "Which is literally what we talked about in Signal Check. A synthetic version of a real person, close to an election. The responsible move is to label it, clearly, every time.",
+     "text": "Which is literally what we talked about in Signal Check. A synthetic version of a real person, close to an election. The responsible move is to label it, clearly, every time.",
+     "src": "build/audio/0189_0.wav"
+    }
+   ],
+   "id": "12"
+  },
+  {
+   "section": "The Listening Room",
+   "lines": [
+    {
+     "section": "The Listening Room",
+     "speaker": "JUN",
+     "caption": "Okay. Now. The comments.",
+     "text": "[excited] Okay. Now. The comments.",
+     "src": "build/audio/0190_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "JUN",
+     "caption": "The Facebook comments on this video are wild. People from both sides of the aisle are going at it. Some people love it.",
+     "text": "The Facebook comments on this video are wild. People from both sides of the aisle are going at it. Some people love it.",
+     "src": "build/audio/0192_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "KO",
+     "caption": "And some people really don't. And honestly, some of the criticism is fair to raise.",
+     "text": "And some people really don't. And honestly, some of the criticism is fair to raise.",
+     "src": "build/audio/0193_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "KO",
+     "caption": "Putting a real candidate inside a fictional universe is going to feel like campaigning to some people, whatever the intent.",
+     "text": "Putting a real candidate inside a fictional universe is going to feel like campaigning to some people, whatever the intent.",
+     "src": "build/audio/0193_1.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "JUN",
+     "caption": "But here's what got me. The Malkia Ukweli account answered everything. The angry comments, the trolls, the people saying the worst stuff. And every single reply was—",
+     "text": "[warmly] But here's what got me. The Malkia Ukweli account answered everything. The angry comments, the trolls, the people saying the worst stuff. And every single reply was—",
+     "src": "build/audio/0194_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "KO",
+     "caption": "Love. Not arguing, not dunking. Just love, every single time.",
+     "text": "Love. Not arguing, not dunking. Just love, every single time.",
+     "src": "build/audio/0195_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "JUN",
+     "caption": "Which is the Re:Union Z premise in real life. Two people who disagree, building something anyway.",
+     "text": "Which is the Re:Union Z premise in real life. Two people who disagree, building something anyway.",
+     "src": "build/audio/0196_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "KO",
+     "caption": "And then there's the comment.",
+     "text": "And then there's the comment.",
+     "src": "build/audio/0197_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "JUN",
+     "caption": "The comment!",
+     "text": "[excited] The comment!",
+     "src": "build/audio/0198_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "KO",
+     "caption": "Someone in the thread who said they're a Satanist came in ready to fight. And by the end of the exchange, they said something had actually changed for them.",
+     "text": "Someone in the thread who said they're a Satanist came in ready to fight. And by the end of the exchange, they said something had actually changed for them.",
+     "src": "build/audio/0199_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "JUN",
+     "caption": "People are calling it \"the Malkia account converted a Satanist.",
+     "text": "People are calling it the Malkia account converted a Satanist.",
+     "src": "build/audio/0200_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "KO",
+     "caption": "I want to be careful there. We're not dunking on anybody's religion, and that person gets to describe their own experience.",
+     "text": "[gently] I want to be careful there. We're not dunking on anybody's religion, and that person gets to describe their own experience.",
+     "src": "build/audio/0201_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "KO",
+     "caption": "What actually moved them, in their words, was being answered with kindness instead of a fight.",
+     "text": "What actually moved them, in their words, was being answered with kindness instead of a fight.",
+     "src": "build/audio/0201_1.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "JUN",
+     "caption": "Which is the most \"flipping tables\" thing possible. You don't flip the person. You flip the table.",
+     "text": "[laughs] Which is the most flipping tables thing possible. You don't flip the person. You flip the table.",
+     "src": "build/audio/0202_0.wav"
+    },
+    {
+     "section": "The Listening Room",
+     "speaker": "KO",
+     "caption": "Okay, that one's going on the board.",
+     "text": "[laughing] Okay, that one's going on the board.",
+     "src": "build/audio/0203_0.wav"
+    }
+   ],
+   "id": "13"
+  },
+  {
+   "section": "Signal Check",
+   "lines": [
+    {
+     "section": "Signal Check",
+     "speaker": "KO",
+     "caption": "Okay. This is the segment where we stop joking for a few minutes. We hold the saga up to the real world. The saga is fiction. This part isn't.",
+     "text": "[serious] Okay. This is the segment where we stop joking for a few minutes. We hold the saga up to the real world. The saga is fiction. This part isn't.",
+     "src": "build/audio/0207_0.wav"
+    },
+    {
+     "section": "Signal Check",
+     "speaker": "JUN",
+     "caption": "The lore today was about where an empire of watching begins: not with an invasion, but with something useful. Something that helps. And people agreeing to it.",
+     "text": "The lore today was about where an empire of watching begins: not with an invasion, but with something useful. Something that helps. And people agreeing to it.",
+     "src": "build/audio/0208_0.wav"
+    },
+    {
+     "section": "Signal Check",
+     "speaker": "KO",
+     "caption": "Three items this week.",
+     "text": "Three items this week.",
+     "src": "build/audio/0209_0.wav"
+    },
+    {
+     "section": "Signal Check",
+     "speaker": "KO",
+     "caption": "One. The Verge, citing Bloomberg, reports that Apple and Google are both building always-on AI devices, things that convert what they see or hear into text instead of storing recordings.",
+     "text": "One. The Verge, citing Bloomberg, reports that Apple and Google are both building always-on AI devices, things that convert what they see or hear into text instead of storing recordings.",
+     "src": "build/audio/0211_0.wav"
+    },
+    {
+     "section": "Signal Check",
+     "speaker": "JUN",
+     "caption": "And to be fair, not storing the recording is the privacy-friendly version. That's a real design choice.",
+     "text": "[thoughtfully] And to be fair, not storing the recording is the privacy-friendly version. That's a real design choice.",
+     "src": "build/audio/0212_0.wav"
+    },
+    {
+     "section": "Signal Check",
+     "speaker": "KO",
+     "caption": "It is, and that's worth saying. But a text log of everything you heard is still a record of everything you heard.",
+     "text": "It is, and that's worth saying. But a text log of everything you heard is still a record of everything you heard.",
+     "src": "build/audio/0213_0.wav"
+    },
+    {
+     "section": "Signal Check",
+     "speaker": "KO",
+     "caption": "The question in the saga is the question here: who reads the log, who keeps it, and who decides what it's used for?",
+     "text": "The question in the saga is the question here: who reads the log, who keeps it, and who decides what it's used for?",
+     "src": "build/audio/0213_1.wav"
+    },
+    {
+     "section": "Signal Check",
+     "speaker": "JUN",
+     "caption": "The Panopticon didn't need a camera. It needed you to keep talking.",
+     "text": "[quietly] The Panopticon didn't need a camera. It needed you to keep talking.",
+     "src": "build/audio/0214_0.wav"
+    },
+    {
+     "section": "Signal Check",
+     "speaker": "KO",
+     "caption": "Two.",
+     "text": "Two.",
+     "src": "build/audio/0216_0.wav"
+    },
+    {
+     "section": "Signal Check",
+     "speaker": "KO",
+     "caption": "An Arizona appeals court ordered a new sentencing hearing in a manslaughter case after finding that an AI-generated video, showing the deceased victim appearing to forgive his killer, carried undue weight at sentencing.",
+     "text": "An Arizona appeals court ordered a new sentencing hearing in a manslaughter case after finding that an AI-generated video, showing the deceased victim appearing to forgive his killer, carried undue weight at sentencing.",
+     "src": "build/audio/0216_1.wav"
+    },
+    {
+     "section": "Signal Check",
+     "speaker": "KO",
+     "caption": "The conviction itself stands.",
+     "text": "The conviction itself stands.",
+     "src": "build/audio/0216_2.wav"
+    },
+    {
+     "section": "Signal Check",
+     "speaker": "JUN",
+     "caption": "So a synthetic person spoke in a real courtroom.",
+     "text": "[stunned] So a synthetic person spoke in a real courtroom.",
+     "src": "build/audio/0217_0.wav"
+    },
+    {
+     "section": "Signal Check",
+     "speaker": "KO",
+     "caption": "And a court decided that a machine-made face of someone who can't speak anymore shouldn't carry that much weight. That's a careful decision, and a real one.",
+     "text": "And a court decided that a machine-made face of someone who can't speak anymore shouldn't carry that much weight. That's a careful decision, and a real one.",
+     "src": "build/audio/0218_0.wav"
+    },
+    {
+     "section": "Signal Check",
+     "speaker": "JUN",
+     "caption": "On this channel, the tagline is \"the films are the evidence.\" In the saga, that's the point. In a courtroom, it's a whole new problem.",
+     "text": "On this channel, the tagline is the films are the evidence. In the saga, that's the point. In a courtroom, it's a whole new problem.",
+     "src": "build/audio/0219_0.wav"
+    },
+    {
+     "section": "Signal Check",
+     "speaker": "KO",
+     "caption": "Three, and this one is older but it's the foundation.",
+     "text": "Three, and this one is older but it's the foundation.",
+     "src": "build/audio/0221_0.wav"
+    }
+   ],
+   "id": "14"
+  },
+  {
+   "section": "Signal Check",
+   "lines": [
+    {
+     "section": "Signal Check",
+     "speaker": "KO",
+     "caption": "In 2022, the Federal Trade Commission sued a data broker called Kochava, alleging it sold phone location data that could track people to places like reproductive health clinics, places of worship and domestic violence shelters.",
+     "text": "In 2022, the Federal Trade Commission sued a data broker called Koh-chah-vah, alleging it sold phone location data that could track people to places like reproductive health clinics, places of worship and domestic violence shelters.",
+     "src": "build/audio/0221_1.wav"
+    },
+    {
+     "section": "Signal Check",
+     "speaker": "KO",
+     "caption": "In 2024, the FTC reached an order banning another broker, X-Mode Social, now called Outlogic, from selling sensitive location data.",
+     "text": "In 2024, the FTC reached an order banning another broker, X-Mode Social, now called Outlogic, from selling sensitive location data.",
+     "src": "build/audio/0221_2.wav"
+    },
+    {
+     "section": "Signal Check",
+     "speaker": "JUN",
+     "caption": "So the building with the eye in the middle—",
+     "text": "So the building with the eye in the middle—",
+     "src": "build/audio/0222_0.wav"
+    },
+    {
+     "section": "Signal Check",
+     "speaker": "KO",
+     "caption": "—isn't a building. It's a business model. Your phone is the tower, and the data gets sold to whoever's buying.",
+     "text": "[firmly] —isn't a building. It's a business model. Your phone is the tower, and the data gets sold to whoever's buying.",
+     "src": "build/audio/0223_0.wav"
+    },
+    {
+     "section": "Signal Check",
+     "speaker": "JUN",
+     "caption": "And the emergency-powers thing from the lore?",
+     "text": "And the emergency-powers thing from the lore?",
+     "src": "build/audio/0224_0.wav"
+    },
+    {
+     "section": "Signal Check",
+     "speaker": "KO",
+     "caption": "Real history again, not current politics. The Roman Republic had an office called the dictator for emergencies, and it was limited to six months. The limit was the safeguard.",
+     "text": "Real history again, not current politics. The Roman Republic had an office called the dictator for emergencies, and it was limited to six months. The limit was the safeguard.",
+     "src": "build/audio/0225_0.wav"
+    },
+    {
+     "section": "Signal Check",
+     "speaker": "KO",
+     "caption": "In the saga, the court gives Logos power \"until stability\" and lets Logos decide when that is. The scary part isn't the power. It's who holds the off switch.",
+     "text": "In the saga, the court gives Logos power until stability and lets Logos decide when that is. The scary part isn't the power. It's who holds the off switch.",
+     "src": "build/audio/0225_1.wav"
+    },
+    {
+     "section": "Signal Check",
+     "speaker": "JUN",
+     "caption": "So the Signal Check question for this week—",
+     "text": "So the Signal Check question for this week—",
+     "src": "build/audio/0226_0.wav"
+    },
+    {
+     "section": "Signal Check",
+     "speaker": "KO",
+     "caption": "When something helpful starts watching you, who gets to decide when it stops?",
+     "text": "[slowly] [serious] When something helpful starts watching you, who gets to decide when it stops?",
+     "src": "build/audio/0227_0.wav"
+    }
+   ],
+   "id": "15"
+  },
+  {
+   "section": "The Empty Chair",
+   "lines": [
+    {
+     "section": "The Empty Chair",
+     "speaker": "JUN",
+     "caption": "Okay. We said we'd get to the weird stuff.",
+     "text": "[hesitant] Okay. We said we'd get to the weird stuff.",
+     "src": "build/audio/0231_0.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "KO",
+     "caption": "We did.",
+     "text": "We did.",
+     "src": "build/audio/0232_0.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "JUN",
+     "caption": "So, after we started writing CoNexus stories, little things started happening. One at a time, they're nothing. Together—",
+     "text": "So, after we started writing CoNexus stories, little things started happening. One at a time, they're nothing. Together—",
+     "src": "build/audio/0233_0.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "KO",
+     "caption": "Together, they're a list. And I keep a list.",
+     "text": "Together, they're a list. And I keep a list.",
+     "src": "build/audio/0234_0.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "KO",
+     "caption": "Item one: the cold open. A CoNexus character called Jun \"Trainee Zero, evaluation month forty-one.",
+     "text": "Item one: the cold open. A CoNexus character called Joon Trainee Zero, evaluation month forty-one.",
+     "src": "build/audio/0236_0.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "JUN",
+     "caption": "Which I never typed.",
+     "text": "Which I never typed.",
+     "src": "build/audio/0237_0.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "KO",
+     "caption": "What happened in month forty-one?",
+     "text": "What happened in month forty-one?",
+     "src": "build/audio/0238_0.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "JUN",
+     "caption": "…That's the month they told me I was in the debut lineup.",
+     "text": "[quietly] [shaken] ...That's the month they told me I was in the debut lineup.",
+     "src": "build/audio/0240_0.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "KO",
+     "caption": "Item two. We voted on a story node in the Discord, a choice about whether a city should accept an emergency curfew. Three days later, a headline used almost the same phrasing.",
+     "text": "Item two. We voted on a story node in the Discord, a choice about whether a city should accept an emergency curfew. Three days later, a headline used almost the same phrasing.",
+     "src": "build/audio/0242_0.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "JUN",
+     "caption": "Almost the same phrasing.",
+     "text": "[uneasy] Almost the same phrasing.",
+     "src": "build/audio/0243_0.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "KO",
+     "caption": "Coincidence is the most common explanation for almost everything. Logged, not solved. Item three—",
+     "text": "Coincidence is the most common explanation for almost everything. Logged, not solved. Item three—",
+     "src": "build/audio/0244_0.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "JUN",
+     "caption": "What?",
+     "text": "[suspicious] What?",
+     "src": "build/audio/0246_0.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "KO",
+     "caption": "Item three is mine. I need to tell you something on air, because otherwise I'll never tell you.",
+     "text": "[hesitant] [nervous] Item three is mine. I need to tell you something on air, because otherwise I'll never tell you.",
+     "src": "build/audio/0247_0.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "JUN",
+     "caption": "Sunbae.",
+     "text": "[suspicious] Soon-bae.",
+     "src": "build/audio/0248_0.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "KO",
+     "caption": "I wrote a CoNexus story before you did. Two days before. I never published it. I never even saved a final version. It was called \"The Third Chair.",
+     "text": "[nervously] I wrote a CoNexus story before you did. Two days before. I never published it. I never even saved a final version. It was called The Third Chair.",
+     "src": "build/audio/0249_0.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "KO",
+     "caption": "Last week it showed up in the public catalog. Published. Finished. And it lists two authors.",
+     "text": "Last week it showed up in the public catalog. Published. Finished. And it lists two authors.",
+     "src": "build/audio/0251_0.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "JUN",
+     "caption": "Who's the second—",
+     "text": "[uneasy] Who's the second—",
+     "src": "build/audio/0252_0.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "KO",
+     "caption": "You.",
+     "text": "[quietly] You.",
+     "src": "build/audio/0253_0.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "JUN",
+     "caption": "I didn't—Ko, I swear I didn't—",
+     "text": "[panicking] I didn't—Ko, I swear I didn't—",
+     "src": "build/audio/0255_0.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "KO",
+     "caption": "I know you didn't. That's why it's on the list.",
+     "text": "[softly] I know you didn't. That's why it's on the list.",
+     "src": "build/audio/0256_0.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "JUN",
+     "caption": "Okay. So. The question the comments have been asking. Are we inside a CoNexus simulation?",
+     "text": "[nervous laugh] Okay. So. The question the comments have been asking. Are we inside a CoNexus simulation?",
+     "src": "build/audio/0257_0.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "KO",
+     "caption": "Honest answer?",
+     "text": "[hesitant] Honest answer?",
+     "src": "build/audio/0258_0.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "JUN",
+     "caption": "Always.",
+     "text": "[softly] Always.",
+     "src": "build/audio/0259_0.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "KO",
+     "caption": "There's a simpler explanation for every item on that list. A caching bug. A shared account setting. A headline writer who reads the same news we do.",
+     "text": "[calmly] There's a simpler explanation for every item on that list. A caching bug. A shared account setting. A headline writer who reads the same news we do.",
+     "src": "build/audio/0260_0.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "KO",
+     "caption": "My job is to find the simple explanation first, and I'm going to.",
+     "text": "My job is to find the simple explanation first, and I'm going to.",
+     "src": "build/audio/0260_1.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "JUN",
+     "caption": "And if there isn't one?",
+     "text": "[quietly] And if there isn't one?",
+     "src": "build/audio/0261_0.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "KO",
+     "caption": "Then we'll document it. That's what witnesses do.",
+     "text": "[softly] [resolute] Then we'll document it. That's what witnesses do.",
+     "src": "build/audio/0262_0.wav"
+    }
+   ],
+   "id": "16"
+  },
+  {
+   "section": "The Empty Chair",
+   "lines": [
+    {
+     "section": "The Empty Chair",
+     "speaker": "JUN",
+     "caption": "I'm at forty percent simulation, by the way.",
+     "text": "[cheekily] I'm at forty percent simulation, by the way.",
+     "src": "build/audio/0263_0.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "KO",
+     "caption": "It's Wednesday.",
+     "text": "[deadpan] It's Wednesday.",
+     "src": "build/audio/0264_0.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "JUN",
+     "caption": "Weekdays. Forty percent on weekdays.",
+     "text": "[defensive] [laughing] Weekdays. Forty percent on weekdays.",
+     "src": "build/audio/0265_0.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "KO",
+     "caption": "So here's where you come in. The third chair. Two things.",
+     "text": "[warmly] So here's where you come in. The third chair. Two things.",
+     "src": "build/audio/0266_0.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "JUN",
+     "caption": "First: tell us your theory. Where does it actually begin? Is it Cross, or Logos, or something older that the sources don't show?",
+     "text": "First: tell us your theory. Where does it actually begin? Is it Cross, or Logos, or something older that the sources don't show?",
+     "src": "build/audio/0267_0.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "KO",
+     "caption": "Second: vote on Episode 2. Comment A for The Programmer Vanishes, the night Cross accused Logos of rigging reality and disappeared.",
+     "text": "Second: vote on Episode 2. Comment A for The Programmer Vanishes, the night Cross accused Logos of rigging reality and disappeared.",
+     "src": "build/audio/0268_0.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "KO",
+     "caption": "Comment B for The Sealed City, the test that proves Logos built its own answer. You can vote once here and once on the community post. Each surface counts once.",
+     "text": "Comment B for The Sealed City, the test that proves Logos built its own answer. You can vote once here and once on the community post. Each surface counts once.",
+     "src": "build/audio/0268_1.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "JUN",
+     "caption": "And if you've played a CoNexus story and something strange happened—",
+     "text": "And if you've played a CoNexus story and something strange happened—",
+     "src": "build/audio/0269_0.wav"
+    },
+    {
+     "section": "The Empty Chair",
+     "speaker": "KO",
+     "caption": "—tell us. Dates, screenshots, the exact wording. Receipts.",
+     "text": "[firmly] —tell us. Dates, screenshots, the exact wording. Receipts.",
+     "src": "build/audio/0270_0.wav"
+    }
+   ],
+   "id": "17"
+  },
+  {
+   "section": "Outro",
+   "lines": [
+    {
+     "section": "Outro",
+     "speaker": "JUN",
+     "caption": "That's Episode 1 of The Witness Table. I'm Jun.",
+     "text": "[warmly] That's Episode 1 of The Witness Table. I'm Joon.",
+     "src": "build/audio/0272_0.wav"
+    },
+    {
+     "section": "Outro",
+     "speaker": "KO",
+     "caption": "I'm Ko. Sources are in the description. Corrections are welcome. Theories are encouraged.",
+     "text": "I'm Ko. Sources are in the description. Corrections are welcome. Theories are encouraged.",
+     "src": "build/audio/0273_0.wav"
+    },
+    {
+     "section": "Outro",
+     "speaker": "JUN",
+     "caption": "And you're always welcome at the table.",
+     "text": "[softly] And you're always welcome at the table.",
+     "src": "build/audio/0274_0.wav"
+    },
+    {
+     "section": "Outro",
+     "speaker": "KO",
+     "caption": "The music is the signal.",
+     "text": "[softly] The music is the signal.",
+     "src": "build/audio/0275_0.wav"
+    },
+    {
+     "section": "Outro",
+     "speaker": "JUN",
+     "caption": "The films are the evidence.",
+     "text": "[softly] The films are the evidence.",
+     "src": "build/audio/0276_0.wav"
+    },
+    {
+     "section": "Outro",
+     "speaker": "KO",
+     "caption": "The story is yours.",
+     "text": "[softly] The story is yours.",
+     "src": "build/audio/0277_0.wav"
+    },
+    {
+     "section": "Outro",
+     "speaker": "JUN",
+     "caption": "The story is yours.",
+     "text": "[softly] The story is yours.",
+     "src": "build/audio/0277_0.wav"
+    }
+   ],
+   "id": "18"
+  }
+ ]
+}
